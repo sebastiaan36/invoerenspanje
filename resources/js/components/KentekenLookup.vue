@@ -1,8 +1,19 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import { Loader2, Search, AlertCircle, Info } from 'lucide-vue-next';
+import { Loader2, Search, AlertCircle, Info, AlertTriangle } from 'lucide-vue-next';
 import { Button } from '@/components/ui/button';
 import { postJson, type ApiError } from '@/lib/api';
+
+interface BpmPayload {
+    is_eligible: boolean;
+    ineligible_reason: string | null;
+    bruto_bpm_eur: number;
+    rest_bpm_eur: number;
+    afschrijving_pct: number;
+    age_months: number;
+    method: string;
+    notes: string[];
+}
 
 interface VehicleResponse {
     found: true;
@@ -19,12 +30,7 @@ interface VehicleResponse {
         brandstof: string | null;
         co2_gecombineerd: number | null;
     } | null;
-    bpm: {
-        estimated_refund_eur: number;
-        original_bpm_eur: number;
-        depreciation_factor: number;
-        notes: string[];
-    } | null;
+    bpm: BpmPayload | null;
 }
 
 interface ValidationErrorBody {
@@ -98,7 +104,9 @@ async function submit() {
             class="flex items-stretch overflow-hidden rounded-2xl border border-border bg-card shadow-sm focus-within:ring-2 focus-within:ring-ring/40"
             @submit.prevent="submit"
         >
-            <div class="flex items-center bg-[#003399] px-3 text-[10px] font-bold uppercase tracking-widest text-white">
+            <div
+                class="flex items-center bg-[#003399] px-3 text-[10px] font-bold uppercase tracking-widest text-white"
+            >
                 NL
             </div>
             <input
@@ -185,25 +193,79 @@ async function submit() {
                 </dl>
             </article>
 
-            <article class="flex flex-col rounded-2xl bg-primary p-6 text-primary-foreground shadow-lg">
+            <!-- BPM card — three states: ineligible / no data / eligible -->
+            <article
+                v-if="!result.bpm"
+                class="flex flex-col rounded-2xl border border-border bg-card p-6 shadow-sm"
+            >
+                <div class="text-xs font-medium uppercase tracking-wider text-muted-foreground">
+                    BPM-teruggave
+                </div>
+                <div class="mt-2 font-display text-2xl text-muted-foreground">
+                    Onvoldoende data om te berekenen
+                </div>
+                <p class="mt-2 text-sm text-muted-foreground">
+                    De RDW gaf voor dit voertuig geen brandstof- of CO₂-gegevens terug.
+                    Vraag een persoonlijke offerte aan voor een handmatige berekening.
+                </p>
+            </article>
+
+            <article
+                v-else-if="!result.bpm.is_eligible"
+                class="flex flex-col rounded-2xl border border-warning/40 bg-card p-6 shadow-sm"
+            >
+                <div class="flex items-start gap-3">
+                    <AlertTriangle class="mt-1 size-5 shrink-0 text-warning" />
+                    <div>
+                        <div class="text-xs font-medium uppercase tracking-wider text-muted-foreground">
+                            Geen BPM-teruggave mogelijk
+                        </div>
+                        <div class="mt-1 font-display text-xl font-semibold text-foreground">
+                            {{ result.bpm.ineligible_reason }}
+                        </div>
+                    </div>
+                </div>
+                <p class="mt-4 text-sm text-muted-foreground">
+                    We helpen je nog steeds graag met de Spaanse importkant: ITV-keuring,
+                    permiso de circulación en alle papierwerk.
+                </p>
+                <div class="mt-auto pt-5">
+                    <Button
+                        type="button"
+                        size="lg"
+                        class="w-full bg-primary text-primary-foreground hover:bg-primary/90"
+                    >
+                        Bekijk Spaanse import-pakket
+                    </Button>
+                </div>
+            </article>
+
+            <article
+                v-else
+                class="flex flex-col rounded-2xl bg-primary p-6 text-primary-foreground shadow-lg"
+            >
                 <div class="text-xs font-medium uppercase tracking-wider text-primary-foreground/70">
-                    Indicatie BPM-teruggave
+                    Indicatie BPM-teruggave (forfaitaire methode)
                 </div>
-                <div v-if="result.bpm" class="mt-1 font-display text-5xl font-semibold text-accent">
-                    {{ formatEuro(result.bpm.estimated_refund_eur) }}
-                </div>
-                <div v-else class="mt-1 font-display text-2xl text-primary-foreground/60">
-                    Onvoldoende data
+                <div class="mt-1 font-display text-5xl font-semibold text-accent">
+                    {{ formatEuro(result.bpm.rest_bpm_eur) }}
                 </div>
 
-                <div v-if="result.bpm" class="mt-3 text-sm text-primary-foreground/80">
-                    <p>
-                        Geschatte teruggave bij export naar Spanje, op basis van CO₂,
-                        brandstof en leeftijd. Oorspronkelijke BPM:
-                        <strong>{{ formatEuro(result.bpm.original_bpm_eur) }}</strong>
-                        · afschrijving
-                        <strong>{{ Math.round(result.bpm.depreciation_factor * 100) }}%</strong>.
-                    </p>
+                <p class="mt-3 text-sm text-primary-foreground/80">
+                    Geschatte teruggave bij export naar Spanje. Bruto BPM:
+                    <strong>{{ formatEuro(result.bpm.bruto_bpm_eur) }}</strong>
+                    · afschrijving
+                    <strong>{{ result.bpm.afschrijving_pct.toFixed(1) }}%</strong>
+                    over {{ result.bpm.age_months }} maanden.
+                </p>
+
+                <div
+                    v-for="note in result.bpm.notes"
+                    :key="note"
+                    class="mt-3 flex items-start gap-2 rounded-xl bg-warning/15 p-3 text-xs text-primary-foreground"
+                >
+                    <AlertTriangle class="mt-0.5 size-4 shrink-0 text-warning" />
+                    <p>{{ note }}</p>
                 </div>
 
                 <div
@@ -211,8 +273,11 @@ async function submit() {
                 >
                     <Info class="mt-0.5 size-4 shrink-0" />
                     <p>
-                        Indicatief op basis van placeholder-tarieven. Vraag een
-                        <strong>persoonlijke offerte</strong> aan voor een sluitend bedrag.
+                        Indicatieve berekening volgens de forfaitaire afschrijvingstabel.
+                        In sommige gevallen levert de <strong>koerslijst</strong>- of
+                        <strong>taxatierapport</strong>-methode meer op. Bij een offerte
+                        rekent onze partner alle drie de methoden door en kiest de gunstigste.
+                        Aan deze indicatie kunnen geen rechten worden ontleend.
                     </p>
                 </div>
 

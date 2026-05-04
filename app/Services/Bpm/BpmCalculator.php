@@ -4,138 +4,164 @@ declare(strict_types=1);
 
 namespace App\Services\Bpm;
 
-use App\Services\Bpm\Dto\BpmIndication;
-use App\Services\Rdw\Dto\VehicleLookupResult;
+use App\Services\Bpm\Dto\BpmInput;
+use App\Services\Bpm\Dto\BpmResult;
 use Carbon\CarbonImmutable;
+use RuntimeException;
 
 final class BpmCalculator
 {
     /**
      * @param  array{
-     *     disclaimer: string,
-     *     rates: array<string, array{
-     *         co2_threshold_g_per_km: int,
-     *         fixed_voet_eur: int,
-     *         per_gram_above_threshold_eur: int,
-     *         diesel_surcharge_per_gram_eur: float,
-     *         diesel_surcharge_threshold_g_per_km: int,
+     *     eligibility_cutoff_date: string,
+     *     depreciation_table: list<array{
+     *         max_months: int,
+     *         base_months: int,
+     *         base_percentage: float|int,
+     *         per_month: float|int,
      *     }>,
-     *     depreciation_table: list<array{int, int, float}>,
-     *     diesel_minimum_residual_pct: float,
+     *     years: array<int, array{
+     *         fixed_base: float|int,
+     *         brackets: list<array{max: int|null, rate: float|int}>,
+     *         diesel: array{threshold: int, rate_per_gram: float|int},
+     *         ev_fixed: float|int,
+     *     }>,
      * }  $config
      */
     public function __construct(
         private readonly array $config,
     ) {}
 
-    public function calculate(VehicleLookupResult $result, ?CarbonImmutable $now = null): ?BpmIndication
+    public function calculateRestBpm(BpmInput $input, ?CarbonImmutable $exportDate = null): BpmResult
     {
-        if (! $result->found() || $result->vehicle === null || $result->fuel === null) {
-            return null;
+        $exportDate ??= CarbonImmutable::now();
+        $cutoff = CarbonImmutable::parse($this->config['eligibility_cutoff_date']);
+
+        if ($input->datumEersteToelating->lt($cutoff)) {
+            return BpmResult::notEligible(
+                "Datum eerste toelating ligt vóór {$cutoff->format('d-m-Y')}; BPM-teruggave is dan niet mogelijk.",
+            );
         }
 
-        $vehicle = $result->vehicle;
-        $fuel = $result->fuel;
-        $now ??= CarbonImmutable::now();
+        $year = $input->datumEersteToelating->year;
+        $rates = $this->config['years'][$year] ?? null;
 
-        if ($vehicle->datumEersteToelating === null) {
-            return null;
+        $notes = [];
+
+        if ($rates === null) {
+            // Fallback: use the closest available year so the user gets *some* indication.
+            $availableYears = array_keys($this->config['years']);
+            if ($availableYears === []) {
+                throw new RuntimeException('Geen BPM-tarieven geconfigureerd.');
+            }
+            usort($availableYears, fn (int $a, int $b) => abs($a - $year) <=> abs($b - $year));
+            $fallbackYear = $availableYears[0];
+            $rates = $this->config['years'][$fallbackYear];
+            $notes[] = "Tarieven voor bouwjaar {$year} zijn nog niet bevestigd. Indicatie op basis van tarieven {$fallbackYear}.";
         }
 
-        $registrationYear = $vehicle->datumEersteToelating->year;
-        $rate = $this->rateFor($registrationYear);
-        $fuelType = $this->normalizeFuelType($fuel->brandstofOmschrijving);
-        $co2 = $fuel->co2UitstootGecombineerd ?? $fuel->co2UitstootGewogen ?? 0;
+        $brutoBpm = $this->calculateBrutoBpm($input, $rates);
 
-        $originalBpm = $this->originalBpm($rate, $fuelType, $co2);
-        $ageMonths = (int) floor($vehicle->datumEersteToelating->diffInMonths($now));
-        $depreciationPct = $this->depreciationPct($ageMonths);
+        $months = $this->calculateAgeInMonths($input->datumEersteToelating, $exportDate);
+        $afschrijving = $this->getDepreciationPercentage($months);
 
-        $residualPct = max(0.0, 100.0 - $depreciationPct);
+        $restBpm = $brutoBpm * (100 - $afschrijving) / 100;
 
-        if ($fuelType === 'diesel') {
-            $residualPct = max($residualPct, $this->config['diesel_minimum_residual_pct']);
-        }
-
-        $refund = (int) round($originalBpm * ($residualPct / 100.0));
-
-        return new BpmIndication(
-            estimatedRefundEur: max(0, $refund),
-            originalBpmEur: (int) round($originalBpm),
-            depreciationFactor: $depreciationPct / 100.0,
-            inputs: [
-                'kenteken' => $vehicle->kenteken,
-                'registratiejaar' => $registrationYear,
-                'leeftijd_maanden' => $ageMonths,
-                'brandstof' => $fuelType,
-                'co2_g_per_km' => $co2,
-            ],
-            notes: [
-                $this->config['disclaimer'],
-                "Berekening op basis van placeholder-tarieven (registratiejaar {$registrationYear}).",
-            ],
+        return BpmResult::eligible(
+            brutoBpm: round($brutoBpm, 2),
+            afschrijvingPercentage: round($afschrijving, 3),
+            ageMonths: $months,
+            restBpm: round(max(0.0, $restBpm), 2),
+            notes: $notes,
         );
     }
 
     /**
      * @param  array{
-     *     co2_threshold_g_per_km: int,
-     *     fixed_voet_eur: int,
-     *     per_gram_above_threshold_eur: int,
-     *     diesel_surcharge_per_gram_eur: float,
-     *     diesel_surcharge_threshold_g_per_km: int,
-     * }  $rate
+     *     fixed_base: float|int,
+     *     brackets: list<array{max: int|null, rate: float|int}>,
+     *     diesel: array{threshold: int, rate_per_gram: float|int},
+     *     ev_fixed: float|int,
+     * }  $rates
      */
-    private function originalBpm(array $rate, string $fuelType, int $co2): float
+    private function calculateBrutoBpm(BpmInput $input, array $rates): float
     {
-        $bpm = (float) $rate['fixed_voet_eur'];
+        if ($this->isElectric($input->brandstof)) {
+            return (float) $rates['ev_fixed'];
+        }
 
-        $aboveThreshold = max(0, $co2 - $rate['co2_threshold_g_per_km']);
-        $bpm += $aboveThreshold * $rate['per_gram_above_threshold_eur'];
+        $bpm = (float) $rates['fixed_base'];
+        $bpm += $this->calculateCo2Component($input->co2, $rates['brackets']);
 
-        if ($fuelType === 'diesel') {
-            $aboveDieselThreshold = max(0, $co2 - $rate['diesel_surcharge_threshold_g_per_km']);
-            $bpm += $aboveDieselThreshold * $rate['diesel_surcharge_per_gram_eur'];
+        if ($this->isDiesel($input->brandstof)) {
+            $bpm += $this->calculateDieselToeslag($input->co2, $rates['diesel']);
         }
 
         return $bpm;
     }
 
-    private function depreciationPct(int $ageMonths): float
+    /**
+     * @param  list<array{max: int|null, rate: float|int}>  $brackets
+     */
+    private function calculateCo2Component(int $co2, array $brackets): float
     {
-        foreach ($this->config['depreciation_table'] as [$min, $max, $pct]) {
-            if ($ageMonths >= $min && $ageMonths < $max) {
-                return $pct;
+        $bpm = 0.0;
+        $previousLimit = 0;
+
+        foreach ($brackets as $bracket) {
+            $limit = $bracket['max'] ?? PHP_INT_MAX;
+            $effectiveCo2 = min($co2, $limit);
+            $gramsInBracket = max(0, $effectiveCo2 - $previousLimit);
+            $bpm += $gramsInBracket * $bracket['rate'];
+
+            if ($co2 <= $limit) {
+                break;
             }
+            $previousLimit = $limit;
         }
 
-        // Beyond the table → use the last (oldest) bracket.
-        $last = end($this->config['depreciation_table']);
-
-        return is_array($last) ? (float) $last[2] : 92.0;
+        return $bpm;
     }
 
     /**
-     * @return array{
-     *     co2_threshold_g_per_km: int,
-     *     fixed_voet_eur: int,
-     *     per_gram_above_threshold_eur: int,
-     *     diesel_surcharge_per_gram_eur: float,
-     *     diesel_surcharge_threshold_g_per_km: int,
-     * }
+     * @param  array{threshold: int, rate_per_gram: float|int}  $dieselConfig
      */
-    private function rateFor(int $year): array
+    private function calculateDieselToeslag(int $co2, array $dieselConfig): float
     {
-        return $this->config['rates'][(string) $year] ?? $this->config['rates']['default'];
+        $excess = max(0, $co2 - $dieselConfig['threshold']);
+
+        return $excess * $dieselConfig['rate_per_gram'];
     }
 
-    private function normalizeFuelType(?string $description): string
+    /**
+     * Belastingdienst-regel: einde-maand-tot-einde-maand telt als hele maand.
+     * Carbon's diffInMonths past dit toe (truncates towards zero).
+     */
+    private function calculateAgeInMonths(CarbonImmutable $start, CarbonImmutable $end): int
     {
-        return match (strtolower($description ?? '')) {
-            'diesel' => 'diesel',
-            'elektriciteit', 'elektrisch' => 'electric',
-            'lpg', 'lpg/gas' => 'lpg',
-            default => 'gasoline',
-        };
+        return (int) floor($start->diffInMonths($end));
+    }
+
+    private function getDepreciationPercentage(int $months): float
+    {
+        foreach ($this->config['depreciation_table'] as $tier) {
+            if ($months <= $tier['max_months']) {
+                $extraMonths = max(0, $months - $tier['base_months']);
+
+                return (float) $tier['base_percentage'] + ($extraMonths * (float) $tier['per_month']);
+            }
+        }
+
+        return 100.0; // Buiten de tabel: 25+ jaar, geen restwaarde.
+    }
+
+    private function isDiesel(string $brandstof): bool
+    {
+        return strtolower($brandstof) === 'diesel';
+    }
+
+    private function isElectric(string $brandstof): bool
+    {
+        return in_array(strtolower($brandstof), ['elektriciteit', 'elektrisch'], true);
     }
 }

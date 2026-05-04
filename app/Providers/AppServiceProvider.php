@@ -21,7 +21,7 @@ class AppServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->app->singleton(BpmCalculator::class, fn ($app): BpmCalculator => new BpmCalculator(
-            $app['config']->get('bpm'),
+            $app['config']->get('bpm_rates'),
         ));
 
         $this->app->singleton(RdwService::class, function ($app): RdwService {

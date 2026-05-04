@@ -7,7 +7,8 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\LookupRequest;
 use App\Services\Bpm\BpmCalculator;
-use App\Services\Bpm\Dto\BpmIndication;
+use App\Services\Bpm\Dto\BpmInput;
+use App\Services\Bpm\Dto\BpmResult;
 use App\Services\Rdw\Dto\FuelData;
 use App\Services\Rdw\Dto\VehicleData;
 use App\Services\Rdw\RdwService;
@@ -33,14 +34,15 @@ final class LookupController extends Controller
             ], 404);
         }
 
-        $bpm = $this->bpm->calculate($result);
+        $bpmInput = BpmInput::fromLookup($result);
+        $bpmResult = $bpmInput !== null ? $this->bpm->calculateRestBpm($bpmInput) : null;
 
         return response()->json([
             'found' => true,
             'kenteken' => $kenteken,
             'vehicle' => $this->serializeVehicle($result->vehicle),
             'fuel' => $this->serializeFuel($result->fuel),
-            'bpm' => $this->serializeBpm($bpm),
+            'bpm' => $this->serializeBpm($bpmResult),
         ]);
     }
 
@@ -91,17 +93,20 @@ final class LookupController extends Controller
     /**
      * @return array<string, mixed>|null
      */
-    private function serializeBpm(?BpmIndication $bpm): ?array
+    private function serializeBpm(?BpmResult $bpm): ?array
     {
         if ($bpm === null) {
             return null;
         }
 
         return [
-            'estimated_refund_eur' => $bpm->estimatedRefundEur,
-            'original_bpm_eur' => $bpm->originalBpmEur,
-            'depreciation_factor' => round($bpm->depreciationFactor, 4),
-            'inputs' => $bpm->inputs,
+            'is_eligible' => $bpm->isEligible,
+            'ineligible_reason' => $bpm->ineligibleReason,
+            'bruto_bpm_eur' => round($bpm->brutoBpm, 2),
+            'rest_bpm_eur' => round($bpm->restBpm, 2),
+            'afschrijving_pct' => round($bpm->afschrijvingPercentage, 2),
+            'age_months' => $bpm->ageMonths,
+            'method' => $bpm->method,
             'notes' => $bpm->notes,
         ];
     }

@@ -35,9 +35,43 @@ final class LookupControllerTest extends TestCase
             ->assertJsonPath('vehicle.merk', 'VOLKSWAGEN')
             ->assertJsonPath('fuel.brandstof', 'Benzine')
             ->assertJsonPath('fuel.co2_gecombineerd', 112)
+            ->assertJsonPath('bpm.is_eligible', true)
+            ->assertJsonPath('bpm.method', 'forfaitair')
             ->assertJsonStructure([
-                'bpm' => ['estimated_refund_eur', 'original_bpm_eur', 'depreciation_factor', 'inputs', 'notes'],
+                'bpm' => [
+                    'is_eligible',
+                    'ineligible_reason',
+                    'bruto_bpm_eur',
+                    'rest_bpm_eur',
+                    'afschrijving_pct',
+                    'age_months',
+                    'method',
+                    'notes',
+                ],
             ]);
+    }
+
+    public function test_it_marks_pre_2006_cars_as_ineligible(): void
+    {
+        Http::fake([
+            'opendata.rdw.nl/resource/m9d7-ebf2.json*' => Http::response([[
+                'kenteken' => 'OLD123',
+                'merk' => 'VOLVO',
+                'datum_eerste_toelating' => '20060101',
+            ]]),
+            'opendata.rdw.nl/resource/8ys7-d773.json*' => Http::response([[
+                'kenteken' => 'OLD123',
+                'brandstof_omschrijving' => 'Benzine',
+                'co2_uitstoot_gecombineerd' => '180',
+            ]]),
+        ]);
+
+        $response = $this->postJson(route('api.lookup'), ['kenteken' => 'OLD-12-3']);
+
+        $response->assertOk()
+            ->assertJsonPath('found', true)
+            ->assertJsonPath('bpm.is_eligible', false)
+            ->assertJsonPath('bpm.rest_bpm_eur', 0);
     }
 
     public function test_it_returns_404_when_kenteken_is_not_in_rdw(): void

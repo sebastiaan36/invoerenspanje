@@ -233,6 +233,268 @@ Verdeeld in zes fasen. Elke fase is een aparte Claude Code-sessie waard.
 7. Blog met markdown-files of CPT in database
 8. Contactformulier met Laravel form request validatie en mail naar partner
 
+Wanneer is BPM-teruggave mogelijk
+Niet elke geëxporteerde auto komt in aanmerking. De Belastingdienst hanteert vijf voorwaarden:
+
+De auto is op of na 16 oktober 2006 voor het eerst in Nederland geregistreerd
+De auto wordt daadwerkelijk en duurzaam geëxporteerd naar een EU- of EER-land
+De auto wordt afgemeld bij de RDW met de status "Export"
+De auto is niet bestemd voor sloop
+Het verzoek tot teruggave wordt binnen 13 weken na de exportdatum ingediend bij de Belastingdienst
+
+In de calculator moet de eerste voorwaarde direct gecheckt worden op basis van de RDW-respons. Als datum_eerste_toelating voor 16 oktober 2006 ligt, toon dan: "Helaas, BPM-teruggave is alleen mogelijk voor auto's geregistreerd na oktober 2006. We helpen u wel met de Spaanse importkant."
+De drie afschrijvingsmethoden
+De Belastingdienst staat drie methoden toe om de afschrijving te berekenen. De aanvrager mag de gunstigste kiezen, maar de keuze is definitief:
+
+Forfaitaire afschrijvingstabel — Vast percentage op basis van leeftijd. Eenvoudig, geen taxatie nodig. Default voor de meeste exporteurs.
+Koerslijst — Werkelijke handelsinkoopwaarde uit een erkende koerslijst (ANWB, AutotelexPro, EuroTaxGlass). Vaak gunstiger voor jonge auto's met weinig kilometers.
+Taxatierapport — Alleen toegestaan bij bovengemiddelde schade of voor auto's die niet in koerslijsten voorkomen.
+
+In onze calculator gebruiken we de forfaitaire tabel voor de indicatie. Bij de offerte rekent je partner alle drie de methoden door en kiest de gunstigste. Vaak levert de koerslijstmethode bij auto's tot 4 jaar oud een hogere teruggave op.
+De formule
+De rest-BPM bij export wordt berekend in drie stappen:
+Rest-BPM = Bruto BPM × (100 − afschrijvingspercentage) / 100
+Waarbij:
+
+Bruto BPM = het BPM-bedrag dat oorspronkelijk bij eerste toelating betaald is, herberekend volgens het tarief dat in dat jaar gold
+Afschrijvingspercentage = uit de forfaitaire tabel op basis van leeftijd (datum eerste toelating tot exportdatum)
+
+Stap 1 — Bruto BPM bepalen
+De bruto BPM is afhankelijk van CO2-uitstoot, brandstof en het bouwjaar. De Belastingdienst publiceert per jaar een tarieftabel met schijven. De algemene formule:
+Bruto BPM = vaste voet + Σ (CO2_in_schijf × tarief_per_gram_in_schijf)
+Voor dieselauto's komt daar een dieseltoeslag bij:
+Dieseltoeslag = max(0, CO2 − drempel) × tarief_per_gram_diesel
+Voor PHEV's gelden aparte (lagere) tarieven. Voor volledig elektrisch geldt sinds 2025 een vast bedrag van €600.
+Voorbeeld tarieftabel 2019 (illustratief — exacte cijfers per jaar uit Staatscourant):
+CO2-schijf (g/km)Tarief per gramVaste voet0 – 71€0€36671 – 95€6895 – 139€152139 – 161€236161 – 192€414192+€557
+Dieseltoeslag 2019: €87,38 per gram boven 70 g/km.
+Deze tarieven moeten per bouwjaar in config/bpm_rates.php worden opgenomen. De RDW geeft je datum_eerste_toelating, en op basis van het jaartal pak je de juiste tabel.
+Stap 2 — Afschrijvingspercentage uit de forfaitaire tabel
+De forfaitaire tabel bestaat uit een vast deel voor de eerste 9 maanden, gevolgd door een lineaire afschrijving per maand. De huidige structuur (illustratief — exacte percentages uit de Uitvoeringsregeling BPM jaarlijks controleren):
+LeeftijdAfschrijving (cumulatief)0 – 1 maand0% (auto geldt als nieuw)1 – 3 maanden12%3 – 5 maanden18%5 – 9 maanden24%9 – 18 maanden28% + 1% per maand boven 918 – 30 maanden37% + 1% per maand boven 1830 – 42 maanden47% + 0,833% per maand boven 3042 – 54 maanden57% + 0,75% per maand boven 4254 – 66 maanden66% + 0,583% per maand boven 5466 – 78 maanden73% + 0,5% per maand boven 6678 – 90 maanden79% + 0,417% per maand boven 7890 – 102 maanden84% + 0,333% per maand boven 90102 – 114 maanden88% + 0,333% per maand boven 102114 maanden – 25 jaar92% interpolerend naar 100%25+ jaar100% (geen rest-BPM)
+Belangrijk over de leeftijdsbepaling: een periode die begint op de laatste dag van een maand en eindigt op de laatste dag van een kortere maand telt als een hele maand. Voorbeeld: 31 januari t/m 28 februari = 1 maand, maar 31 januari t/m 1 maart = 2 maanden. In code rond je dus naar boven af aan het einde van de maand.
+Voorbeeldberekening
+Een Volkswagen Golf 1.5 TSI Comfortline, benzine, datum eerste toelating 15 april 2019, CO2-uitstoot 130 g/km (NEDC), catalogusprijs €31.500. De auto wordt geëxporteerd op 15 april 2026.
+Stap 1 — Bruto BPM bepalen (2019-tarief)
+CO2 = 130 g/km, valt door drie schijven:
+Schijf 1 (0–71):    71 × €0   = €0
+Schijf 2 (71–95):   24 × €68  = €1.632
+Schijf 3 (95–130):  35 × €152 = €5.320
+Vaste voet:                     €366
+                                ─────
+Bruto BPM:                      €7.318
+Geen dieseltoeslag (benzine).
+Stap 2 — Afschrijvingspercentage bepalen
+Periode 15 april 2019 tot 15 april 2026 = 84 maanden = 7 jaar exact.
+Uit de tabel: 78–90 maanden valt onder "79% + 0,417% per maand boven 78".
+Maanden boven 78:   84 − 78 = 6
+Extra afschrijving: 6 × 0,417% = 2,502%
+Totaal afschrijving: 79% + 2,502% = 81,5%
+Stap 3 — Rest-BPM berekenen
+Rest-BPM = €7.318 × (100 − 81,5) / 100
+        = €7.318 × 0,185
+        = €1.354
+Bij export naar Spanje krijgt deze klant dus circa €1.354 terug van de Nederlandse Belastingdienst.
+Voor jongere auto's of auto's met hogere bruto BPM (diesels, SUV's met hoge CO2) loopt dit bedrag fors op. Een 4-jarige BMW X5 diesel met €25.000 bruto BPM en 57% afschrijving levert bijvoorbeeld €10.750 op.
+Implementatie
+Service-class
+phpnamespace App\Services;
+
+use App\Data\VehicleData;
+use App\Data\BpmResult;
+use Carbon\Carbon;
+
+class BpmCalculator
+{
+    public function calculateRestBpm(VehicleData $vehicle, Carbon $exportDate): BpmResult
+    {
+        // Voorwaarde: alleen voor auto's vanaf 16 oktober 2006
+        if ($vehicle->datumEersteToelating->lt(Carbon::create(2006, 10, 16))) {
+            return BpmResult::notEligible('Datum eerste toelating voor 16 oktober 2006');
+        }
+
+        $brutoBpm = $this->calculateBrutoBpm($vehicle);
+        $months = $this->calculateAgeInMonths($vehicle->datumEersteToelating, $exportDate);
+        $afschrijving = $this->getDepreciationPercentage($months);
+        
+        $restBpm = $brutoBpm * (100 - $afschrijving) / 100;
+
+        return new BpmResult(
+            brutoBpm: $brutoBpm,
+            afschrijvingPercentage: $afschrijving,
+            ageMonths: $months,
+            restBpm: round($restBpm, 2),
+            method: 'forfaitair',
+        );
+    }
+
+    private function calculateBrutoBpm(VehicleData $vehicle): float
+    {
+        $year = $vehicle->datumEersteToelating->year;
+        $rates = config("bpm_rates.{$year}");
+        
+        if (!$rates) {
+            throw new \RuntimeException("Geen BPM-tarieven voor bouwjaar {$year}");
+        }
+
+        // Elektrisch: vast tarief
+        if ($vehicle->brandstof === 'Elektriciteit') {
+            return $rates['ev_fixed'] ?? 0;
+        }
+
+        $bpm = $this->calculateCo2Component($vehicle->co2, $rates['brackets']);
+        $bpm += $rates['fixed_base'] ?? 0;
+
+        if ($vehicle->brandstof === 'Diesel') {
+            $bpm += $this->calculateDieselToeslag($vehicle->co2, $rates['diesel']);
+        }
+
+        return $bpm;
+    }
+
+    private function calculateCo2Component(float $co2, array $brackets): float
+    {
+        $bpm = 0;
+        $previousLimit = 0;
+
+        foreach ($brackets as $bracket) {
+            $limit = $bracket['max'] ?? PHP_FLOAT_MAX;
+            $effectiveCo2 = min($co2, $limit);
+            $gramsInBracket = max(0, $effectiveCo2 - $previousLimit);
+            $bpm += $gramsInBracket * $bracket['rate'];
+            
+            if ($co2 <= $limit) {
+                break;
+            }
+            $previousLimit = $limit;
+        }
+
+        return $bpm;
+    }
+
+    private function calculateDieselToeslag(float $co2, array $dieselConfig): float
+    {
+        $excess = max(0, $co2 - $dieselConfig['threshold']);
+        return $excess * $dieselConfig['rate_per_gram'];
+    }
+
+    private function calculateAgeInMonths(Carbon $start, Carbon $end): int
+    {
+        // Belastingdienst-regel: einde-maand-tot-einde-maand telt als hele maand
+        return $start->diffInMonths($end);
+    }
+
+    private function getDepreciationPercentage(int $months): float
+    {
+        $table = config('bpm_rates.depreciation_table');
+        
+        foreach ($table as $tier) {
+            if ($months <= $tier['max_months']) {
+                $extraMonths = max(0, $months - $tier['base_months']);
+                return $tier['base_percentage'] + ($extraMonths * $tier['per_month']);
+            }
+        }
+
+        return 100; // 25+ jaar
+    }
+}
+Configuratiebestand
+php// config/bpm_rates.php
+return [
+    'depreciation_table' => [
+        ['max_months' => 1,   'base_months' => 0,   'base_percentage' => 0,    'per_month' => 0],
+        ['max_months' => 3,   'base_months' => 1,   'base_percentage' => 0,    'per_month' => 6],
+        ['max_months' => 5,   'base_months' => 3,   'base_percentage' => 12,   'per_month' => 3],
+        ['max_months' => 9,   'base_months' => 5,   'base_percentage' => 18,   'per_month' => 1.5],
+        ['max_months' => 18,  'base_months' => 9,   'base_percentage' => 28,   'per_month' => 1.0],
+        ['max_months' => 30,  'base_months' => 18,  'base_percentage' => 37,   'per_month' => 0.833],
+        ['max_months' => 42,  'base_months' => 30,  'base_percentage' => 47,   'per_month' => 0.833],
+        ['max_months' => 54,  'base_months' => 42,  'base_percentage' => 57,   'per_month' => 0.75],
+        ['max_months' => 66,  'base_months' => 54,  'base_percentage' => 66,   'per_month' => 0.583],
+        ['max_months' => 78,  'base_months' => 66,  'base_percentage' => 73,   'per_month' => 0.5],
+        ['max_months' => 90,  'base_months' => 78,  'base_percentage' => 79,   'per_month' => 0.417],
+        ['max_months' => 102, 'base_months' => 90,  'base_percentage' => 84,   'per_month' => 0.333],
+        ['max_months' => 114, 'base_months' => 102, 'base_percentage' => 88,   'per_month' => 0.333],
+        ['max_months' => 300, 'base_months' => 114, 'base_percentage' => 92,   'per_month' => 0.043],
+    ],
+    
+    2019 => [
+        'fixed_base' => 366,
+        'brackets' => [
+            ['max' => 71,  'rate' => 0],
+            ['max' => 95,  'rate' => 68],
+            ['max' => 139, 'rate' => 152],
+            ['max' => 161, 'rate' => 236],
+            ['max' => 192, 'rate' => 414],
+            ['max' => null, 'rate' => 557],
+        ],
+        'diesel' => [
+            'threshold' => 70,
+            'rate_per_gram' => 87.38,
+        ],
+        'ev_fixed' => 0,
+    ],
+    
+    2020 => [ /* tarieven 2020 */ ],
+    2021 => [ /* tarieven 2021 */ ],
+    2022 => [ /* tarieven 2022 */ ],
+    2023 => [ /* tarieven 2023 */ ],
+    2024 => [ /* tarieven 2024 */ ],
+    2025 => [ /* tarieven 2025 */ ],
+    2026 => [ /* tarieven 2026 */ ],
+];
+Test-cases om mee te beginnen
+Bouw direct deze tests bij de service:
+php// tests/Unit/BpmCalculatorTest.php
+
+test('berekent rest-bpm voor benzine personenauto 7 jaar oud', function () {
+    $vehicle = new VehicleData(
+        kenteken: 'XX-123-Y',
+        datumEersteToelating: Carbon::create(2019, 4, 15),
+        co2: 130,
+        brandstof: 'Benzine',
+    );
+
+    $result = (new BpmCalculator())->calculateRestBpm(
+        $vehicle, 
+        Carbon::create(2026, 4, 15)
+    );
+
+    expect($result->brutoBpm)->toEqualWithDelta(7318, 5);
+    expect($result->afschrijvingPercentage)->toEqualWithDelta(81.5, 0.1);
+    expect($result->restBpm)->toEqualWithDelta(1354, 5);
+});
+
+test('weigert teruggave voor auto van voor 16 oktober 2006', function () {
+    $vehicle = new VehicleData(
+        datumEersteToelating: Carbon::create(2006, 10, 15),
+        co2: 130,
+        brandstof: 'Benzine',
+    );
+
+    $result = (new BpmCalculator())->calculateRestBpm($vehicle, now());
+
+    expect($result->isEligible)->toBeFalse();
+});
+Onderhoud en updates
+De BPM-tarieven worden jaarlijks per 1 januari aangepast in de Staatscourant. Soms gelden zelfs binnenjaarse wijzigingen. De afschrijvingstabel ligt vast in de Uitvoeringsregeling BPM 1992 en wordt zelden gewijzigd, maar controleer dit jaarlijks in december voor het komende jaar.
+Plan in december elk jaar een update-taak:
+
+Download de meest recente BPM-tarieven van belastingdienst.nl en Staatscourant
+Update config/bpm_rates.php met de nieuwe schijven en bedragen voor het komende jaar
+Run de testsuite om te verifiëren dat oude cases nog kloppen
+Update ook de Spaanse config/spain_import.php (zie addendum 1)
+Test de calculator end-to-end met een handvol bekende voertuigen
+
+Bij twijfel over een specifieke berekening: laat je partner de exacte bruto BPM opvragen bij de Belastingdienst Douane via de Belasting Telefoon Auto (0800-0749). Dat is gratis en geeft uitsluitsel.
+Belangrijke disclaimers in de UI
+Op de calculator-pagina en in elke offerte vermelden:
+
+Indicatieve berekening volgens forfaitaire afschrijvingstabel
+Het werkelijke bedrag kan afwijken. In sommige gevallen levert berekening met een koerslijst of taxatierapport een hogere teruggave op — wij rekenen alle drie de methoden door bij uw offerte en kiezen de gunstigste. Aan deze indicatie kunnen geen rechten worden ontleend.
+
+Dit beschermt je juridisch én geeft de klant een concrete reden om de offerte aan te vragen ("misschien krijg ik wel meer terug").
+
 ### Fase 3 — Auth en klantenportaal MVP
 
 1. Breeze auth uitbreiden met telefoonveld bij registratie
