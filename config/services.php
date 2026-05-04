@@ -35,4 +35,12 @@ return [
         ],
     ],
 
+    'rdw' => [
+        'vehicle_endpoint' => env('RDW_VEHICLE_ENDPOINT', 'https://opendata.rdw.nl/resource/m9d7-ebf2.json'),
+        'fuel_endpoint' => env('RDW_FUEL_ENDPOINT', 'https://opendata.rdw.nl/resource/8ys7-d773.json'),
+        'app_token' => env('RDW_SOCRATA_APP_TOKEN'),
+        'cache_ttl_days' => (int) env('RDW_CACHE_TTL_DAYS', 7),
+        'timeout_seconds' => (int) env('RDW_HTTP_TIMEOUT', 5),
+    ],
+
 ];

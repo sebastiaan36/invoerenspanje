@@ -2,7 +2,11 @@
 
 namespace App\Providers;
 
+use App\Services\Rdw\RdwService;
 use Carbon\CarbonImmutable;
+use Illuminate\Contracts\Cache\Repository as CacheRepository;
+use Illuminate\Http\Client\Factory as HttpFactory;
+use Illuminate\Log\LogManager;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\ServiceProvider;
@@ -15,7 +19,20 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        $this->app->singleton(RdwService::class, function ($app): RdwService {
+            $config = $app['config']->get('services.rdw');
+
+            return new RdwService(
+                http: $app->make(HttpFactory::class),
+                cache: $app->make(CacheRepository::class),
+                logger: $app->make(LogManager::class)->channel('rdw'),
+                vehicleEndpoint: $config['vehicle_endpoint'],
+                fuelEndpoint: $config['fuel_endpoint'],
+                appToken: $config['app_token'] ?? null,
+                cacheTtlDays: (int) $config['cache_ttl_days'],
+                timeoutSeconds: (int) $config['timeout_seconds'],
+            );
+        });
     }
 
     /**
