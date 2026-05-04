@@ -32,11 +32,25 @@ final class LookupRequest extends FormRequest
                     }
                 },
             ],
+            'residency_change' => ['sometimes', 'boolean'],
+            'autonomia' => ['sometimes', 'string', 'max:32'],
         ];
     }
 
     public function normalizedKenteken(): string
     {
         return KentekenNormalizer::normalize((string) $this->input('kenteken'));
+    }
+
+    public function residencyChange(): bool
+    {
+        return $this->boolean('residency_change');
+    }
+
+    public function autonomia(): string
+    {
+        $value = $this->input('autonomia');
+
+        return is_string($value) && $value !== '' ? $value : 'default';
     }
 }

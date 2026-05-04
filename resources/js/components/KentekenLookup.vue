@@ -3,6 +3,8 @@ import { ref } from 'vue';
 import { Loader2, Search, AlertCircle, Info, AlertTriangle } from 'lucide-vue-next';
 import { Button } from '@/components/ui/button';
 import { postJson, type ApiError } from '@/lib/api';
+import ImportCostsCard from '@/components/ImportCostsCard.vue';
+import NetEffectBlock from '@/components/NetEffectBlock.vue';
 
 interface BpmPayload {
     is_eligible: boolean;
@@ -12,6 +14,19 @@ interface BpmPayload {
     afschrijving_pct: number;
     age_months: number;
     method: string;
+    notes: string[];
+}
+
+interface ImportCostsPayload {
+    iedmt_eur: number;
+    iedmt_rate_pct: number;
+    iedmt_exempt: boolean;
+    iedmt_exempt_reason: string | null;
+    estimated_market_value_eur: number;
+    fixed_costs: { key: string; label: string; amount_eur: number }[];
+    fixed_costs_total_eur: number;
+    total_eur: number;
+    autonomia: string;
     notes: string[];
 }
 
@@ -31,6 +46,8 @@ interface VehicleResponse {
         co2_gecombineerd: number | null;
     } | null;
     bpm: BpmPayload | null;
+    import_costs: ImportCostsPayload | null;
+    net_effect_eur: number | null;
 }
 
 interface ValidationErrorBody {
@@ -146,7 +163,17 @@ async function submit() {
         </div>
 
         <!-- RESULT -->
-        <div v-if="result?.found" class="mt-6 grid gap-4 lg:grid-cols-2">
+        <div v-if="result?.found" class="mt-6 space-y-6">
+            <!-- Net effect summary on top -->
+            <NetEffectBlock
+                v-if="result.import_costs && result.net_effect_eur !== null"
+                :net-effect-eur="result.net_effect_eur"
+                :bpm-rest-eur="result.bpm?.is_eligible ? result.bpm.rest_bpm_eur : 0"
+                :bpm-eligible="result.bpm?.is_eligible ?? false"
+                :import-total-eur="result.import_costs.total_eur"
+            />
+
+            <div class="grid gap-4 lg:grid-cols-3">
             <article class="rounded-2xl border border-border bg-card p-6 shadow-sm">
                 <div class="text-xs font-medium uppercase tracking-wider text-muted-foreground">
                     Voertuiggegevens
@@ -291,6 +318,12 @@ async function submit() {
                     </Button>
                 </div>
             </article>
+
+            <ImportCostsCard
+                v-if="result.import_costs"
+                :import-costs="result.import_costs"
+            />
+            </div>
         </div>
     </div>
 </template>

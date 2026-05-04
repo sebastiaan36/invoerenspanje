@@ -12,6 +12,9 @@ use App\Services\Bpm\Dto\BpmResult;
 use App\Services\Rdw\Dto\FuelData;
 use App\Services\Rdw\Dto\VehicleData;
 use App\Services\Rdw\RdwService;
+use App\Services\SpainImport\Dto\SpainImportInput;
+use App\Services\SpainImport\Dto\SpainImportResult;
+use App\Services\SpainImport\SpainImportCalculator;
 use Illuminate\Http\JsonResponse;
 
 final class LookupController extends Controller
@@ -19,6 +22,7 @@ final class LookupController extends Controller
     public function __construct(
         private readonly RdwService $rdw,
         private readonly BpmCalculator $bpm,
+        private readonly SpainImportCalculator $spainImport,
     ) {}
 
     public function __invoke(LookupRequest $request): JsonResponse
@@ -37,12 +41,21 @@ final class LookupController extends Controller
         $bpmInput = BpmInput::fromLookup($result);
         $bpmResult = $bpmInput !== null ? $this->bpm->calculateRestBpm($bpmInput) : null;
 
+        $importInput = SpainImportInput::fromLookup(
+            $result,
+            residencyChange: $request->residencyChange(),
+            autonomia: $request->autonomia(),
+        );
+        $importResult = $importInput !== null ? $this->spainImport->calculate($importInput) : null;
+
         return response()->json([
             'found' => true,
             'kenteken' => $kenteken,
             'vehicle' => $this->serializeVehicle($result->vehicle),
             'fuel' => $this->serializeFuel($result->fuel),
             'bpm' => $this->serializeBpm($bpmResult),
+            'import_costs' => $this->serializeImport($importResult),
+            'net_effect_eur' => $this->netEffect($bpmResult, $importResult),
         ]);
     }
 
@@ -109,5 +122,42 @@ final class LookupController extends Controller
             'method' => $bpm->method,
             'notes' => $bpm->notes,
         ];
+    }
+
+    /**
+     * @return array<string, mixed>|null
+     */
+    private function serializeImport(?SpainImportResult $import): ?array
+    {
+        if ($import === null) {
+            return null;
+        }
+
+        return [
+            'iedmt_eur' => $import->iedmtEur,
+            'iedmt_rate_pct' => $import->iedmtRatePct,
+            'iedmt_exempt' => $import->iedmtExempt,
+            'iedmt_exempt_reason' => $import->iedmtExemptReason,
+            'estimated_market_value_eur' => $import->estimatedMarketValueEur,
+            'fixed_costs' => array_map(
+                fn ($c) => ['key' => $c->key, 'label' => $c->label, 'amount_eur' => $c->amountEur],
+                $import->fixedCosts,
+            ),
+            'fixed_costs_total_eur' => $import->fixedCostsTotalEur,
+            'total_eur' => $import->totalEur,
+            'autonomia' => $import->autonomia,
+            'notes' => $import->notes,
+        ];
+    }
+
+    private function netEffect(?BpmResult $bpm, ?SpainImportResult $import): ?float
+    {
+        if ($import === null) {
+            return null;
+        }
+
+        $rest = $bpm !== null && $bpm->isEligible ? $bpm->restBpm : 0.0;
+
+        return round($rest - $import->totalEur, 2);
     }
 }

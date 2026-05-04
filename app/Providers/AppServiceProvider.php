@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Services\Bpm\BpmCalculator;
 use App\Services\Rdw\RdwService;
+use App\Services\SpainImport\SpainImportCalculator;
 use Carbon\CarbonImmutable;
 use Illuminate\Contracts\Cache\Repository as CacheRepository;
 use Illuminate\Http\Client\Factory as HttpFactory;
@@ -22,6 +23,10 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->app->singleton(BpmCalculator::class, fn ($app): BpmCalculator => new BpmCalculator(
             $app['config']->get('bpm_rates'),
+        ));
+
+        $this->app->singleton(SpainImportCalculator::class, fn ($app): SpainImportCalculator => new SpainImportCalculator(
+            $app['config']->get('spain_import'),
         ));
 
         $this->app->singleton(RdwService::class, function ($app): RdwService {
