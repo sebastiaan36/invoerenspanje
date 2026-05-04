@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import PublicLayout from '@/layouts/PublicLayout.vue';
+import { Check } from 'lucide-vue-next';
 
 withDefaults(
     defineProps<{
@@ -58,15 +59,15 @@ withDefaults(
                         class="mt-6 flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-muted-foreground"
                     >
                         <span class="inline-flex items-center gap-2">
-                            <span class="size-1.5 rounded-full bg-success"></span>
+                            <Check class="size-4 stroke-[3] text-success" />
                             Vaste prijs vooraf
                         </span>
                         <span class="inline-flex items-center gap-2">
-                            <span class="size-1.5 rounded-full bg-success"></span>
+                            <Check class="size-4 stroke-[3] text-success" />
                             Nederlandstalige begeleiding
                         </span>
                         <span class="inline-flex items-center gap-2">
-                            <span class="size-1.5 rounded-full bg-success"></span>
+                            <Check class="size-4 stroke-[3] text-success" />
                             BPM-teruggave inbegrepen
                         </span>
                     </div>
