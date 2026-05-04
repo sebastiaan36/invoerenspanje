@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Services\Bpm\BpmCalculator;
 use App\Services\Rdw\RdwService;
 use Carbon\CarbonImmutable;
 use Illuminate\Contracts\Cache\Repository as CacheRepository;
@@ -19,6 +20,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
+        $this->app->singleton(BpmCalculator::class, fn ($app): BpmCalculator => new BpmCalculator(
+            $app['config']->get('bpm'),
+        ));
+
         $this->app->singleton(RdwService::class, function ($app): RdwService {
             $config = $app['config']->get('services.rdw');
 
