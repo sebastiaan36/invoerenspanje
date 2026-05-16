@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { computed } from 'vue';
 import { TrendingUp, TrendingDown } from 'lucide-vue-next';
+import { computed } from 'vue';
 import type { ServicePackage } from '@/components/PackageSelector.vue';
 
 const props = defineProps<{

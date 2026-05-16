@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import PublicLayout from '@/layouts/PublicLayout.vue';
-import KentekenLookup from '@/components/KentekenLookup.vue';
 import { Check } from 'lucide-vue-next';
+import KentekenLookup from '@/components/KentekenLookup.vue';
+import PublicLayout from '@/layouts/PublicLayout.vue';
 
 withDefaults(
     defineProps<{

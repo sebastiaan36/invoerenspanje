@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { computed, onMounted, reactive, ref } from 'vue';
 import { Send, CheckCircle2, AlertCircle } from 'lucide-vue-next';
+import { computed, onMounted, reactive, ref } from 'vue';
+import type { ServicePackage } from '@/components/PackageSelector.vue';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { postJson, isApiError, isNetworkError } from '@/lib/api';
-import type { ServicePackage } from '@/components/PackageSelector.vue';
 
 const props = defineProps<{
     kenteken: string;
@@ -31,7 +31,10 @@ const form = reactive({
 const utm = reactive({ source: '', medium: '', campaign: '' });
 
 onMounted(() => {
-    if (typeof window === 'undefined') return;
+    if (typeof window === 'undefined') {
+return;
+}
+
     const params = new URLSearchParams(window.location.search);
     utm.source = params.get('utm_source') ?? '';
     utm.medium = params.get('utm_medium') ?? '';
@@ -81,7 +84,10 @@ function buildPayload() {
 }
 
 async function submit() {
-    if (isSubmitting.value || successReference.value) return;
+    if (isSubmitting.value || successReference.value) {
+return;
+}
+
     isSubmitting.value = true;
     submitError.value = null;
 

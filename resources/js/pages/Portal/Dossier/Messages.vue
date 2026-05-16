@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { ref } from 'vue';
 import { Head, useForm } from '@inertiajs/vue3';
 import { Send, MessageSquare, Paperclip, FileText, X } from 'lucide-vue-next';
+import { ref } from 'vue';
 import DossierTabs from '@/components/DossierTabs.vue';
 
 interface Attachment {
@@ -51,7 +51,11 @@ const ALLOWED = /\.(jpe?g|png|webp|gif|pdf)$/i;
 
 function onPick(e: Event) {
     const input = e.target as HTMLInputElement;
-    if (!input.files) return;
+
+    if (!input.files) {
+return;
+}
+
     form.attachments = [
         ...form.attachments,
         ...Array.from(input.files).filter((f) => ALLOWED.test(f.name) && f.size <= MAX_BYTES),
@@ -69,7 +73,10 @@ function submit() {
         preserveScroll: true,
         onSuccess: () => {
             form.reset('body', 'attachments');
-            if (fileInput.value) fileInput.value.value = '';
+
+            if (fileInput.value) {
+fileInput.value.value = '';
+}
         },
     });
 }
@@ -79,14 +86,24 @@ const dateFormatter = new Intl.DateTimeFormat('nl-NL', {
 });
 
 function formatTime(iso: string | null): string {
-    if (!iso) return '';
+    if (!iso) {
+return '';
+}
+
     const d = new Date(iso);
+
     return Number.isNaN(d.getTime()) ? '' : dateFormatter.format(d);
 }
 
 function formatBytes(bytes: number): string {
-    if (bytes < 1024) return `${bytes} B`;
-    if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} kB`;
+    if (bytes < 1024) {
+return `${bytes} B`;
+}
+
+    if (bytes < 1024 * 1024) {
+return `${(bytes / 1024).toFixed(1)} kB`;
+}
+
     return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
 }
 </script>

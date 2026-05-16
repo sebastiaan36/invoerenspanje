@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { computed } from 'vue';
 import { Info, AlertTriangle, BadgeCheck, Leaf } from 'lucide-vue-next';
+import { computed } from 'vue';
 
 interface FixedCost {
     key: string;

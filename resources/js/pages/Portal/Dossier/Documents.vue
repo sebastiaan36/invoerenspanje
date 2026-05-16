@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { ref } from 'vue';
 import { Head, useForm, usePage } from '@inertiajs/vue3';
 import { CheckCircle2, AlertCircle, Clock, Download, Trash2, Upload, XCircle } from 'lucide-vue-next';
+import { ref } from 'vue';
 import DossierTabs from '@/components/DossierTabs.vue';
 
 interface DocumentRow {
@@ -52,19 +52,31 @@ function submit() {
         forceFormData: true,
         onSuccess: () => {
             form.reset('file');
-            if (fileInput.value) fileInput.value.value = '';
+
+            if (fileInput.value) {
+fileInput.value.value = '';
+}
         },
     });
 }
 
 function destroy(doc: DocumentRow) {
-    if (!confirm(`Document "${doc.filename}" verwijderen?`)) return;
+    if (!confirm(`Document "${doc.filename}" verwijderen?`)) {
+return;
+}
+
     useForm({}).delete(`${props.dossier.urls.documents}/${doc.id}`);
 }
 
 function formatBytes(bytes: number): string {
-    if (bytes < 1024) return `${bytes} B`;
-    if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} kB`;
+    if (bytes < 1024) {
+return `${bytes} B`;
+}
+
+    if (bytes < 1024 * 1024) {
+return `${(bytes / 1024).toFixed(1)} kB`;
+}
+
     return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
 }
 

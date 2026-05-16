@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { computed } from 'vue';
 import { Link } from '@inertiajs/vue3';
 import { FolderOpen, Files, MessageSquare } from 'lucide-vue-next';
+import { computed } from 'vue';
 
 interface DossierUrls {
     show: string;

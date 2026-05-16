@@ -36,8 +36,12 @@ const dateFormatter = new Intl.DateTimeFormat('nl-NL', {
 });
 
 function formatDate(iso: string | null): string {
-    if (!iso) return '';
+    if (!iso) {
+return '';
+}
+
     const d = new Date(iso);
+
     return Number.isNaN(d.getTime()) ? '' : dateFormatter.format(d);
 }
 </script>
@@ -121,6 +125,7 @@ function formatDate(iso: string | null): string {
                 class="mt-10 flex flex-wrap justify-center gap-2"
                 aria-label="Pagina-navigatie"
             >
+                <!-- eslint-disable vue/no-v-text-v-html-on-component -->
                 <component
                     :is="link.url ? Link : 'span'"
                     v-for="(link, idx) in posts.links"
@@ -134,6 +139,7 @@ function formatDate(iso: string | null): string {
                         'bg-card text-muted-foreground/50 cursor-not-allowed': !link.url,
                     }"
                 />
+                <!-- eslint-enable vue/no-v-text-v-html-on-component -->
             </nav>
         </section>
     </PublicLayout>

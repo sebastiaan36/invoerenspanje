@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { computed } from 'vue';
 import { Check, Clock, XCircle } from 'lucide-vue-next';
+import { computed } from 'vue';
 
 const PHASES = [
     { key: 'offerte', label: 'Offerte' },
@@ -18,14 +18,27 @@ const props = defineProps<{
 
 const currentIndex = computed(() => {
     const idx = PHASES.findIndex((p) => p.key === props.status);
-    if (idx >= 0) return idx;
-    if (props.status === 'concept') return -1;
+
+    if (idx >= 0) {
+return idx;
+}
+
+    if (props.status === 'concept') {
+return -1;
+}
+
     return PHASES.length; // unknown → all done style
 });
 
 function phaseState(idx: number): 'completed' | 'current' | 'upcoming' {
-    if (idx < currentIndex.value) return 'completed';
-    if (idx === currentIndex.value) return 'current';
+    if (idx < currentIndex.value) {
+return 'completed';
+}
+
+    if (idx === currentIndex.value) {
+return 'current';
+}
+
     return 'upcoming';
 }
 </script>

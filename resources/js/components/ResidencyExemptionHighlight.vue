@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { computed } from 'vue';
 import { Sparkles } from 'lucide-vue-next';
+import { computed } from 'vue';
 
 const props = defineProps<{
     iedmtSavingsEur: number;

@@ -1,18 +1,20 @@
 <script setup lang="ts">
-import { ref, computed, watch, onBeforeUnmount } from 'vue';
 import { usePage } from '@inertiajs/vue3';
 import { Loader2, AlertCircle, Info, AlertTriangle, HelpCircle } from 'lucide-vue-next';
+import { ref, computed, watch, onBeforeUnmount } from 'vue';
+import ImportCostsCard from '@/components/ImportCostsCard.vue';
+import NetEffectBlock from '@/components/NetEffectBlock.vue';
+import PackageSelector from '@/components/PackageSelector.vue';
+import type {ServicePackage} from '@/components/PackageSelector.vue';
+import QuoteRequestForm from '@/components/QuoteRequestForm.vue';
+import ResidencyExemptionHighlight from '@/components/ResidencyExemptionHighlight.vue';
+import TotalSummary from '@/components/TotalSummary.vue';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
-import { postJson, type ApiError } from '@/lib/api';
-import ImportCostsCard from '@/components/ImportCostsCard.vue';
-import NetEffectBlock from '@/components/NetEffectBlock.vue';
-import ResidencyExemptionHighlight from '@/components/ResidencyExemptionHighlight.vue';
-import PackageSelector, { type ServicePackage } from '@/components/PackageSelector.vue';
-import TotalSummary from '@/components/TotalSummary.vue';
-import QuoteRequestForm from '@/components/QuoteRequestForm.vue';
+import { postJson  } from '@/lib/api';
+import type {ApiError} from '@/lib/api';
 
 type ResidencyChoice = '' | 'permanent' | 'second_home' | 'other';
 
@@ -94,12 +96,17 @@ const co2 = computed<number | null>(() => result.value?.fuel?.co2_gecombineerd ?
 // CO2 = 120 zit precies in de 0%-schijf, dus 'co2 >= 120' was te ruim.
 const showResidencyControls = computed(() => {
     const rate = result.value?.import_costs?.iedmt_rate_pct;
+
     return typeof rate === 'number' && rate > 0;
 });
 
 const iedmtSavings = computed<number>(() => {
     const ic = result.value?.import_costs;
-    if (!ic) return 0;
+
+    if (!ic) {
+return 0;
+}
+
     return Math.max(0, ic.iedmt_without_exemption_eur - ic.iedmt_eur);
 });
 
@@ -112,7 +119,10 @@ const packages = computed<ServicePackage[]>(() => page.props.packages ?? []);
 const selectedPackage = ref<string | null>(null);
 
 const selectedPackageData = computed<ServicePackage | null>(() => {
-    if (!selectedPackage.value) return null;
+    if (!selectedPackage.value) {
+return null;
+}
+
     return packages.value.find((p) => p.slug === selectedPackage.value) ?? null;
 });
 
@@ -133,8 +143,12 @@ function formatEuro(value: number): string {
 }
 
 function formatDate(iso: string | null): string {
-    if (!iso) return '—';
+    if (!iso) {
+return '—';
+}
+
     const date = new Date(iso);
+
     return Number.isNaN(date.getTime()) ? '—' : dateFormatter.format(date);
 }
 
@@ -142,6 +156,7 @@ function formatDate(iso: string | null): string {
 // `KentekenNormalizer::isValidFormat` op de backend.
 function isLikelyValidKenteken(input: string): boolean {
     const normalized = input.replace(/[\s-]+/g, '').toUpperCase();
+
     return /^[A-Z0-9]{5,8}$/.test(normalized)
         && /[A-Z]/.test(normalized)
         && /[0-9]/.test(normalized);
@@ -160,6 +175,7 @@ async function performRecalc() {
         result.value = null;
         errorMessage.value = null;
         loading.value = false;
+
         return;
     }
 
@@ -173,11 +189,19 @@ async function performRecalc() {
             residency_change: residencyChange.value,
             autonomia: autonomia.value,
         });
-        if (seq !== requestSeq) return;
+
+        if (seq !== requestSeq) {
+return;
+}
+
         result.value = data;
     } catch (raw) {
-        if (seq !== requestSeq) return;
+        if (seq !== requestSeq) {
+return;
+}
+
         const e = raw as ApiError<ValidationErrorBody & NotFoundBody>;
+
         if (e.status === 422) {
             errorMessage.value = e.data?.errors?.kenteken?.[0] ?? 'Ongeldig kenteken-formaat.';
         } else if (e.status === 404) {
@@ -187,12 +211,17 @@ async function performRecalc() {
             errorMessage.value = 'Er ging iets mis bij het ophalen van de gegevens. Probeer het opnieuw.';
         }
     } finally {
-        if (seq === requestSeq) loading.value = false;
+        if (seq === requestSeq) {
+loading.value = false;
+}
     }
 }
 
 function scheduleRecalc() {
-    if (recalcTimer) clearTimeout(recalcTimer);
+    if (recalcTimer) {
+clearTimeout(recalcTimer);
+}
+
     recalcTimer = setTimeout(() => {
         recalcTimer = null;
         performRecalc();
@@ -205,6 +234,7 @@ function flushRecalc() {
         clearTimeout(recalcTimer);
         recalcTimer = null;
     }
+
     performRecalc();
 }
 
@@ -214,7 +244,9 @@ watch(
 );
 
 onBeforeUnmount(() => {
-    if (recalcTimer) clearTimeout(recalcTimer);
+    if (recalcTimer) {
+clearTimeout(recalcTimer);
+}
 });
 </script>
 

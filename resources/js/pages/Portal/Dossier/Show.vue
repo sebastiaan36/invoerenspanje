@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { Head } from '@inertiajs/vue3';
-import DossierTimeline from '@/components/DossierTimeline.vue';
 import DossierTabs from '@/components/DossierTabs.vue';
+import DossierTimeline from '@/components/DossierTimeline.vue';
 
 interface Dossier {
     id: number;
@@ -37,8 +37,12 @@ function formatEuro(v: number | null): string {
     return v == null ? '—' : euroFormatter.format(v);
 }
 function formatDate(iso: string | null): string {
-    if (!iso) return '—';
+    if (!iso) {
+return '—';
+}
+
     const d = new Date(iso);
+
     return Number.isNaN(d.getTime()) ? '—' : dateFormatter.format(d);
 }
 </script>

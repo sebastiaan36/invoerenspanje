@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { computed } from 'vue';
 import { TrendingUp, TrendingDown, MinusCircle } from 'lucide-vue-next';
+import { computed } from 'vue';
 
 const props = defineProps<{
     netEffectEur: number;
@@ -23,14 +23,26 @@ const signedEuroFormatter = new Intl.NumberFormat('nl-NL', {
 });
 
 const tone = computed<'positive' | 'negative' | 'neutral'>(() => {
-    if (props.netEffectEur > 0) return 'positive';
-    if (props.netEffectEur < 0) return 'negative';
+    if (props.netEffectEur > 0) {
+return 'positive';
+}
+
+    if (props.netEffectEur < 0) {
+return 'negative';
+}
+
     return 'neutral';
 });
 
 const headline = computed(() => {
-    if (tone.value === 'positive') return 'Je houdt naar verwachting geld over';
-    if (tone.value === 'negative') return 'Verwachte netto-kosten van de export';
+    if (tone.value === 'positive') {
+return 'Je houdt naar verwachting geld over';
+}
+
+    if (tone.value === 'negative') {
+return 'Verwachte netto-kosten van de export';
+}
+
     return 'Verwacht netto-resultaat: gelijk gespeeld';
 });
 
@@ -38,12 +50,15 @@ const tagline = computed(() => {
     if (tone.value === 'positive') {
         return 'De BPM-teruggave is groter dan de Spaanse import-kosten.';
     }
+
     if (tone.value === 'negative' && !props.bpmEligible) {
         return 'Voor deze auto is geen BPM-teruggave mogelijk; de Spaanse import-kosten resteren.';
     }
+
     if (tone.value === 'negative') {
         return 'De Spaanse import-kosten zijn hoger dan de BPM-teruggave.';
     }
+
     return 'BPM-teruggave en Spaanse kosten vallen tegen elkaar weg.';
 });
 </script>

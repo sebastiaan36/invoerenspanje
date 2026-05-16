@@ -1,5 +1,6 @@
 function xsrfTokenFromCookie(): string {
     const match = document.cookie.match(/(?:^|;\s*)XSRF-TOKEN=([^;]+)/);
+
     return match ? decodeURIComponent(match[1]) : '';
 }
 
@@ -26,6 +27,7 @@ export async function postJson<TResponse, TBody = unknown>(
     body: TBody,
 ): Promise<TResponse> {
     let response: Response;
+
     try {
         response = await fetch(url, {
             method: 'POST',
@@ -43,6 +45,7 @@ export async function postJson<TResponse, TBody = unknown>(
             network: true,
             message: e instanceof Error ? e.message : 'Onbekende netwerkfout',
         };
+
         throw err;
     }
 
@@ -50,6 +53,7 @@ export async function postJson<TResponse, TBody = unknown>(
 
     if (!response.ok) {
         const err: ApiError = { status: response.status, data };
+
         throw err;
     }
 
