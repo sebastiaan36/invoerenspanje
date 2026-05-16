@@ -35,6 +35,10 @@ return [
         ],
     ],
 
+    'internal_notifications' => [
+        'email' => env('INTERNAL_NOTIFICATIONS_EMAIL', 'info@autoinvoerenspanje.nl'),
+    ],
+
     'rdw' => [
         'vehicle_endpoint' => env('RDW_VEHICLE_ENDPOINT', 'https://opendata.rdw.nl/resource/m9d7-ebf2.json'),
         'fuel_endpoint' => env('RDW_FUEL_ENDPOINT', 'https://opendata.rdw.nl/resource/8ys7-d773.json'),

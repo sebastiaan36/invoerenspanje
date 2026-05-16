@@ -9,8 +9,9 @@ import AppLogoIcon from '@/components/AppLogoIcon.vue';
         <AppLogoIcon class="size-5 fill-current text-white dark:text-black" />
     </div>
     <div class="ml-1 grid flex-1 text-left text-sm">
-        <span class="mb-0.5 truncate leading-tight font-semibold"
-            >Laravel Starter Kit</span
-        >
+        <span class="mb-0.5 truncate font-display leading-tight font-semibold">
+            autoinvoeren<span class="text-accent">spanje</span>.nl
+        </span>
+        <span class="truncate text-xs text-muted-foreground">Klantportaal</span>
     </div>
 </template>

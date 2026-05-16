@@ -80,7 +80,7 @@ const tagline = computed(() => {
         </div>
 
         <div
-            class="mt-6 font-display text-5xl font-semibold tabular-nums md:text-6xl"
+            class="mt-6 font-display text-4xl font-semibold tabular-nums sm:text-5xl md:text-6xl"
             :class="{
                 'text-success': tone === 'positive',
                 'text-accent': tone === 'negative',

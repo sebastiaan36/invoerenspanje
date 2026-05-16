@@ -19,9 +19,9 @@ class AuthenticationTest extends TestCase
         $response->assertOk();
     }
 
-    public function test_users_can_authenticate_using_the_login_screen()
+    public function test_klant_users_are_redirected_to_portaal_after_login()
     {
-        $user = User::factory()->create();
+        $user = User::factory()->create(['role' => 'klant']);
 
         $response = $this->post(route('login.store'), [
             'email' => $user->email,
@@ -29,7 +29,20 @@ class AuthenticationTest extends TestCase
         ]);
 
         $this->assertAuthenticated();
-        $response->assertRedirect(route('dashboard', absolute: false));
+        $response->assertRedirect('/portaal');
+    }
+
+    public function test_admin_users_are_redirected_to_admin_panel_after_login()
+    {
+        $user = User::factory()->create(['role' => 'admin']);
+
+        $response = $this->post(route('login.store'), [
+            'email' => $user->email,
+            'password' => 'password',
+        ]);
+
+        $this->assertAuthenticated();
+        $response->assertRedirect('/admin');
     }
 
     public function test_users_with_two_factor_enabled_are_redirected_to_two_factor_challenge()

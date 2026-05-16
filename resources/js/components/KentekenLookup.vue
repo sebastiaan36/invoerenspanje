@@ -1,10 +1,24 @@
 <script setup lang="ts">
-import { ref } from 'vue';
-import { Loader2, Search, AlertCircle, Info, AlertTriangle } from 'lucide-vue-next';
+import { ref, computed, watch, onBeforeUnmount } from 'vue';
+import { usePage } from '@inertiajs/vue3';
+import { Loader2, AlertCircle, Info, AlertTriangle, HelpCircle } from 'lucide-vue-next';
 import { Button } from '@/components/ui/button';
+import { Checkbox } from '@/components/ui/checkbox';
+import { Label } from '@/components/ui/label';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { postJson, type ApiError } from '@/lib/api';
 import ImportCostsCard from '@/components/ImportCostsCard.vue';
 import NetEffectBlock from '@/components/NetEffectBlock.vue';
+import ResidencyExemptionHighlight from '@/components/ResidencyExemptionHighlight.vue';
+import PackageSelector, { type ServicePackage } from '@/components/PackageSelector.vue';
+import TotalSummary from '@/components/TotalSummary.vue';
+import QuoteRequestForm from '@/components/QuoteRequestForm.vue';
+
+type ResidencyChoice = '' | 'permanent' | 'second_home' | 'other';
+
+// TODO: maak hier een dropdown van zodra we Costa Brava (Cataluña) of
+// Costa Blanca (Valencia) ondersteunen — die hebben afwijkende IEDMT-tarieven.
+const DEFAULT_AUTONOMIA = 'costa_del_sol';
 
 interface BpmPayload {
     is_eligible: boolean;
@@ -19,6 +33,7 @@ interface BpmPayload {
 
 interface ImportCostsPayload {
     iedmt_eur: number;
+    iedmt_without_exemption_eur: number;
     iedmt_rate_pct: number;
     iedmt_exempt: boolean;
     iedmt_exempt_reason: string | null;
@@ -64,6 +79,43 @@ const loading = ref(false);
 const errorMessage = ref<string | null>(null);
 const result = ref<VehicleResponse | null>(null);
 
+const residencyChoice = ref<ResidencyChoice>('');
+const ownershipConfirmed = ref(false);
+const autonomia = ref(DEFAULT_AUTONOMIA);
+
+const residencyChange = computed(
+    () => residencyChoice.value === 'permanent' && ownershipConfirmed.value,
+);
+
+const co2 = computed<number | null>(() => result.value?.fuel?.co2_gecombineerd ?? null);
+
+// Vragen alleen tonen wanneer er daadwerkelijk IEDMT wordt geheven —
+// anders heeft de vrijstelling geen effect en is de vraag verwarrend.
+// CO2 = 120 zit precies in de 0%-schijf, dus 'co2 >= 120' was te ruim.
+const showResidencyControls = computed(() => {
+    const rate = result.value?.import_costs?.iedmt_rate_pct;
+    return typeof rate === 'number' && rate > 0;
+});
+
+const iedmtSavings = computed<number>(() => {
+    const ic = result.value?.import_costs;
+    if (!ic) return 0;
+    return Math.max(0, ic.iedmt_without_exemption_eur - ic.iedmt_eur);
+});
+
+const showExemptionHighlight = computed(
+    () => result.value?.import_costs?.iedmt_exempt === true && iedmtSavings.value > 0,
+);
+
+const page = usePage<{ packages: ServicePackage[] }>();
+const packages = computed<ServicePackage[]>(() => page.props.packages ?? []);
+const selectedPackage = ref<string | null>(null);
+
+const selectedPackageData = computed<ServicePackage | null>(() => {
+    if (!selectedPackage.value) return null;
+    return packages.value.find((p) => p.slug === selectedPackage.value) ?? null;
+});
+
 const euroFormatter = new Intl.NumberFormat('nl-NL', {
     style: 'currency',
     currency: 'EUR',
@@ -86,40 +138,91 @@ function formatDate(iso: string | null): string {
     return Number.isNaN(date.getTime()) ? '—' : dateFormatter.format(date);
 }
 
-function reset() {
-    errorMessage.value = null;
-    result.value = null;
+// Lokale check zodat we de RDW niet bestoken tijdens typen — spiegelt
+// `KentekenNormalizer::isValidFormat` op de backend.
+function isLikelyValidKenteken(input: string): boolean {
+    const normalized = input.replace(/[\s-]+/g, '').toUpperCase();
+    return /^[A-Z0-9]{5,8}$/.test(normalized)
+        && /[A-Z]/.test(normalized)
+        && /[0-9]/.test(normalized);
 }
 
-async function submit() {
+let recalcTimer: ReturnType<typeof setTimeout> | null = null;
+// Monotonic seq beschermt tegen out-of-order responses: alleen het
+// resultaat van de laatste fetch wordt toegepast.
+let requestSeq = 0;
+
+async function performRecalc() {
     const trimmed = kenteken.value.trim();
-    if (!trimmed || loading.value) return;
+
+    if (!isLikelyValidKenteken(trimmed)) {
+        // Onvolledig of ongeldig formaat — stille reset; geen errors tijdens typen.
+        result.value = null;
+        errorMessage.value = null;
+        loading.value = false;
+        return;
+    }
 
     loading.value = true;
-    reset();
+    errorMessage.value = null;
+    const seq = ++requestSeq;
 
     try {
-        result.value = await postJson<VehicleResponse>('/api/lookup', { kenteken: trimmed });
+        const data = await postJson<VehicleResponse>('/api/lookup', {
+            kenteken: trimmed,
+            residency_change: residencyChange.value,
+            autonomia: autonomia.value,
+        });
+        if (seq !== requestSeq) return;
+        result.value = data;
     } catch (raw) {
+        if (seq !== requestSeq) return;
         const e = raw as ApiError<ValidationErrorBody & NotFoundBody>;
         if (e.status === 422) {
             errorMessage.value = e.data?.errors?.kenteken?.[0] ?? 'Ongeldig kenteken-formaat.';
         } else if (e.status === 404) {
             errorMessage.value = e.data?.message ?? 'Geen voertuig gevonden bij dit kenteken.';
+            result.value = null;
         } else {
             errorMessage.value = 'Er ging iets mis bij het ophalen van de gegevens. Probeer het opnieuw.';
         }
     } finally {
-        loading.value = false;
+        if (seq === requestSeq) loading.value = false;
     }
 }
+
+function scheduleRecalc() {
+    if (recalcTimer) clearTimeout(recalcTimer);
+    recalcTimer = setTimeout(() => {
+        recalcTimer = null;
+        performRecalc();
+    }, 300);
+}
+
+// Enter-toets in de input → meteen uitvoeren in plaats van wachten op debounce.
+function flushRecalc() {
+    if (recalcTimer) {
+        clearTimeout(recalcTimer);
+        recalcTimer = null;
+    }
+    performRecalc();
+}
+
+watch(
+    [kenteken, residencyChoice, ownershipConfirmed, autonomia],
+    () => scheduleRecalc(),
+);
+
+onBeforeUnmount(() => {
+    if (recalcTimer) clearTimeout(recalcTimer);
+});
 </script>
 
 <template>
     <div class="w-full">
         <form
             class="flex items-stretch overflow-hidden rounded-2xl border border-border bg-card shadow-sm focus-within:ring-2 focus-within:ring-ring/40"
-            @submit.prevent="submit"
+            @submit.prevent="flushRecalc"
         >
             <div
                 class="flex items-center bg-[#003399] px-3 text-[10px] font-bold uppercase tracking-widest text-white"
@@ -134,23 +237,112 @@ async function submit() {
                 spellcheck="false"
                 placeholder="Voer je kenteken in (bv. 12-ABC-3)"
                 class="flex-1 bg-card px-4 py-4 font-display text-2xl tracking-wider text-foreground placeholder:text-base placeholder:font-sans placeholder:font-normal placeholder:tracking-normal placeholder:text-muted-foreground focus:outline-none"
-                :disabled="loading"
             />
-            <Button
-                type="submit"
-                size="lg"
-                class="m-2 rounded-xl bg-accent text-accent-foreground hover:bg-accent/90"
-                :disabled="loading || !kenteken.trim()"
+            <div
+                class="flex w-12 items-center justify-center pr-2 text-muted-foreground"
+                aria-live="polite"
             >
-                <Loader2 v-if="loading" class="size-4 animate-spin" />
-                <Search v-else class="size-4" />
-                {{ loading ? 'Ophalen…' : 'Bekijk indicatie' }}
-            </Button>
+                <Loader2 v-if="loading" class="size-5 animate-spin text-accent" aria-label="Bezig met ophalen" />
+            </div>
         </form>
 
         <p class="mt-3 text-xs text-muted-foreground">
-            Gegevens komen rechtstreeks bij de RDW vandaan. Streepjes en spaties mag je weglaten.
+            Gegevens komen rechtstreeks bij de RDW vandaan. De berekening werkt
+            mee zodra je typt — streepjes en spaties mag je weglaten.
         </p>
+
+        <!-- Residency vragen — alleen tonen na een geslaagde lookup en als CO2 >= 120 g/km. -->
+        <section
+            v-if="showResidencyControls"
+            class="mt-6 rounded-2xl border border-border bg-card p-6 shadow-sm"
+        >
+            <header>
+                <div class="text-xs font-semibold uppercase tracking-wider text-accent">
+                    Voor een nauwkeuriger indicatie
+                </div>
+                <h3 class="mt-1 font-display text-xl font-semibold text-foreground">
+                    Hoe ziet uw situatie in Spanje eruit?
+                </h3>
+                <p class="mt-1 text-sm text-muted-foreground">
+                    Bij verhuizing van uw vaste verblijfplaats naar Spanje is
+                    IEDMT-vrijstelling vaak mogelijk — wij passen de berekening
+                    direct aan zodra u kiest.
+                </p>
+            </header>
+
+            <fieldset class="mt-5 space-y-3">
+                <legend class="sr-only">Uw situatie in Spanje</legend>
+
+                <label
+                    v-for="option in [
+                        { value: 'permanent', label: 'Ik verhuis permanent naar Spanje' },
+                        { value: 'second_home', label: 'Ik heb een tweede woning in Spanje, hoofdverblijf blijft Nederland' },
+                        { value: 'other', label: 'Anders of weet ik nog niet' },
+                    ]"
+                    :key="option.value"
+                    class="group flex min-h-[3.25rem] cursor-pointer items-center gap-3 rounded-xl border border-border bg-background p-4 transition-colors hover:bg-muted has-[:checked]:border-accent has-[:checked]:bg-accent/5 has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-accent/40"
+                >
+                    <input
+                        v-model="residencyChoice"
+                        type="radio"
+                        name="residency_choice"
+                        :value="option.value"
+                        class="peer sr-only"
+                    />
+                    <span
+                        class="flex size-5 shrink-0 items-center justify-center rounded-full border-2 border-border transition-colors group-hover:border-muted-foreground peer-checked:border-accent"
+                        aria-hidden="true"
+                    >
+                        <span
+                            class="size-2.5 rounded-full bg-accent opacity-0 transition-opacity peer-checked:opacity-100"
+                        />
+                    </span>
+                    <span class="text-sm font-medium text-foreground">{{ option.label }}</span>
+                </label>
+            </fieldset>
+
+            <div
+                v-if="residencyChoice === 'permanent'"
+                class="mt-4 flex items-start gap-3 rounded-xl border border-accent/30 bg-accent/5 p-4"
+            >
+                <Checkbox
+                    id="ownership-confirmed"
+                    :model-value="ownershipConfirmed"
+                    @update:model-value="(v) => (ownershipConfirmed = v === true)"
+                    class="mt-0.5"
+                />
+                <div class="flex-1">
+                    <Label for="ownership-confirmed" class="flex items-center gap-1.5 font-medium text-foreground">
+                        De auto staat al meer dan 6 maanden op mijn naam
+                        <TooltipProvider :delay-duration="150">
+                            <Tooltip>
+                                <TooltipTrigger as-child>
+                                    <button
+                                        type="button"
+                                        class="-m-1 inline-flex size-8 items-center justify-center rounded-full text-muted-foreground transition-colors hover:bg-muted hover:text-foreground focus-visible:bg-muted focus-visible:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/50"
+                                        aria-label="Meer informatie over de 6-maanden eigenaarsplicht"
+                                    >
+                                        <HelpCircle class="size-4" />
+                                    </button>
+                                </TooltipTrigger>
+                                <TooltipContent class="max-w-xs">
+                                    Dit is een wettelijke voorwaarde voor de IEDMT-vrijstelling.
+                                    Bewijs (RDW-uittreksel) wordt later in het traject opgevraagd.
+                                </TooltipContent>
+                            </Tooltip>
+                        </TooltipProvider>
+                    </Label>
+                    <p class="mt-1 text-xs text-muted-foreground">
+                        Zelfdeclaratie — kan door ons later geverifieerd worden bij de
+                        offerte-aanvraag.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Hidden region field. TODO: omzetten naar dropdown bij uitbreiding
+                 naar Costa Brava (Cataluña) of Costa Blanca (Valencia). -->
+            <input type="hidden" name="autonomia" :value="autonomia" />
+        </section>
 
         <!-- ERROR -->
         <div
@@ -163,7 +355,12 @@ async function submit() {
         </div>
 
         <!-- RESULT -->
-        <div v-if="result?.found" class="mt-6 space-y-6">
+        <div v-if="result?.found" class="mt-6 space-y-6 md:mt-8 md:space-y-8">
+            <ResidencyExemptionHighlight
+                v-if="showExemptionHighlight"
+                :iedmt-savings-eur="iedmtSavings"
+            />
+
             <!-- Net effect summary on top -->
             <NetEffectBlock
                 v-if="result.import_costs && result.net_effect_eur !== null"
@@ -322,8 +519,34 @@ async function submit() {
             <ImportCostsCard
                 v-if="result.import_costs"
                 :import-costs="result.import_costs"
+                :co2="co2"
             />
             </div>
+
+            <PackageSelector
+                v-if="packages.length > 0"
+                :packages="packages"
+                v-model:selected="selectedPackage"
+            />
+
+            <TotalSummary
+                v-if="selectedPackageData && result.import_costs"
+                :selected-package="selectedPackageData"
+                :import-total-eur="result.import_costs.total_eur"
+                :bpm-eligible="result.bpm?.is_eligible ?? false"
+                :bpm-rest-eur="result.bpm?.rest_bpm_eur ?? 0"
+            />
+
+            <QuoteRequestForm
+                v-if="selectedPackageData && result.import_costs"
+                :kenteken="result.kenteken"
+                :selected-package="selectedPackageData"
+                :import-total-eur="result.import_costs.total_eur"
+                :bpm-eligible="result.bpm?.is_eligible ?? false"
+                :bpm-rest-eur="result.bpm?.rest_bpm_eur ?? 0"
+                :residency-change="residencyChange"
+                :autonomia="autonomia"
+            />
         </div>
     </div>
 </template>

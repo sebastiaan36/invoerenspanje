@@ -78,6 +78,34 @@ final class LookupControllerTest extends TestCase
         $response->assertOk()
             ->assertJsonPath('import_costs.iedmt_exempt', true)
             ->assertJsonPath('import_costs.iedmt_eur', 0);
+
+        // De controller hoort de baseline mee te leveren voor de savings-highlight.
+        $withoutExemption = $response->json('import_costs.iedmt_without_exemption_eur');
+        $this->assertGreaterThan(0.0, $withoutExemption);
+    }
+
+    public function test_iedmt_without_exemption_equals_iedmt_when_residency_change_is_false(): void
+    {
+        Http::fake([
+            'opendata.rdw.nl/resource/m9d7-ebf2.json*' => Http::response([[
+                'kenteken' => '12ABC3',
+                'merk' => 'VOLKSWAGEN',
+                'datum_eerste_toelating' => '20190401',
+                'catalogusprijs' => '31500',
+            ]]),
+            'opendata.rdw.nl/resource/8ys7-d773.json*' => Http::response([[
+                'kenteken' => '12ABC3',
+                'brandstof_omschrijving' => 'Benzine',
+                'co2_uitstoot_gecombineerd' => '180',
+            ]]),
+        ]);
+
+        $response = $this->postJson(route('api.lookup'), ['kenteken' => '12-abc-3']);
+
+        $response->assertOk();
+        $iedmt = $response->json('import_costs.iedmt_eur');
+        $baseline = $response->json('import_costs.iedmt_without_exemption_eur');
+        $this->assertSame($iedmt, $baseline);
     }
 
     public function test_commercial_vehicle_lookup_includes_classification_note(): void

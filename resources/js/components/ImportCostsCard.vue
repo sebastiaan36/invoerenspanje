@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { Info, AlertTriangle, BadgeCheck } from 'lucide-vue-next';
+import { computed } from 'vue';
+import { Info, AlertTriangle, BadgeCheck, Leaf } from 'lucide-vue-next';
 
 interface FixedCost {
     key: string;
@@ -20,9 +21,17 @@ interface ImportCostsPayload {
     notes: string[];
 }
 
-defineProps<{
+const props = defineProps<{
     importCosts: ImportCostsPayload;
+    co2: number | null;
 }>();
+
+// Banner verschijnt zodra het tarief 0% is zonder dat er een exemption
+// is toegepast — dat dekt zowel CO2 < 120 als CO2 = 120 (beide vallen in
+// de 0%-schijf).
+const isBelowThreshold = computed(
+    () => props.importCosts.iedmt_rate_pct === 0 && !props.importCosts.iedmt_exempt,
+);
 
 const euroFormatter = new Intl.NumberFormat('nl-NL', {
     style: 'currency',
@@ -42,6 +51,17 @@ function formatEuro(value: number): string {
         </div>
         <div class="mt-1 font-display text-3xl font-semibold text-foreground">
             {{ formatEuro(importCosts.total_eur) }}
+        </div>
+
+        <div
+            v-if="isBelowThreshold"
+            class="mt-4 flex items-start gap-2 rounded-xl border border-success/30 bg-success/10 p-3 text-xs text-foreground"
+        >
+            <Leaf class="mt-0.5 size-4 shrink-0 text-success" />
+            <p>
+                <strong>Geen Spaanse registratiebelasting verschuldigd:</strong>
+                uw auto valt onder de 120 g/km drempel.
+            </p>
         </div>
 
         <dl class="mt-5 space-y-3 text-sm">

@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Services\Packages\ServicePackages;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 
@@ -42,6 +43,14 @@ class HandleInertiaRequests extends Middleware
                 'user' => $request->user(),
             ],
             'sidebarOpen' => ! $request->hasCookie('sidebar_state') || $request->cookie('sidebar_state') === 'true',
+            'packages' => fn () => ServicePackages::toSharedArray(),
+            'flash' => [
+                'success' => fn () => $request->session()->get('success'),
+                'error' => fn () => $request->session()->get('error'),
+            ],
+            'portal' => fn () => $request->user()?->isKlant()
+                ? ['unreadMessages' => $request->user()->unreadAdminMessagesCount()]
+                : null,
         ];
     }
 }

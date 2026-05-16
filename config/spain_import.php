@@ -42,8 +42,19 @@ return [
             ],
         ],
 
-        // TODO: Canarias, Ceuta/Melilla, eventueel La Rioja
-        // 'canarias' => [...],
+        // Costa del Sol valt in Andalucía, dat de landelijke tarieven volgt.
+        // Dit is voor nu de enige geactiveerde regio in de UI.
+        // TODO: bij uitbreiding naar Costa Brava (Cataluña) of Costa Blanca
+        // (Valencia) extra entries toevoegen — daar geldt 16% in de hoogste schijf.
+        'costa_del_sol' => [
+            'label' => 'Costa del Sol (Andalucía) — landelijke tarieven',
+            'iedmt_brackets' => [
+                ['co2_max_g_per_km' => 120,  'rate_pct' => 0.0],
+                ['co2_max_g_per_km' => 159,  'rate_pct' => 4.75],
+                ['co2_max_g_per_km' => 199,  'rate_pct' => 9.75],
+                ['co2_max_g_per_km' => null, 'rate_pct' => 14.75],
+            ],
+        ],
     ],
 
     /*

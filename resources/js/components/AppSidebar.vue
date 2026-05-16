@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { Link } from '@inertiajs/vue3';
-import { BookOpen, FolderGit2, LayoutGrid } from 'lucide-vue-next';
+import { computed } from 'vue';
+import { Link, usePage } from '@inertiajs/vue3';
+import { LayoutGrid, UserCircle } from 'lucide-vue-next';
 import AppLogo from '@/components/AppLogo.vue';
-import NavFooter from '@/components/NavFooter.vue';
 import NavMain from '@/components/NavMain.vue';
 import NavUser from '@/components/NavUser.vue';
 import {
@@ -14,29 +14,23 @@ import {
     SidebarMenuButton,
     SidebarMenuItem,
 } from '@/components/ui/sidebar';
-import { dashboard } from '@/routes';
 import type { NavItem } from '@/types';
 
-const mainNavItems: NavItem[] = [
-    {
-        title: 'Dashboard',
-        href: dashboard(),
-        icon: LayoutGrid,
-    },
-];
+const page = usePage<{ portal?: { unreadMessages: number } | null }>();
+const unreadMessages = computed(() => page.props.portal?.unreadMessages ?? 0);
 
-const footerNavItems: NavItem[] = [
+// Multi-dossier: een klant kan meerdere dossiers hebben. Per-dossier nav
+// (overzicht / documenten / berichten) leeft binnen de dossier-tabs zelf.
+// De sidebar blijft account-breed.
+const mainNavItems = computed<NavItem[]>(() => [
     {
-        title: 'Repository',
-        href: 'https://github.com/laravel/vue-starter-kit',
-        icon: FolderGit2,
+        title: 'Mijn dossiers',
+        href: '/portaal',
+        icon: LayoutGrid,
+        ...(unreadMessages.value > 0 ? { badge: String(unreadMessages.value) } : {}),
     },
-    {
-        title: 'Documentation',
-        href: 'https://laravel.com/docs/starter-kits#vue',
-        icon: BookOpen,
-    },
-];
+    { title: 'Profiel', href: '/settings/profile', icon: UserCircle },
+]);
 </script>
 
 <template>
@@ -45,7 +39,7 @@ const footerNavItems: NavItem[] = [
             <SidebarMenu>
                 <SidebarMenuItem>
                     <SidebarMenuButton size="lg" as-child>
-                        <Link :href="dashboard()">
+                        <Link href="/portaal">
                             <AppLogo />
                         </Link>
                     </SidebarMenuButton>
@@ -58,7 +52,6 @@ const footerNavItems: NavItem[] = [
         </SidebarContent>
 
         <SidebarFooter>
-            <NavFooter :items="footerNavItems" />
             <NavUser />
         </SidebarFooter>
     </Sidebar>
