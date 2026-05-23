@@ -114,7 +114,7 @@ const values = [
                         :class="member.accent ? 'border-accent/40' : 'border-border'"
                     >
                         <!-- Foto bovenaan -->
-                        <div class="h-72 w-full overflow-hidden bg-muted">
+                        <div class="h-96 w-full overflow-hidden bg-muted">
                             <img
                                 v-if="member.photo"
                                 :src="member.photo"
