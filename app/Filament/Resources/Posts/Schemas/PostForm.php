@@ -7,7 +7,7 @@ namespace App\Filament\Resources\Posts\Schemas;
 use App\Models\Post;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\FileUpload;
-use Filament\Forms\Components\MarkdownEditor;
+use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
@@ -48,8 +48,8 @@ class PostForm
                             ->helperText('Wordt getoond in de blog-overzichtspagina en in social-share previews.')
                             ->columnSpanFull(),
 
-                        MarkdownEditor::make('content_markdown')
-                            ->label('Inhoud (markdown)')
+                        RichEditor::make('content_html')
+                            ->label('Inhoud')
                             ->required()
                             ->fileAttachmentsDisk('public')
                             ->fileAttachmentsDirectory('blog/attachments')

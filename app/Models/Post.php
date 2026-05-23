@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Carbon\CarbonInterface;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -14,10 +15,10 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property string $title
  * @property string $slug
  * @property string|null $excerpt
- * @property string $content_markdown
+ * @property string $content_html
  * @property string|null $hero_image_path
  * @property string $status
- * @property \Carbon\CarbonInterface|null $published_at
+ * @property CarbonInterface|null $published_at
  * @property int $author_id
  */
 final class Post extends Model

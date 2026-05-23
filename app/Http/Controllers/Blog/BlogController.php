@@ -7,7 +7,6 @@ namespace App\Http\Controllers\Blog;
 use App\Http\Controllers\Controller;
 use App\Models\Post;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -48,10 +47,7 @@ final class BlogController extends Controller
                 'slug' => $post->slug,
                 'title' => $post->title,
                 'excerpt' => $post->excerpt,
-                'content_html' => Str::markdown(
-                    $post->content_markdown,
-                    ['html_input' => 'strip', 'allow_unsafe_links' => false],
-                ),
+                'content_html' => $post->content_html,
                 'hero_image_url' => $post->hero_image_path
                     ? asset('storage/'.$post->hero_image_path)
                     : null,
