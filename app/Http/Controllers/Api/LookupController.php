@@ -6,6 +6,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\LookupRequest;
+use App\Models\KentekenLookup;
 use App\Services\Quote\VehicleQuoteService;
 use Illuminate\Http\JsonResponse;
 
@@ -24,6 +25,12 @@ final class LookupController extends Controller
         );
 
         if (! $quote->found()) {
+            KentekenLookup::create([
+                'kenteken' => $quote->kenteken,
+                'ip_address' => $request->ip(),
+                'page' => $request->header('Referer'),
+            ]);
+
             return response()->json([
                 'found' => false,
                 'kenteken' => $quote->kenteken,
@@ -32,6 +39,16 @@ final class LookupController extends Controller
         }
 
         $rdw = $quote->rdwSnapshot();
+
+        KentekenLookup::create([
+            'kenteken' => $quote->kenteken,
+            'merk' => $rdw['vehicle']['merk'] ?? null,
+            'model' => $rdw['vehicle']['handelsbenaming'] ?? null,
+            'bouwjaar' => isset($rdw['vehicle']['bouwjaar']) ? (int) $rdw['vehicle']['bouwjaar'] : null,
+            'brandstof' => $rdw['fuel']['brandstof_omschrijving'] ?? null,
+            'ip_address' => $request->ip(),
+            'page' => $request->header('Referer'),
+        ]);
 
         return response()->json([
             'found' => true,
