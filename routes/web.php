@@ -3,15 +3,26 @@
 use App\Http\Controllers\Api\LeadController;
 use App\Http\Controllers\Api\LookupController;
 use App\Http\Controllers\Blog\BlogController;
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\Portal\DocumentController;
 use App\Http\Controllers\Portal\MessageController;
 use App\Http\Controllers\Portal\PortalController;
+use App\Http\Controllers\SitemapController;
 use Illuminate\Support\Facades\Route;
 use Laravel\Fortify\Features;
 
 Route::inertia('/', 'Welcome', [
     'canRegister' => Features::enabled(Features::registration()),
 ])->name('home');
+
+Route::inertia('diensten', 'Diensten')->name('diensten');
+Route::inertia('over-ons', 'OverOns')->name('over-ons');
+Route::inertia('contact', 'Contact')->name('contact');
+Route::post('contact', [ContactController::class, 'store'])->middleware('throttle:5,1')->name('contact.store');
+Route::inertia('tarieven', 'Tarieven')->name('tarieven');
+Route::inertia('bpm-calculator', 'BpmCalculator')->name('bpm-calculator');
+
+Route::get('sitemap.xml', SitemapController::class)->name('sitemap');
 
 Route::get('blog', [BlogController::class, 'index'])->name('blog.index');
 Route::get('blog/{slug}', [BlogController::class, 'show'])->name('blog.show');

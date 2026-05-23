@@ -21,6 +21,7 @@ final class SpainImportCalculator
      *     fixed_costs: list<array{key: string, label: string, amount_eur: float|int}>,
      *     market_value_depreciation_table: list<array{int, int, float|int}>,
      *     exemptions: array{residency_change: array{reason: string}},
+     *     static_notes: list<string>,
      *     notes: array{commercial_vehicle: string},
      * }  $config
      */
@@ -48,7 +49,7 @@ final class SpainImportCalculator
         $fixedCosts = $this->fixedCosts();
         $fixedCostsTotal = array_sum(array_map(fn (FixedCostItem $c) => $c->amountEur, $fixedCosts));
 
-        $notes = [];
+        $notes = $this->config['static_notes'] ?? [];
         if ($this->isCommercialVehicle($input->voertuigsoort)) {
             $notes[] = $this->config['notes']['commercial_vehicle'];
         }

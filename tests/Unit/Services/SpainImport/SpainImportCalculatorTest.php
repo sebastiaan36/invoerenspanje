@@ -103,8 +103,10 @@ final class SpainImportCalculatorTest extends TestCase
 
         $result = $calculator->calculate($input, CarbonImmutable::create(2025, 1, 1));
 
-        $this->assertNotEmpty($result->notes);
-        $this->assertStringContainsString('bedrijfsauto', strtolower($result->notes[0]));
+        $this->assertTrue(
+            collect($result->notes)->contains(fn (string $note) => str_contains(strtolower($note), 'bedrijfsauto')),
+            'Expected a note mentioning bedrijfsauto for a commercial vehicle.',
+        );
     }
 
     public function test_passenger_car_does_not_get_commercial_note(): void
@@ -114,7 +116,10 @@ final class SpainImportCalculatorTest extends TestCase
 
         $result = $calculator->calculate($input, CarbonImmutable::create(2025, 1, 1));
 
-        $this->assertEmpty($result->notes);
+        $this->assertFalse(
+            collect($result->notes)->contains(fn (string $note) => str_contains(strtolower($note), 'bedrijfsauto')),
+            'Passenger car should not get the commercial vehicle note.',
+        );
     }
 
     public function test_unknown_autonomia_throws(): void

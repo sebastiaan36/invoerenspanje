@@ -30,7 +30,8 @@ final readonly class SpainImportInput
             return null;
         }
 
-        $co2 = $fuel?->co2UitstootGecombineerd ?? $fuel?->co2UitstootGewogen ?? 0;
+        // WLTP heeft prioriteit boven NEDC (co2_uitstoot_*).
+        $co2 = $fuel?->co2WltpGecombineerd ?? $fuel?->co2WltpGewogen ?? $fuel?->co2UitstootGecombineerd ?? $fuel?->co2UitstootGewogen ?? 0;
 
         return new self(
             datumEersteToelating: $vehicle->datumEersteToelating,

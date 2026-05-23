@@ -9,7 +9,6 @@ import type {ServicePackage} from '@/components/PackageSelector.vue';
 import QuoteRequestForm from '@/components/QuoteRequestForm.vue';
 import ResidencyExemptionHighlight from '@/components/ResidencyExemptionHighlight.vue';
 import TotalSummary from '@/components/TotalSummary.vue';
-import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
@@ -61,6 +60,9 @@ interface VehicleResponse {
     fuel: {
         brandstof: string | null;
         co2_gecombineerd: number | null;
+        co2_gewogen: number | null;
+        co2_wltp_gecombineerd: number | null;
+        co2_wltp_gewogen: number | null;
     } | null;
     bpm: BpmPayload | null;
     import_costs: ImportCostsPayload | null;
@@ -76,6 +78,8 @@ interface NotFoundBody {
     message?: string;
 }
 
+const props = withDefaults(defineProps<{ bpmOnly?: boolean }>(), { bpmOnly: false });
+
 const kenteken = ref('');
 const loading = ref(false);
 const errorMessage = ref<string | null>(null);
@@ -89,7 +93,13 @@ const residencyChange = computed(
     () => residencyChoice.value === 'permanent' && ownershipConfirmed.value,
 );
 
-const co2 = computed<number | null>(() => result.value?.fuel?.co2_gecombineerd ?? null);
+const co2 = computed<number | null>(
+    () =>
+        result.value?.fuel?.co2_wltp_gecombineerd ??
+        result.value?.fuel?.co2_wltp_gewogen ??
+        result.value?.fuel?.co2_gecombineerd ??
+        null,
+);
 
 // Vragen alleen tonen wanneer er daadwerkelijk IEDMT wordt geheven —
 // anders heeft de vrijstelling geen effect en is de vraag verwarrend.
@@ -116,7 +126,7 @@ const showExemptionHighlight = computed(
 
 const page = usePage<{ packages: ServicePackage[] }>();
 const packages = computed<ServicePackage[]>(() => page.props.packages ?? []);
-const selectedPackage = ref<string | null>(null);
+const selectedPackage = ref<string | null>('compleet');
 
 const selectedPackageData = computed<ServicePackage | null>(() => {
     if (!selectedPackage.value) {
@@ -285,7 +295,7 @@ clearTimeout(recalcTimer);
 
         <!-- Residency vragen — alleen tonen na een geslaagde lookup en als CO2 >= 120 g/km. -->
         <section
-            v-if="showResidencyControls"
+            v-if="showResidencyControls && !props.bpmOnly"
             class="mt-6 rounded-2xl border border-border bg-card p-6 shadow-sm"
         >
             <header>
@@ -389,13 +399,13 @@ clearTimeout(recalcTimer);
         <!-- RESULT -->
         <div v-if="result?.found" class="mt-6 space-y-6 md:mt-8 md:space-y-8">
             <ResidencyExemptionHighlight
-                v-if="showExemptionHighlight"
+                v-if="showExemptionHighlight && !props.bpmOnly"
                 :iedmt-savings-eur="iedmtSavings"
             />
 
             <!-- Net effect summary on top -->
             <NetEffectBlock
-                v-if="result.import_costs && result.net_effect_eur !== null"
+                v-if="!props.bpmOnly && result.import_costs && result.net_effect_eur !== null"
                 :net-effect-eur="result.net_effect_eur"
                 :bpm-rest-eur="result.bpm?.is_eligible ? result.bpm.rest_bpm_eur : 0"
                 :bpm-eligible="result.bpm?.is_eligible ?? false"
@@ -421,11 +431,16 @@ clearTimeout(recalcTimer);
                     <dt class="text-muted-foreground">Brandstof</dt>
                     <dd class="text-right font-medium">{{ result.fuel?.brandstof ?? '—' }}</dd>
 
-                    <dt class="text-muted-foreground">CO₂ uitstoot</dt>
+                    <dt class="text-muted-foreground">
+                        CO₂ uitstoot
+                        <span
+                            v-if="result.fuel?.co2_wltp_gecombineerd != null || result.fuel?.co2_wltp_gewogen != null"
+                            class="text-xs"
+                        >(WLTP)</span>
+                        <span v-else-if="result.fuel?.co2_gecombineerd != null" class="text-xs">(NEDC)</span>
+                    </dt>
                     <dd class="text-right font-medium">
-                        <span v-if="result.fuel?.co2_gecombineerd != null">
-                            {{ result.fuel.co2_gecombineerd }} g/km
-                        </span>
+                        <span v-if="co2 != null">{{ co2 }} g/km</span>
                         <span v-else>—</span>
                     </dd>
 
@@ -485,15 +500,6 @@ clearTimeout(recalcTimer);
                     We helpen je nog steeds graag met de Spaanse importkant: ITV-keuring,
                     permiso de circulación en alle papierwerk.
                 </p>
-                <div class="mt-auto pt-5">
-                    <Button
-                        type="button"
-                        size="lg"
-                        class="w-full bg-primary text-primary-foreground hover:bg-primary/90"
-                    >
-                        Bekijk Spaanse import-pakket
-                    </Button>
-                </div>
             </article>
 
             <article
@@ -538,31 +544,30 @@ clearTimeout(recalcTimer);
                 </div>
 
                 <div class="mt-auto pt-5">
-                    <Button
-                        type="button"
-                        size="lg"
-                        class="w-full bg-accent text-accent-foreground hover:bg-accent/90"
+                    <a
+                        href="/"
+                        class="flex w-full items-center justify-center rounded-md bg-accent px-6 py-2.5 text-sm font-medium text-accent-foreground transition-colors hover:bg-accent/90"
                     >
                         Vraag persoonlijke offerte aan
-                    </Button>
+                    </a>
                 </div>
             </article>
 
             <ImportCostsCard
-                v-if="result.import_costs"
+                v-if="!props.bpmOnly && result.import_costs"
                 :import-costs="result.import_costs"
                 :co2="co2"
             />
             </div>
 
             <PackageSelector
-                v-if="packages.length > 0"
+                v-if="!props.bpmOnly && packages.length > 0"
                 :packages="packages"
                 v-model:selected="selectedPackage"
             />
 
             <TotalSummary
-                v-if="selectedPackageData && result.import_costs"
+                v-if="!props.bpmOnly && selectedPackageData && result.import_costs"
                 :selected-package="selectedPackageData"
                 :import-total-eur="result.import_costs.total_eur"
                 :bpm-eligible="result.bpm?.is_eligible ?? false"
@@ -570,7 +575,7 @@ clearTimeout(recalcTimer);
             />
 
             <QuoteRequestForm
-                v-if="selectedPackageData && result.import_costs"
+                v-if="!props.bpmOnly && selectedPackageData && result.import_costs"
                 :kenteken="result.kenteken"
                 :selected-package="selectedPackageData"
                 :import-total-eur="result.import_costs.total_eur"

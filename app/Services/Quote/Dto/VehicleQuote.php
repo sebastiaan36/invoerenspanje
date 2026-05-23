@@ -67,6 +67,8 @@ final readonly class VehicleQuote
                 'brandstof' => $fuel->brandstofOmschrijving,
                 'co2_gecombineerd' => $fuel->co2UitstootGecombineerd,
                 'co2_gewogen' => $fuel->co2UitstootGewogen,
+                'co2_wltp_gecombineerd' => $fuel->co2WltpGecombineerd,
+                'co2_wltp_gewogen' => $fuel->co2WltpGewogen,
                 'emissiecode' => $fuel->emissiecodeOmschrijving,
             ],
         ];

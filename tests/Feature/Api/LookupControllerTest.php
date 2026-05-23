@@ -131,7 +131,10 @@ final class LookupControllerTest extends TestCase
         $response->assertOk();
         $notes = $response->json('import_costs.notes');
         $this->assertNotEmpty($notes);
-        $this->assertStringContainsString('bedrijfsauto', strtolower($notes[0]));
+        $this->assertTrue(
+            collect($notes)->contains(fn (string $note) => str_contains(strtolower($note), 'bedrijfsauto')),
+            'Expected a note mentioning bedrijfsauto for a commercial vehicle.',
+        );
     }
 
     public function test_it_marks_pre_2006_cars_as_ineligible(): void

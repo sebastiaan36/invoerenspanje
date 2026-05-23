@@ -1,6 +1,9 @@
 <script setup lang="ts">
-import { Head, Link } from '@inertiajs/vue3';
+import { Head, Link, usePage } from '@inertiajs/vue3';
+import { computed } from 'vue';
 import { home, login } from '@/routes';
+
+const currentPath = computed(() => new URL(usePage().url, 'http://x').pathname);
 
 defineProps<{
     title?: string;
@@ -53,9 +56,14 @@ const year = new Date().getFullYear();
                         v-for="item in navItems"
                         :key="item.href"
                         :href="item.href"
-                        class="transition-colors hover:text-primary"
+                        class="relative transition-colors hover:text-primary"
+                        :class="currentPath === item.href ? 'text-primary' : ''"
                     >
                         {{ item.label }}
+                        <span
+                            v-if="currentPath === item.href"
+                            class="absolute -bottom-[21px] left-0 h-0.5 w-full bg-accent"
+                        />
                     </Link>
                 </nav>
 
@@ -67,7 +75,7 @@ const year = new Date().getFullYear();
                         Inloggen
                     </Link>
                     <Link
-                        href="/contact"
+                        href="/"
                         class="rounded-xl bg-accent px-4 py-2 text-sm font-semibold text-accent-foreground shadow-sm transition-colors hover:bg-accent/90"
                     >
                         Offerte
@@ -120,7 +128,7 @@ const year = new Date().getFullYear();
                         <li>info@autoinvoerenspanje.nl</li>
                         <li>Málaga, Spanje</li>
                         <li>
-                            <Link href="/contact" class="transition-colors hover:text-accent">
+                            <Link href="/" class="transition-colors hover:text-accent">
                                 Offerte aanvragen
                             </Link>
                         </li>
