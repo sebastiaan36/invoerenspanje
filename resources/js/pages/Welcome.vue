@@ -108,7 +108,7 @@ withDefaults(
                         Het importproces lijkt op papier overzichtelijk, maar in de praktijk gaat er veel mis. Documenten die niet kloppen, een ITV die wordt afgekeurd, een IEDMT-berekening die hoger uitvalt dan verwacht, of een BPM-aanvraag die te laat wordt ingediend omdat de Spaanse inschrijving uitloopt. <strong>Eén gemiste deadline en de BPM-teruggave vervalt volledig.</strong>
                     </p>
                     <p>
-                        Wij kennen het proces van binnen en buiten. Maikel is specialist in de Spaanse kant van het traject — van de ITV tot het definitieve kentekenbewijs. Sebastiaan regelt de Nederlandse kant: de RDW-exportmelding, de BPM-aanvraag en de communicatie met de Belastingdienst. Samen zorgen we dat beide trajecten op elkaar zijn afgestemd en dat u nergens voor staat te wachten.
+                        Wij kennen het proces van binnen en buiten. Maikel is specialist in de Spaanse kant van het traject — van de ITV tot het definitieve kentekenbewijs — en regelt al het klantencontact en de afhandeling. Samen zorgen we dat beide trajecten op elkaar zijn afgestemd en dat u nergens voor staat te wachten.
                     </p>
                     <p>
                         Bekijk onze <a href="/diensten">dienstenpagina</a> voor een volledig overzicht van wat inbegrepen is, of lees op onze <a href="/over-ons">Over ons-pagina</a> meer over wie wij zijn en hoe we werken.
