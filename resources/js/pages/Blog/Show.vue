@@ -13,8 +13,18 @@ interface Post {
     author: string | null;
 }
 
+interface RelatedPost {
+    slug: string;
+    title: string;
+    excerpt: string | null;
+    hero_image_url: string | null;
+    published_at: string | null;
+    author: string | null;
+}
+
 defineProps<{
     post: Post;
+    related: RelatedPost[];
 }>();
 
 const dateFormatter = new Intl.DateTimeFormat('nl-NL', {
@@ -90,6 +100,52 @@ return '';
                     class="prose prose-lg max-w-none prose-headings:font-display prose-headings:text-foreground prose-h2:mt-12 prose-h3:mt-8 prose-p:text-foreground prose-strong:text-foreground prose-a:text-accent prose-a:font-medium hover:prose-a:underline prose-code:text-primary prose-blockquote:border-accent prose-blockquote:text-foreground"
                     v-html="post.content_html"
                 />
+            </div>
+
+            <!-- Meer artikelen -->
+            <div v-if="related.length > 0" class="border-t border-border bg-secondary/30">
+                <div class="container mx-auto max-w-5xl px-4 py-14">
+                    <h2 class="font-display text-2xl font-semibold text-foreground">
+                        Meer artikelen
+                    </h2>
+                    <div class="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                        <Link
+                            v-for="item in related"
+                            :key="item.slug"
+                            :href="`/blog/${item.slug}`"
+                            class="group flex flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-sm transition-shadow hover:shadow-md"
+                        >
+                            <div class="aspect-[16/9] w-full overflow-hidden bg-muted">
+                                <img
+                                    v-if="item.hero_image_url"
+                                    :src="item.hero_image_url"
+                                    :alt="item.title"
+                                    class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                                />
+                                <div
+                                    v-else
+                                    class="flex h-full w-full items-center justify-center bg-secondary"
+                                >
+                                    <span class="text-3xl font-bold text-accent">B</span>
+                                </div>
+                            </div>
+                            <div class="flex flex-1 flex-col p-5">
+                                <p class="text-xs text-muted-foreground">
+                                    {{ formatDate(item.published_at) }}
+                                </p>
+                                <h3 class="mt-2 font-display text-base font-semibold leading-snug text-foreground group-hover:text-accent transition-colors">
+                                    {{ item.title }}
+                                </h3>
+                                <p v-if="item.excerpt" class="mt-2 line-clamp-2 text-sm text-muted-foreground">
+                                    {{ item.excerpt }}
+                                </p>
+                                <span class="mt-4 text-xs font-semibold text-accent">
+                                    Lees verder →
+                                </span>
+                            </div>
+                        </Link>
+                    </div>
+                </div>
             </div>
 
             <!-- CTA back -->

@@ -84,6 +84,38 @@ final class BlogControllerTest extends TestCase
         $this->assertStringContainsString('<h2>Kopje</h2>', $post['content_html']);
         $this->assertStringContainsString('<strong>vetgedrukte</strong>', $post['content_html']);
         $this->assertStringContainsString('<a href="https://example.com">link</a>', $post['content_html']);
+        $this->assertArrayHasKey('related', $response->viewData('page')['props']);
+    }
+
+    public function test_show_related_excludes_current_post_and_returns_max_three(): void
+    {
+        $author = User::factory()->create();
+
+        $current = Post::create([
+            'title' => 'Huidig artikel',
+            'slug' => 'huidig-artikel',
+            'content_html' => '<p>inhoud</p>',
+            'status' => Post::STATUS_PUBLISHED,
+            'published_at' => now()->subDay(),
+            'author_id' => $author->id,
+        ]);
+
+        foreach (range(1, 4) as $i) {
+            Post::create([
+                'title' => "Artikel {$i}",
+                'slug' => "artikel-{$i}",
+                'content_html' => '<p>inhoud</p>',
+                'status' => Post::STATUS_PUBLISHED,
+                'published_at' => now()->subDays($i + 1),
+                'author_id' => $author->id,
+            ]);
+        }
+
+        $response = $this->get(route('blog.show', $current->slug));
+
+        $related = $response->viewData('page')['props']['related'];
+        $this->assertCount(3, $related);
+        $this->assertNotContains('huidig-artikel', array_column($related, 'slug'));
     }
 
     public function test_show_404s_for_draft_post(): void

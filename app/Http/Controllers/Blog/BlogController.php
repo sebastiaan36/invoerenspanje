@@ -42,6 +42,23 @@ final class BlogController extends Controller
             ->where('slug', $slug)
             ->firstOrFail();
 
+        $related = Post::published()
+            ->with('author:id,name')
+            ->where('slug', '!=', $slug)
+            ->latest('published_at')
+            ->take(3)
+            ->get()
+            ->map(fn (Post $p) => [
+                'slug' => $p->slug,
+                'title' => $p->title,
+                'excerpt' => $p->excerpt,
+                'hero_image_url' => $p->hero_image_path
+                    ? asset('storage/'.$p->hero_image_path)
+                    : null,
+                'published_at' => $p->published_at?->toIso8601String(),
+                'author' => $p->author?->name,
+            ]);
+
         return Inertia::render('Blog/Show', [
             'post' => [
                 'slug' => $post->slug,
@@ -54,6 +71,7 @@ final class BlogController extends Controller
                 'published_at' => $post->published_at?->toIso8601String(),
                 'author' => $post->author?->name,
             ],
+            'related' => $related,
         ]);
     }
 }
