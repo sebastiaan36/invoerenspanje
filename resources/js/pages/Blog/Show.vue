@@ -80,7 +80,7 @@ return '';
                 <img
                     :src="post.hero_image_url"
                     :alt="post.title"
-                    class="aspect-[16/9] w-full rounded-2xl object-cover shadow-md"
+                    class="w-full rounded-2xl shadow-md"
                 />
             </figure>
 
