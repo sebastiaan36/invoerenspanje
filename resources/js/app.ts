@@ -17,6 +17,7 @@ createInertiaApp({
             case name === 'BpmCalculator':
             case name === 'Contact':
             case name === 'OverOns':
+            case name === 'Faq':
             case name.startsWith('Blog/'):
                 return null;
             case name.startsWith('auth/'):
