@@ -18,7 +18,8 @@ final class SitemapController extends Controller
             ['url' => url('/bpm-calculator'),     'priority' => '0.8',  'changefreq' => 'monthly'],
             ['url' => url('/over-ons'),           'priority' => '0.7',  'changefreq' => 'monthly'],
             ['url' => url('/contact'),            'priority' => '0.7',  'changefreq' => 'monthly'],
-            ['url' => url('/blog'),              'priority' => '0.8',  'changefreq' => 'weekly'],
+            ['url' => url('/blog'),                   'priority' => '0.8',  'changefreq' => 'weekly'],
+            ['url' => url('/veelgestelde-vragen'),    'priority' => '0.8',  'changefreq' => 'monthly'],
         ];
 
         $posts = Post::published()

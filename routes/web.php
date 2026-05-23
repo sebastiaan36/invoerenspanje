@@ -21,6 +21,7 @@ Route::inertia('contact', 'Contact')->name('contact');
 Route::post('contact', [ContactController::class, 'store'])->middleware('throttle:5,1')->name('contact.store');
 Route::inertia('tarieven', 'Tarieven')->name('tarieven');
 Route::inertia('bpm-calculator', 'BpmCalculator')->name('bpm-calculator');
+Route::inertia('veelgestelde-vragen', 'Faq')->name('faq');
 
 Route::get('sitemap.xml', SitemapController::class)->name('sitemap');
 
