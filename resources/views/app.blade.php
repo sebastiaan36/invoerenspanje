@@ -30,6 +30,8 @@
             }
         </style>
 
+        <meta name="google-site-verification" content="aic5gyu9qRZ59JSYartIsHVi4fXWVDPLDa7ky_ioSzU" />
+
         <link rel="icon" href="/favicon.ico" sizes="any">
         <link rel="icon" href="/favicon.svg" type="image/svg+xml">
         <link rel="apple-touch-icon" href="/apple-touch-icon.png">
