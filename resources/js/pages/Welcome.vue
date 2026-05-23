@@ -19,7 +19,7 @@ withDefaults(
         description="Wij regelen het hele traject om je Nederlandse auto op Spaans kenteken te zetten — van papierwerk en BPM-teruggave tot de ITV. Voor Nederlanders aan de Costa del Sol."
     >
         <section class="relative overflow-hidden bg-background">
-            <div class="container mx-auto max-w-4xl px-4 py-16 text-center md:py-24">
+            <div class="container mx-auto max-w-6xl px-4 py-16 text-center md:py-24">
                 <span
                     class="inline-flex items-center rounded-full bg-secondary px-3 py-1 text-xs font-semibold text-secondary-foreground"
                 >
@@ -38,7 +38,7 @@ withDefaults(
                     wat je auto je oplevert.
                 </p>
 
-                <div class="mx-auto mt-10 max-w-3xl text-left">
+                <div class="mt-10 text-left">
                     <KentekenLookup />
                 </div>
 

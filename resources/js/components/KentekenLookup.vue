@@ -262,6 +262,7 @@ clearTimeout(recalcTimer);
 
 <template>
     <div class="w-full">
+        <div class="mx-auto max-w-3xl">
         <form
             class="flex items-stretch overflow-hidden rounded-2xl border border-border bg-card shadow-sm focus-within:ring-2 focus-within:ring-ring/40"
             @submit.prevent="flushRecalc"
@@ -395,6 +396,7 @@ clearTimeout(recalcTimer);
             <AlertCircle class="mt-0.5 size-5 shrink-0" />
             <div>{{ errorMessage }}</div>
         </div>
+        </div><!-- end max-w-3xl -->
 
         <!-- RESULT -->
         <div v-if="result?.found" class="mt-6 space-y-6 md:mt-8 md:space-y-8">
