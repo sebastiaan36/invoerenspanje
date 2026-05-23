@@ -20,7 +20,7 @@ final class BlogControllerTest extends TestCase
         Post::create([
             'title' => 'Concept',
             'slug' => 'concept',
-            'content_markdown' => 'wip',
+            'content_html' => '<p>wip</p>',
             'status' => Post::STATUS_DRAFT,
             'author_id' => $author->id,
         ]);
@@ -28,7 +28,7 @@ final class BlogControllerTest extends TestCase
         Post::create([
             'title' => 'Gearchiveerd',
             'slug' => 'gearchiveerd',
-            'content_markdown' => 'oud',
+            'content_html' => '<p>oud</p>',
             'status' => Post::STATUS_ARCHIVED,
             'published_at' => now()->subYear(),
             'author_id' => $author->id,
@@ -37,7 +37,7 @@ final class BlogControllerTest extends TestCase
         Post::create([
             'title' => 'Toekomstig',
             'slug' => 'toekomstig',
-            'content_markdown' => 'later',
+            'content_html' => '<p>later</p>',
             'status' => Post::STATUS_PUBLISHED,
             'published_at' => now()->addDay(),
             'author_id' => $author->id,
@@ -47,7 +47,7 @@ final class BlogControllerTest extends TestCase
             'title' => 'Live artikel',
             'slug' => 'live-artikel',
             'excerpt' => 'Korte intro',
-            'content_markdown' => 'inhoud',
+            'content_html' => '<p>inhoud</p>',
             'status' => Post::STATUS_PUBLISHED,
             'published_at' => now()->subDay(),
             'author_id' => $author->id,
@@ -61,25 +61,25 @@ final class BlogControllerTest extends TestCase
         $this->assertSame(['live-artikel'], $slugs->all());
     }
 
-    public function test_show_renders_published_post_and_compiles_markdown(): void
+    public function test_show_passes_html_content_directly(): void
     {
         $author = User::factory()->create(['name' => 'Sebastiaan']);
 
         Post::create([
-            'title' => 'Markdown rendering',
-            'slug' => 'markdown-rendering',
+            'title' => 'HTML rendering',
+            'slug' => 'html-rendering',
             'excerpt' => 'Test',
-            'content_markdown' => "## Kopje\n\nMet **vetgedrukte** tekst en een [link](https://example.com).",
+            'content_html' => '<h2>Kopje</h2><p>Met <strong>vetgedrukte</strong> tekst en een <a href="https://example.com">link</a>.</p>',
             'status' => Post::STATUS_PUBLISHED,
             'published_at' => now()->subDay(),
             'author_id' => $author->id,
         ]);
 
-        $response = $this->get(route('blog.show', 'markdown-rendering'));
+        $response = $this->get(route('blog.show', 'html-rendering'));
 
         $response->assertOk();
         $post = $response->viewData('page')['props']['post'];
-        $this->assertSame('markdown-rendering', $post['slug']);
+        $this->assertSame('html-rendering', $post['slug']);
         $this->assertSame('Sebastiaan', $post['author']);
         $this->assertStringContainsString('<h2>Kopje</h2>', $post['content_html']);
         $this->assertStringContainsString('<strong>vetgedrukte</strong>', $post['content_html']);
@@ -93,7 +93,7 @@ final class BlogControllerTest extends TestCase
         Post::create([
             'title' => 'Concept',
             'slug' => 'concept',
-            'content_markdown' => 'wip',
+            'content_html' => '<p>wip</p>',
             'status' => Post::STATUS_DRAFT,
             'author_id' => $author->id,
         ]);
@@ -106,22 +106,21 @@ final class BlogControllerTest extends TestCase
         $this->get(route('blog.show', 'bestaat-niet'))->assertNotFound();
     }
 
-    public function test_show_strips_raw_html_from_markdown(): void
+    public function test_show_returns_content_html_as_is(): void
     {
         $author = User::factory()->create();
+        $html = '<p>Eerste alinea.</p><ul><li>Item één</li><li>Item twee</li></ul>';
 
         Post::create([
-            'title' => 'XSS test',
-            'slug' => 'xss-test',
-            'content_markdown' => "Hello\n\n<script>alert('xss')</script>\n\n<p>Allowed paragraph?</p>",
+            'title' => 'HTML test',
+            'slug' => 'html-test',
+            'content_html' => $html,
             'status' => Post::STATUS_PUBLISHED,
             'published_at' => now()->subDay(),
             'author_id' => $author->id,
         ]);
 
-        $response = $this->get(route('blog.show', 'xss-test'));
-        $html = $response->viewData('page')['props']['post']['content_html'];
-        $this->assertStringNotContainsString('<script>', $html);
-        $this->assertStringNotContainsString('<p>Allowed paragraph?</p>', $html);
+        $response = $this->get(route('blog.show', 'html-test'));
+        $this->assertSame($html, $response->viewData('page')['props']['post']['content_html']);
     }
 }

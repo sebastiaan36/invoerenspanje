@@ -7,7 +7,6 @@ namespace App\Filament\Resources\Posts\Schemas;
 use App\Models\Post;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\FileUpload;
-use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
@@ -48,11 +47,12 @@ class PostForm
                             ->helperText('Wordt getoond in de blog-overzichtspagina en in social-share previews.')
                             ->columnSpanFull(),
 
-                        RichEditor::make('content_html')
-                            ->label('Inhoud')
+                        Textarea::make('content_html')
+                            ->label('Inhoud (HTML)')
                             ->required()
-                            ->fileAttachmentsDisk('public')
-                            ->fileAttachmentsDirectory('blog/attachments')
+                            ->rows(20)
+                            ->extraInputAttributes(['style' => 'font-family: monospace; font-size: 0.8rem;'])
+                            ->helperText('Plak hier je HTML-code. De blog toont de inhoud als opgemaakte tekst.')
                             ->columnSpanFull(),
                     ]),
 
