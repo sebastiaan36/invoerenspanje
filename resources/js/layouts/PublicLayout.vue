@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { Head, Link, usePage } from '@inertiajs/vue3';
-import { computed } from 'vue';
+import { Menu, X } from 'lucide-vue-next';
+import { computed, ref } from 'vue';
 import { home, login } from '@/routes';
 
 const currentPath = computed(() => new URL(usePage().url, 'http://x').pathname);
@@ -34,6 +35,11 @@ const bedrijfLinks = [
 ];
 
 const year = new Date().getFullYear();
+const mobileMenuOpen = ref(false);
+
+function closeMenu() {
+    mobileMenuOpen.value = false;
+}
 </script>
 
 <template>
@@ -76,11 +82,57 @@ const year = new Date().getFullYear();
                     </Link>
                     <Link
                         href="/"
-                        class="rounded-xl bg-accent px-4 py-2 text-sm font-semibold text-accent-foreground shadow-sm transition-colors hover:bg-accent/90"
+                        class="hidden rounded-xl bg-accent px-4 py-2 text-sm font-semibold text-accent-foreground shadow-sm transition-colors hover:bg-accent/90 sm:inline-flex"
                     >
                         Offerte
                     </Link>
+                    <!-- Hamburger -->
+                    <button
+                        type="button"
+                        class="flex items-center justify-center rounded-lg p-2 text-foreground transition-colors hover:bg-secondary md:hidden"
+                        :aria-expanded="mobileMenuOpen"
+                        aria-label="Menu openen"
+                        @click="mobileMenuOpen = !mobileMenuOpen"
+                    >
+                        <X v-if="mobileMenuOpen" class="size-5" />
+                        <Menu v-else class="size-5" />
+                    </button>
                 </div>
+            </div>
+
+            <!-- Mobile menu -->
+            <div
+                v-if="mobileMenuOpen"
+                class="border-t border-border bg-background/95 backdrop-blur md:hidden"
+            >
+                <nav class="container mx-auto flex flex-col px-4 py-4">
+                    <Link
+                        v-for="item in navItems"
+                        :key="item.href"
+                        :href="item.href"
+                        class="flex items-center border-b border-border/50 py-3.5 text-sm font-medium text-foreground/80 transition-colors hover:text-primary last:border-0"
+                        :class="currentPath === item.href ? 'text-primary' : ''"
+                        @click="closeMenu"
+                    >
+                        {{ item.label }}
+                    </Link>
+                    <div class="mt-4 flex gap-3">
+                        <Link
+                            :href="login().url"
+                            class="flex-1 rounded-xl border border-border py-2.5 text-center text-sm font-medium text-foreground transition-colors hover:bg-secondary"
+                            @click="closeMenu"
+                        >
+                            Inloggen
+                        </Link>
+                        <Link
+                            href="/"
+                            class="flex-1 rounded-xl bg-accent py-2.5 text-center text-sm font-semibold text-accent-foreground transition-colors hover:bg-accent/90"
+                            @click="closeMenu"
+                        >
+                            Offerte aanvragen
+                        </Link>
+                    </div>
+                </nav>
             </div>
         </header>
 

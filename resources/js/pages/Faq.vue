@@ -253,7 +253,7 @@ function isOpen(key: string): boolean {
                         >
                             <button
                                 type="button"
-                                class="flex w-full items-start justify-between gap-4 px-6 py-5 text-left transition-colors hover:bg-secondary/50"
+                                class="flex w-full items-start justify-between gap-3 px-4 py-4 text-left transition-colors hover:bg-secondary/50 sm:gap-4 sm:px-6 sm:py-5"
                                 @click="toggle(`${catIndex}-${itemIndex}`)"
                             >
                                 <span class="font-medium text-foreground">{{ item.question }}</span>
@@ -264,7 +264,7 @@ function isOpen(key: string): boolean {
                             </button>
                             <div
                                 v-show="isOpen(`${catIndex}-${itemIndex}`)"
-                                class="border-t border-border bg-background px-6 py-5 text-muted-foreground leading-relaxed"
+                                class="border-t border-border bg-background px-4 py-4 text-muted-foreground leading-relaxed sm:px-6 sm:py-5"
                             >
                                 {{ item.answer }}
                             </div>
@@ -273,7 +273,7 @@ function isOpen(key: string): boolean {
                 </div>
 
                 <!-- CTA -->
-                <div class="mt-4 rounded-2xl border border-border bg-card p-8 text-center">
+                <div class="mt-4 rounded-2xl border border-border bg-card p-5 text-center sm:p-8">
                     <p class="font-display text-lg font-semibold text-foreground">
                         Staat uw vraag er niet bij?
                     </p>

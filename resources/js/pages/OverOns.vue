@@ -114,7 +114,7 @@ const values = [
                         :class="member.accent ? 'border-accent/40' : 'border-border'"
                     >
                         <!-- Foto bovenaan -->
-                        <div class="h-96 w-full overflow-hidden bg-muted">
+                        <div class="h-64 w-full overflow-hidden bg-muted sm:h-80 lg:h-96">
                             <img
                                 v-if="member.photo"
                                 :src="member.photo"
@@ -131,7 +131,7 @@ const values = [
                         </div>
 
                         <!-- Tekst -->
-                        <div class="flex flex-col p-8">
+                        <div class="flex flex-col p-5 sm:p-8">
                             <div>
                                 <h3 class="font-display text-xl font-semibold text-foreground">
                                     {{ member.name }}

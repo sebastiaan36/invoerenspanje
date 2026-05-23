@@ -170,7 +170,7 @@ const extraCosts = [
                     <div
                         v-for="pkg in packages"
                         :key="pkg.slug"
-                        class="relative flex flex-col overflow-hidden rounded-2xl border bg-card p-8"
+                        class="relative flex flex-col overflow-hidden rounded-2xl border bg-card p-5 sm:p-8"
                         :class="{
                             'border-2 border-accent shadow-lg': pkg.recommended,
                             'border border-border shadow-sm': !pkg.recommended,
@@ -193,7 +193,7 @@ const extraCosts = [
                         </div>
 
                         <div class="mt-6">
-                            <span class="font-display text-5xl font-semibold tabular-nums text-accent">
+                            <span class="font-display text-4xl font-semibold tabular-nums text-accent sm:text-5xl">
                                 {{ formatEuro(pkg.price_eur) }}
                             </span>
                             <span class="ml-1 text-sm text-muted-foreground">eenmalig</span>

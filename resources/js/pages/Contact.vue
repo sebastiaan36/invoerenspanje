@@ -124,7 +124,7 @@ function submit() {
                     </div>
 
                     <!-- Rechts: formulier -->
-                    <div class="rounded-2xl border border-border bg-card p-8 shadow-sm">
+                    <div class="rounded-2xl border border-border bg-card p-5 shadow-sm sm:p-8">
                         <!-- Succes -->
                         <div
                             v-if="submitted"

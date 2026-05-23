@@ -97,7 +97,7 @@ return '';
             <!-- Body -->
             <div class="container mx-auto max-w-3xl px-4 py-12 md:py-16">
                 <div
-                    class="prose prose-lg max-w-none prose-headings:font-display prose-headings:text-foreground prose-h2:mt-12 prose-h3:mt-8 prose-p:text-foreground prose-strong:text-foreground prose-a:text-accent prose-a:font-medium hover:prose-a:underline prose-code:text-primary prose-blockquote:border-accent prose-blockquote:text-foreground"
+                    class="prose max-w-none prose-headings:font-display prose-headings:text-foreground prose-h2:mt-12 prose-h3:mt-8 prose-p:text-foreground prose-strong:text-foreground prose-a:text-accent prose-a:font-medium hover:prose-a:underline prose-code:text-primary prose-blockquote:border-accent prose-blockquote:text-foreground md:prose-lg"
                     v-html="post.content_html"
                 />
             </div>
