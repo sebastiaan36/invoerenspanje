@@ -75,9 +75,10 @@ function buildPayload() {
         package_slug: props.selectedPackage.slug,
         residency_change: props.residencyChange,
         autonomia: props.autonomia,
-        bpm_teruggave_indicatie: bpmIndicatie.value,
-        import_kosten_indicatie: props.importTotalEur,
-        totaalprijs_indicatie: totaalprijs.value,
+        // Hele euro's — de server valideert deze indicaties als integer.
+        bpm_teruggave_indicatie: Math.round(bpmIndicatie.value),
+        import_kosten_indicatie: Math.round(props.importTotalEur),
+        totaalprijs_indicatie: Math.round(totaalprijs.value),
         utm_source: utm.source,
         utm_medium: utm.medium,
         utm_campaign: utm.campaign,
