@@ -25,8 +25,20 @@ const props = defineProps<{
 }>();
 
 const tabs = computed(() => [
-    { key: 'show' as const, label: 'Overzicht', href: props.dossier.urls.show, icon: FolderOpen, badge: 0 },
-    { key: 'documents' as const, label: 'Documenten', href: props.dossier.urls.documents, icon: Files, badge: 0 },
+    {
+        key: 'show' as const,
+        label: 'Overzicht',
+        href: props.dossier.urls.show,
+        icon: FolderOpen,
+        badge: 0,
+    },
+    {
+        key: 'documents' as const,
+        label: 'Documenten',
+        href: props.dossier.urls.documents,
+        icon: Files,
+        badge: 0,
+    },
     {
         key: 'messages' as const,
         label: 'Berichten',
@@ -43,13 +55,17 @@ const tabs = computed(() => [
             <div>
                 <Link
                     href="/portaal"
-                    class="text-xs font-medium uppercase tracking-wider text-muted-foreground hover:text-primary"
+                    class="text-xs font-medium tracking-wider text-muted-foreground uppercase hover:text-primary"
                 >
                     ← Mijn dossiers
                 </Link>
-                <h1 class="mt-1 font-display text-2xl font-semibold text-foreground sm:text-3xl">
-                    {{ dossier.merk ?? 'Voertuig' }} {{ dossier.model ?? '' }}
-                    · <span class="font-mono text-accent">{{ dossier.kenteken }}</span>
+                <h1
+                    class="mt-1 font-display text-2xl font-semibold text-foreground sm:text-3xl"
+                >
+                    {{ dossier.merk ?? 'Voertuig' }} {{ dossier.model ?? '' }} ·
+                    <span class="font-mono text-accent">{{
+                        dossier.kenteken
+                    }}</span>
                 </h1>
             </div>
         </div>
@@ -60,9 +76,11 @@ const tabs = computed(() => [
                 :key="tab.key"
                 :href="tab.href"
                 class="inline-flex items-center gap-2 rounded-t-md border-b-2 px-3 py-2 text-sm font-medium transition-colors"
-                :class="active === tab.key
-                    ? 'border-accent text-foreground'
-                    : 'border-transparent text-muted-foreground hover:text-foreground hover:border-border'"
+                :class="
+                    active === tab.key
+                        ? 'border-accent text-foreground'
+                        : 'border-transparent text-muted-foreground hover:border-border hover:text-foreground'
+                "
             >
                 <component :is="tab.icon" class="size-4" />
                 {{ tab.label }}

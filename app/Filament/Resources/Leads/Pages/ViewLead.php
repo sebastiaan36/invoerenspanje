@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Leads\Pages;
 
+use App\Filament\Resources\Dossiers\DossierResource;
 use App\Filament\Resources\Leads\LeadResource;
-use App\Models\Dossier;
 use App\Models\Lead;
 use App\Services\Leads\LeadConverter;
 use Filament\Actions\Action;
@@ -55,7 +55,7 @@ class ViewLead extends ViewRecord
                 ->color('primary')
                 ->visible(fn (Lead $record): bool => $record->dossiers()->exists())
                 ->url(fn (Lead $record): ?string => ($d = $record->dossiers()->latest()->first())
-                    ? \App\Filament\Resources\Dossiers\DossierResource::getUrl('view', ['record' => $d])
+                    ? DossierResource::getUrl('view', ['record' => $d])
                     : null,
                 ),
 

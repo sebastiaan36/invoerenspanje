@@ -53,12 +53,14 @@ function onPick(e: Event) {
     const input = e.target as HTMLInputElement;
 
     if (!input.files) {
-return;
-}
+        return;
+    }
 
     form.attachments = [
         ...form.attachments,
-        ...Array.from(input.files).filter((f) => ALLOWED.test(f.name) && f.size <= MAX_BYTES),
+        ...Array.from(input.files).filter(
+            (f) => ALLOWED.test(f.name) && f.size <= MAX_BYTES,
+        ),
     ].slice(0, MAX_FILES);
     input.value = '';
 }
@@ -75,20 +77,23 @@ function submit() {
             form.reset('body', 'attachments');
 
             if (fileInput.value) {
-fileInput.value.value = '';
-}
+                fileInput.value.value = '';
+            }
         },
     });
 }
 
 const dateFormatter = new Intl.DateTimeFormat('nl-NL', {
-    day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit',
+    day: 'numeric',
+    month: 'short',
+    hour: '2-digit',
+    minute: '2-digit',
 });
 
 function formatTime(iso: string | null): string {
     if (!iso) {
-return '';
-}
+        return '';
+    }
 
     const d = new Date(iso);
 
@@ -97,12 +102,12 @@ return '';
 
 function formatBytes(bytes: number): string {
     if (bytes < 1024) {
-return `${bytes} B`;
-}
+        return `${bytes} B`;
+    }
 
     if (bytes < 1024 * 1024) {
-return `${(bytes / 1024).toFixed(1)} kB`;
-}
+        return `${(bytes / 1024).toFixed(1)} kB`;
+    }
 
     return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
 }
@@ -120,7 +125,9 @@ return `${(bytes / 1024).toFixed(1)} kB`;
                 class="flex flex-col items-center gap-3 p-12 text-center text-muted-foreground"
             >
                 <MessageSquare class="size-10" />
-                <p class="text-sm">Nog geen berichten. Stel hieronder uw vraag.</p>
+                <p class="text-sm">
+                    Nog geen berichten. Stel hieronder uw vraag.
+                </p>
             </div>
 
             <ol v-else class="divide-y divide-border">
@@ -128,22 +135,34 @@ return `${(bytes / 1024).toFixed(1)} kB`;
                     v-for="msg in messages"
                     :key="msg.id"
                     class="flex flex-col gap-2 p-5"
-                    :class="msg.author_role === 'klant' ? 'items-end' : 'items-start'"
+                    :class="
+                        msg.author_role === 'klant'
+                            ? 'items-end'
+                            : 'items-start'
+                    "
                 >
                     <div
                         v-if="msg.body"
                         class="max-w-[85%] rounded-2xl px-4 py-3"
-                        :class="msg.author_role === 'klant'
-                            ? 'bg-primary text-primary-foreground'
-                            : 'bg-muted text-foreground'"
+                        :class="
+                            msg.author_role === 'klant'
+                                ? 'bg-primary text-primary-foreground'
+                                : 'bg-muted text-foreground'
+                        "
                     >
-                        <p class="whitespace-pre-line text-sm leading-relaxed">{{ msg.body }}</p>
+                        <p class="text-sm leading-relaxed whitespace-pre-line">
+                            {{ msg.body }}
+                        </p>
                     </div>
 
                     <div
                         v-if="msg.attachments.length"
                         class="flex max-w-[85%] flex-wrap gap-2"
-                        :class="msg.author_role === 'klant' ? 'justify-end' : 'justify-start'"
+                        :class="
+                            msg.author_role === 'klant'
+                                ? 'justify-end'
+                                : 'justify-start'
+                        "
                     >
                         <template v-for="a in msg.attachments" :key="a.id">
                             <a
@@ -154,7 +173,12 @@ return `${(bytes / 1024).toFixed(1)} kB`;
                                 class="block overflow-hidden rounded-xl border border-border bg-card hover:shadow-md"
                                 :title="a.filename"
                             >
-                                <img :src="a.url" :alt="a.filename" class="block max-h-48 max-w-[16rem] object-cover" loading="lazy" />
+                                <img
+                                    :src="a.url"
+                                    :alt="a.filename"
+                                    class="block max-h-48 max-w-[16rem] object-cover"
+                                    loading="lazy"
+                                />
                             </a>
                             <a
                                 v-else
@@ -165,19 +189,26 @@ return `${(bytes / 1024).toFixed(1)} kB`;
                                 :title="a.filename"
                             >
                                 <FileText class="size-4 text-accent" />
-                                <span class="max-w-[14rem] truncate font-medium">{{ a.filename }}</span>
-                                <span class="text-xs text-muted-foreground">{{ formatBytes(a.size_bytes) }}</span>
+                                <span
+                                    class="max-w-[14rem] truncate font-medium"
+                                    >{{ a.filename }}</span
+                                >
+                                <span class="text-xs text-muted-foreground">{{
+                                    formatBytes(a.size_bytes)
+                                }}</span>
                             </a>
                         </template>
                     </div>
 
-                    <div class="flex items-center gap-2 text-xs text-muted-foreground">
+                    <div
+                        class="flex items-center gap-2 text-xs text-muted-foreground"
+                    >
                         <span class="font-medium">{{ msg.author_name }}</span>
                         <span aria-hidden="true">·</span>
                         <span>{{ formatTime(msg.created_at) }}</span>
                         <span
                             v-if="msg.author_role === 'admin'"
-                            class="rounded-full bg-accent/15 px-1.5 text-[10px] font-semibold uppercase tracking-wider text-accent"
+                            class="rounded-full bg-accent/15 px-1.5 text-[10px] font-semibold tracking-wider text-accent uppercase"
                         >
                             Uitvoerder
                         </span>
@@ -190,7 +221,9 @@ return `${(bytes / 1024).toFixed(1)} kB`;
             class="rounded-2xl border border-border bg-card p-5 shadow-sm"
             @submit.prevent="submit"
         >
-            <label for="msg-body" class="text-sm font-medium text-foreground">Stuur een bericht</label>
+            <label for="msg-body" class="text-sm font-medium text-foreground"
+                >Stuur een bericht</label
+            >
             <textarea
                 id="msg-body"
                 v-model="form.body"
@@ -199,9 +232,14 @@ return `${(bytes / 1024).toFixed(1)} kB`;
                 placeholder="Uw bericht voor de uitvoerder…"
                 required
             ></textarea>
-            <div v-if="form.errors.body" class="mt-2 text-sm text-destructive">{{ form.errors.body }}</div>
+            <div v-if="form.errors.body" class="mt-2 text-sm text-destructive">
+                {{ form.errors.body }}
+            </div>
 
-            <div v-if="form.attachments.length" class="mt-3 flex flex-wrap gap-2">
+            <div
+                v-if="form.attachments.length"
+                class="mt-3 flex flex-wrap gap-2"
+            >
                 <span
                     v-for="(file, idx) in form.attachments"
                     :key="idx"
@@ -209,7 +247,9 @@ return `${(bytes / 1024).toFixed(1)} kB`;
                 >
                     <FileText class="size-3.5 text-accent" />
                     <span class="max-w-[12rem] truncate">{{ file.name }}</span>
-                    <span class="text-muted-foreground">{{ formatBytes(file.size) }}</span>
+                    <span class="text-muted-foreground">{{
+                        formatBytes(file.size)
+                    }}</span>
                     <button
                         type="button"
                         class="rounded-full text-muted-foreground hover:text-destructive"
@@ -222,7 +262,9 @@ return `${(bytes / 1024).toFixed(1)} kB`;
             </div>
 
             <div class="mt-3 flex items-center justify-between gap-3">
-                <label class="inline-flex cursor-pointer items-center gap-1.5 rounded-xl border border-border bg-card px-3 py-2 text-xs font-medium text-foreground hover:bg-muted">
+                <label
+                    class="inline-flex cursor-pointer items-center gap-1.5 rounded-xl border border-border bg-card px-3 py-2 text-xs font-medium text-foreground hover:bg-muted"
+                >
                     <Paperclip class="size-3.5" />
                     Bijlage toevoegen
                     <input

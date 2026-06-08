@@ -19,11 +19,15 @@ defineProps<{
     dossiers: DossierSummary[];
 }>();
 
-const dateFormatter = new Intl.DateTimeFormat('nl-NL', { day: 'numeric', month: 'long', year: 'numeric' });
+const dateFormatter = new Intl.DateTimeFormat('nl-NL', {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+});
 function formatDate(iso: string | null): string {
     if (!iso) {
-return '';
-}
+        return '';
+    }
 
     const d = new Date(iso);
 
@@ -36,10 +40,16 @@ return '';
 
     <div class="space-y-6 p-6">
         <header>
-            <h1 class="font-display text-3xl font-semibold text-foreground">Mijn dossiers</h1>
+            <h1 class="font-display text-3xl font-semibold text-foreground">
+                Mijn dossiers
+            </h1>
             <p class="mt-1 text-muted-foreground">
                 Overzicht van alle voertuigen die u via ons importeert.
-                {{ dossiers.length === 1 ? 'U heeft 1 lopend dossier.' : `U heeft ${dossiers.length} dossiers.` }}
+                {{
+                    dossiers.length === 1
+                        ? 'U heeft 1 lopend dossier.'
+                        : `U heeft ${dossiers.length} dossiers.`
+                }}
             </p>
         </header>
 
@@ -49,8 +59,8 @@ return '';
         >
             <FolderPlus class="size-10 text-muted-foreground" />
             <p class="text-muted-foreground">
-                Er is nog geen dossier aan uw account gekoppeld. Zodra wij uw aanvraag
-                bevestigen, verschijnt deze hier.
+                Er is nog geen dossier aan uw account gekoppeld. Zodra wij uw
+                aanvraag bevestigen, verschijnt deze hier.
             </p>
         </section>
 
@@ -63,13 +73,21 @@ return '';
             >
                 <div class="flex items-start justify-between gap-3">
                     <div>
-                        <div class="text-xs font-semibold uppercase tracking-wider text-accent">
+                        <div
+                            class="text-xs font-semibold tracking-wider text-accent uppercase"
+                        >
                             Dossier #{{ d.id }}
                         </div>
-                        <h2 class="mt-1 font-display text-xl font-semibold text-foreground group-hover:text-accent">
+                        <h2
+                            class="mt-1 font-display text-xl font-semibold text-foreground group-hover:text-accent"
+                        >
                             {{ d.merk ?? 'Voertuig' }} {{ d.model ?? '' }}
                         </h2>
-                        <div class="mt-1 font-mono text-sm text-muted-foreground">{{ d.kenteken }}</div>
+                        <div
+                            class="mt-1 font-mono text-sm text-muted-foreground"
+                        >
+                            {{ d.kenteken }}
+                        </div>
                     </div>
                     <span
                         v-if="(d.unread_admin_messages_count ?? 0) > 0"
@@ -85,9 +103,18 @@ return '';
                     <DossierTimeline :status="d.status as any" />
                 </div>
 
-                <div class="mt-5 flex items-center justify-between text-xs text-muted-foreground">
-                    <span>Pakket: <strong class="text-foreground">{{ d.pakket }}</strong></span>
-                    <span v-if="d.created_at">aangemaakt {{ formatDate(d.created_at) }}</span>
+                <div
+                    class="mt-5 flex items-center justify-between text-xs text-muted-foreground"
+                >
+                    <span
+                        >Pakket:
+                        <strong class="text-foreground">{{
+                            d.pakket
+                        }}</strong></span
+                    >
+                    <span v-if="d.created_at"
+                        >aangemaakt {{ formatDate(d.created_at) }}</span
+                    >
                 </div>
             </Link>
         </section>

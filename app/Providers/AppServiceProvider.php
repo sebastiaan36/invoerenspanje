@@ -6,7 +6,6 @@ use App\Http\Responses\LoginResponse;
 use App\Services\Bpm\BpmCalculator;
 use App\Services\Rdw\RdwService;
 use App\Services\SpainImport\SpainImportCalculator;
-use Laravel\Fortify\Contracts\LoginResponse as LoginResponseContract;
 use Carbon\CarbonImmutable;
 use Illuminate\Contracts\Cache\Repository as CacheRepository;
 use Illuminate\Http\Client\Factory as HttpFactory;
@@ -15,6 +14,7 @@ use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Validation\Rules\Password;
+use Laravel\Fortify\Contracts\LoginResponse as LoginResponseContract;
 
 class AppServiceProvider extends ServiceProvider
 {

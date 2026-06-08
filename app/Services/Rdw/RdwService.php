@@ -62,7 +62,7 @@ final class RdwService
     }
 
     /**
-     * @return array<string, mixed>|null  cached RDW row, or null when the kenteken is not registered
+     * @return array<string, mixed>|null cached RDW row, or null when the kenteken is not registered
      */
     private function fetchRow(string $kind, string $endpoint, string $kenteken): ?array
     {

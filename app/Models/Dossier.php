@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Carbon\CarbonInterface;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -17,15 +18,15 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property string $kenteken
  * @property string|null $merk
  * @property string|null $model
- * @property \Carbon\CarbonInterface|null $datum_eerste_toelating
+ * @property CarbonInterface|null $datum_eerste_toelating
  * @property string|null $brandstof
  * @property int|null $co2
  * @property array<string, mixed>|null $rdw_data_json
  * @property string $pakket
  * @property int|null $bpm_indicatie_eur
  * @property int|null $service_fee_eur
- * @property \Carbon\CarbonInterface|null $started_at
- * @property \Carbon\CarbonInterface|null $completed_at
+ * @property CarbonInterface|null $started_at
+ * @property CarbonInterface|null $completed_at
  */
 final class Dossier extends Model
 {

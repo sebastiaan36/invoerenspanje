@@ -8,6 +8,7 @@ use App\Filament\Resources\Dossiers\Pages\ChatDossier;
 use App\Filament\Resources\Dossiers\Pages\EditDossier;
 use App\Filament\Resources\Dossiers\Pages\ListDossiers;
 use App\Filament\Resources\Dossiers\Pages\ViewDossier;
+use App\Filament\Resources\Dossiers\RelationManagers\DocumentsRelationManager;
 use App\Filament\Resources\Dossiers\Schemas\DossierForm;
 use App\Filament\Resources\Dossiers\Schemas\DossierInfolist;
 use App\Filament\Resources\Dossiers\Tables\DossiersTable;
@@ -15,6 +16,7 @@ use App\Models\Dossier;
 use BackedEnum;
 use Filament\Resources\Pages\Page;
 use Filament\Resources\Resource;
+use Filament\Schemas\Components\NavigationItem;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
@@ -66,12 +68,12 @@ class DossierResource extends Resource
     {
         // Berichten zitten nu op een eigen sub-tab (ChatDossier), niet meer in de relation manager.
         return [
-            \App\Filament\Resources\Dossiers\RelationManagers\DocumentsRelationManager::class,
+            DocumentsRelationManager::class,
         ];
     }
 
     /**
-     * @return array<int, \Filament\Schemas\Components\NavigationItem>
+     * @return array<int, NavigationItem>
      */
     public static function getRecordSubNavigation(Page $page): array
     {

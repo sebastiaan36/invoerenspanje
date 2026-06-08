@@ -37,8 +37,8 @@ const dateFormatter = new Intl.DateTimeFormat('nl-NL', {
 
 function formatDate(iso: string | null): string {
     if (!iso) {
-return '';
-}
+        return '';
+    }
 
     const d = new Date(iso);
 
@@ -49,26 +49,38 @@ return '';
 <template>
     <PublicLayout>
         <section class="bg-secondary/40">
-            <div class="container mx-auto max-w-4xl px-4 py-16 text-center md:py-20">
+            <div
+                class="container mx-auto max-w-4xl px-4 py-16 text-center md:py-20"
+            >
                 <span
                     class="inline-flex items-center rounded-full bg-card px-3 py-1 text-xs font-semibold text-secondary-foreground"
                 >
                     Blog
                 </span>
-                <h1 class="mt-5 font-display text-4xl font-semibold leading-tight text-foreground md:text-5xl">
-                    Praktische gidsen voor uw <span class="text-accent">Spaanse import</span>
+                <h1
+                    class="mt-5 font-display text-4xl leading-tight font-semibold text-foreground md:text-5xl"
+                >
+                    Praktische gidsen voor uw
+                    <span class="text-accent">Spaanse import</span>
                 </h1>
-                <p class="mx-auto mt-4 max-w-2xl text-base text-muted-foreground md:text-lg">
-                    Stappenplannen, fiscale toelichting en ervaring uit de praktijk —
-                    geschreven voor Nederlanders die hun auto naar Spanje verhuizen.
+                <p
+                    class="mx-auto mt-4 max-w-2xl text-base text-muted-foreground md:text-lg"
+                >
+                    Stappenplannen, fiscale toelichting en ervaring uit de
+                    praktijk — geschreven voor Nederlanders die hun auto naar
+                    Spanje verhuizen.
                 </p>
             </div>
         </section>
 
         <section class="container mx-auto px-4 py-12 md:py-16">
-            <div v-if="posts.data.length === 0" class="rounded-2xl border border-border bg-card p-10 text-center">
+            <div
+                v-if="posts.data.length === 0"
+                class="rounded-2xl border border-border bg-card p-10 text-center"
+            >
                 <p class="text-muted-foreground">
-                    Er zijn nog geen artikelen gepubliceerd. Kom binnenkort terug.
+                    Er zijn nog geen artikelen gepubliceerd. Kom binnenkort
+                    terug.
                 </p>
             </div>
 
@@ -78,7 +90,10 @@ return '';
                     :key="post.slug"
                     class="group flex flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md"
                 >
-                    <Link :href="`/blog/${post.slug}`" class="flex h-full flex-col">
+                    <Link
+                        :href="`/blog/${post.slug}`"
+                        class="flex h-full flex-col"
+                    >
                         <div
                             class="aspect-[16/10] w-full overflow-hidden bg-muted"
                         >
@@ -93,11 +108,15 @@ return '';
                                 v-else
                                 class="flex size-full items-center justify-center bg-gradient-to-br from-primary via-primary-light to-accent text-primary-foreground/40"
                             >
-                                <span class="font-display text-3xl">autoinvoerenspanje.nl</span>
+                                <span class="font-display text-3xl"
+                                    >autoinvoerenspanje.nl</span
+                                >
                             </div>
                         </div>
                         <div class="flex flex-1 flex-col p-6">
-                            <h2 class="font-display text-xl font-semibold text-foreground transition-colors group-hover:text-accent">
+                            <h2
+                                class="font-display text-xl font-semibold text-foreground transition-colors group-hover:text-accent"
+                            >
                                 {{ post.title }}
                             </h2>
                             <p
@@ -106,10 +125,16 @@ return '';
                             >
                                 {{ post.excerpt }}
                             </p>
-                            <div class="mt-auto flex items-center gap-2 pt-5 text-xs text-muted-foreground">
+                            <div
+                                class="mt-auto flex items-center gap-2 pt-5 text-xs text-muted-foreground"
+                            >
                                 <span>{{ formatDate(post.published_at) }}</span>
-                                <span v-if="post.author" aria-hidden="true">·</span>
-                                <span v-if="post.author">{{ post.author }}</span>
+                                <span v-if="post.author" aria-hidden="true"
+                                    >·</span
+                                >
+                                <span v-if="post.author">{{
+                                    post.author
+                                }}</span>
                             </div>
                         </div>
                     </Link>
@@ -131,9 +156,12 @@ return '';
                     v-html="link.label"
                     class="inline-flex h-9 min-w-[2.25rem] items-center justify-center rounded-md border border-border px-3 text-sm transition-colors"
                     :class="{
-                        'bg-primary text-primary-foreground border-primary': link.active,
-                        'bg-card text-foreground hover:bg-muted': !link.active && link.url,
-                        'bg-card text-muted-foreground/50 cursor-not-allowed': !link.url,
+                        'border-primary bg-primary text-primary-foreground':
+                            link.active,
+                        'bg-card text-foreground hover:bg-muted':
+                            !link.active && link.url,
+                        'cursor-not-allowed bg-card text-muted-foreground/50':
+                            !link.url,
                     }"
                 />
                 <!-- eslint-enable vue/no-v-text-v-html-on-component -->

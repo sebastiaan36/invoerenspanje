@@ -15,11 +15,21 @@ export interface NetworkError {
 }
 
 export function isNetworkError(e: unknown): e is NetworkError {
-    return typeof e === 'object' && e !== null && 'network' in e && (e as NetworkError).network === true;
+    return (
+        typeof e === 'object' &&
+        e !== null &&
+        'network' in e &&
+        (e as NetworkError).network === true
+    );
 }
 
 export function isApiError<T = unknown>(e: unknown): e is ApiError<T> {
-    return typeof e === 'object' && e !== null && 'status' in e && typeof (e as ApiError).status === 'number';
+    return (
+        typeof e === 'object' &&
+        e !== null &&
+        'status' in e &&
+        typeof (e as ApiError).status === 'number'
+    );
 }
 
 export async function postJson<TResponse, TBody = unknown>(

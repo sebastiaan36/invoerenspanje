@@ -30,7 +30,9 @@ const props = defineProps<{
 // is toegepast — dat dekt zowel CO2 < 120 als CO2 = 120 (beide vallen in
 // de 0%-schijf).
 const isBelowThreshold = computed(
-    () => props.importCosts.iedmt_rate_pct === 0 && !props.importCosts.iedmt_exempt,
+    () =>
+        props.importCosts.iedmt_rate_pct === 0 &&
+        !props.importCosts.iedmt_exempt,
 );
 
 const euroFormatter = new Intl.NumberFormat('nl-NL', {
@@ -45,8 +47,12 @@ function formatEuro(value: number): string {
 </script>
 
 <template>
-    <article class="flex flex-col rounded-2xl border border-border bg-card p-6 shadow-sm">
-        <div class="text-xs font-medium uppercase tracking-wider text-muted-foreground">
+    <article
+        class="flex flex-col rounded-2xl border border-border bg-card p-6 shadow-sm"
+    >
+        <div
+            class="text-xs font-medium tracking-wider text-muted-foreground uppercase"
+        >
             Spaanse import-kosten
         </div>
         <div class="mt-1 font-display text-3xl font-semibold text-foreground">
@@ -68,10 +74,15 @@ function formatEuro(value: number): string {
             <div class="flex items-baseline justify-between gap-3">
                 <dt class="text-muted-foreground">
                     IEDMT
-                    <span class="text-xs">({{ importCosts.iedmt_rate_pct.toFixed(2) }}%)</span>
+                    <span class="text-xs"
+                        >({{ importCosts.iedmt_rate_pct.toFixed(2) }}%)</span
+                    >
                 </dt>
                 <dd class="text-right font-medium tabular-nums">
-                    <span v-if="importCosts.iedmt_exempt" class="inline-flex items-center gap-1 text-success">
+                    <span
+                        v-if="importCosts.iedmt_exempt"
+                        class="inline-flex items-center gap-1 text-success"
+                    >
                         <BadgeCheck class="size-4" />
                         Vrijgesteld
                     </span>
@@ -83,7 +94,9 @@ function formatEuro(value: number): string {
                 class="flex items-baseline justify-between gap-3 text-xs text-muted-foreground"
             >
                 <dt>Geschatte marktwaarde</dt>
-                <dd class="tabular-nums">{{ formatEuro(importCosts.estimated_market_value_eur) }}</dd>
+                <dd class="tabular-nums">
+                    {{ formatEuro(importCosts.estimated_market_value_eur) }}
+                </dd>
             </div>
 
             <div class="my-2 border-t border-border"></div>
@@ -94,12 +107,20 @@ function formatEuro(value: number): string {
                 class="flex items-baseline justify-between gap-3"
             >
                 <dt class="text-muted-foreground">{{ cost.label }}</dt>
-                <dd class="text-right font-medium tabular-nums">{{ formatEuro(cost.amount_eur) }}</dd>
+                <dd class="text-right font-medium tabular-nums">
+                    {{ formatEuro(cost.amount_eur) }}
+                </dd>
             </div>
 
-            <div class="mt-2 flex items-baseline justify-between gap-3 border-t border-border pt-3">
-                <dt class="font-semibold text-foreground">Totaal kosten Spanje</dt>
-                <dd class="text-right font-display text-lg font-semibold tabular-nums text-foreground">
+            <div
+                class="mt-2 flex items-baseline justify-between gap-3 border-t border-border pt-3"
+            >
+                <dt class="font-semibold text-foreground">
+                    Totaal kosten Spanje
+                </dt>
+                <dd
+                    class="text-right font-display text-lg font-semibold text-foreground tabular-nums"
+                >
                     {{ formatEuro(importCosts.total_eur) }}
                 </dd>
             </div>
@@ -127,9 +148,10 @@ function formatEuro(value: number): string {
         >
             <Info class="mt-0.5 size-4 shrink-0" />
             <p>
-                Vaste kosten zijn een richtprijs op basis van onze partner-tarieven. Het
-                exacte bedrag hangt af van de gekozen autonome regio en eventueel
-                aanvullende werkzaamheden (specifieke homologatie, vertalingen).
+                Vaste kosten zijn een richtprijs op basis van onze
+                partner-tarieven. Het exacte bedrag hangt af van de gekozen
+                autonome regio en eventueel aanvullende werkzaamheden
+                (specifieke homologatie, vertalingen).
             </p>
         </div>
     </article>

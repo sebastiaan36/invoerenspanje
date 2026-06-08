@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { ref } from 'vue';
 import { ChevronDown } from 'lucide-vue-next';
+import { ref } from 'vue';
 import PublicLayout from '@/layouts/PublicLayout.vue';
 
 interface FaqItem {
@@ -18,15 +18,18 @@ const categories: FaqCategory[] = [
         title: 'Algemeen',
         items: [
             {
-                question: 'Wanneer ben ik verplicht mijn auto op Spaans kenteken te zetten?',
+                question:
+                    'Wanneer ben ik verplicht mijn auto op Spaans kenteken te zetten?',
                 answer: 'Zodra u fiscaal resident bent in Spanje — dat wil zeggen: u verblijft meer dan 183 dagen per jaar in Spanje — bent u verplicht uw auto in te schrijven bij de Spaanse verkeersautoriteit (DGT). Rijdt u als resident langer dan 30 aaneengesloten dagen in Spanje op een buitenlands kenteken, dan kunt u worden beboet. De handhaving is de afgelopen jaren aanzienlijk strenger geworden.',
             },
             {
-                question: 'Kan ik mijn Nederlandse auto tijdelijk in Spanje blijven rijden als toerist?',
+                question:
+                    'Kan ik mijn Nederlandse auto tijdelijk in Spanje blijven rijden als toerist?',
                 answer: 'Als toerist of bij een tijdelijk verblijf (minder dan 183 dagen per jaar) mag u uw Nederlandse auto gewoon in Spanje gebruiken. U hoeft de auto dan niet in te schrijven. Zodra u echter fiscaal resident wordt, vervalt dit recht.',
             },
             {
-                question: 'Wat is het verschil tussen een exportkenteken en een definitief Spaans kenteken?',
+                question:
+                    'Wat is het verschil tussen een exportkenteken en een definitief Spaans kenteken?',
                 answer: 'Het exportkenteken is een tijdelijk Nederlands kenteken dat u ontvangt nadat u de auto heeft afgemeld bij de RDW. Het is maximaal 14 dagen geldig en bedoeld om de auto legaal naar Spanje te rijden. Het definitieve Spaanse kenteken ontvangt u na voltooiing van de Spaanse inschrijvingsprocedure bij de DGT.',
             },
             {
@@ -38,7 +41,8 @@ const categories: FaqCategory[] = [
                 answer: 'Wij zijn gespecialiseerd in de Costa del Sol en omgeving (provincie Málaga), maar begeleiden ook klanten in andere delen van Spanje. Neem contact op om te bespreken of wij u ook in uw regio kunnen helpen.',
             },
             {
-                question: 'Kan ik ook een auto laten importeren die ik in Nederland koop en direct naar Spanje wil rijden?',
+                question:
+                    'Kan ik ook een auto laten importeren die ik in Nederland koop en direct naar Spanje wil rijden?',
                 answer: 'Ja, dat is mogelijk. U koopt de auto in Nederland, meldt hem direct af voor export bij de RDW en rijdt hem op het exportkenteken naar Spanje. Wij begeleiden het verdere traject vanaf het moment van aankomst in Spanje.',
             },
         ],
@@ -47,8 +51,9 @@ const categories: FaqCategory[] = [
         title: 'BPM-teruggave',
         items: [
             {
-                question: 'Wat is BPM en waarom krijg ik geld terug bij export?',
-                answer: 'BPM staat voor Belasting van personenauto\'s en motorrijwielen. Dit is een Nederlandse belasting die wordt geheven bij de eerste registratie van een auto in Nederland. Wanneer u de auto exporteert naar een EU-land en daar definitief registreert, heeft u recht op teruggave van het resterende deel van die belasting — de rest-BPM. Dit kan oplopen van een paar honderd tot meerdere duizenden euro\'s, afhankelijk van het merk, bouwjaar en de oorspronkelijke BPM-waarde.',
+                question:
+                    'Wat is BPM en waarom krijg ik geld terug bij export?',
+                answer: "BPM staat voor Belasting van personenauto's en motorrijwielen. Dit is een Nederlandse belasting die wordt geheven bij de eerste registratie van een auto in Nederland. Wanneer u de auto exporteert naar een EU-land en daar definitief registreert, heeft u recht op teruggave van het resterende deel van die belasting — de rest-BPM. Dit kan oplopen van een paar honderd tot meerdere duizenden euro's, afhankelijk van het merk, bouwjaar en de oorspronkelijke BPM-waarde.",
             },
             {
                 question: 'Heeft elke auto recht op BPM-teruggave?',
@@ -59,16 +64,18 @@ const categories: FaqCategory[] = [
                 answer: 'Dat hangt af van de oorspronkelijke BPM-waarde en de leeftijd van de auto. De standaardberekening gebruikt de forfaitaire afschrijvingstabel van de Belastingdienst. Hoe jonger de auto, hoe meer u terugkrijgt. Gebruik onze gratis BPM-calculator op de homepage om een indicatie te berekenen op basis van uw kenteken.',
             },
             {
-                question: 'Wat is het verschil tussen de forfaitaire methode en een taxatierapport?',
+                question:
+                    'Wat is het verschil tussen de forfaitaire methode en een taxatierapport?',
                 answer: 'De forfaitaire methode berekent de BPM op basis van de leeftijd van de auto via een vaste tabel van de Belastingdienst. Dit is de eenvoudigste en meest gebruikte methode. Een taxatierapport van een erkend taxateur kan worden ingediend als de werkelijke waardevermindering groter is dan de tabel aangeeft — bijvoorbeeld door een hoge kilometerstand of schade. Dit kan leiden tot een hogere teruggave.',
             },
             {
-                question: 'Binnen welke termijn moet ik de BPM-teruggave aanvragen?',
+                question:
+                    'Binnen welke termijn moet ik de BPM-teruggave aanvragen?',
                 answer: 'De Spaanse inschrijving moet plaatsvinden binnen 13 weken na de exportmelding bij de RDW. Daarna heeft u het Spaanse kentekenbewijs nodig als bewijs voor de aanvraag bij de Belastingdienst. De Belastingdienst heeft vervolgens 8 weken de tijd om te reageren op uw verzoek. Te laat aanvragen betekent dat u uw recht op teruggave verliest.',
             },
             {
-                question: 'Geldt de BPM-teruggave ook voor elektrische auto\'s?',
-                answer: 'Elektrische auto\'s betaalden tot voor kort weinig of geen BPM, waardoor de teruggave bij export doorgaans zeer beperkt is. Vanaf 2025 betalen nieuwe EV\'s wel BPM, dus voor recentere elektrische voertuigen kan dit in de toekomst veranderen. Gebruik onze BPM-calculator om de situatie voor uw specifieke kenteken te controleren.',
+                question: "Geldt de BPM-teruggave ook voor elektrische auto's?",
+                answer: "Elektrische auto's betaalden tot voor kort weinig of geen BPM, waardoor de teruggave bij export doorgaans zeer beperkt is. Vanaf 2025 betalen nieuwe EV's wel BPM, dus voor recentere elektrische voertuigen kan dit in de toekomst veranderen. Gebruik onze BPM-calculator om de situatie voor uw specifieke kenteken te controleren.",
             },
             {
                 question: 'Regelen jullie de BPM-aanvraag voor mij?',
@@ -92,8 +99,9 @@ const categories: FaqCategory[] = [
                 answer: 'Als de auto wordt afgekeurd, ontvangt u een lijst met gebreken. Kleine gebreken (defectos leves) zijn niet direct blokkerend. Ernstige gebreken (defectos graves of muy graves) moeten worden verholpen voordat de auto opnieuw kan worden aangeboden. Wij adviseren u over de vervolgstappen en kunnen u in contact brengen met een erkend herstelbedrijf.',
             },
             {
-                question: 'Hoe lang is de ITV-goedkeuring geldig voor een importauto?',
-                answer: 'Voor de initiële importkeuring geldt een éénmalige goedkeuring. Daarna volgt de reguliere ITV-cyclus op basis van de leeftijd van de auto: auto\'s tot 4 jaar hoeven niet gekeurd, van 4 tot 10 jaar elke 2 jaar, ouder dan 10 jaar jaarlijks.',
+                question:
+                    'Hoe lang is de ITV-goedkeuring geldig voor een importauto?',
+                answer: "Voor de initiële importkeuring geldt een éénmalige goedkeuring. Daarna volgt de reguliere ITV-cyclus op basis van de leeftijd van de auto: auto's tot 4 jaar hoeven niet gekeurd, van 4 tot 10 jaar elke 2 jaar, ouder dan 10 jaar jaarlijks.",
             },
             {
                 question: 'Moeten de koplampen worden aangepast voor Spanje?',
@@ -106,15 +114,15 @@ const categories: FaqCategory[] = [
         items: [
             {
                 question: 'Wat is de IEDMT?',
-                answer: 'De IEDMT (Impuesto Especial sobre Determinados Medios de Transporte), ook wel Impuesto de Matriculación genoemd, is de Spaanse invoerbelasting op voertuigen. Het tarief is afhankelijk van de CO₂-uitstoot van de auto en varieert van 0% voor schone auto\'s tot 14,75% van de fiscale waarde voor auto\'s met een hoge uitstoot.',
+                answer: "De IEDMT (Impuesto Especial sobre Determinados Medios de Transporte), ook wel Impuesto de Matriculación genoemd, is de Spaanse invoerbelasting op voertuigen. Het tarief is afhankelijk van de CO₂-uitstoot van de auto en varieert van 0% voor schone auto's tot 14,75% van de fiscale waarde voor auto's met een hoge uitstoot.",
             },
             {
                 question: 'Hoe wordt de IEDMT berekend?',
                 answer: 'De grondslag is de fiscale waarde van de auto in Spanje — niet de aankoopprijs of de Nederlandse catalogusprijs. De Spaanse belastingdienst (Agencia Tributaria) hanteert eigen tabellen op basis van merk, model, bouwjaar en uitvoering. Het percentage wordt bepaald door de officiële CO₂-uitstoot (WLTP-norm). Onze calculator geeft u een indicatie van de te verwachten IEDMT.',
             },
             {
-                question: 'Betalen hybride en elektrische auto\'s ook IEDMT?',
-                answer: 'Volledig elektrische auto\'s zijn vrijgesteld van IEDMT (0%). Plug-in hybrides met een laag CO₂-uitstoot vallen doorgaans in het laagste tarief van 4,75%. Milde hybrides en gewone benzine- of dieselauto\'s met hogere uitstoot betalen meer. Het exacte percentage hangt af van de gemeten CO₂-waarde van uw specifieke voertuig.',
+                question: "Betalen hybride en elektrische auto's ook IEDMT?",
+                answer: "Volledig elektrische auto's zijn vrijgesteld van IEDMT (0%). Plug-in hybrides met een laag CO₂-uitstoot vallen doorgaans in het laagste tarief van 4,75%. Milde hybrides en gewone benzine- of dieselauto's met hogere uitstoot betalen meer. Het exacte percentage hangt af van de gemeten CO₂-waarde van uw specifieke voertuig.",
             },
             {
                 question: 'Kan ik vrijstelling aanvragen voor de IEDMT?',
@@ -126,11 +134,13 @@ const categories: FaqCategory[] = [
         title: 'Documenten en administratie',
         items: [
             {
-                question: 'Welke documenten heb ik nodig voor de export uit Nederland?',
+                question:
+                    'Welke documenten heb ik nodig voor de export uit Nederland?',
                 answer: 'Voor de exportmelding bij de RDW heeft u nodig: het Nederlandse kentekenbewijs (deel I en II), een geldig identiteitsbewijs en — bij een gefinancierde of geleaste auto — toestemming van de financier of leasemaatschappij. Na de exportmelding ontvangt u het exportkenteken en het uitschrijfbewijs.',
             },
             {
-                question: 'Welke documenten heb ik nodig voor de Spaanse registratie?',
+                question:
+                    'Welke documenten heb ik nodig voor de Spaanse registratie?',
                 answer: 'Voor de inschrijving in Spanje heeft u onder meer nodig: het Nederlandse kentekenbewijs, het uitschrijfbewijs van de RDW, het goedgekeurde ITV-rapport, de aankoopfactuur of eigendomsbewijs, uw NIE-nummer, bewijs van betaling van de IEDMT en een bewijs van verzekering. Wij zorgen ervoor dat alle documenten compleet en correct zijn voordat we de aanvraag indienen.',
             },
             {
@@ -138,11 +148,13 @@ const categories: FaqCategory[] = [
                 answer: 'Het NIE (Número de Identificación de Extranjero) is uw Spaanse identificatienummer voor buitenlanders. Dit nummer is verplicht voor vrijwel alle officiële handelingen in Spanje, inclusief het registreren van een auto. Als u nog geen NIE heeft, adviseren wij u dit zo snel mogelijk aan te vragen bij de Spaanse politie of via een advocaat.',
             },
             {
-                question: 'Wat als mijn auto nog gefinancierd is of op naam van een leasemaatschappij staat?',
+                question:
+                    'Wat als mijn auto nog gefinancierd is of op naam van een leasemaatschappij staat?',
                 answer: 'Bij een gefinancierde auto heeft u schriftelijke toestemming nodig van de financier om de auto te exporteren. Bij een leaseauto geldt hetzelfde voor de leasemaatschappij. Veel partijen werken hieraan mee, maar de voorwaarden variëren. Wij adviseren u over de juiste aanpak voor uw specifieke situatie.',
             },
             {
-                question: 'Wat als de auto op naam staat van mijn Nederlandse BV?',
+                question:
+                    'Wat als de auto op naam staat van mijn Nederlandse BV?',
                 answer: 'Dat is mogelijk, maar vraagt om aanvullende documentatie: een KvK-uittreksel, machtiging namens de rechtspersoon en eventueel bewijs van zakelijk gebruik in Spanje. De procedure is iets complexer maar goed uitvoerbaar. Neem contact op voor een op maat gemaakt advies.',
             },
         ],
@@ -151,7 +163,8 @@ const categories: FaqCategory[] = [
         title: 'Kosten en pakketten',
         items: [
             {
-                question: 'Wat zijn de totale kosten voor het invoeren van mijn auto?',
+                question:
+                    'Wat zijn de totale kosten voor het invoeren van mijn auto?',
                 answer: 'De totale kosten bestaan uit onze servicekosten (afhankelijk van het gekozen pakket) en de officiële kosten: ITV-keuring, ficha técnica, nummerplaten, leges en de IEDMT. Op onze tarieven-pagina vindt u een volledig overzicht van alle te verwachten kosten. De BPM-teruggave verlaagt uw netto-kosten aan de Nederlandse kant.',
             },
             {
@@ -159,7 +172,8 @@ const categories: FaqCategory[] = [
                 answer: 'Het Basis-pakket (€395) is bedoeld als begeleiding en advies. U doet het meeste zelf, maar wij zorgen voor een duidelijk stappenplan, documentcontrole en ondersteuning bij vragen. De officiële kosten zijn niet inbegrepen.',
             },
             {
-                question: 'Wat is het verschil tussen het Compleet- en Compleet Plus-pakket?',
+                question:
+                    'Wat is het verschil tussen het Compleet- en Compleet Plus-pakket?',
                 answer: 'Het Compleet-pakket (€895) omvat de volledige begeleiding: wij regelen de ITV-afspraak, de IEDMT-aangifte, de DGT-inschrijving en de BPM-teruggaveaanvraag. U levert de documenten aan, wij doen de rest. Het Compleet Plus-pakket (€1.495) voegt daar het ophalen van de auto bij, volledig ontzorgen inclusief transport en spoedafhandeling.',
             },
             {
@@ -176,7 +190,8 @@ const categories: FaqCategory[] = [
         title: 'Na de registratie',
         items: [
             {
-                question: 'Moet ik mijn verzekering aanpassen na de Spaanse inschrijving?',
+                question:
+                    'Moet ik mijn verzekering aanpassen na de Spaanse inschrijving?',
                 answer: 'Ja. Zodra de auto op een Spaans kenteken staat, moet u een Spaanse verzekering afsluiten. Uw Nederlandse verzekering vervalt automatisch. Wij adviseren u tijdig een Spaanse WA-verzekering — of uitgebreidere dekking — te regelen, zodat er geen gat in uw dekking ontstaat.',
             },
             {
@@ -184,7 +199,8 @@ const categories: FaqCategory[] = [
                 answer: 'Uw oude Nederlandse nummerplaten kunt u na ontvangst van het Spaanse kenteken inleveren bij de RDW of weggooien. Ze hebben geen verdere administratieve functie meer.',
             },
             {
-                question: 'Moet ik mijn rijbewijs omwisselen naar een Spaans rijbewijs?',
+                question:
+                    'Moet ik mijn rijbewijs omwisselen naar een Spaans rijbewijs?',
                 answer: 'Als EU-burger heeft u geen verplichte omwisseling zolang uw Nederlandse rijbewijs geldig is. Na het verlopen van uw rijbewijs kunt u het in Spanje verlengen via de DGT zonder opnieuw examen te doen. Wel is het praktisch om uw rijbewijs op uw Spaanse adres te laten registreren als u daar permanent woont.',
             },
             {
@@ -192,7 +208,8 @@ const categories: FaqCategory[] = [
                 answer: 'Een auto die eenmaal op Spaans kenteken staat, wordt in Spanje verkocht als een gewone Spaanse auto. U doet de overdracht via een notaris of erkend tussenpersoon. De Spaanse eigendomsoverdracht (transferencia) is relatief eenvoudig en kost circa €55 aan leges.',
             },
             {
-                question: 'Kan ik de auto na inschrijving in Spanje nog terugbrengen naar Nederland?',
+                question:
+                    'Kan ik de auto na inschrijving in Spanje nog terugbrengen naar Nederland?',
                 answer: 'Technisch wel, maar dan begint het proces opnieuw: u schrijft de auto uit in Spanje en registreert hem opnieuw in Nederland. Daarbij moet u in Nederland BPM betalen over de huidige waarde van de auto. Dit is doorgaans duurder dan de oorspronkelijke BPM-teruggave die u bij export heeft ontvangen.',
             },
         ],
@@ -218,15 +235,23 @@ function isOpen(key: string): boolean {
     <PublicLayout>
         <!-- Header -->
         <section class="bg-background">
-            <div class="container mx-auto max-w-3xl px-4 py-16 text-center md:py-24">
-                <span class="inline-flex items-center rounded-full bg-secondary px-3 py-1 text-xs font-semibold text-secondary-foreground">
+            <div
+                class="container mx-auto max-w-3xl px-4 py-16 text-center md:py-24"
+            >
+                <span
+                    class="inline-flex items-center rounded-full bg-secondary px-3 py-1 text-xs font-semibold text-secondary-foreground"
+                >
                     Alles op een rij
                 </span>
-                <h1 class="mt-5 font-display text-4xl font-semibold leading-tight text-foreground md:text-5xl">
+                <h1
+                    class="mt-5 font-display text-4xl leading-tight font-semibold text-foreground md:text-5xl"
+                >
                     Veelgestelde <span class="text-accent">vragen</span>
                 </h1>
                 <p class="mx-auto mt-5 max-w-2xl text-lg text-muted-foreground">
-                    Antwoorden op de meest gestelde vragen over het importeren van een auto naar Spanje — van BPM-teruggave en de ITV-keuring tot documenten en kosten.
+                    Antwoorden op de meest gestelde vragen over het importeren
+                    van een auto naar Spanje — van BPM-teruggave en de
+                    ITV-keuring tot documenten en kosten.
                 </p>
             </div>
         </section>
@@ -239,11 +264,15 @@ function isOpen(key: string): boolean {
                     :key="catIndex"
                     class="mb-12"
                 >
-                    <h2 class="mb-6 font-display text-xl font-semibold text-foreground">
+                    <h2
+                        class="mb-6 font-display text-xl font-semibold text-foreground"
+                    >
                         {{ category.title }}
                     </h2>
 
-                    <div class="divide-y divide-border overflow-hidden rounded-2xl border border-border bg-card">
+                    <div
+                        class="divide-y divide-border overflow-hidden rounded-2xl border border-border bg-card"
+                    >
                         <div
                             v-for="(item, itemIndex) in category.items"
                             :key="itemIndex"
@@ -253,15 +282,21 @@ function isOpen(key: string): boolean {
                                 class="flex w-full items-start justify-between gap-3 px-4 py-4 text-left transition-colors hover:bg-secondary/50 sm:gap-4 sm:px-6 sm:py-5"
                                 @click="toggle(`${catIndex}-${itemIndex}`)"
                             >
-                                <span class="font-medium text-foreground">{{ item.question }}</span>
+                                <span class="font-medium text-foreground">{{
+                                    item.question
+                                }}</span>
                                 <ChevronDown
                                     class="mt-0.5 size-5 shrink-0 text-muted-foreground transition-transform duration-200"
-                                    :class="{ 'rotate-180': isOpen(`${catIndex}-${itemIndex}`) }"
+                                    :class="{
+                                        'rotate-180': isOpen(
+                                            `${catIndex}-${itemIndex}`,
+                                        ),
+                                    }"
                                 />
                             </button>
                             <div
                                 v-show="isOpen(`${catIndex}-${itemIndex}`)"
-                                class="border-t border-border bg-background px-4 py-4 text-muted-foreground leading-relaxed sm:px-6 sm:py-5"
+                                class="border-t border-border bg-background px-4 py-4 leading-relaxed text-muted-foreground sm:px-6 sm:py-5"
                             >
                                 {{ item.answer }}
                             </div>
@@ -270,12 +305,17 @@ function isOpen(key: string): boolean {
                 </div>
 
                 <!-- CTA -->
-                <div class="mt-4 rounded-2xl border border-border bg-card p-5 text-center sm:p-8">
-                    <p class="font-display text-lg font-semibold text-foreground">
+                <div
+                    class="mt-4 rounded-2xl border border-border bg-card p-5 text-center sm:p-8"
+                >
+                    <p
+                        class="font-display text-lg font-semibold text-foreground"
+                    >
                         Staat uw vraag er niet bij?
                     </p>
                     <p class="mt-2 text-muted-foreground">
-                        Neem gerust contact op — wij denken vrijblijvend met u mee.
+                        Neem gerust contact op — wij denken vrijblijvend met u
+                        mee.
                     </p>
                     <a
                         href="/contact"

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Carbon\CarbonInterface;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -19,7 +20,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property string $status
  * @property string|null $review_note
  * @property int|null $reviewed_by
- * @property \Carbon\CarbonInterface|null $reviewed_at
+ * @property CarbonInterface|null $reviewed_at
  */
 final class Document extends Model
 {

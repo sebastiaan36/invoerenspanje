@@ -3,8 +3,9 @@
 body,
 body *:not(html):not(style):not(br):not(tr):not(code) {
     box-sizing: border-box;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif,
-        'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+    font-family:
+        -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial,
+        sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
     position: relative;
 }
 
@@ -100,12 +101,12 @@ img {
 .header {
     padding: 28px 0;
     text-align: center;
-    background-color: #1B2B4A; /* Diepblauw */
+    background-color: #1b2b4a; /* Diepblauw */
     border-radius: 6px 6px 0 0;
 }
 
 .header a {
-    color: #F7F4EE;
+    color: #f7f4ee;
     font-size: 22px;
     font-weight: 600;
     text-decoration: none;
@@ -113,7 +114,7 @@ img {
 }
 
 .header a .accent {
-    color: #C97B5C; /* Terracotta */
+    color: #c97b5c; /* Terracotta */
 }
 
 /* Logo */
@@ -148,7 +149,9 @@ img {
     border-color: #e4e4e7;
     border-radius: 4px;
     border-width: 1px;
-    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1);
+    box-shadow:
+        0 1px 3px 0 rgba(0, 0, 0, 0.1),
+        0 1px 2px -1px rgba(0, 0, 0, 0.1);
     margin: 0 auto;
     padding: 0;
     width: 570px;

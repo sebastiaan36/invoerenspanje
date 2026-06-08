@@ -7,7 +7,9 @@ namespace Tests\Feature\Api;
 use App\Mail\LeadReceivedNotification;
 use App\Mail\QuoteRequestConfirmation;
 use App\Models\Lead;
+use App\Services\Leads\LeadConverter;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Mail;
 use Tests\TestCase;
 
@@ -18,8 +20,8 @@ final class LeadControllerTest extends TestCase
     public function test_it_persists_full_quote_snapshots_when_kenteken_is_known(): void
     {
         Mail::fake();
-        \Illuminate\Support\Facades\Http::fake([
-            'opendata.rdw.nl/resource/m9d7-ebf2.json*' => \Illuminate\Support\Facades\Http::response([[
+        Http::fake([
+            'opendata.rdw.nl/resource/m9d7-ebf2.json*' => Http::response([[
                 'kenteken' => '12ABC3',
                 'merk' => 'VOLKSWAGEN',
                 'handelsbenaming' => 'GOLF',
@@ -28,7 +30,7 @@ final class LeadControllerTest extends TestCase
                 'massa_ledig_voertuig' => '1280',
                 'catalogusprijs' => '31500',
             ]]),
-            'opendata.rdw.nl/resource/8ys7-d773.json*' => \Illuminate\Support\Facades\Http::response([[
+            'opendata.rdw.nl/resource/8ys7-d773.json*' => Http::response([[
                 'kenteken' => '12ABC3',
                 'brandstof_omschrijving' => 'Benzine',
                 'co2_uitstoot_gecombineerd' => '130',
@@ -38,7 +40,7 @@ final class LeadControllerTest extends TestCase
         $this->postJson(route('api.leads.store'), $this->validPayload(['kenteken' => '12-ABC-3']))
             ->assertCreated();
 
-        $lead = \App\Models\Lead::firstOrFail();
+        $lead = Lead::firstOrFail();
 
         $this->assertIsArray($lead->rdw_snapshot_json);
         $this->assertSame('VOLKSWAGEN', $lead->rdw_snapshot_json['vehicle']['merk']);
@@ -61,8 +63,8 @@ final class LeadControllerTest extends TestCase
     public function test_lead_to_dossier_conversion_copies_snapshots_and_vehicle_details(): void
     {
         Mail::fake();
-        \Illuminate\Support\Facades\Http::fake([
-            'opendata.rdw.nl/resource/m9d7-ebf2.json*' => \Illuminate\Support\Facades\Http::response([[
+        Http::fake([
+            'opendata.rdw.nl/resource/m9d7-ebf2.json*' => Http::response([[
                 'kenteken' => '12ABC3',
                 'merk' => 'VOLKSWAGEN',
                 'handelsbenaming' => 'GOLF',
@@ -70,7 +72,7 @@ final class LeadControllerTest extends TestCase
                 'datum_eerste_toelating' => '20190401',
                 'catalogusprijs' => '31500',
             ]]),
-            'opendata.rdw.nl/resource/8ys7-d773.json*' => \Illuminate\Support\Facades\Http::response([[
+            'opendata.rdw.nl/resource/8ys7-d773.json*' => Http::response([[
                 'kenteken' => '12ABC3',
                 'brandstof_omschrijving' => 'Benzine',
                 'co2_uitstoot_gecombineerd' => '130',
@@ -78,9 +80,9 @@ final class LeadControllerTest extends TestCase
         ]);
 
         $this->postJson(route('api.leads.store'), $this->validPayload(['kenteken' => '12-ABC-3']))->assertCreated();
-        $lead = \App\Models\Lead::firstOrFail();
+        $lead = Lead::firstOrFail();
 
-        $dossier = app(\App\Services\Leads\LeadConverter::class)->convert($lead, 895);
+        $dossier = app(LeadConverter::class)->convert($lead, 895);
 
         $this->assertSame('VOLKSWAGEN', $dossier->merk);
         $this->assertSame('GOLF', $dossier->model);

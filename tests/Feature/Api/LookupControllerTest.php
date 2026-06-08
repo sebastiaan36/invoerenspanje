@@ -11,6 +11,7 @@ use Tests\TestCase;
 final class LookupControllerTest extends TestCase
 {
     use RefreshDatabase;
+
     public function test_it_returns_vehicle_bpm_and_import_costs_for_a_known_kenteken(): void
     {
         Http::fake([

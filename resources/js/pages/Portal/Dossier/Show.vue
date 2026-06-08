@@ -38,8 +38,8 @@ function formatEuro(v: number | null): string {
 }
 function formatDate(iso: string | null): string {
     if (!iso) {
-return '—';
-}
+        return '—';
+    }
 
     const d = new Date(iso);
 
@@ -53,8 +53,12 @@ return '—';
     <div class="space-y-6 p-6">
         <DossierTabs :dossier="dossier" active="show" />
 
-        <section class="rounded-2xl border border-border bg-card p-6 shadow-sm sm:p-8">
-            <div class="text-xs font-semibold uppercase tracking-wider text-accent">
+        <section
+            class="rounded-2xl border border-border bg-card p-6 shadow-sm sm:p-8"
+        >
+            <div
+                class="text-xs font-semibold tracking-wider text-accent uppercase"
+            >
                 Huidige fase
             </div>
             <div class="mt-5">
@@ -64,37 +68,53 @@ return '—';
 
         <section class="grid gap-4 md:grid-cols-2">
             <div class="rounded-2xl border border-border bg-card p-6 shadow-sm">
-                <div class="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                <div
+                    class="text-xs font-semibold tracking-wider text-muted-foreground uppercase"
+                >
                     Pakket en bedragen
                 </div>
                 <dl class="mt-4 space-y-2 text-sm">
                     <div class="flex justify-between">
                         <dt class="text-muted-foreground">Pakket</dt>
-                        <dd class="font-medium capitalize">{{ dossier.pakket.replace('_', ' ') }}</dd>
+                        <dd class="font-medium capitalize">
+                            {{ dossier.pakket.replace('_', ' ') }}
+                        </dd>
                     </div>
                     <div class="flex justify-between">
-                        <dt class="text-muted-foreground">BPM-teruggave (indicatie)</dt>
-                        <dd class="font-medium tabular-nums">{{ formatEuro(dossier.bpm_indicatie_eur) }}</dd>
+                        <dt class="text-muted-foreground">
+                            BPM-teruggave (indicatie)
+                        </dt>
+                        <dd class="font-medium tabular-nums">
+                            {{ formatEuro(dossier.bpm_indicatie_eur) }}
+                        </dd>
                     </div>
                     <div class="flex justify-between">
                         <dt class="text-muted-foreground">Servicebedrag</dt>
-                        <dd class="font-medium tabular-nums">{{ formatEuro(dossier.service_fee_eur) }}</dd>
+                        <dd class="font-medium tabular-nums">
+                            {{ formatEuro(dossier.service_fee_eur) }}
+                        </dd>
                     </div>
                 </dl>
             </div>
 
             <div class="rounded-2xl border border-border bg-card p-6 shadow-sm">
-                <div class="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                <div
+                    class="text-xs font-semibold tracking-wider text-muted-foreground uppercase"
+                >
                     Tijdlijn
                 </div>
                 <dl class="mt-4 space-y-2 text-sm">
                     <div class="flex justify-between">
                         <dt class="text-muted-foreground">Gestart op</dt>
-                        <dd class="font-medium">{{ formatDate(dossier.started_at) }}</dd>
+                        <dd class="font-medium">
+                            {{ formatDate(dossier.started_at) }}
+                        </dd>
                     </div>
                     <div class="flex justify-between">
                         <dt class="text-muted-foreground">Afgerond op</dt>
-                        <dd class="font-medium">{{ formatDate(dossier.completed_at) }}</dd>
+                        <dd class="font-medium">
+                            {{ formatDate(dossier.completed_at) }}
+                        </dd>
                     </div>
                 </dl>
             </div>

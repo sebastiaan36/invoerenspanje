@@ -1,19 +1,31 @@
 <script setup lang="ts">
 import { usePage } from '@inertiajs/vue3';
-import { Loader2, AlertCircle, Info, AlertTriangle, HelpCircle, Check } from 'lucide-vue-next';
+import {
+    Loader2,
+    AlertCircle,
+    Info,
+    AlertTriangle,
+    HelpCircle,
+    Check,
+} from 'lucide-vue-next';
 import { ref, computed, watch, onBeforeUnmount } from 'vue';
 import ImportCostsCard from '@/components/ImportCostsCard.vue';
 import NetEffectBlock from '@/components/NetEffectBlock.vue';
 import PackageSelector from '@/components/PackageSelector.vue';
-import type {ServicePackage} from '@/components/PackageSelector.vue';
+import type { ServicePackage } from '@/components/PackageSelector.vue';
 import QuoteRequestForm from '@/components/QuoteRequestForm.vue';
 import ResidencyExemptionHighlight from '@/components/ResidencyExemptionHighlight.vue';
 import TotalSummary from '@/components/TotalSummary.vue';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
-import { postJson  } from '@/lib/api';
-import type {ApiError} from '@/lib/api';
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipProvider,
+    TooltipTrigger,
+} from '@/components/ui/tooltip';
+import { postJson } from '@/lib/api';
+import type { ApiError } from '@/lib/api';
 
 type ResidencyChoice = '' | 'permanent' | 'second_home' | 'other';
 
@@ -78,7 +90,9 @@ interface NotFoundBody {
     message?: string;
 }
 
-const props = withDefaults(defineProps<{ bpmOnly?: boolean }>(), { bpmOnly: false });
+const props = withDefaults(defineProps<{ bpmOnly?: boolean }>(), {
+    bpmOnly: false,
+});
 
 const kenteken = ref('');
 const loading = ref(false);
@@ -114,14 +128,16 @@ const iedmtSavings = computed<number>(() => {
     const ic = result.value?.import_costs;
 
     if (!ic) {
-return 0;
-}
+        return 0;
+    }
 
     return Math.max(0, ic.iedmt_without_exemption_eur - ic.iedmt_eur);
 });
 
 const showExemptionHighlight = computed(
-    () => result.value?.import_costs?.iedmt_exempt === true && iedmtSavings.value > 0,
+    () =>
+        result.value?.import_costs?.iedmt_exempt === true &&
+        iedmtSavings.value > 0,
 );
 
 const page = usePage<{ packages: ServicePackage[] }>();
@@ -130,8 +146,8 @@ const selectedPackage = ref<string | null>('compleet');
 
 const selectedPackageData = computed<ServicePackage | null>(() => {
     if (!selectedPackage.value) {
-return null;
-}
+        return null;
+    }
 
     return packages.value.find((p) => p.slug === selectedPackage.value) ?? null;
 });
@@ -154,8 +170,8 @@ function formatEuro(value: number): string {
 
 function formatDate(iso: string | null): string {
     if (!iso) {
-return '—';
-}
+        return '—';
+    }
 
     const date = new Date(iso);
 
@@ -167,9 +183,11 @@ return '—';
 function isLikelyValidKenteken(input: string): boolean {
     const normalized = input.replace(/[\s-]+/g, '').toUpperCase();
 
-    return /^[A-Z0-9]{5,8}$/.test(normalized)
-        && /[A-Z]/.test(normalized)
-        && /[0-9]/.test(normalized);
+    return (
+        /^[A-Z0-9]{5,8}$/.test(normalized) &&
+        /[A-Z]/.test(normalized) &&
+        /[0-9]/.test(normalized)
+    );
 }
 
 let recalcTimer: ReturnType<typeof setTimeout> | null = null;
@@ -201,36 +219,39 @@ async function performRecalc() {
         });
 
         if (seq !== requestSeq) {
-return;
-}
+            return;
+        }
 
         result.value = data;
     } catch (raw) {
         if (seq !== requestSeq) {
-return;
-}
+            return;
+        }
 
         const e = raw as ApiError<ValidationErrorBody & NotFoundBody>;
 
         if (e.status === 422) {
-            errorMessage.value = e.data?.errors?.kenteken?.[0] ?? 'Ongeldig kenteken-formaat.';
+            errorMessage.value =
+                e.data?.errors?.kenteken?.[0] ?? 'Ongeldig kenteken-formaat.';
         } else if (e.status === 404) {
-            errorMessage.value = e.data?.message ?? 'Geen voertuig gevonden bij dit kenteken.';
+            errorMessage.value =
+                e.data?.message ?? 'Geen voertuig gevonden bij dit kenteken.';
             result.value = null;
         } else {
-            errorMessage.value = 'Er ging iets mis bij het ophalen van de gegevens. Probeer het opnieuw.';
+            errorMessage.value =
+                'Er ging iets mis bij het ophalen van de gegevens. Probeer het opnieuw.';
         }
     } finally {
         if (seq === requestSeq) {
-loading.value = false;
-}
+            loading.value = false;
+        }
     }
 }
 
 function scheduleRecalc() {
     if (recalcTimer) {
-clearTimeout(recalcTimer);
-}
+        clearTimeout(recalcTimer);
+    }
 
     recalcTimer = setTimeout(() => {
         recalcTimer = null;
@@ -248,156 +269,182 @@ function flushRecalc() {
     performRecalc();
 }
 
-watch(
-    [kenteken, residencyChoice, ownershipConfirmed, autonomia],
-    () => scheduleRecalc(),
+watch([kenteken, residencyChoice, ownershipConfirmed, autonomia], () =>
+    scheduleRecalc(),
 );
 
 onBeforeUnmount(() => {
     if (recalcTimer) {
-clearTimeout(recalcTimer);
-}
+        clearTimeout(recalcTimer);
+    }
 });
 </script>
 
 <template>
     <div class="w-full">
         <div class="mx-auto max-w-3xl">
-        <form
-            class="flex items-stretch overflow-hidden rounded-2xl border border-border bg-card shadow-sm focus-within:ring-2 focus-within:ring-ring/40"
-            @submit.prevent="flushRecalc"
-        >
-            <div
-                class="flex items-center bg-[#003399] px-3 text-[10px] font-bold uppercase tracking-widest text-white"
+            <form
+                class="flex items-stretch overflow-hidden rounded-2xl border border-border bg-card shadow-sm focus-within:ring-2 focus-within:ring-ring/40"
+                @submit.prevent="flushRecalc"
             >
-                NL
-            </div>
-            <input
-                v-model="kenteken"
-                type="text"
-                inputmode="text"
-                autocapitalize="characters"
-                spellcheck="false"
-                placeholder="Voer je kenteken in (bv. 12-ABC-3)"
-                class="flex-1 bg-card px-4 py-4 font-display text-2xl tracking-wider text-foreground placeholder:text-base placeholder:font-sans placeholder:font-normal placeholder:tracking-normal placeholder:text-muted-foreground focus:outline-none"
-            />
-            <div
-                class="flex w-12 items-center justify-center pr-2 text-muted-foreground"
-                aria-live="polite"
-            >
-                <Loader2 v-if="loading" class="size-5 animate-spin text-accent" aria-label="Bezig met ophalen" />
-            </div>
-        </form>
-
-        <p class="mt-3 text-xs text-muted-foreground">
-            Gegevens komen rechtstreeks bij de RDW vandaan. De berekening werkt
-            mee zodra je typt — streepjes en spaties mag je weglaten.
-        </p>
-
-        <!-- Residency vragen — alleen tonen na een geslaagde lookup en als CO2 >= 120 g/km. -->
-        <section
-            v-if="showResidencyControls && !props.bpmOnly"
-            class="mt-6 rounded-2xl border border-border bg-card p-6 shadow-sm"
-        >
-            <header>
-                <div class="text-xs font-semibold uppercase tracking-wider text-accent">
-                    Voor een nauwkeuriger indicatie
-                </div>
-                <h3 class="mt-1 font-display text-xl font-semibold text-foreground">
-                    Hoe ziet uw situatie in Spanje eruit?
-                </h3>
-                <p class="mt-1 text-sm text-muted-foreground">
-                    Bij verhuizing van uw vaste verblijfplaats naar Spanje is
-                    IEDMT-vrijstelling vaak mogelijk — wij passen de berekening
-                    direct aan zodra u kiest.
-                </p>
-            </header>
-
-            <fieldset class="mt-5 space-y-3">
-                <legend class="sr-only">Uw situatie in Spanje</legend>
-
-                <label
-                    v-for="option in [
-                        { value: 'permanent', label: 'Ik verhuis permanent naar Spanje' },
-                        { value: 'second_home', label: 'Ik heb een tweede woning in Spanje, hoofdverblijf blijft Nederland' },
-                        { value: 'other', label: 'Anders of weet ik nog niet' },
-                    ]"
-                    :key="option.value"
-                    class="group flex min-h-[3.25rem] cursor-pointer items-center gap-3 rounded-xl border border-border bg-background p-4 transition-colors hover:bg-muted has-[:checked]:border-accent has-[:checked]:bg-accent/5 has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-accent/40"
+                <div
+                    class="flex items-center bg-[#003399] px-3 text-[10px] font-bold tracking-widest text-white uppercase"
                 >
-                    <input
-                        v-model="residencyChoice"
-                        type="radio"
-                        name="residency_choice"
-                        :value="option.value"
-                        class="peer sr-only"
-                    />
-                    <span
-                        class="flex size-5 shrink-0 items-center justify-center rounded-full border-2 border-border transition-colors group-hover:border-muted-foreground peer-checked:border-accent peer-checked:bg-accent"
-                        aria-hidden="true"
-                    >
-                        <Check
-                            class="size-3 text-white opacity-0 transition-opacity peer-checked:opacity-100"
-                            :stroke-width="3"
-                        />
-                    </span>
-                    <span class="text-sm font-medium text-foreground">{{ option.label }}</span>
-                </label>
-            </fieldset>
-
-            <div
-                v-if="residencyChoice === 'permanent'"
-                class="mt-4 flex items-start gap-3 rounded-xl border border-accent/30 bg-accent/5 p-4"
-            >
-                <Checkbox
-                    id="ownership-confirmed"
-                    :model-value="ownershipConfirmed"
-                    @update:model-value="(v) => (ownershipConfirmed = v === true)"
-                    class="mt-0.5"
-                />
-                <div class="flex-1">
-                    <Label for="ownership-confirmed" class="flex items-center gap-1.5 font-medium text-foreground">
-                        De auto staat al meer dan 6 maanden op mijn naam
-                        <TooltipProvider :delay-duration="150">
-                            <Tooltip>
-                                <TooltipTrigger as-child>
-                                    <button
-                                        type="button"
-                                        class="-m-1 inline-flex size-8 items-center justify-center rounded-full text-muted-foreground transition-colors hover:bg-muted hover:text-foreground focus-visible:bg-muted focus-visible:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/50"
-                                        aria-label="Meer informatie over de 6-maanden eigenaarsplicht"
-                                    >
-                                        <HelpCircle class="size-4" />
-                                    </button>
-                                </TooltipTrigger>
-                                <TooltipContent class="max-w-xs">
-                                    Dit is een wettelijke voorwaarde voor de IEDMT-vrijstelling.
-                                    Bewijs (RDW-uittreksel) wordt later in het traject opgevraagd.
-                                </TooltipContent>
-                            </Tooltip>
-                        </TooltipProvider>
-                    </Label>
-                    <p class="mt-1 text-xs text-muted-foreground">
-                        Zelfdeclaratie — kan door ons later geverifieerd worden bij de
-                        offerte-aanvraag.
-                    </p>
+                    NL
                 </div>
-            </div>
+                <input
+                    v-model="kenteken"
+                    type="text"
+                    inputmode="text"
+                    autocapitalize="characters"
+                    spellcheck="false"
+                    placeholder="Voer je kenteken in (bv. 12-ABC-3)"
+                    class="flex-1 bg-card px-4 py-4 font-display text-2xl tracking-wider text-foreground placeholder:font-sans placeholder:text-base placeholder:font-normal placeholder:tracking-normal placeholder:text-muted-foreground focus:outline-none"
+                />
+                <div
+                    class="flex w-12 items-center justify-center pr-2 text-muted-foreground"
+                    aria-live="polite"
+                >
+                    <Loader2
+                        v-if="loading"
+                        class="size-5 animate-spin text-accent"
+                        aria-label="Bezig met ophalen"
+                    />
+                </div>
+            </form>
 
-            <!-- Hidden region field. TODO: omzetten naar dropdown bij uitbreiding
+            <p class="mt-3 text-xs text-muted-foreground">
+                Gegevens komen rechtstreeks bij de RDW vandaan. De berekening
+                werkt mee zodra je typt — streepjes en spaties mag je weglaten.
+            </p>
+
+            <!-- Residency vragen — alleen tonen na een geslaagde lookup en als CO2 >= 120 g/km. -->
+            <section
+                v-if="showResidencyControls && !props.bpmOnly"
+                class="mt-6 rounded-2xl border border-border bg-card p-6 shadow-sm"
+            >
+                <header>
+                    <div
+                        class="text-xs font-semibold tracking-wider text-accent uppercase"
+                    >
+                        Voor een nauwkeuriger indicatie
+                    </div>
+                    <h3
+                        class="mt-1 font-display text-xl font-semibold text-foreground"
+                    >
+                        Hoe ziet uw situatie in Spanje eruit?
+                    </h3>
+                    <p class="mt-1 text-sm text-muted-foreground">
+                        Bij verhuizing van uw vaste verblijfplaats naar Spanje
+                        is IEDMT-vrijstelling vaak mogelijk — wij passen de
+                        berekening direct aan zodra u kiest.
+                    </p>
+                </header>
+
+                <fieldset class="mt-5 space-y-3">
+                    <legend class="sr-only">Uw situatie in Spanje</legend>
+
+                    <label
+                        v-for="option in [
+                            {
+                                value: 'permanent',
+                                label: 'Ik verhuis permanent naar Spanje',
+                            },
+                            {
+                                value: 'second_home',
+                                label: 'Ik heb een tweede woning in Spanje, hoofdverblijf blijft Nederland',
+                            },
+                            {
+                                value: 'other',
+                                label: 'Anders of weet ik nog niet',
+                            },
+                        ]"
+                        :key="option.value"
+                        class="group flex min-h-[3.25rem] cursor-pointer items-center gap-3 rounded-xl border border-border bg-background p-4 transition-colors hover:bg-muted has-[:checked]:border-accent has-[:checked]:bg-accent/5 has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-accent/40"
+                    >
+                        <input
+                            v-model="residencyChoice"
+                            type="radio"
+                            name="residency_choice"
+                            :value="option.value"
+                            class="peer sr-only"
+                        />
+                        <span
+                            class="flex size-5 shrink-0 items-center justify-center rounded-full border-2 border-border transition-colors group-hover:border-muted-foreground peer-checked:border-accent peer-checked:bg-accent"
+                            aria-hidden="true"
+                        >
+                            <Check
+                                class="size-3 text-white opacity-0 transition-opacity peer-checked:opacity-100"
+                                :stroke-width="3"
+                            />
+                        </span>
+                        <span class="text-sm font-medium text-foreground">{{
+                            option.label
+                        }}</span>
+                    </label>
+                </fieldset>
+
+                <div
+                    v-if="residencyChoice === 'permanent'"
+                    class="mt-4 flex items-start gap-3 rounded-xl border border-accent/30 bg-accent/5 p-4"
+                >
+                    <Checkbox
+                        id="ownership-confirmed"
+                        :model-value="ownershipConfirmed"
+                        @update:model-value="
+                            (v) => (ownershipConfirmed = v === true)
+                        "
+                        class="mt-0.5"
+                    />
+                    <div class="flex-1">
+                        <Label
+                            for="ownership-confirmed"
+                            class="flex items-center gap-1.5 font-medium text-foreground"
+                        >
+                            De auto staat al meer dan 6 maanden op mijn naam
+                            <TooltipProvider :delay-duration="150">
+                                <Tooltip>
+                                    <TooltipTrigger as-child>
+                                        <button
+                                            type="button"
+                                            class="-m-1 inline-flex size-8 items-center justify-center rounded-full text-muted-foreground transition-colors hover:bg-muted hover:text-foreground focus-visible:bg-muted focus-visible:text-foreground focus-visible:ring-2 focus-visible:ring-accent/50 focus-visible:outline-none"
+                                            aria-label="Meer informatie over de 6-maanden eigenaarsplicht"
+                                        >
+                                            <HelpCircle class="size-4" />
+                                        </button>
+                                    </TooltipTrigger>
+                                    <TooltipContent class="max-w-xs">
+                                        Dit is een wettelijke voorwaarde voor de
+                                        IEDMT-vrijstelling. Bewijs
+                                        (RDW-uittreksel) wordt later in het
+                                        traject opgevraagd.
+                                    </TooltipContent>
+                                </Tooltip>
+                            </TooltipProvider>
+                        </Label>
+                        <p class="mt-1 text-xs text-muted-foreground">
+                            Zelfdeclaratie — kan door ons later geverifieerd
+                            worden bij de offerte-aanvraag.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Hidden region field. TODO: omzetten naar dropdown bij uitbreiding
                  naar Costa Brava (Cataluña) of Costa Blanca (Valencia). -->
-            <input type="hidden" name="autonomia" :value="autonomia" />
-        </section>
+                <input type="hidden" name="autonomia" :value="autonomia" />
+            </section>
 
-        <!-- ERROR -->
-        <div
-            v-if="errorMessage"
-            class="mt-6 flex items-start gap-3 rounded-xl border border-destructive/40 bg-card p-4 text-sm text-destructive"
-            role="alert"
-        >
-            <AlertCircle class="mt-0.5 size-5 shrink-0" />
-            <div>{{ errorMessage }}</div>
+            <!-- ERROR -->
+            <div
+                v-if="errorMessage"
+                class="mt-6 flex items-start gap-3 rounded-xl border border-destructive/40 bg-card p-4 text-sm text-destructive"
+                role="alert"
+            >
+                <AlertCircle class="mt-0.5 size-5 shrink-0" />
+                <div>{{ errorMessage }}</div>
+            </div>
         </div>
-        </div><!-- end max-w-3xl -->
+        <!-- end max-w-3xl -->
 
         <!-- RESULT -->
         <div v-if="result?.found" class="mt-6 space-y-6 md:mt-8 md:space-y-8">
@@ -408,159 +455,222 @@ clearTimeout(recalcTimer);
 
             <!-- Net effect summary on top -->
             <NetEffectBlock
-                v-if="!props.bpmOnly && result.import_costs && result.net_effect_eur !== null"
+                v-if="
+                    !props.bpmOnly &&
+                    result.import_costs &&
+                    result.net_effect_eur !== null
+                "
                 :net-effect-eur="result.net_effect_eur"
-                :bpm-rest-eur="result.bpm?.is_eligible ? result.bpm.rest_bpm_eur : 0"
+                :bpm-rest-eur="
+                    result.bpm?.is_eligible ? result.bpm.rest_bpm_eur : 0
+                "
                 :bpm-eligible="result.bpm?.is_eligible ?? false"
                 :import-total-eur="result.import_costs.total_eur"
             />
 
             <div class="grid gap-4 lg:grid-cols-3">
-            <article class="rounded-2xl border border-border bg-card p-6 shadow-sm">
-                <div class="text-xs font-medium uppercase tracking-wider text-muted-foreground">
-                    Voertuiggegevens
-                </div>
-                <h3 class="mt-1 font-display text-2xl font-semibold text-foreground">
-                    {{ result.vehicle.merk }}
-                    <span class="font-normal text-muted-foreground">
-                        {{ result.vehicle.handelsbenaming }}
-                    </span>
-                </h3>
-
-                <dl class="mt-5 grid grid-cols-2 gap-y-3 text-sm">
-                    <dt class="text-muted-foreground">Soort</dt>
-                    <dd class="text-right font-medium">{{ result.vehicle.voertuigsoort ?? '—' }}</dd>
-
-                    <dt class="text-muted-foreground">Brandstof</dt>
-                    <dd class="text-right font-medium">{{ result.fuel?.brandstof ?? '—' }}</dd>
-
-                    <dt class="text-muted-foreground">
-                        CO₂ uitstoot
-                        <span
-                            v-if="result.fuel?.co2_wltp_gecombineerd != null || result.fuel?.co2_wltp_gewogen != null"
-                            class="text-xs"
-                        >(WLTP)</span>
-                        <span v-else-if="result.fuel?.co2_gecombineerd != null" class="text-xs">(NEDC)</span>
-                    </dt>
-                    <dd class="text-right font-medium">
-                        <span v-if="co2 != null">{{ co2 }} g/km</span>
-                        <span v-else>—</span>
-                    </dd>
-
-                    <dt class="text-muted-foreground">Eerste toelating</dt>
-                    <dd class="text-right font-medium">
-                        {{ formatDate(result.vehicle.datum_eerste_toelating) }}
-                    </dd>
-
-                    <dt class="text-muted-foreground">Kleur</dt>
-                    <dd class="text-right font-medium capitalize">
-                        {{ result.vehicle.eerste_kleur?.toLowerCase() ?? '—' }}
-                    </dd>
-
-                    <dt class="text-muted-foreground">Leeggewicht</dt>
-                    <dd class="text-right font-medium">
-                        <span v-if="result.vehicle.massa_ledig_voertuig != null">
-                            {{ result.vehicle.massa_ledig_voertuig }} kg
+                <article
+                    class="rounded-2xl border border-border bg-card p-6 shadow-sm"
+                >
+                    <div
+                        class="text-xs font-medium tracking-wider text-muted-foreground uppercase"
+                    >
+                        Voertuiggegevens
+                    </div>
+                    <h3
+                        class="mt-1 font-display text-2xl font-semibold text-foreground"
+                    >
+                        {{ result.vehicle.merk }}
+                        <span class="font-normal text-muted-foreground">
+                            {{ result.vehicle.handelsbenaming }}
                         </span>
-                        <span v-else>—</span>
-                    </dd>
-                </dl>
-            </article>
+                    </h3>
 
-            <!-- BPM card — three states: ineligible / no data / eligible -->
-            <article
-                v-if="!result.bpm"
-                class="flex flex-col rounded-2xl border border-border bg-card p-6 shadow-sm"
-            >
-                <div class="text-xs font-medium uppercase tracking-wider text-muted-foreground">
-                    BPM-teruggave
-                </div>
-                <div class="mt-2 font-display text-2xl text-muted-foreground">
-                    Onvoldoende data om te berekenen
-                </div>
-                <p class="mt-2 text-sm text-muted-foreground">
-                    De RDW gaf voor dit voertuig geen brandstof- of CO₂-gegevens terug.
-                    Vraag een persoonlijke offerte aan voor een handmatige berekening.
-                </p>
-            </article>
+                    <dl class="mt-5 grid grid-cols-2 gap-y-3 text-sm">
+                        <dt class="text-muted-foreground">Soort</dt>
+                        <dd class="text-right font-medium">
+                            {{ result.vehicle.voertuigsoort ?? '—' }}
+                        </dd>
 
-            <article
-                v-else-if="!result.bpm.is_eligible"
-                class="flex flex-col rounded-2xl border border-warning/40 bg-card p-6 shadow-sm"
-            >
-                <div class="flex items-start gap-3">
-                    <AlertTriangle class="mt-1 size-5 shrink-0 text-warning" />
-                    <div>
-                        <div class="text-xs font-medium uppercase tracking-wider text-muted-foreground">
-                            Geen BPM-teruggave mogelijk
-                        </div>
-                        <div class="mt-1 font-display text-xl font-semibold text-foreground">
-                            {{ result.bpm.ineligible_reason }}
+                        <dt class="text-muted-foreground">Brandstof</dt>
+                        <dd class="text-right font-medium">
+                            {{ result.fuel?.brandstof ?? '—' }}
+                        </dd>
+
+                        <dt class="text-muted-foreground">
+                            CO₂ uitstoot
+                            <span
+                                v-if="
+                                    result.fuel?.co2_wltp_gecombineerd !=
+                                        null ||
+                                    result.fuel?.co2_wltp_gewogen != null
+                                "
+                                class="text-xs"
+                                >(WLTP)</span
+                            >
+                            <span
+                                v-else-if="
+                                    result.fuel?.co2_gecombineerd != null
+                                "
+                                class="text-xs"
+                                >(NEDC)</span
+                            >
+                        </dt>
+                        <dd class="text-right font-medium">
+                            <span v-if="co2 != null">{{ co2 }} g/km</span>
+                            <span v-else>—</span>
+                        </dd>
+
+                        <dt class="text-muted-foreground">Eerste toelating</dt>
+                        <dd class="text-right font-medium">
+                            {{
+                                formatDate(
+                                    result.vehicle.datum_eerste_toelating,
+                                )
+                            }}
+                        </dd>
+
+                        <dt class="text-muted-foreground">Kleur</dt>
+                        <dd class="text-right font-medium capitalize">
+                            {{
+                                result.vehicle.eerste_kleur?.toLowerCase() ??
+                                '—'
+                            }}
+                        </dd>
+
+                        <dt class="text-muted-foreground">Leeggewicht</dt>
+                        <dd class="text-right font-medium">
+                            <span
+                                v-if="
+                                    result.vehicle.massa_ledig_voertuig != null
+                                "
+                            >
+                                {{ result.vehicle.massa_ledig_voertuig }} kg
+                            </span>
+                            <span v-else>—</span>
+                        </dd>
+                    </dl>
+                </article>
+
+                <!-- BPM card — three states: ineligible / no data / eligible -->
+                <article
+                    v-if="!result.bpm"
+                    class="flex flex-col rounded-2xl border border-border bg-card p-6 shadow-sm"
+                >
+                    <div
+                        class="text-xs font-medium tracking-wider text-muted-foreground uppercase"
+                    >
+                        BPM-teruggave
+                    </div>
+                    <div
+                        class="mt-2 font-display text-2xl text-muted-foreground"
+                    >
+                        Onvoldoende data om te berekenen
+                    </div>
+                    <p class="mt-2 text-sm text-muted-foreground">
+                        De RDW gaf voor dit voertuig geen brandstof- of
+                        CO₂-gegevens terug. Vraag een persoonlijke offerte aan
+                        voor een handmatige berekening.
+                    </p>
+                </article>
+
+                <article
+                    v-else-if="!result.bpm.is_eligible"
+                    class="flex flex-col rounded-2xl border border-warning/40 bg-card p-6 shadow-sm"
+                >
+                    <div class="flex items-start gap-3">
+                        <AlertTriangle
+                            class="mt-1 size-5 shrink-0 text-warning"
+                        />
+                        <div>
+                            <div
+                                class="text-xs font-medium tracking-wider text-muted-foreground uppercase"
+                            >
+                                Geen BPM-teruggave mogelijk
+                            </div>
+                            <div
+                                class="mt-1 font-display text-xl font-semibold text-foreground"
+                            >
+                                {{ result.bpm.ineligible_reason }}
+                            </div>
                         </div>
                     </div>
-                </div>
-                <p class="mt-4 text-sm text-muted-foreground">
-                    We helpen je nog steeds graag met de Spaanse importkant: ITV-keuring,
-                    permiso de circulación en alle papierwerk.
-                </p>
-            </article>
-
-            <article
-                v-else
-                class="flex flex-col rounded-2xl bg-primary p-6 text-primary-foreground shadow-lg"
-            >
-                <div class="text-xs font-medium uppercase tracking-wider text-primary-foreground/70">
-                    Indicatie BPM-teruggave (forfaitaire methode)
-                </div>
-                <div class="mt-1 font-display text-5xl font-semibold text-accent">
-                    {{ formatEuro(result.bpm.rest_bpm_eur) }}
-                </div>
-
-                <p class="mt-3 text-sm text-primary-foreground/80">
-                    Geschatte teruggave bij export naar Spanje. Bruto BPM:
-                    <strong>{{ formatEuro(result.bpm.bruto_bpm_eur) }}</strong>
-                    · afschrijving
-                    <strong>{{ result.bpm.afschrijving_pct.toFixed(1) }}%</strong>
-                    over {{ result.bpm.age_months }} maanden.
-                </p>
-
-                <div
-                    v-for="note in result.bpm.notes"
-                    :key="note"
-                    class="mt-3 flex items-start gap-2 rounded-xl bg-warning/15 p-3 text-xs text-primary-foreground"
-                >
-                    <AlertTriangle class="mt-0.5 size-4 shrink-0 text-warning" />
-                    <p>{{ note }}</p>
-                </div>
-
-                <div
-                    class="mt-4 flex items-start gap-2 rounded-xl bg-primary-foreground/10 p-3 text-xs text-primary-foreground/80"
-                >
-                    <Info class="mt-0.5 size-4 shrink-0" />
-                    <p>
-                        Indicatieve berekening volgens de forfaitaire afschrijvingstabel.
-                        In sommige gevallen levert de <strong>koerslijst</strong>- of
-                        <strong>taxatierapport</strong>-methode meer op. Bij een offerte
-                        rekent onze partner alle drie de methoden door en kiest de gunstigste.
-                        Aan deze indicatie kunnen geen rechten worden ontleend.
+                    <p class="mt-4 text-sm text-muted-foreground">
+                        We helpen je nog steeds graag met de Spaanse importkant:
+                        ITV-keuring, permiso de circulación en alle papierwerk.
                     </p>
-                </div>
+                </article>
 
-                <div class="mt-auto pt-5">
-                    <a
-                        href="/"
-                        class="flex w-full items-center justify-center rounded-md bg-accent px-6 py-2.5 text-sm font-medium text-accent-foreground transition-colors hover:bg-accent/90"
+                <article
+                    v-else
+                    class="flex flex-col rounded-2xl bg-primary p-6 text-primary-foreground shadow-lg"
+                >
+                    <div
+                        class="text-xs font-medium tracking-wider text-primary-foreground/70 uppercase"
                     >
-                        Vraag persoonlijke offerte aan
-                    </a>
-                </div>
-            </article>
+                        Indicatie BPM-teruggave (forfaitaire methode)
+                    </div>
+                    <div
+                        class="mt-1 font-display text-5xl font-semibold text-accent"
+                    >
+                        {{ formatEuro(result.bpm.rest_bpm_eur) }}
+                    </div>
 
-            <ImportCostsCard
-                v-if="!props.bpmOnly && result.import_costs"
-                :import-costs="result.import_costs"
-                :co2="co2"
-            />
+                    <p class="mt-3 text-sm text-primary-foreground/80">
+                        Geschatte teruggave bij export naar Spanje. Bruto BPM:
+                        <strong>{{
+                            formatEuro(result.bpm.bruto_bpm_eur)
+                        }}</strong>
+                        · afschrijving
+                        <strong
+                            >{{
+                                result.bpm.afschrijving_pct.toFixed(1)
+                            }}%</strong
+                        >
+                        over {{ result.bpm.age_months }} maanden.
+                    </p>
+
+                    <div
+                        v-for="note in result.bpm.notes"
+                        :key="note"
+                        class="mt-3 flex items-start gap-2 rounded-xl bg-warning/15 p-3 text-xs text-primary-foreground"
+                    >
+                        <AlertTriangle
+                            class="mt-0.5 size-4 shrink-0 text-warning"
+                        />
+                        <p>{{ note }}</p>
+                    </div>
+
+                    <div
+                        class="mt-4 flex items-start gap-2 rounded-xl bg-primary-foreground/10 p-3 text-xs text-primary-foreground/80"
+                    >
+                        <Info class="mt-0.5 size-4 shrink-0" />
+                        <p>
+                            Indicatieve berekening volgens de forfaitaire
+                            afschrijvingstabel. In sommige gevallen levert de
+                            <strong>koerslijst</strong>- of
+                            <strong>taxatierapport</strong>-methode meer op. Bij
+                            een offerte rekent onze partner alle drie de
+                            methoden door en kiest de gunstigste. Aan deze
+                            indicatie kunnen geen rechten worden ontleend.
+                        </p>
+                    </div>
+
+                    <div class="mt-auto pt-5">
+                        <a
+                            href="/"
+                            class="flex w-full items-center justify-center rounded-md bg-accent px-6 py-2.5 text-sm font-medium text-accent-foreground transition-colors hover:bg-accent/90"
+                        >
+                            Vraag persoonlijke offerte aan
+                        </a>
+                    </div>
+                </article>
+
+                <ImportCostsCard
+                    v-if="!props.bpmOnly && result.import_costs"
+                    :import-costs="result.import_costs"
+                    :co2="co2"
+                />
             </div>
 
             <PackageSelector
@@ -570,7 +680,9 @@ clearTimeout(recalcTimer);
             />
 
             <TotalSummary
-                v-if="!props.bpmOnly && selectedPackageData && result.import_costs"
+                v-if="
+                    !props.bpmOnly && selectedPackageData && result.import_costs
+                "
                 :selected-package="selectedPackageData"
                 :import-total-eur="result.import_costs.total_eur"
                 :bpm-eligible="result.bpm?.is_eligible ?? false"
@@ -578,7 +690,9 @@ clearTimeout(recalcTimer);
             />
 
             <QuoteRequestForm
-                v-if="!props.bpmOnly && selectedPackageData && result.import_costs"
+                v-if="
+                    !props.bpmOnly && selectedPackageData && result.import_costs
+                "
                 :kenteken="result.kenteken"
                 :selected-package="selectedPackageData"
                 :import-total-eur="result.import_costs.total_eur"

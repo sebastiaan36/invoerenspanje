@@ -27,7 +27,9 @@ const mainNavItems = computed<NavItem[]>(() => [
         title: 'Mijn dossiers',
         href: '/portaal',
         icon: LayoutGrid,
-        ...(unreadMessages.value > 0 ? { badge: String(unreadMessages.value) } : {}),
+        ...(unreadMessages.value > 0
+            ? { badge: String(unreadMessages.value) }
+            : {}),
     },
     { title: 'Profiel', href: '/settings/profile', icon: UserCircle },
 ]);

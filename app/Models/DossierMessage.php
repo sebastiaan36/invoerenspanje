@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Services\Messages\MessageNotifier;
+use Carbon\CarbonInterface;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -13,10 +15,10 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property int $id
  * @property int $dossier_id
  * @property int $author_id
- * @property string $author_role  klant|admin
+ * @property string $author_role klant|admin
  * @property string $body
- * @property \Carbon\CarbonInterface|null $read_at
- * @property \Carbon\CarbonInterface|null $notified_at
+ * @property CarbonInterface|null $read_at
+ * @property CarbonInterface|null $notified_at
  */
 final class DossierMessage extends Model
 {
@@ -28,9 +30,9 @@ final class DossierMessage extends Model
 
     protected static function booted(): void
     {
-        static::created(function (DossierMessage $message): void {
+        self::created(function (DossierMessage $message): void {
             // Plan een mail naar de tegenpartij — throttle naar max 1 mail per uur per dossier+richting.
-            app(\App\Services\Messages\MessageNotifier::class)->onCreated($message);
+            app(MessageNotifier::class)->onCreated($message);
         });
     }
 

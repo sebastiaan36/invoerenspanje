@@ -16,7 +16,8 @@ const services = [
         icon: Car,
         slug: 'auto-op-spaans-kenteken',
         title: 'Auto op Spaans kenteken',
-        tagline: 'Van Nederlandse naar Spaanse registratie — wij regelen het complete traject.',
+        tagline:
+            'Van Nederlandse naar Spaanse registratie — wij regelen het complete traject.',
         description:
             'Als u langer dan zes maanden per jaar in Spanje verblijft, bent u wettelijk verplicht uw auto op Spaans kenteken te zetten. Wij begeleiden het volledige traject: van het verzamelen van de benodigde documenten tot het aanvragen van de matriculación bij de Dirección General de Tráfico (DGT). U heeft geen Spaans nodig en hoeft nergens in de rij te staan.',
         includes: [
@@ -34,9 +35,10 @@ const services = [
         icon: Euro,
         slug: 'bpm-teruggave',
         title: 'BPM-teruggave',
-        tagline: 'Haal terug wat u bij aankoop betaalde — tot duizenden euro\'s.',
+        tagline:
+            "Haal terug wat u bij aankoop betaalde — tot duizenden euro's.",
         description:
-            'Bij de aankoop van uw auto in Nederland betaalde u BPM (Belasting van Personenauto\'s en Motorrijwielen). Exporteert u uw auto naar Spanje, dan heeft u recht op teruggave van het resterende BPM-bedrag. De hoogte hangt af van de leeftijd van uw auto en de originele catalogusprijs. Wij dienen de teruggaveaanvraag in bij de Nederlandse Belastingdienst.',
+            "Bij de aankoop van uw auto in Nederland betaalde u BPM (Belasting van Personenauto's en Motorrijwielen). Exporteert u uw auto naar Spanje, dan heeft u recht op teruggave van het resterende BPM-bedrag. De hoogte hangt af van de leeftijd van uw auto en de originele catalogusprijs. Wij dienen de teruggaveaanvraag in bij de Nederlandse Belastingdienst.",
         includes: [
             'Berekening via de forfaitaire afschrijvingstabel',
             'Vergelijking met koerslijst- en taxatiemethode',
@@ -51,7 +53,8 @@ const services = [
         icon: Car,
         slug: 'auto-export-nederland',
         title: 'Auto-export Nederland',
-        tagline: 'Correcte uitschrijving bij de RDW — vereist voor elke import in Spanje.',
+        tagline:
+            'Correcte uitschrijving bij de RDW — vereist voor elke import in Spanje.',
         description:
             'Voordat uw auto in Spanje geregistreerd kan worden, moet hij officieel worden uitgeschreven uit het Nederlandse kentekenregister. Dit heet de exportverklaring. Wij regelen dit via een van onze gecertificeerde RDW-exportpartners in Nederland. U hoeft hier niet zelf voor naar een RDW-kantoor.',
         includes: [
@@ -68,7 +71,8 @@ const services = [
         icon: Truck,
         slug: 'transport',
         title: 'Transport Nederland → Spanje',
-        tagline: 'Wij regelen het vervoer van uw auto — u hoeft er niet zelf mee te rijden.',
+        tagline:
+            'Wij regelen het vervoer van uw auto — u hoeft er niet zelf mee te rijden.',
         description:
             'Na de export in Nederland kunt u uw auto laten transporteren naar uw adres in Spanje. Wij coördineren het transport via ons partnernetwerk van gecertificeerde autotransporteurs. De kosten zijn afhankelijk van de ophaallocatie in Nederland en het afleveradres in Spanje en worden apart in rekening gebracht (excl. pakketprijs).',
         includes: [
@@ -85,7 +89,8 @@ const services = [
         icon: ClipboardCheck,
         slug: 'aankoopbegeleiding',
         title: 'Aankoopbegeleiding Nederlandse auto',
-        tagline: 'De juiste auto kopen in Nederland — zonder onaangename verrassingen achteraf.',
+        tagline:
+            'De juiste auto kopen in Nederland — zonder onaangename verrassingen achteraf.',
         description:
             'Wilt u in Nederland een auto kopen om vervolgens naar Spanje te importeren? Wij helpen u de juiste keuze te maken via ons uitgebreide dealernetwerk in Nederland. We denken mee over de CO₂-uitstoot (bepalend voor de Spaanse registratiebelasting), de leeftijd van de auto (bepalend voor BPM-teruggave) en de aanwezigheid van een COC-document. Deze dienst is ook los af te nemen — los van een import-pakket.',
         includes: [
@@ -105,7 +110,8 @@ const services = [
         icon: ShieldCheck,
         slug: 'itv-begeleiding',
         title: 'ITV-begeleiding',
-        tagline: 'De Spaanse APK — wij regelen de afspraak en begeleiden u door het proces.',
+        tagline:
+            'De Spaanse APK — wij regelen de afspraak en begeleiden u door het proces.',
         description:
             'De ITV (Inspección Técnica de Vehículos) is de Spaanse equivalent van de Nederlandse APK en is verplicht onderdeel van de matriculación. Wij regelen de afspraak bij een erkend keuringsstation in uw regio en informeren u over wat u mee moet nemen. Bij het Compleet Plus pakket gaan wij zelfs namens u naar de afspraak.',
         includes: [
@@ -121,10 +127,26 @@ const services = [
 ];
 
 const steps = [
-    { number: '01', title: 'Kenteken invoeren', body: 'Voer uw kenteken in op de homepage. U ziet direct een berekening van uw BPM-teruggave en de Spaanse import-kosten.' },
-    { number: '02', title: 'Pakket kiezen', body: 'Kies het pakket dat bij uw situatie past — van zelf de regie houden tot volledig ontzorgd.' },
-    { number: '03', title: 'Offerte aanvragen', body: 'Vul uw gegevens in. Wij nemen binnen één werkdag contact op om alles door te nemen.' },
-    { number: '04', title: 'Wij regelen de rest', body: 'Afhankelijk van uw pakket verzorgen wij export, DGT-aanvraag, ITV en de definitieve platen.' },
+    {
+        number: '01',
+        title: 'Kenteken invoeren',
+        body: 'Voer uw kenteken in op de homepage. U ziet direct een berekening van uw BPM-teruggave en de Spaanse import-kosten.',
+    },
+    {
+        number: '02',
+        title: 'Pakket kiezen',
+        body: 'Kies het pakket dat bij uw situatie past — van zelf de regie houden tot volledig ontzorgd.',
+    },
+    {
+        number: '03',
+        title: 'Offerte aanvragen',
+        body: 'Vul uw gegevens in. Wij nemen binnen één werkdag contact op om alles door te nemen.',
+    },
+    {
+        number: '04',
+        title: 'Wij regelen de rest',
+        body: 'Afhankelijk van uw pakket verzorgen wij export, DGT-aanvraag, ITV en de definitieve platen.',
+    },
 ];
 </script>
 
@@ -132,18 +154,28 @@ const steps = [
     <PublicLayout>
         <!-- Hero -->
         <section class="bg-background">
-            <div class="container mx-auto max-w-4xl px-4 py-16 text-center md:py-24">
-                <span class="inline-flex items-center rounded-full bg-secondary px-3 py-1 text-xs font-semibold text-secondary-foreground">
+            <div
+                class="container mx-auto max-w-4xl px-4 py-16 text-center md:py-24"
+            >
+                <span
+                    class="inline-flex items-center rounded-full bg-secondary px-3 py-1 text-xs font-semibold text-secondary-foreground"
+                >
                     Voor Nederlanders in Spanje
                 </span>
-                <h1 class="mt-5 font-display text-4xl font-semibold leading-tight text-foreground md:text-5xl">
+                <h1
+                    class="mt-5 font-display text-4xl leading-tight font-semibold text-foreground md:text-5xl"
+                >
                     Alles geregeld,<br />
                     <span class="text-accent">niets aan de hand.</span>
                 </h1>
                 <p class="mx-auto mt-5 max-w-2xl text-lg text-muted-foreground">
-                    Wij begeleiden het volledige traject om uw Nederlandse auto op Spaans kenteken te zetten — van BPM-teruggave in Nederland tot de definitieve platen in Spanje.
+                    Wij begeleiden het volledige traject om uw Nederlandse auto
+                    op Spaans kenteken te zetten — van BPM-teruggave in
+                    Nederland tot de definitieve platen in Spanje.
                 </p>
-                <div class="mt-8 flex flex-wrap items-center justify-center gap-4">
+                <div
+                    class="mt-8 flex flex-wrap items-center justify-center gap-4"
+                >
                     <Link
                         href="/"
                         class="inline-flex items-center gap-2 rounded-xl bg-accent px-6 py-3 text-sm font-semibold text-accent-foreground transition-colors hover:bg-accent/90"
@@ -165,11 +197,16 @@ const steps = [
         <section class="border-t border-border bg-muted/40">
             <div class="container mx-auto max-w-5xl px-4 py-16">
                 <div class="text-center">
-                    <h2 class="font-display text-2xl font-semibold text-foreground sm:text-3xl">
+                    <h2
+                        class="font-display text-2xl font-semibold text-foreground sm:text-3xl"
+                    >
                         Onze diensten
                     </h2>
-                    <p class="mx-auto mt-3 max-w-xl text-sm text-muted-foreground">
-                        Vier gespecialiseerde diensten die samen het complete importtraject afdekken.
+                    <p
+                        class="mx-auto mt-3 max-w-xl text-sm text-muted-foreground"
+                    >
+                        Vier gespecialiseerde diensten die samen het complete
+                        importtraject afdekken.
                     </p>
                 </div>
 
@@ -178,34 +215,51 @@ const steps = [
                         v-for="service in services"
                         :key="service.slug"
                         class="grid gap-8 rounded-2xl border bg-card p-8 shadow-sm lg:grid-cols-2 lg:items-start"
-                        :class="service.accent ? 'border-accent/40' : 'border-border'"
+                        :class="
+                            service.accent
+                                ? 'border-accent/40'
+                                : 'border-border'
+                        "
                     >
                         <!-- Left: info -->
                         <div>
                             <div class="flex items-center gap-3">
                                 <div
                                     class="flex size-11 items-center justify-center rounded-xl"
-                                    :class="service.accent ? 'bg-accent/15 text-accent' : 'bg-muted text-muted-foreground'"
+                                    :class="
+                                        service.accent
+                                            ? 'bg-accent/15 text-accent'
+                                            : 'bg-muted text-muted-foreground'
+                                    "
                                 >
-                                    <component :is="service.icon" class="size-5" />
+                                    <component
+                                        :is="service.icon"
+                                        class="size-5"
+                                    />
                                 </div>
                                 <div>
                                     <div
                                         v-if="service.accent"
-                                        class="text-xs font-semibold uppercase tracking-wider text-accent"
+                                        class="text-xs font-semibold tracking-wider text-accent uppercase"
                                     >
                                         Hoofddienst
                                     </div>
-                                    <h3 class="font-display text-xl font-semibold text-foreground">
+                                    <h3
+                                        class="font-display text-xl font-semibold text-foreground"
+                                    >
                                         {{ service.title }}
                                     </h3>
                                 </div>
                             </div>
 
-                            <p class="mt-3 text-sm font-medium text-muted-foreground">
+                            <p
+                                class="mt-3 text-sm font-medium text-muted-foreground"
+                            >
                                 {{ service.tagline }}
                             </p>
-                            <p class="mt-4 text-sm leading-relaxed text-foreground/80">
+                            <p
+                                class="mt-4 text-sm leading-relaxed text-foreground/80"
+                            >
                                 {{ service.description }}
                             </p>
 
@@ -230,7 +284,9 @@ const steps = [
 
                         <!-- Right: includes -->
                         <div class="rounded-xl bg-muted/60 p-6">
-                            <div class="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                            <div
+                                class="text-xs font-semibold tracking-wider text-muted-foreground uppercase"
+                            >
                                 Inbegrepen
                             </div>
                             <ul class="mt-4 space-y-3">
@@ -239,8 +295,12 @@ const steps = [
                                     :key="item"
                                     class="flex items-start gap-3 text-sm"
                                 >
-                                    <CheckCircle class="mt-0.5 size-4 shrink-0 text-success" />
-                                    <span class="text-foreground">{{ item }}</span>
+                                    <CheckCircle
+                                        class="mt-0.5 size-4 shrink-0 text-success"
+                                    />
+                                    <span class="text-foreground">{{
+                                        item
+                                    }}</span>
                                 </li>
                             </ul>
                         </div>
@@ -253,11 +313,16 @@ const steps = [
         <section class="border-t border-border bg-background">
             <div class="container mx-auto max-w-5xl px-4 py-16">
                 <div class="text-center">
-                    <h2 class="font-display text-2xl font-semibold text-foreground sm:text-3xl">
+                    <h2
+                        class="font-display text-2xl font-semibold text-foreground sm:text-3xl"
+                    >
                         Hoe werkt het?
                     </h2>
-                    <p class="mx-auto mt-3 max-w-xl text-sm text-muted-foreground">
-                        Van eerste berekening tot rijden op Spaans kenteken — in vier stappen.
+                    <p
+                        class="mx-auto mt-3 max-w-xl text-sm text-muted-foreground"
+                    >
+                        Van eerste berekening tot rijden op Spaans kenteken — in
+                        vier stappen.
                     </p>
                 </div>
 
@@ -267,11 +332,17 @@ const steps = [
                         :key="step.number"
                         class="relative flex flex-col gap-3 rounded-2xl border border-border bg-card p-6"
                     >
-                        <div class="font-display text-5xl font-bold text-accent/20 select-none">
+                        <div
+                            class="font-display text-5xl font-bold text-accent/20 select-none"
+                        >
                             {{ step.number }}
                         </div>
-                        <h3 class="font-semibold text-foreground">{{ step.title }}</h3>
-                        <p class="text-sm text-muted-foreground">{{ step.body }}</p>
+                        <h3 class="font-semibold text-foreground">
+                            {{ step.title }}
+                        </h3>
+                        <p class="text-sm text-muted-foreground">
+                            {{ step.body }}
+                        </p>
                     </div>
                 </div>
             </div>
@@ -280,13 +351,18 @@ const steps = [
         <!-- CTA -->
         <section class="border-t border-border bg-muted/40">
             <div class="container mx-auto max-w-3xl px-4 py-16 text-center">
-                <h2 class="font-display text-2xl font-semibold text-foreground sm:text-3xl">
+                <h2
+                    class="font-display text-2xl font-semibold text-foreground sm:text-3xl"
+                >
                     Klaar om te starten?
                 </h2>
                 <p class="mx-auto mt-4 max-w-lg text-muted-foreground">
-                    Voer uw kenteken in en zie direct wat uw auto u oplevert — en wat het traject kost.
+                    Voer uw kenteken in en zie direct wat uw auto u oplevert —
+                    en wat het traject kost.
                 </p>
-                <div class="mt-6 flex flex-wrap items-center justify-center gap-4">
+                <div
+                    class="mt-6 flex flex-wrap items-center justify-center gap-4"
+                >
                     <Link
                         href="/"
                         class="inline-flex items-center gap-2 rounded-xl bg-accent px-6 py-3 text-sm font-semibold text-accent-foreground transition-colors hover:bg-accent/90"

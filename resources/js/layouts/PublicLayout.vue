@@ -9,7 +9,9 @@ const currentPath = computed(() => new URL(usePage().url, 'http://x').pathname);
 // Title/description/Open Graph are rendered server-side from config/seo.php.
 // Here we only sync the document <title> on client-side (SPA) navigation,
 // reading the shared `seo` prop so there is a single source of truth.
-const seoTitle = computed(() => (usePage().props.seo as { title?: string } | undefined)?.title);
+const seoTitle = computed(
+    () => (usePage().props.seo as { title?: string } | undefined)?.title,
+);
 
 const navItems = [
     { label: 'Diensten', href: '/diensten' },
@@ -21,7 +23,10 @@ const navItems = [
 ];
 
 const dienstenLinks = [
-    { label: 'Auto op Spaans kenteken', href: '/diensten/auto-op-spaans-kenteken' },
+    {
+        label: 'Auto op Spaans kenteken',
+        href: '/diensten/auto-op-spaans-kenteken',
+    },
     { label: 'BPM-teruggave', href: '/diensten/bpm-teruggave' },
     { label: 'Auto-export Nederland', href: '/diensten/auto-export-nederland' },
     { label: 'ITV-begeleiding', href: '/diensten/itv-begeleiding' },
@@ -46,16 +51,22 @@ function closeMenu() {
     <Head v-if="seoTitle" :title="seoTitle" />
 
     <div class="flex min-h-screen flex-col bg-background text-foreground">
-        <header class="sticky top-0 z-40 border-b border-border bg-background/90 backdrop-blur">
-            <div class="container mx-auto flex h-16 items-center justify-between px-4">
+        <header
+            class="sticky top-0 z-40 border-b border-border bg-background/90 backdrop-blur"
+        >
+            <div
+                class="container mx-auto flex h-16 items-center justify-between px-4"
+            >
                 <Link
                     :href="home().url"
-                    class="font-display text-xl font-semibold text-primary tracking-tight"
+                    class="font-display text-xl font-semibold tracking-tight text-primary"
                 >
                     autoinvoeren<span class="text-accent">spanje</span>.nl
                 </Link>
 
-                <nav class="hidden items-center gap-7 text-sm font-medium text-foreground/80 md:flex">
+                <nav
+                    class="hidden items-center gap-7 text-sm font-medium text-foreground/80 md:flex"
+                >
                     <Link
                         v-for="item in navItems"
                         :key="item.href"
@@ -108,7 +119,7 @@ function closeMenu() {
                         v-for="item in navItems"
                         :key="item.href"
                         :href="item.href"
-                        class="flex items-center border-b border-border/50 py-3.5 text-sm font-medium text-foreground/80 transition-colors hover:text-primary last:border-0"
+                        class="flex items-center border-b border-border/50 py-3.5 text-sm font-medium text-foreground/80 transition-colors last:border-0 hover:text-primary"
                         :class="currentPath === item.href ? 'text-primary' : ''"
                         @click="closeMenu"
                     >
@@ -139,22 +150,30 @@ function closeMenu() {
         </main>
 
         <footer class="bg-primary text-primary-foreground">
-            <div class="container mx-auto grid gap-10 px-4 py-14 md:grid-cols-4">
+            <div
+                class="container mx-auto grid gap-10 px-4 py-14 md:grid-cols-4"
+            >
                 <div>
                     <div class="font-display text-lg font-semibold">
                         autoinvoeren<span class="text-accent">spanje</span>.nl
                     </div>
                     <p class="mt-3 text-sm text-primary-foreground/70">
-                        Voor Nederlanders aan de Costa del Sol die hun auto op Spaans
-                        kenteken willen zetten — alles geregeld, niets aan de hand.
+                        Voor Nederlanders aan de Costa del Sol die hun auto op
+                        Spaans kenteken willen zetten — alles geregeld, niets
+                        aan de hand.
                     </p>
                 </div>
 
                 <div>
-                    <h4 class="mb-3 font-display text-sm font-semibold">Diensten</h4>
+                    <h4 class="mb-3 font-display text-sm font-semibold">
+                        Diensten
+                    </h4>
                     <ul class="space-y-2 text-sm text-primary-foreground/70">
                         <li v-for="item in dienstenLinks" :key="item.href">
-                            <Link :href="item.href" class="transition-colors hover:text-accent">
+                            <Link
+                                :href="item.href"
+                                class="transition-colors hover:text-accent"
+                            >
                                 {{ item.label }}
                             </Link>
                         </li>
@@ -162,10 +181,15 @@ function closeMenu() {
                 </div>
 
                 <div>
-                    <h4 class="mb-3 font-display text-sm font-semibold">Bedrijf</h4>
+                    <h4 class="mb-3 font-display text-sm font-semibold">
+                        Bedrijf
+                    </h4>
                     <ul class="space-y-2 text-sm text-primary-foreground/70">
                         <li v-for="item in bedrijfLinks" :key="item.href">
-                            <Link :href="item.href" class="transition-colors hover:text-accent">
+                            <Link
+                                :href="item.href"
+                                class="transition-colors hover:text-accent"
+                            >
                                 {{ item.label }}
                             </Link>
                         </li>
@@ -173,12 +197,17 @@ function closeMenu() {
                 </div>
 
                 <div>
-                    <h4 class="mb-3 font-display text-sm font-semibold">Contact</h4>
+                    <h4 class="mb-3 font-display text-sm font-semibold">
+                        Contact
+                    </h4>
                     <ul class="space-y-2 text-sm text-primary-foreground/70">
                         <li>info@autoinvoerenspanje.nl</li>
                         <li>Málaga, Spanje</li>
                         <li>
-                            <Link href="/" class="transition-colors hover:text-accent">
+                            <Link
+                                href="/"
+                                class="transition-colors hover:text-accent"
+                            >
                                 Offerte aanvragen
                             </Link>
                         </li>
@@ -190,12 +219,21 @@ function closeMenu() {
                 <div
                     class="container mx-auto flex flex-col gap-2 px-4 py-4 text-xs text-primary-foreground/60 md:flex-row md:items-center md:justify-between"
                 >
-                    <div>© {{ year }} autoinvoerenspanje.nl — alle rechten voorbehouden</div>
+                    <div>
+                        © {{ year }} autoinvoerenspanje.nl — alle rechten
+                        voorbehouden
+                    </div>
                     <div class="flex gap-4">
-                        <Link href="/privacy" class="transition-colors hover:text-accent">
+                        <Link
+                            href="/privacy"
+                            class="transition-colors hover:text-accent"
+                        >
                             Privacy
                         </Link>
-                        <Link href="/algemene-voorwaarden" class="transition-colors hover:text-accent">
+                        <Link
+                            href="/algemene-voorwaarden"
+                            class="transition-colors hover:text-accent"
+                        >
                             Algemene voorwaarden
                         </Link>
                     </div>

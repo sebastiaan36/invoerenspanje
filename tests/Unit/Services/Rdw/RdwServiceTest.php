@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Unit\Services\Rdw;
 
 use App\Services\Rdw\RdwService;
+use Illuminate\Http\Client\Factory;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
 use Tests\TestCase;
@@ -135,7 +136,7 @@ final class RdwServiceTest extends TestCase
     private function makeService(?string $appToken = null): RdwService
     {
         return new RdwService(
-            http: app(\Illuminate\Http\Client\Factory::class),
+            http: app(Factory::class),
             cache: Cache::store('array'),
             logger: app('log')->channel('null'),
             vehicleEndpoint: 'https://opendata.rdw.nl/resource/m9d7-ebf2.json',

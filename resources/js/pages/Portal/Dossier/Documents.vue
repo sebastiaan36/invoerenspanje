@@ -1,6 +1,14 @@
 <script setup lang="ts">
 import { Head, useForm, usePage } from '@inertiajs/vue3';
-import { CheckCircle2, AlertCircle, Clock, Download, Trash2, Upload, XCircle } from 'lucide-vue-next';
+import {
+    CheckCircle2,
+    AlertCircle,
+    Clock,
+    Download,
+    Trash2,
+    Upload,
+    XCircle,
+} from 'lucide-vue-next';
 import { ref } from 'vue';
 import DossierTabs from '@/components/DossierTabs.vue';
 
@@ -54,40 +62,61 @@ function submit() {
             form.reset('file');
 
             if (fileInput.value) {
-fileInput.value.value = '';
-}
+                fileInput.value.value = '';
+            }
         },
     });
 }
 
 function destroy(doc: DocumentRow) {
     if (!confirm(`Document "${doc.filename}" verwijderen?`)) {
-return;
-}
+        return;
+    }
 
     useForm({}).delete(`${props.dossier.urls.documents}/${doc.id}`);
 }
 
 function formatBytes(bytes: number): string {
     if (bytes < 1024) {
-return `${bytes} B`;
-}
+        return `${bytes} B`;
+    }
 
     if (bytes < 1024 * 1024) {
-return `${(bytes / 1024).toFixed(1)} kB`;
-}
+        return `${(bytes / 1024).toFixed(1)} kB`;
+    }
 
     return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
 }
 
 function statusInfo(status: string) {
-    return ({
-        aangevraagd: { label: 'Aangevraagd', color: 'text-muted-foreground', icon: Clock },
-        geupload: { label: 'In review', color: 'text-warning', icon: Clock },
-        goedgekeurd: { label: 'Goedgekeurd', color: 'text-success', icon: CheckCircle2 },
-        afgekeurd: { label: 'Afgekeurd', color: 'text-destructive', icon: XCircle },
-    } as const)[status as 'aangevraagd' | 'geupload' | 'goedgekeurd' | 'afgekeurd']
-        ?? { label: status, color: 'text-muted-foreground', icon: Clock };
+    return (
+        (
+            {
+                aangevraagd: {
+                    label: 'Aangevraagd',
+                    color: 'text-muted-foreground',
+                    icon: Clock,
+                },
+                geupload: {
+                    label: 'In review',
+                    color: 'text-warning',
+                    icon: Clock,
+                },
+                goedgekeurd: {
+                    label: 'Goedgekeurd',
+                    color: 'text-success',
+                    icon: CheckCircle2,
+                },
+                afgekeurd: {
+                    label: 'Afgekeurd',
+                    color: 'text-destructive',
+                    icon: XCircle,
+                },
+            } as const
+        )[
+            status as 'aangevraagd' | 'geupload' | 'goedgekeurd' | 'afgekeurd'
+        ] ?? { label: status, color: 'text-muted-foreground', icon: Clock }
+    );
 }
 </script>
 
@@ -106,24 +135,40 @@ function statusInfo(status: string) {
         </div>
 
         <section class="rounded-2xl border border-border bg-card p-6 shadow-sm">
-            <h2 class="font-display text-lg font-semibold text-foreground">Nieuw document uploaden</h2>
+            <h2 class="font-display text-lg font-semibold text-foreground">
+                Nieuw document uploaden
+            </h2>
             <form
                 class="mt-4 grid gap-4 md:grid-cols-[1fr_2fr_auto] md:items-end"
                 @submit.prevent="submit"
             >
                 <div>
-                    <label for="doc-type" class="text-sm font-medium text-foreground">Type</label>
+                    <label
+                        for="doc-type"
+                        class="text-sm font-medium text-foreground"
+                        >Type</label
+                    >
                     <select
                         id="doc-type"
                         v-model="form.type"
-                        class="mt-1 h-10 w-full rounded-md border border-input bg-card px-3 text-sm shadow-xs focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px]"
+                        class="mt-1 h-10 w-full rounded-md border border-input bg-card px-3 text-sm shadow-xs focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50"
                         required
                     >
-                        <option v-for="(label, key) in documentTypes" :key="key" :value="key">{{ label }}</option>
+                        <option
+                            v-for="(label, key) in documentTypes"
+                            :key="key"
+                            :value="key"
+                        >
+                            {{ label }}
+                        </option>
                     </select>
                 </div>
                 <div>
-                    <label for="doc-file" class="text-sm font-medium text-foreground">Bestand</label>
+                    <label
+                        for="doc-file"
+                        class="text-sm font-medium text-foreground"
+                        >Bestand</label
+                    >
                     <input
                         id="doc-file"
                         ref="fileInput"
@@ -133,7 +178,9 @@ function statusInfo(status: string) {
                         required
                         @change="onFileChange"
                     />
-                    <p class="mt-1 text-xs text-muted-foreground">PDF, JPG of PNG — maximaal 10 MB.</p>
+                    <p class="mt-1 text-xs text-muted-foreground">
+                        PDF, JPG of PNG — maximaal 10 MB.
+                    </p>
                 </div>
                 <button
                     type="submit"
@@ -144,7 +191,10 @@ function statusInfo(status: string) {
                     {{ form.processing ? 'Uploaden…' : 'Upload' }}
                 </button>
             </form>
-            <div v-if="form.errors.file" class="mt-3 flex items-center gap-2 text-sm text-destructive">
+            <div
+                v-if="form.errors.file"
+                class="mt-3 flex items-center gap-2 text-sm text-destructive"
+            >
                 <AlertCircle class="size-4" />
                 {{ form.errors.file }}
             </div>
@@ -152,27 +202,52 @@ function statusInfo(status: string) {
 
         <section class="rounded-2xl border border-border bg-card shadow-sm">
             <div class="border-b border-border p-6">
-                <h2 class="font-display text-lg font-semibold text-foreground">Geüploade documenten</h2>
+                <h2 class="font-display text-lg font-semibold text-foreground">
+                    Geüploade documenten
+                </h2>
             </div>
 
-            <div v-if="documents.length === 0" class="p-8 text-center text-sm text-muted-foreground">
+            <div
+                v-if="documents.length === 0"
+                class="p-8 text-center text-sm text-muted-foreground"
+            >
                 Nog geen documenten geüpload.
             </div>
 
             <ul v-else class="divide-y divide-border">
-                <li v-for="doc in documents" :key="doc.id" class="flex flex-wrap items-center gap-4 p-5">
+                <li
+                    v-for="doc in documents"
+                    :key="doc.id"
+                    class="flex flex-wrap items-center gap-4 p-5"
+                >
                     <div class="min-w-0 flex-1">
                         <div class="flex items-center gap-2">
-                            <span class="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                            <span
+                                class="text-xs font-semibold tracking-wider text-muted-foreground uppercase"
+                            >
                                 {{ doc.type_label }}
                             </span>
-                            <span :class="['inline-flex items-center gap-1 text-xs font-medium', statusInfo(doc.status).color]">
-                                <component :is="statusInfo(doc.status).icon" class="size-3.5" />
+                            <span
+                                :class="[
+                                    'inline-flex items-center gap-1 text-xs font-medium',
+                                    statusInfo(doc.status).color,
+                                ]"
+                            >
+                                <component
+                                    :is="statusInfo(doc.status).icon"
+                                    class="size-3.5"
+                                />
                                 {{ statusInfo(doc.status).label }}
                             </span>
                         </div>
-                        <div class="mt-1 truncate text-sm font-medium text-foreground">{{ doc.filename }}</div>
-                        <div class="mt-1 text-xs text-muted-foreground">{{ formatBytes(doc.size_bytes) }}</div>
+                        <div
+                            class="mt-1 truncate text-sm font-medium text-foreground"
+                        >
+                            {{ doc.filename }}
+                        </div>
+                        <div class="mt-1 text-xs text-muted-foreground">
+                            {{ formatBytes(doc.size_bytes) }}
+                        </div>
                         <div
                             v-if="doc.status === 'afgekeurd' && doc.review_note"
                             class="mt-2 rounded-md border border-destructive/30 bg-destructive/5 p-2 text-xs text-destructive"
@@ -181,7 +256,10 @@ function statusInfo(status: string) {
                         </div>
                     </div>
                     <div class="flex items-center gap-2">
-                        <a :href="doc.download_url" class="inline-flex h-8 items-center gap-1 rounded-md border border-border px-3 text-xs font-medium hover:bg-muted">
+                        <a
+                            :href="doc.download_url"
+                            class="inline-flex h-8 items-center gap-1 rounded-md border border-border px-3 text-xs font-medium hover:bg-muted"
+                        >
                             <Download class="size-3.5" />
                             Download
                         </a>

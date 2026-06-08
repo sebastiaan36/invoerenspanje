@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Mail;
 
 use App\Models\Dossier;
+use App\Models\DossierMessage;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
@@ -17,7 +18,7 @@ final class NewMessageMail extends Mailable
     use Queueable, SerializesModels;
 
     /**
-     * @param  Collection<int, \App\Models\DossierMessage>  $messages
+     * @param  Collection<int, DossierMessage>  $messages
      * @param  string  $recipientRole  'klant' | 'admin'
      */
     public function __construct(

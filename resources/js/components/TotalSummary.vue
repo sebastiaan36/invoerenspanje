@@ -41,7 +41,9 @@ const heroAmount = computed(() => Math.abs(nettoInvestering.value));
         aria-labelledby="totaaloverzicht-title"
     >
         <header>
-            <div class="text-xs font-semibold uppercase tracking-wider text-accent">
+            <div
+                class="text-xs font-semibold tracking-wider text-accent uppercase"
+            >
                 Uw keuze samengevat
             </div>
             <h3
@@ -56,7 +58,9 @@ const heroAmount = computed(() => Math.abs(nettoInvestering.value));
             <div class="flex items-baseline justify-between gap-3">
                 <dt class="text-muted-foreground">
                     Pakket
-                    <span class="font-medium text-foreground">{{ selectedPackage.name }}</span>
+                    <span class="font-medium text-foreground">{{
+                        selectedPackage.name
+                    }}</span>
                 </dt>
                 <dd class="text-right font-medium tabular-nums">
                     {{ formatEuro(packagePrice) }}
@@ -72,10 +76,14 @@ const heroAmount = computed(() => Math.abs(nettoInvestering.value));
 
             <div class="border-t border-border pt-3">
                 <div class="flex items-baseline justify-between gap-3">
-                    <dt class="font-display text-base font-semibold text-foreground">
+                    <dt
+                        class="font-display text-base font-semibold text-foreground"
+                    >
                         Totaalprijs
                     </dt>
-                    <dd class="text-right font-display text-lg font-semibold tabular-nums text-foreground">
+                    <dd
+                        class="text-right font-display text-lg font-semibold text-foreground tabular-nums"
+                    >
                         {{ formatEuro(subtotaal) }}
                     </dd>
                 </div>
@@ -83,16 +91,22 @@ const heroAmount = computed(() => Math.abs(nettoInvestering.value));
         </dl>
 
         <div class="mt-6">
-            <div class="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+            <div
+                class="text-xs font-semibold tracking-wider text-muted-foreground uppercase"
+            >
                 Tegenover
             </div>
             <dl class="mt-3 space-y-3 text-sm">
                 <div class="flex items-baseline justify-between gap-3">
                     <dt class="text-muted-foreground">
                         BPM-teruggave Nederland
-                        <span v-if="!bpmEligible" class="text-xs">(niet van toepassing)</span>
+                        <span v-if="!bpmEligible" class="text-xs"
+                            >(niet van toepassing)</span
+                        >
                     </dt>
-                    <dd class="text-right font-medium tabular-nums text-success">
+                    <dd
+                        class="text-right font-medium text-success tabular-nums"
+                    >
                         − {{ formatEuro(bpmBack) }}
                     </dd>
                 </div>
@@ -104,7 +118,7 @@ const heroAmount = computed(() => Math.abs(nettoInvestering.value));
         >
             <div>
                 <div
-                    class="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider"
+                    class="flex items-center gap-2 text-xs font-semibold tracking-wider uppercase"
                     :class="isOpbrengst ? 'text-success' : 'text-accent'"
                 >
                     <TrendingUp v-if="isOpbrengst" class="size-4" />
@@ -113,10 +127,12 @@ const heroAmount = computed(() => Math.abs(nettoInvestering.value));
                 </div>
                 <p class="mt-1 max-w-xs text-xs text-muted-foreground">
                     <span v-if="isOpbrengst">
-                        De BPM-teruggave is hoger dan de totaalprijs — u houdt geld over.
+                        De BPM-teruggave is hoger dan de totaalprijs — u houdt
+                        geld over.
                     </span>
                     <span v-else>
-                        Wat u netto investeert in het complete traject naar Spaans kenteken.
+                        Wat u netto investeert in het complete traject naar
+                        Spaans kenteken.
                     </span>
                 </p>
             </div>
@@ -124,7 +140,11 @@ const heroAmount = computed(() => Math.abs(nettoInvestering.value));
                 class="font-display text-3xl font-semibold tabular-nums sm:text-4xl"
                 :class="isOpbrengst ? 'text-success' : 'text-accent'"
             >
-                {{ isOpbrengst ? signedEuroFormatter.format(heroAmount) : formatEuro(heroAmount) }}
+                {{
+                    isOpbrengst
+                        ? signedEuroFormatter.format(heroAmount)
+                        : formatEuro(heroAmount)
+                }}
             </div>
         </div>
     </section>

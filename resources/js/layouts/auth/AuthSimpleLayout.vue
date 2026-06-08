@@ -22,7 +22,8 @@ defineProps<{
                         <span
                             class="font-display text-2xl font-semibold tracking-tight text-primary"
                         >
-                            autoinvoeren<span class="text-accent">spanje</span>.nl
+                            autoinvoeren<span class="text-accent">spanje</span
+                            >.nl
                         </span>
                         <span class="sr-only">{{ title }}</span>
                     </Link>

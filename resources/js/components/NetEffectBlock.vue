@@ -24,24 +24,24 @@ const signedEuroFormatter = new Intl.NumberFormat('nl-NL', {
 
 const tone = computed<'positive' | 'negative' | 'neutral'>(() => {
     if (props.netEffectEur > 0) {
-return 'positive';
-}
+        return 'positive';
+    }
 
     if (props.netEffectEur < 0) {
-return 'negative';
-}
+        return 'negative';
+    }
 
     return 'neutral';
 });
 
 const headline = computed(() => {
     if (tone.value === 'positive') {
-return 'Je houdt naar verwachting geld over';
-}
+        return 'Je houdt naar verwachting geld over';
+    }
 
     if (tone.value === 'negative') {
-return 'Verwachte netto-kosten van de export';
-}
+        return 'Verwachte netto-kosten van de export';
+    }
 
     return 'Verwacht netto-resultaat: gelijk gespeeld';
 });
@@ -73,10 +73,14 @@ const tagline = computed(() => {
     >
         <div class="flex items-start justify-between gap-6">
             <div>
-                <div class="text-xs font-medium uppercase tracking-wider text-primary-foreground/70">
+                <div
+                    class="text-xs font-medium tracking-wider text-primary-foreground/70 uppercase"
+                >
                     Netto-resultaat bij export naar Spanje
                 </div>
-                <h2 class="mt-1 font-display text-xl font-semibold text-primary-foreground">
+                <h2
+                    class="mt-1 font-display text-xl font-semibold text-primary-foreground"
+                >
                     {{ headline }}
                 </h2>
             </div>
@@ -85,7 +89,8 @@ const tagline = computed(() => {
                 :class="{
                     'bg-success/20 text-success': tone === 'positive',
                     'bg-destructive/20 text-destructive': tone === 'negative',
-                    'bg-primary-foreground/10 text-primary-foreground/60': tone === 'neutral',
+                    'bg-primary-foreground/10 text-primary-foreground/60':
+                        tone === 'neutral',
                 }"
             >
                 <TrendingUp v-if="tone === 'positive'" class="size-6" />
@@ -111,23 +116,31 @@ const tagline = computed(() => {
             class="mt-6 grid gap-3 rounded-xl bg-primary-foreground/10 p-4 text-sm text-primary-foreground/90 sm:grid-cols-3"
         >
             <div>
-                <div class="text-xs uppercase tracking-wider text-primary-foreground/60">
+                <div
+                    class="text-xs tracking-wider text-primary-foreground/60 uppercase"
+                >
                     BPM-teruggave NL
                 </div>
-                <div class="mt-1 font-display text-xl tabular-nums text-success">
+                <div
+                    class="mt-1 font-display text-xl text-success tabular-nums"
+                >
                     + {{ euroFormatter.format(bpmRestEur) }}
                 </div>
             </div>
             <div>
-                <div class="text-xs uppercase tracking-wider text-primary-foreground/60">
+                <div
+                    class="text-xs tracking-wider text-primary-foreground/60 uppercase"
+                >
                     Kosten Spanje
                 </div>
-                <div class="mt-1 font-display text-xl tabular-nums text-accent">
+                <div class="mt-1 font-display text-xl text-accent tabular-nums">
                     − {{ euroFormatter.format(importTotalEur) }}
                 </div>
             </div>
             <div>
-                <div class="text-xs uppercase tracking-wider text-primary-foreground/60">
+                <div
+                    class="text-xs tracking-wider text-primary-foreground/60 uppercase"
+                >
                     Netto
                 </div>
                 <div
