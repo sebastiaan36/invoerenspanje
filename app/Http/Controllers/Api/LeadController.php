@@ -11,7 +11,9 @@ use App\Mail\QuoteRequestConfirmation;
 use App\Models\Lead;
 use App\Services\Quote\VehicleQuoteService;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
+use Throwable;
 
 final class LeadController extends Controller
 {
@@ -39,12 +41,27 @@ final class LeadController extends Controller
         /** @var Lead $lead */
         $lead = Lead::create($attributes);
 
-        // Twee mails — kan later naar de queue, voor nu sync.
-        Mail::to(config('services.internal_notifications.email'))
-            ->send(new LeadReceivedNotification($lead));
+        // Mails synchroon, maar elk in een eigen try/catch: een mailprobleem
+        // mag de leadregistratie of de gebruiker nooit raken.
+        try {
+            Mail::to(config('services.internal_notifications.email'))
+                ->send(new LeadReceivedNotification($lead));
+        } catch (Throwable $e) {
+            Log::error('Interne lead-notificatie kon niet worden verstuurd.', [
+                'lead_id' => $lead->id,
+                'exception' => $e->getMessage(),
+            ]);
+        }
 
-        Mail::to($lead->email)
-            ->send(new QuoteRequestConfirmation($lead));
+        try {
+            Mail::to($lead->email)
+                ->send(new QuoteRequestConfirmation($lead));
+        } catch (Throwable $e) {
+            Log::error('Bevestigingsmail naar klant kon niet worden verstuurd.', [
+                'lead_id' => $lead->id,
+                'exception' => $e->getMessage(),
+            ]);
+        }
 
         return response()->json([
             'ok' => true,
