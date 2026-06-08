@@ -18,7 +18,7 @@ Route::inertia('/', 'Welcome', [
 Route::inertia('diensten', 'Diensten')->name('diensten');
 Route::inertia('over-ons', 'OverOns')->name('over-ons');
 Route::inertia('contact', 'Contact', [
-    'werkgebied' => fn () => config('werkgebied'),
+    'werkgebied' => config('werkgebied'),
 ])->name('contact');
 Route::post('contact', [ContactController::class, 'store'])->middleware('throttle:5,1')->name('contact.store');
 Route::inertia('tarieven', 'Tarieven')->name('tarieven');
@@ -59,8 +59,9 @@ Route::middleware(['auth', 'klant'])->prefix('portaal')->name('portaal.')->group
 
     // Backward-compat met de oude singular routes — pakken eerstvolgende dossier en redirecten.
     Route::get('dossier', [PortalController::class, 'redirectToFirstDossier'])->name('dossier.legacy');
-    Route::get('documenten', fn () => redirect()->route('portaal.dashboard'));
-    Route::get('berichten', fn () => redirect()->route('portaal.dashboard'));
+    // Route::redirect (geen closure) zodat routes cache-baar blijven via route:cache.
+    Route::redirect('documenten', '/portaal');
+    Route::redirect('berichten', '/portaal');
 
     Route::prefix('dossiers/{dossier}')->name('dossiers.')->group(function () {
         Route::get('/', [PortalController::class, 'showDossier'])->name('show');
