@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { usePage } from '@inertiajs/vue3';
-import { Loader2, AlertCircle, Info, AlertTriangle, HelpCircle } from 'lucide-vue-next';
+import { Loader2, AlertCircle, Info, AlertTriangle, HelpCircle, Check } from 'lucide-vue-next';
 import { ref, computed, watch, onBeforeUnmount } from 'vue';
 import ImportCostsCard from '@/components/ImportCostsCard.vue';
 import NetEffectBlock from '@/components/NetEffectBlock.vue';
@@ -333,11 +333,12 @@ clearTimeout(recalcTimer);
                         class="peer sr-only"
                     />
                     <span
-                        class="flex size-5 shrink-0 items-center justify-center rounded-full border-2 border-border transition-colors group-hover:border-muted-foreground peer-checked:border-accent"
+                        class="flex size-5 shrink-0 items-center justify-center rounded-full border-2 border-border transition-colors group-hover:border-muted-foreground peer-checked:border-accent peer-checked:bg-accent"
                         aria-hidden="true"
                     >
-                        <span
-                            class="size-2.5 rounded-full bg-accent opacity-0 transition-opacity peer-checked:opacity-100"
+                        <Check
+                            class="size-3 text-white opacity-0 transition-opacity peer-checked:opacity-100"
+                            :stroke-width="3"
                         />
                     </span>
                     <span class="text-sm font-medium text-foreground">{{ option.label }}</span>

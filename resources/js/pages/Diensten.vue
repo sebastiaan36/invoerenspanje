@@ -129,10 +129,7 @@ const steps = [
 </script>
 
 <template>
-    <PublicLayout
-        title="Diensten — Alles voor uw auto op Spaans kenteken"
-        description="Van BPM-teruggave en auto-export tot ITV-begeleiding en volledige matriculación in Spanje. Ontdek onze diensten voor Nederlanders aan de Costa del Sol."
-    >
+    <PublicLayout>
         <!-- Hero -->
         <section class="bg-background">
             <div class="container mx-auto max-w-4xl px-4 py-16 text-center md:py-24">

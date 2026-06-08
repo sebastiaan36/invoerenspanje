@@ -215,10 +215,7 @@ function isOpen(key: string): boolean {
 </script>
 
 <template>
-    <PublicLayout
-        title="Veelgestelde vragen — Auto invoeren in Spanje"
-        description="Antwoorden op alle vragen over het invoeren van uw auto in Spanje: BPM-teruggave, ITV-keuring, IEDMT, documenten, kosten en meer."
-    >
+    <PublicLayout>
         <!-- Header -->
         <section class="bg-background">
             <div class="container mx-auto max-w-3xl px-4 py-16 text-center md:py-24">

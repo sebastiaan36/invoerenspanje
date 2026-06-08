@@ -63,10 +63,7 @@ const values = [
 </script>
 
 <template>
-    <PublicLayout
-        title="Over ons — autoinvoerenspanje.nl"
-        description="Leer Maikel en Sebastiaan kennen — de samenwerking achter autoinvoerenspanje.nl. IVA-gecertificeerde autospecialist en online marketeer voor Nederlanders in Spanje."
-    >
+    <PublicLayout>
         <!-- Hero -->
         <section class="bg-background">
             <div class="container mx-auto max-w-4xl px-4 py-16 text-center md:py-24">

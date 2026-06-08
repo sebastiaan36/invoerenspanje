@@ -6,10 +6,10 @@ import { home, login } from '@/routes';
 
 const currentPath = computed(() => new URL(usePage().url, 'http://x').pathname);
 
-defineProps<{
-    title?: string;
-    description?: string;
-}>();
+// Title/description/Open Graph are rendered server-side from config/seo.php.
+// Here we only sync the document <title> on client-side (SPA) navigation,
+// reading the shared `seo` prop so there is a single source of truth.
+const seoTitle = computed(() => (usePage().props.seo as { title?: string } | undefined)?.title);
 
 const navItems = [
     { label: 'Diensten', href: '/diensten' },
@@ -43,9 +43,7 @@ function closeMenu() {
 </script>
 
 <template>
-    <Head v-if="title" :title="title">
-        <meta v-if="description" name="description" :content="description" />
-    </Head>
+    <Head v-if="seoTitle" :title="seoTitle" />
 
     <div class="flex min-h-screen flex-col bg-background text-foreground">
         <header class="sticky top-0 z-40 border-b border-border bg-background/90 backdrop-blur">

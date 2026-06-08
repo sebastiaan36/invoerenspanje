@@ -59,15 +59,22 @@ final class BlogController extends Controller
                 'author' => $p->author?->name,
             ]);
 
+        $heroImageUrl = $post->hero_image_path
+            ? asset('storage/'.$post->hero_image_path)
+            : null;
+
         return Inertia::render('Blog/Show', [
+            'seo' => [
+                'title' => $post->title.' — autoinvoerenspanje.nl',
+                'description' => $post->excerpt ?? config('seo.default.description'),
+                'image' => $heroImageUrl ?? (config('seo.default_image') ? url((string) config('seo.default_image')) : null),
+            ],
             'post' => [
                 'slug' => $post->slug,
                 'title' => $post->title,
                 'excerpt' => $post->excerpt,
                 'content_html' => $post->content_html,
-                'hero_image_url' => $post->hero_image_path
-                    ? asset('storage/'.$post->hero_image_path)
-                    : null,
+                'hero_image_url' => $heroImageUrl,
                 'published_at' => $post->published_at?->toIso8601String(),
                 'author' => $post->author?->name,
             ],

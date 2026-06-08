@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { postJson, isApiError, isNetworkError } from '@/lib/api';
+import { trackEvent } from '@/lib/analytics';
 
 const props = defineProps<{
     kenteken: string;
@@ -94,6 +95,12 @@ return;
     try {
         const response = await postJson<LeadResponse>('/api/leads', buildPayload());
         successReference.value = response.reference;
+
+        // GA4: mark a completed quote request as a lead conversion.
+        trackEvent('generate_lead', {
+            method: 'quote_form',
+            page_path: window.location.pathname,
+        });
     } catch (raw) {
         if (isNetworkError(raw)) {
             submitError.value = 'Geen verbinding met de server. Controleer uw internet en probeer opnieuw.';

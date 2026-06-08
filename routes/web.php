@@ -17,7 +17,9 @@ Route::inertia('/', 'Welcome', [
 
 Route::inertia('diensten', 'Diensten')->name('diensten');
 Route::inertia('over-ons', 'OverOns')->name('over-ons');
-Route::inertia('contact', 'Contact')->name('contact');
+Route::inertia('contact', 'Contact', [
+    'werkgebied' => fn () => config('werkgebied'),
+])->name('contact');
 Route::post('contact', [ContactController::class, 'store'])->middleware('throttle:5,1')->name('contact.store');
 Route::inertia('tarieven', 'Tarieven')->name('tarieven');
 Route::inertia('bpm-calculator', 'BpmCalculator')->name('bpm-calculator');
@@ -28,7 +30,9 @@ Route::get('sitemap.xml', SitemapController::class)->name('sitemap');
 Route::get('blog', [BlogController::class, 'index'])->name('blog.index');
 Route::get('blog/{slug}', [BlogController::class, 'show'])->name('blog.show');
 
-Route::post('api/lookup', LookupController::class)->name('api.lookup');
+Route::post('api/lookup', LookupController::class)
+    ->middleware('throttle:20,1')
+    ->name('api.lookup');
 
 Route::post('api/leads', [LeadController::class, 'store'])
     ->middleware('throttle:5,1')

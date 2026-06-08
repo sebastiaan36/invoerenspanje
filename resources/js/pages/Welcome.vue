@@ -14,10 +14,7 @@ withDefaults(
 </script>
 
 <template>
-    <PublicLayout
-        title="Auto op Spaans kenteken — voor Nederlanders in Spanje"
-        description="Wij regelen het hele traject om je Nederlandse auto op Spaans kenteken te zetten — van papierwerk en BPM-teruggave tot de ITV. Voor Nederlanders aan de Costa del Sol."
-    >
+    <PublicLayout>
         <section class="relative overflow-hidden bg-background">
             <div class="container mx-auto max-w-6xl px-4 py-16 text-center md:py-24">
                 <span

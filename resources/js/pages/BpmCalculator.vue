@@ -4,10 +4,7 @@ import PublicLayout from '@/layouts/PublicLayout.vue';
 </script>
 
 <template>
-    <PublicLayout
-        title="BPM-calculator — Bereken uw BPM-teruggave"
-        description="Voer uw kenteken in en zie direct hoeveel BPM-teruggave u kunt verwachten bij export van uw auto naar Spanje."
-    >
+    <PublicLayout>
         <section class="bg-background">
             <div class="container mx-auto max-w-4xl px-4 py-16 text-center md:py-24">
                 <span class="inline-flex items-center rounded-full bg-secondary px-3 py-1 text-xs font-semibold text-secondary-foreground">

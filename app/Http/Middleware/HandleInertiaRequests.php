@@ -51,6 +51,38 @@ class HandleInertiaRequests extends Middleware
             'portal' => fn () => $request->user()?->isKlant()
                 ? ['unreadMessages' => $request->user()->unreadAdminMessagesCount()]
                 : null,
+            'seo' => fn () => $this->resolveSeo($request),
         ];
+    }
+
+    /**
+     * Resolve the SEO meta data for the current route.
+     *
+     * Controllers may override this by passing their own `seo` prop (e.g. blog
+     * posts), which takes precedence over the route-name lookup below.
+     *
+     * @return array{title: string, description: string, image: ?string}
+     */
+    protected function resolveSeo(Request $request): array
+    {
+        $routeName = $request->route()?->getName();
+
+        $meta = config('seo.routes.'.$routeName, []);
+
+        $image = $meta['image'] ?? config('seo.default_image');
+
+        return [
+            'title' => $meta['title'] ?? config('seo.default.title'),
+            'description' => $meta['description'] ?? config('seo.default.description'),
+            'image' => $image ? $this->absoluteImageUrl($image) : null,
+        ];
+    }
+
+    /**
+     * Expand a root-relative image path to an absolute URL for social tags.
+     */
+    protected function absoluteImageUrl(string $image): string
+    {
+        return str_starts_with($image, 'http') ? $image : url($image);
     }
 }

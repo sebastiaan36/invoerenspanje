@@ -3,6 +3,26 @@ import { useForm } from '@inertiajs/vue3';
 import { Phone, Mail, MessageCircle, Clock, CheckCircle, AlertCircle, Loader2 } from 'lucide-vue-next';
 import { ref } from 'vue';
 import PublicLayout from '@/layouts/PublicLayout.vue';
+import WerkgebiedKaart from '@/components/WerkgebiedKaart.vue';
+
+interface Plaats {
+    naam: string;
+    lat: number;
+    lng: number;
+}
+
+interface WerkgebiedData {
+    accent: string;
+    tiles: string;
+    attribution: string;
+    bounds: [[number, number], [number, number]];
+    gebied: [number, number][];
+    plaatsen: Plaats[];
+}
+
+defineProps<{
+    werkgebied: WerkgebiedData;
+}>();
 
 const PHONE = '+31618969732';
 const PHONE_DISPLAY = '+31 6 18 96 97 32';
@@ -30,10 +50,7 @@ function submit() {
 </script>
 
 <template>
-    <PublicLayout
-        title="Contact — autoinvoerenspanje.nl"
-        description="Neem contact op met ons team. Bel, WhatsApp of stuur een bericht via het contactformulier."
-    >
+    <PublicLayout>
         <!-- Hero -->
         <section class="bg-background">
             <div class="container mx-auto max-w-4xl px-4 py-16 text-center md:py-20">
@@ -240,6 +257,21 @@ function submit() {
                         </form>
                     </div>
                 </div>
+            </div>
+        </section>
+
+        <!-- Werkgebied -->
+        <section class="border-t border-border bg-background">
+            <div class="container mx-auto max-w-5xl px-4 py-16">
+                <div class="mb-8 max-w-2xl">
+                    <h2 class="font-display text-2xl font-semibold text-foreground md:text-3xl">
+                        Ons werkgebied
+                    </h2>
+                    <p class="mt-3 text-sm text-muted-foreground md:text-base">
+                        Wij begeleiden auto-imports vanuit de Costa del Sol, het binnenland van Málaga en de Montes de Málaga.
+                    </p>
+                </div>
+                <WerkgebiedKaart :data="werkgebied" />
             </div>
         </section>
     </PublicLayout>

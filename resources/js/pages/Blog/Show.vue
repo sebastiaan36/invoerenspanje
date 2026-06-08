@@ -45,7 +45,7 @@ return '';
 </script>
 
 <template>
-    <PublicLayout :title="`${post.title} — autoinvoerenspanje.nl`" :description="post.excerpt ?? undefined">
+    <PublicLayout>
         <article class="bg-background">
             <!-- Breadcrumb / back link -->
             <div class="border-b border-border bg-card/50">

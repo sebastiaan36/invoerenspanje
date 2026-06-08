@@ -47,10 +47,7 @@ return '';
 </script>
 
 <template>
-    <PublicLayout
-        title="Blog — autoinvoerenspanje.nl"
-        description="Praktische artikelen over auto-import van Nederland naar Spanje, BPM-teruggave, IEDMT en alles wat erbij komt kijken."
-    >
+    <PublicLayout>
         <section class="bg-secondary/40">
             <div class="container mx-auto max-w-4xl px-4 py-16 text-center md:py-20">
                 <span

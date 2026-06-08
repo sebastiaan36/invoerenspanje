@@ -58,10 +58,7 @@ const extraCosts = [
 </script>
 
 <template>
-    <PublicLayout
-        title="Tarieven — Auto op Spaans kenteken"
-        description="Transparante vaste prijzen voor het omzetten van uw Nederlandse auto naar Spaans kenteken. Bekijk onze drie pakketten en wat er bij inbegrepen is."
-    >
+    <PublicLayout>
         <!-- Hero -->
         <section class="bg-background">
             <div class="container mx-auto max-w-4xl px-4 py-16 text-center md:py-24">
