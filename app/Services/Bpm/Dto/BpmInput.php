@@ -13,6 +13,9 @@ final readonly class BpmInput
         public CarbonImmutable $datumEersteToelating,
         public int $co2,
         public string $brandstof,
+        public bool $isPlugin = false,
+        public ?string $voertuigsoort = null,
+        public ?int $historischBrutoBpm = null,
     ) {}
 
     /**
@@ -32,12 +35,20 @@ final readonly class BpmInput
             return null;
         }
 
-        $co2 = $fuel->co2UitstootGecombineerd ?? $fuel->co2UitstootGewogen ?? 0;
+        // WLTP heeft prioriteit boven NEDC (veel auto's vanaf ~2020 hebben alleen
+        // WLTP-waarden). Een PHEV wordt over de gewogen CO2 belast, niet over de
+        // gecombineerde.
+        $co2 = $result->isPluginHybrid
+            ? ($fuel->co2WltpGewogen ?? $fuel->co2UitstootGewogen ?? $fuel->co2WltpGecombineerd ?? $fuel->co2UitstootGecombineerd ?? 0)
+            : ($fuel->co2WltpGecombineerd ?? $fuel->co2UitstootGecombineerd ?? $fuel->co2WltpGewogen ?? $fuel->co2UitstootGewogen ?? 0);
 
         return new self(
             datumEersteToelating: $vehicle->datumEersteToelating,
             co2: $co2,
             brandstof: $fuel->brandstofOmschrijving,
+            isPlugin: $result->isPluginHybrid,
+            voertuigsoort: $vehicle->voertuigsoort,
+            historischBrutoBpm: $vehicle->brutoBpm,
         );
     }
 }

@@ -133,6 +133,60 @@ final class RdwServiceTest extends TestCase
         $this->assertSame(112, $result->fuel?->co2UitstootGecombineerd);
     }
 
+    public function test_full_lookup_detects_a_plugin_hybrid_from_multiple_fuel_rows(): void
+    {
+        Http::fake([
+            'opendata.rdw.nl/resource/m9d7-ebf2.json*' => Http::response([[
+                'kenteken' => '12ABC3',
+                'merk' => 'MITSUBISHI',
+                'datum_eerste_toelating' => '20190401',
+            ]]),
+            'opendata.rdw.nl/resource/8ys7-d773.json*' => Http::response([
+                [
+                    'kenteken' => '12ABC3',
+                    'brandstof_omschrijving' => 'Benzine',
+                    'co2_uitstoot_gecombineerd' => '130',
+                    'co2_uitstoot_gewogen' => '40',
+                ],
+                [
+                    'kenteken' => '12ABC3',
+                    'brandstof_omschrijving' => 'Elektriciteit',
+                ],
+            ]),
+        ]);
+
+        $service = $this->makeService();
+
+        $result = $service->fullLookup('12ABC3');
+
+        $this->assertTrue($result->isPluginHybrid);
+        // The combustion row is the primary fuel that drives the tariff.
+        $this->assertSame('Benzine', $result->fuel?->brandstofOmschrijving);
+        $this->assertSame(40, $result->fuel?->co2UitstootGewogen);
+    }
+
+    public function test_full_lookup_marks_a_single_fuel_car_as_not_plugin_hybrid(): void
+    {
+        Http::fake([
+            'opendata.rdw.nl/resource/m9d7-ebf2.json*' => Http::response([[
+                'kenteken' => '12ABC3',
+                'datum_eerste_toelating' => '20190401',
+            ]]),
+            'opendata.rdw.nl/resource/8ys7-d773.json*' => Http::response([[
+                'kenteken' => '12ABC3',
+                'brandstof_omschrijving' => 'Benzine',
+                'co2_uitstoot_gecombineerd' => '112',
+            ]]),
+        ]);
+
+        $service = $this->makeService();
+
+        $result = $service->fullLookup('12ABC3');
+
+        $this->assertFalse($result->isPluginHybrid);
+        $this->assertSame('Benzine', $result->fuel?->brandstofOmschrijving);
+    }
+
     private function makeService(?string $appToken = null): RdwService
     {
         return new RdwService(

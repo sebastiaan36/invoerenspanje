@@ -10,6 +10,7 @@ final readonly class VehicleLookupResult
         public string $kenteken,
         public ?VehicleData $vehicle,
         public ?FuelData $fuel,
+        public bool $isPluginHybrid = false,
     ) {}
 
     public function found(): bool

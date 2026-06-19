@@ -61,6 +61,7 @@ final readonly class VehicleQuote
                 'massa_ledig_voertuig' => $vehicle->massaLedigVoertuig,
                 'cilinderinhoud' => $vehicle->cilinderinhoud,
                 'catalogusprijs' => $vehicle->catalogusprijs,
+                'bruto_bpm' => $vehicle->brutoBpm,
                 'wam_verzekerd' => $vehicle->wamVerzekerd,
             ],
             'fuel' => $fuel === null ? null : [
@@ -70,6 +71,7 @@ final readonly class VehicleQuote
                 'co2_wltp_gecombineerd' => $fuel->co2WltpGecombineerd,
                 'co2_wltp_gewogen' => $fuel->co2WltpGewogen,
                 'emissiecode' => $fuel->emissiecodeOmschrijving,
+                'is_plugin_hybrid' => $this->rdw->isPluginHybrid,
             ],
         ];
     }

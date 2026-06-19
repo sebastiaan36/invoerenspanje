@@ -39,11 +39,22 @@ final class RdwService
 
     public function lookupFuel(string $kenteken): ?FuelData
     {
+        return $this->primaryFuel($this->lookupFuels($kenteken));
+    }
+
+    /**
+     * The RDW returns one fuel row per brandstof. A PHEV has two rows
+     * (a combustion fuel + Elektriciteit), so we need them all to detect it.
+     *
+     * @return list<FuelData>
+     */
+    public function lookupFuels(string $kenteken): array
+    {
         $normalized = KentekenNormalizer::normalize($kenteken);
 
-        $row = $this->fetchRow('fuel', $this->fuelEndpoint, $normalized);
+        $rows = $this->fetchRows('fuel', $this->fuelEndpoint, $normalized);
 
-        return $row === null ? null : FuelData::fromRdwRow($row);
+        return array_map(fn (array $row): FuelData => FuelData::fromRdwRow($row), $rows);
     }
 
     public function fullLookup(string $kenteken): VehicleLookupResult
@@ -56,9 +67,57 @@ final class RdwService
             return VehicleLookupResult::notFound($normalized);
         }
 
-        $fuel = $this->lookupFuel($normalized);
+        $fuels = $this->lookupFuels($normalized);
 
-        return new VehicleLookupResult($normalized, $vehicle, $fuel);
+        return new VehicleLookupResult(
+            kenteken: $normalized,
+            vehicle: $vehicle,
+            fuel: $this->primaryFuel($fuels),
+            isPluginHybrid: $this->isPluginHybrid($fuels),
+        );
+    }
+
+    /**
+     * The combustion fuel drives the BPM tariff; prefer it over the
+     * Elektriciteit row when a PHEV exposes both.
+     *
+     * @param  list<FuelData>  $fuels
+     */
+    private function primaryFuel(array $fuels): ?FuelData
+    {
+        foreach ($fuels as $fuel) {
+            if (! $this->isElectricFuel($fuel->brandstofOmschrijving)) {
+                return $fuel;
+            }
+        }
+
+        return $fuels[0] ?? null;
+    }
+
+    /**
+     * A plug-in hybrid registers both a combustion fuel and Elektriciteit.
+     *
+     * @param  list<FuelData>  $fuels
+     */
+    private function isPluginHybrid(array $fuels): bool
+    {
+        $hasElectric = false;
+        $hasCombustion = false;
+
+        foreach ($fuels as $fuel) {
+            if ($this->isElectricFuel($fuel->brandstofOmschrijving)) {
+                $hasElectric = true;
+            } else {
+                $hasCombustion = true;
+            }
+        }
+
+        return $hasElectric && $hasCombustion;
+    }
+
+    private function isElectricFuel(?string $brandstof): bool
+    {
+        return in_array(strtolower((string) $brandstof), ['elektriciteit', 'elektrisch'], true);
     }
 
     /**
@@ -104,6 +163,52 @@ final class RdwService
         $this->cache->put($cacheKey, $row, $ttl);
 
         return $row;
+    }
+
+    /**
+     * Like fetchRow, but returns ALL rows the RDW provides for the kenteken
+     * (e.g. one per brandstof). An empty list is cached as the "checked,
+     * nothing found" sentinel.
+     *
+     * @return list<array<string, mixed>>
+     */
+    private function fetchRows(string $kind, string $endpoint, string $kenteken): array
+    {
+        $cacheKey = "rdw:{$kind}s:{$kenteken}";
+        $ttl = now()->addDays($this->cacheTtlDays);
+
+        $cached = $this->cache->get($cacheKey);
+        if (is_array($cached)) {
+            return $cached;
+        }
+
+        try {
+            $response = $this->client()
+                ->get($endpoint, ['kenteken' => $kenteken])
+                ->throw();
+        } catch (ConnectionException|RequestException|Throwable $e) {
+            $this->logger->error('RDW lookup failed', [
+                'kind' => $kind,
+                'kenteken' => $kenteken,
+                'exception' => $e::class,
+                'message' => $e->getMessage(),
+            ]);
+
+            // Don't cache failures — let the next request retry.
+            return [];
+        }
+
+        $rows = $response->json();
+
+        if (! is_array($rows)) {
+            $rows = [];
+        }
+
+        /** @var list<array<string, mixed>> $rows */
+        $rows = array_values($rows);
+        $this->cache->put($cacheKey, $rows, $ttl);
+
+        return $rows;
     }
 
     private function client(): PendingRequest

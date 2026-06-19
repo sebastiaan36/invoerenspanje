@@ -22,6 +22,7 @@ final readonly class VehicleData
         public ?int $massaLedigVoertuig,
         public ?int $cilinderinhoud,
         public ?int $catalogusprijs,
+        public ?int $brutoBpm,
         public ?bool $wamVerzekerd,
     ) {}
 
@@ -44,6 +45,7 @@ final readonly class VehicleData
             massaLedigVoertuig: self::int($row['massa_ledig_voertuig'] ?? null),
             cilinderinhoud: self::int($row['cilinderinhoud'] ?? null),
             catalogusprijs: self::int($row['catalogusprijs'] ?? null),
+            brutoBpm: self::int($row['bruto_bpm'] ?? null),
             wamVerzekerd: self::bool($row['wam_verzekerd'] ?? null),
         );
     }
