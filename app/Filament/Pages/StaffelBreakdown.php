@@ -24,6 +24,7 @@ class StaffelBreakdown extends Page
         $year = Carbon::now()->year;
 
         $revenue = (float) Lead::whereNotNull('package_slug')
+            ->where('status', 'gewonnen')
             ->whereDate('created_at', '>=', $yearStart)
             ->get()
             ->sum(fn (Lead $lead) => ServicePackages::findBySlug($lead->package_slug)?->priceEur ?? 0);
