@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 use League\Flysystem\UnableToCheckFileExistence;
+use League\Flysystem\UnableToRetrieveMetadata;
 use Livewire\Attributes\Renderless;
 use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
 use Throwable;
@@ -44,6 +45,8 @@ class BaseFileUpload extends Field implements Contracts\HasNestedRecursiveValida
     protected string | Closure | null $directory = null;
 
     protected string | Closure | null $diskName = null;
+
+    protected ?Filesystem $cachedDisk = null;
 
     protected bool | Closure $isMultiple = false;
 
@@ -118,26 +121,8 @@ class BaseFileUpload extends Field implements Contracts\HasNestedRecursiveValida
         // (initial form load), not when state is later updated from a Livewire request.
         // It is therefore not a security boundary for submitted paths — see the note in
         // `saveUploadedFiles()` and the file upload documentation.
-        $this->afterStateHydrated(static function (BaseFileUpload $component, string | array | null $rawState): void {
-            $shouldFetchFileInformation = $component->shouldFetchFileInformation();
-
-            $component->rawState(
-                array_filter(Arr::wrap($rawState), static function (string $file) use ($component, $shouldFetchFileInformation): bool {
-                    if (blank($file)) {
-                        return false;
-                    }
-
-                    if (! $shouldFetchFileInformation) {
-                        return true;
-                    }
-
-                    try {
-                        return $component->getDisk()->exists($file);
-                    } catch (UnableToCheckFileExistence $exception) {
-                        return false;
-                    }
-                }),
-            );
+        $this->afterStateHydrated(static function (BaseFileUpload $component): void {
+            $component->hydrateFiles();
         });
 
         $this->beforeStateDehydrated(static function (BaseFileUpload $component): void {
@@ -145,42 +130,7 @@ class BaseFileUpload extends Field implements Contracts\HasNestedRecursiveValida
         }, shouldUpdateValidatedStateAfter: true);
 
         $this->getUploadedFileUsing(static function (BaseFileUpload $component, string $file, string | array | null $storedFileNames): ?array {
-            /** @var FilesystemAdapter $storage */
-            $storage = $component->getDisk();
-
-            $shouldFetchFileInformation = $component->shouldFetchFileInformation();
-
-            if ($shouldFetchFileInformation) {
-                try {
-                    if (! $storage->exists($file)) {
-                        return null;
-                    }
-                } catch (UnableToCheckFileExistence $exception) {
-                    return null;
-                }
-            }
-
-            $url = null;
-
-            if ($component->getVisibility() === 'private') {
-                try {
-                    $url = $storage->temporaryUrl(
-                        $file,
-                        now()->addMinutes(config('filament.temporary_file_url_expiry_minutes', 30))->endOfHour(),
-                    );
-                } catch (Throwable $exception) {
-                    // This driver does not support creating temporary URLs.
-                }
-            }
-
-            $url ??= $storage->url($file);
-
-            return [
-                'name' => ($component->isMultiple() ? ($storedFileNames[$file] ?? null) : $storedFileNames) ?? basename($file),
-                'size' => $shouldFetchFileInformation ? $storage->size($file) : 0,
-                'type' => $shouldFetchFileInformation ? $storage->mimeType($file) : null,
-                'url' => $url,
-            ];
+            return $component->getUploadedFile($file, $storedFileNames);
         });
 
         $this->getUploadedFileNameForStorageUsing(static function (BaseFileUpload $component, TemporaryUploadedFile $file) {
@@ -188,37 +138,118 @@ class BaseFileUpload extends Field implements Contracts\HasNestedRecursiveValida
         });
 
         $this->saveUploadedFileUsing(static function (BaseFileUpload $component, TemporaryUploadedFile $file): ?string {
-            try {
-                if (! $file->exists()) {
-                    return null;
+            return $component->saveUploadedFile($file);
+        });
+    }
+
+    public function hydrateFiles(): void
+    {
+        $shouldFetchFileInformation = $this->shouldFetchFileInformation();
+
+        $this->rawState(
+            array_filter(Arr::wrap($this->getRawState()), function (string $file) use ($shouldFetchFileInformation): bool {
+                if (blank($file)) {
+                    return false;
                 }
-            } catch (UnableToCheckFileExistence $exception) {
+
+                if (! $shouldFetchFileInformation) {
+                    return true;
+                }
+
+                try {
+                    return $this->getDisk()->exists($file);
+                } catch (UnableToCheckFileExistence $exception) {
+                    return false;
+                }
+            }),
+        );
+    }
+
+    /**
+     * @param  string | array<string, string> | null  $storedFileNames
+     * @return array{name: string, size: int, type: ?string, url: ?string} | null
+     */
+    public function getUploadedFile(string $file, string | array | null $storedFileNames): ?array
+    {
+        /** @var FilesystemAdapter $storage */
+        $storage = $this->getDisk();
+
+        $shouldFetchFileInformation = $this->shouldFetchFileInformation();
+
+        $size = 0;
+        $type = null;
+
+        if ($shouldFetchFileInformation) {
+            try {
+                $size = $storage->size($file);
+                $type = $storage->mimeType($file);
+            } catch (UnableToRetrieveMetadata | UnableToCheckFileExistence $exception) {
                 return null;
             }
+        }
 
-            if (
-                $component->shouldMoveFiles() &&
-                ($component->getDiskName() === (fn (): string => $this->disk)->call($file))
-            ) {
-                $newPath = trim($component->getDirectory() . '/' . $component->getUploadedFileNameForStorage($file), '/');
+        $url = null;
 
-                $component->getDisk()->move((fn (): string => $this->path)->call($file), $newPath);
-
-                return $newPath;
+        if ($this->getVisibility() === 'private') {
+            try {
+                $url = $storage->temporaryUrl(
+                    $file,
+                    now()->addMinutes(config('filament.temporary_file_url_expiry_minutes', 30))->endOfHour(),
+                );
+            } catch (Throwable $exception) {
+                // This driver does not support creating temporary URLs.
             }
+        }
 
-            $path = $file->storeAs(
-                $component->getDirectory(),
-                $component->getUploadedFileNameForStorage($file),
-                $component->getDiskName(),
+        $url ??= $storage->url($file);
+
+        return [
+            'name' => ($this->isMultiple() ? ($storedFileNames[$file] ?? null) : $storedFileNames) ?? basename($file),
+            'size' => $size,
+            'type' => $type,
+            'url' => Str::sanitizeUrl($url),
+        ];
+    }
+
+    public function saveUploadedFile(TemporaryUploadedFile $file): ?string
+    {
+        try {
+            if (! $file->exists()) {
+                return null;
+            }
+        } catch (UnableToCheckFileExistence $exception) {
+            return null;
+        }
+
+        if (
+            $this->shouldMoveFiles() &&
+            ($this->getDiskName() === (function (): string {
+                return $this->disk;
+            })->call($file))
+        ) {
+            $newPath = trim($this->getDirectory() . '/' . $this->getUploadedFileNameForStorage($file), '/');
+
+            $this->getDisk()->move(
+                (function (): string {
+                    return $this->path;
+                })->call($file),
+                $newPath,
             );
 
-            if ($component->getVisibility() === 'public') {
-                rescue(fn () => $component->getDisk()->setVisibility($path, 'public'), report: false);
-            }
+            return $newPath;
+        }
 
-            return $path;
-        });
+        $path = $file->storeAs(
+            $this->getDirectory(),
+            $this->getUploadedFileNameForStorage($file),
+            $this->getDiskName(),
+        );
+
+        if ($this->getVisibility() === 'public') {
+            rescue(fn () => $this->getDisk()->setVisibility($path, 'public'), report: false);
+        }
+
+        return $path;
     }
 
     /**
@@ -254,6 +285,8 @@ class BaseFileUpload extends Field implements Contracts\HasNestedRecursiveValida
     public function disk(string | Closure | null $name): static
     {
         $this->diskName = $name;
+
+        $this->cachedDisk = null;
 
         return $this;
     }
@@ -560,7 +593,7 @@ class BaseFileUpload extends Field implements Contracts\HasNestedRecursiveValida
 
     public function getDisk(): Filesystem
     {
-        return Storage::disk($this->getDiskName());
+        return $this->cachedDisk ??= Storage::disk($this->getDiskName());
     }
 
     public function getDiskName(): string
@@ -793,6 +826,18 @@ class BaseFileUpload extends Field implements Contracts\HasNestedRecursiveValida
             return null;
         }
 
+        // Security: When `preventFilePathTampering()` is enabled, a string value is a
+        // client-controlled path that must trace back to the record (or be approved by
+        // `allowFilePathUsing`). Refuse unauthorized paths here so a tampered path can
+        // never reach the `deleteUploadedFileUsing` callback or be removed from state.
+        if (
+            is_string($file) &&
+            $this->shouldPreventFilePathTampering() &&
+            ! $this->isFilePathAuthorized($file)
+        ) {
+            return null;
+        }
+
         if (is_string($file)) {
             $this->removeStoredFileName($file);
         } elseif ($file instanceof TemporaryUploadedFile) {
@@ -901,11 +946,15 @@ class BaseFileUpload extends Field implements Contracts\HasNestedRecursiveValida
                 continue;
             }
 
+            if (array_key_exists('url', $urls[$fileKey])) {
+                $urls[$fileKey]['url'] = Str::sanitizeUrl($urls[$fileKey]['url']);
+            }
+
             if ($openableFileUrlCallback) {
-                $openableUrl = $this->evaluate($openableFileUrlCallback, [
+                $openableUrl = Str::sanitizeUrl($this->evaluate($openableFileUrlCallback, [
                     'file' => $file,
                     'storedFileNames' => $storedFileNames,
-                ]);
+                ]));
 
                 if ($openableUrl !== null) {
                     $urls[$fileKey]['openableUrl'] = $openableUrl;
@@ -913,10 +962,10 @@ class BaseFileUpload extends Field implements Contracts\HasNestedRecursiveValida
             }
 
             if ($downloadableFileUrlCallback) {
-                $downloadableUrl = $this->evaluate($downloadableFileUrlCallback, [
+                $downloadableUrl = Str::sanitizeUrl($this->evaluate($downloadableFileUrlCallback, [
                     'file' => $file,
                     'storedFileNames' => $storedFileNames,
-                ]);
+                ]));
 
                 if ($downloadableUrl !== null) {
                     $urls[$fileKey]['downloadableUrl'] = $downloadableUrl;
@@ -975,6 +1024,10 @@ class BaseFileUpload extends Field implements Contracts\HasNestedRecursiveValida
 
         if ($this->isReorderable && ($callback = $this->reorderUploadedFilesUsing)) {
             $rawState = $this->evaluate($callback, [
+                'rawState' => $rawState,
+                // The `state` injection is deprecated, as this value is raw state that
+                // has not been processed by state casts. It must remain uncast, since
+                // the callback's return value is written straight back to raw state.
                 'state' => $rawState,
             ]);
         }

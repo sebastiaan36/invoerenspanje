@@ -545,7 +545,7 @@ class TestResponse implements ArrayAccess
         $expiresAt = Carbon::createFromTimestamp($cookie->getExpiresTime(), date_default_timezone_get());
 
         PHPUnit::withResponse($this)->assertTrue(
-            $cookie->getExpiresTime() !== 0 && $expiresAt->lessThan(Carbon::now()),
+            $cookie->getExpiresTime() !== 0 && $expiresAt->isPast(),
             "Cookie [{$cookieName}] is not expired, it expires at [{$expiresAt}]."
         );
 
@@ -568,7 +568,7 @@ class TestResponse implements ArrayAccess
         $expiresAt = Carbon::createFromTimestamp($cookie->getExpiresTime(), date_default_timezone_get());
 
         PHPUnit::withResponse($this)->assertTrue(
-            $cookie->getExpiresTime() === 0 || $expiresAt->greaterThan(Carbon::now()),
+            $cookie->getExpiresTime() === 0 || $expiresAt->isFuture(),
             "Cookie [{$cookieName}] is expired, it expired at [{$expiresAt}]."
         );
 
@@ -688,6 +688,8 @@ class TestResponse implements ArrayAccess
      *
      * @param  array  $value
      * @return $this
+     *
+     * @throws \JsonException
      */
     public function assertStreamedJsonContent($value)
     {
@@ -884,6 +886,20 @@ class TestResponse implements ArrayAccess
     {
         foreach ($paths as $path => $expected) {
             $this->assertJsonPath($path, $expected);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Assert that the given paths in the response contain all of the expected values without looking at the order.
+     *
+     * @return $this
+     */
+    public function assertJsonPathsCanonicalizing(array $paths)
+    {
+        foreach ($paths as $path => $expected) {
+            $this->assertJsonPathCanonicalizing($path, $expected);
         }
 
         return $this;
@@ -1643,6 +1659,30 @@ class TestResponse implements ArrayAccess
     }
 
     /**
+     * Assert that the session is missing a given key in the flashed input array.
+     *
+     * @param  string|array  $key
+     * @return $this
+     */
+    public function assertSessionMissingInput($key)
+    {
+        if (is_array($key)) {
+            foreach ($key as $k) {
+                $this->assertSessionMissingInput($k);
+            }
+
+            return $this;
+        }
+
+        PHPUnit::withResponse($this)->assertFalse(
+            $this->session()->hasOldInput($key),
+            "Session has unexpected key [{$key}]."
+        );
+
+        return $this;
+    }
+
+    /**
      * Assert that the session has the given errors.
      *
      * @param  string|array  $keys
@@ -1708,6 +1748,8 @@ class TestResponse implements ArrayAccess
      * Assert that the session has no errors.
      *
      * @return $this
+     *
+     * @throws \JsonException
      */
     public function assertSessionHasNoErrors()
     {

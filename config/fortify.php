@@ -144,7 +144,9 @@ return [
     */
 
     'features' => [
-        Features::registration(),
+        // Publieke zelfregistratie is uitgeschakeld: klantaccounts ontstaan
+        // uitsluitend via lead-conversie (App\Services\Leads\LeadConverter).
+        // Features::registration(),
         Features::resetPasswords(),
         Features::emailVerification(),
         Features::twoFactorAuthentication([

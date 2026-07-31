@@ -27,6 +27,7 @@ class ProfileUpdateTest extends TestCase
 
         $response = $this
             ->actingAs($user)
+            ->withSession(['auth.password_confirmed_at' => time()])
             ->patch(route('profile.update'), [
                 'name' => 'Test User',
                 'email' => 'test@example.com',
@@ -49,6 +50,7 @@ class ProfileUpdateTest extends TestCase
 
         $response = $this
             ->actingAs($user)
+            ->withSession(['auth.password_confirmed_at' => time()])
             ->patch(route('profile.update'), [
                 'name' => 'Test User',
                 'email' => $user->email,
@@ -59,6 +61,23 @@ class ProfileUpdateTest extends TestCase
             ->assertRedirect(route('profile.edit'));
 
         $this->assertNotNull($user->refresh()->email_verified_at);
+    }
+
+    public function test_profile_update_requires_recent_password_confirmation()
+    {
+        $user = User::factory()->create();
+
+        $response = $this
+            ->actingAs($user)
+            ->patch(route('profile.update'), [
+                'name' => 'Attacker',
+                'email' => 'attacker@example.com',
+            ]);
+
+        $response->assertRedirect(route('password.confirm'));
+
+        $user->refresh();
+        $this->assertNotSame('attacker@example.com', $user->email);
     }
 
     public function test_user_can_delete_their_account()

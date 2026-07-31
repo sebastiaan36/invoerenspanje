@@ -33,7 +33,9 @@ return [
         'local' => [
             'driver' => 'local',
             'root' => storage_path('app/private'),
-            'serve' => true,
+            // Geen publieke /storage/{path} read/write-routes: de app serveert
+            // klantdocumenten via eigen, ge-autoriseerde controller-routes.
+            'serve' => false,
             'throw' => false,
             'report' => false,
         ],
