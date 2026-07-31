@@ -4,11 +4,17 @@ declare(strict_types=1);
 
 namespace Laravel\Mcp\Server;
 
+use Closure;
 use Illuminate\Container\Container;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Route;
 use Illuminate\Support\Facades\Route as Router;
 use Illuminate\Support\Str;
+use Illuminate\Support\Traits\Macroable;
+use Laravel\Mcp\Client;
+use Laravel\Mcp\Client\ClientManager;
+use Laravel\Mcp\Client\OAuth\OAuthRouteRegistrar;
+use Laravel\Mcp\Client\OAuth\TokenSet;
 use Laravel\Mcp\Server;
 use Laravel\Mcp\Server\Contracts\Transport;
 use Laravel\Mcp\Server\Http\Controllers\OAuthRegisterController;
@@ -20,6 +26,10 @@ use Laravel\Passport\Passport;
 
 class Registrar
 {
+    use Macroable;
+
+    public const OAUTH_SCOPE = 'mcp:use';
+
     /** @var array<string, callable> */
     protected array $localServers = [];
 
@@ -65,6 +75,33 @@ class Registrar
         ));
     }
 
+    /**
+     * @param  Closure(): Client  $factory
+     */
+    public function registerClient(string $name, Closure $factory): void
+    {
+        $this->clientManager()->registerClient($name, $factory);
+    }
+
+    public function client(string $name): Client
+    {
+        return $this->clientManager()->client($name);
+    }
+
+    /**
+     * @param  Closure(string, TokenSet): mixed|array{0: class-string, 1: string}  $handler
+     * @param  array<int, string>|string  $middleware
+     */
+    public function oAuthRoutesFor(
+        string $client,
+        Closure|array $handler,
+        array|string $middleware = 'web',
+        ?string $connectUri = null,
+        ?string $callbackUri = null,
+    ): void {
+        (new OAuthRouteRegistrar)->register($client, $handler, $middleware, $connectUri, $callbackUri);
+    }
+
     public function getLocalServer(string $handle): ?callable
     {
         return $this->localServers[$handle] ?? null;
@@ -102,7 +139,11 @@ class Registrar
                 ->name('mcp.oauth.authorization-server');
         }
 
-        Router::get('/.well-known/oauth-protected-resource/{path}', static fn (string $path) => response()->json(static::protectedResourceMetadata($path)))
+        Router::get('/.well-known/oauth-protected-resource/{path}', static function (Route $route) {
+            $path = $route->parameter('path');
+
+            return response()->json(static::protectedResourceMetadata(is_string($path) ? $path : ''));
+        })
             ->where('path', '.*')
             ->name('mcp.oauth.protected-resource.nested');
 
@@ -125,7 +166,7 @@ class Registrar
             'registration_endpoint' => url($oauthPrefix.'/register'),
             'response_types_supported' => ['code'],
             'code_challenge_methods_supported' => ['S256'],
-            'scopes_supported' => ['mcp:use'],
+            'scopes_supported' => [self::OAUTH_SCOPE],
             'grant_types_supported' => ['authorization_code', 'refresh_token'],
         ];
     }
@@ -138,7 +179,7 @@ class Registrar
         return [
             'resource' => url('/'.$path),
             'authorization_servers' => [config('mcp.authorization_server') ?? url('/')],
-            'scopes_supported' => ['mcp:use'],
+            'scopes_supported' => [self::OAUTH_SCOPE],
         ];
     }
 
@@ -164,12 +205,17 @@ class Registrar
 
         $current = Passport::$scopes ?? [];
 
-        if (! array_key_exists('mcp:use', $current)) {
-            $current['mcp:use'] = 'Use MCP server';
+        if (! array_key_exists(self::OAUTH_SCOPE, $current)) {
+            $current[self::OAUTH_SCOPE] = 'Use MCP server';
             Passport::tokensCan($current);
         }
 
         return $current;
+    }
+
+    protected function clientManager(): ClientManager
+    {
+        return Container::getInstance()->make(ClientManager::class);
     }
 
     /**

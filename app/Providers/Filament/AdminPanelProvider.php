@@ -28,7 +28,9 @@ class AdminPanelProvider extends PanelProvider
             ->default()
             ->id('admin')
             ->path('admin')
-            ->login()
+            // Geen eigen ->login(): Filaments loginpagina omzeilt Fortify's 2FA.
+            // Admins authenticeren via de Fortify /login (2FA afgedwongen); een
+            // niet-ingelogde /admin-request valt automatisch terug op route('login').
             ->colors([
                 'primary' => Color::Indigo, // dichtst bij onze diepblauw — admin only, hoeft niet 1:1 brand-match
             ])

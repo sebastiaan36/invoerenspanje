@@ -32,7 +32,7 @@ class UserForm
                         'klant' => 'Klant',
                     ])
                     ->required()
-                    ->default('admin'),
+                    ->default('klant'),
                 TextInput::make('password')
                     ->label('Wachtwoord')
                     ->password()

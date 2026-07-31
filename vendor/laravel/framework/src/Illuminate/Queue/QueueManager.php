@@ -129,8 +129,8 @@ class QueueManager implements FactoryContract, MonitorContract
      * Set the queue route for the given class.
      *
      * @param  array|class-string  $class
-     * @param  string|null  $queue
-     * @param  string|null  $connection
+     * @param  \UnitEnum|string|null  $queue
+     * @param  \UnitEnum|string|null  $connection
      * @return void
      */
     public function route(array|string $class, $queue = null, $connection = null)
@@ -282,6 +282,24 @@ class QueueManager implements FactoryContract, MonitorContract
         return (bool) $this->app['cache']
             ->store()
             ->get("illuminate:queue:paused:{$connection}:{$queue}", false);
+    }
+
+    /**
+     * Determine which of the given queues are currently paused.
+     *
+     * @param  string  $connection
+     * @param  array  $queues
+     * @return array
+     */
+    public function getPausedQueues($connection, $queues)
+    {
+        $keys = array_map(fn ($queue) => "illuminate:queue:paused:{$connection}:{$queue}", $queues);
+
+        $states = $this->app['cache']->store()->many($keys);
+
+        return array_values(array_filter(
+            $queues, fn ($queue) => $states["illuminate:queue:paused:{$connection}:{$queue}"] ?? false
+        ));
     }
 
     /**
