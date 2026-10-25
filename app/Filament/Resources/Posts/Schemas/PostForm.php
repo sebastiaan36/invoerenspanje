@@ -19,8 +19,14 @@ class PostForm
     public static function configure(Schema $schema): Schema
     {
         return $schema
+            // Posts synced from resources/content/blog are edited in the file;
+            // admin edits would be overwritten by the next `blog:sync`.
+            ->disabled(fn (?Post $record): bool => (bool) $record?->isFileManaged())
             ->components([
                 Section::make('Inhoud')
+                    ->description(fn (?Post $record): ?string => $record?->isFileManaged()
+                        ? "Dit artikel wordt beheerd als bestand: resources/content/blog/{$record->slug}.md. Pas het bestand aan en draai `php artisan blog:sync`."
+                        : null)
                     ->schema([
                         TextInput::make('title')
                             ->label('Titel')

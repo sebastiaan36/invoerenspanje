@@ -62,6 +62,15 @@ final class Post extends Model
         return $this->belongsTo(User::class, 'author_id');
     }
 
+    /**
+     * Synced from a Markdown file in resources/content/blog; edit the file,
+     * not the record (the next `blog:sync` would overwrite admin edits).
+     */
+    public function isFileManaged(): bool
+    {
+        return $this->source === 'file';
+    }
+
     public function isPublished(): bool
     {
         return $this->status === self::STATUS_PUBLISHED
