@@ -455,7 +455,7 @@ onBeforeUnmount(() => {
         <div class="mx-auto max-w-3xl">
             <form
                 :id="result?.found && !props.bpmOnly ? undefined : 'offerte'"
-                class="flex scroll-mt-24 items-stretch overflow-hidden rounded-2xl border border-border bg-card shadow-sm focus-within:ring-2 focus-within:ring-ring/40"
+                class="flex scroll-mt-24 items-stretch overflow-hidden rounded-2xl border border-input bg-plate shadow-sm focus-within:ring-2 focus-within:ring-ring/40 has-[[aria-invalid=true]]:border-destructive has-[[aria-invalid=true]]:ring-1 has-[[aria-invalid=true]]:ring-destructive"
                 role="search"
                 @submit.prevent="flushRecalc"
             >
@@ -477,8 +477,8 @@ onBeforeUnmount(() => {
                     aria-label="Nederlands kenteken"
                     :aria-invalid="errorMessage ? true : undefined"
                     aria-describedby="kenteken-help"
-                    placeholder="Uw kenteken, bijv. GV-412-X"
-                    class="min-w-0 flex-1 bg-card px-4 py-4 font-display text-2xl tracking-wider text-foreground placeholder:font-sans placeholder:text-base placeholder:font-normal placeholder:tracking-normal placeholder:text-muted-foreground focus:outline-none"
+                    placeholder="Bijv. GV-412-X"
+                    class="min-w-0 flex-1 bg-plate px-4 py-4 font-display text-2xl tracking-wider text-plate-foreground caret-[#003399] placeholder:font-sans placeholder:text-base placeholder:font-normal placeholder:tracking-normal placeholder:text-plate-muted focus:outline-none"
                     @blur="showFormatHint"
                 />
                 <div class="flex items-center p-2">
@@ -982,14 +982,14 @@ onBeforeUnmount(() => {
                                     :href="WHATSAPP_URL"
                                     target="_blank"
                                     rel="noopener"
-                                    class="inline-flex min-h-8 items-center gap-1.5 font-medium text-primary underline-offset-4 hover:underline"
+                                    class="inline-flex min-h-11 items-center gap-1.5 font-medium text-primary underline-offset-4 hover:underline"
                                 >
                                     <MessageCircle class="size-4" />
                                     WhatsApp Maikel
                                 </a>
                                 <a
                                     :href="`tel:${PHONE}`"
-                                    class="inline-flex min-h-8 items-center gap-1.5 font-medium text-primary underline-offset-4 hover:underline"
+                                    class="inline-flex min-h-11 items-center gap-1.5 font-medium text-primary underline-offset-4 hover:underline"
                                 >
                                     <Phone class="size-4" />
                                     {{ PHONE_DISPLAY }}

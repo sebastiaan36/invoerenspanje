@@ -214,14 +214,14 @@ async function submit() {
                                 :href="WHATSAPP_URL"
                                 target="_blank"
                                 rel="noopener"
-                                class="inline-flex min-h-8 items-center gap-1.5 font-medium text-primary underline-offset-4 hover:underline"
+                                class="inline-flex min-h-11 items-center gap-1.5 font-medium text-primary underline-offset-4 hover:underline"
                             >
                                 <MessageCircle class="size-4" />
                                 WhatsApp
                             </a>
                             <a
                                 :href="`tel:${PHONE}`"
-                                class="inline-flex min-h-8 items-center gap-1.5 font-medium text-primary underline-offset-4 hover:underline"
+                                class="inline-flex min-h-11 items-center gap-1.5 font-medium text-primary underline-offset-4 hover:underline"
                             >
                                 <Phone class="size-4" />
                                 {{ PHONE_DISPLAY }}
@@ -238,6 +238,7 @@ async function submit() {
                             >Naam <span class="text-destructive">*</span></Label
                         >
                         <Input
+                            class="h-11 text-base"
                             id="qr-name"
                             v-model="form.name"
                             type="text"
@@ -252,6 +253,7 @@ async function submit() {
                             <span class="text-destructive">*</span></Label
                         >
                         <Input
+                            class="h-11 text-base"
                             id="qr-email"
                             v-model="form.email"
                             type="email"
@@ -266,6 +268,7 @@ async function submit() {
                             <span class="text-destructive">*</span></Label
                         >
                         <Input
+                            class="h-11 text-base"
                             id="qr-phone"
                             v-model="form.phone"
                             type="tel"
@@ -280,6 +283,7 @@ async function submit() {
                             <span class="text-destructive">*</span>
                         </Label>
                         <Input
+                            class="h-11 text-base"
                             id="qr-regio"
                             v-model="form.regio"
                             type="text"
@@ -295,6 +299,7 @@ async function submit() {
                         >Verwachte verhuisdatum (optioneel)</Label
                     >
                     <Input
+                        class="h-11 text-base"
                         id="qr-date"
                         v-model="form.expected_move_date"
                         type="text"
@@ -349,7 +354,7 @@ async function submit() {
                     <Button
                         type="submit"
                         size="lg"
-                        class="w-full bg-accent text-accent-foreground hover:bg-accent/90 sm:w-auto"
+                        class="h-11 w-full bg-accent text-accent-foreground hover:bg-accent/90 sm:w-auto"
                         :disabled="isSubmitting"
                     >
                         <Send v-if="!isSubmitting" class="size-4" />

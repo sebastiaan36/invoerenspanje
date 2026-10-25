@@ -107,7 +107,7 @@ const lanes = [
 
         <!-- Twee sporen, één team -->
         <section
-            class="border-t border-border bg-card"
+            class="border-t border-border bg-background"
             aria-labelledby="two-lanes-title"
         >
             <div class="container mx-auto max-w-5xl px-4 py-16 md:py-24">
@@ -178,7 +178,7 @@ const lanes = [
         <section class="border-t border-border bg-secondary/30">
             <div class="container mx-auto max-w-2xl px-4 py-16 md:py-20">
                 <div
-                    class="prose prose-lg max-w-none prose-headings:font-display prose-headings:text-foreground prose-h2:mt-12 prose-h2:text-2xl prose-h3:mt-8 prose-h3:text-xl prose-p:text-foreground prose-a:font-medium prose-a:text-accent hover:prose-a:underline prose-strong:text-foreground"
+                    class="prose prose-lg max-w-none prose-headings:font-display prose-headings:text-foreground prose-h2:mt-12 prose-h2:text-2xl prose-h3:mt-8 prose-h3:text-xl prose-p:text-foreground prose-a:font-medium prose-a:text-primary prose-a:underline prose-a:underline-offset-4 hover:prose-a:text-primary/80 prose-strong:text-foreground"
                 >
                     <!-- eslint-disable-next-line vue/no-v-html -- trusted server-rendered copy from resources/views/content/home.blade.php -->
                     <div v-html="contentHtml" />
@@ -201,7 +201,7 @@ const lanes = [
                 </p>
 
                 <div
-                    class="prose prose-lg max-w-none prose-headings:font-display prose-headings:text-foreground prose-h2:mt-12 prose-h2:text-2xl prose-h3:mt-8 prose-h3:text-xl prose-p:text-foreground prose-a:font-medium prose-a:text-accent hover:prose-a:underline prose-strong:text-foreground"
+                    class="prose prose-lg max-w-none prose-headings:font-display prose-headings:text-foreground prose-h2:mt-12 prose-h2:text-2xl prose-h3:mt-8 prose-h3:text-xl prose-p:text-foreground prose-a:font-medium prose-a:text-primary prose-a:underline prose-a:underline-offset-4 hover:prose-a:text-primary/80 prose-strong:text-foreground"
                 >
                     <p
                         class="mt-10 rounded-xl border border-border bg-card p-5 text-base text-muted-foreground"

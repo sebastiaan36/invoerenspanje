@@ -40,12 +40,14 @@
 
         {{-- Inline style to set the HTML background color based on our theme in app.css --}}
         <style>
+            /* Matches --background from app.css, so overscroll and the first
+               paint before the stylesheet loads use the page colour. */
             html {
-                background-color: oklch(1 0 0);
+                background-color: var(--background, hsl(40 36% 95%));
             }
 
             html.dark {
-                background-color: oklch(0.145 0 0);
+                background-color: var(--background, hsl(30 12% 9%));
             }
         </style>
 

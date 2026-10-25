@@ -57,41 +57,47 @@ function selectPackage(slug: string) {
                 role="radio"
                 :aria-checked="selected === pkg.slug"
                 @click="selectPackage(pkg.slug)"
-                class="group relative flex h-full flex-col overflow-hidden rounded-2xl bg-card p-6 text-left transition-all focus-visible:ring-2 focus-visible:ring-accent/50 focus-visible:outline-none"
-                :class="{
-                    'border-2 border-primary shadow-lg': selected === pkg.slug,
-                    'border-2 border-accent shadow-md hover:shadow-lg':
-                        pkg.recommended && selected !== pkg.slug,
-                    'border border-border shadow-sm hover:border-muted-foreground hover:shadow-md':
-                        !pkg.recommended && selected !== pkg.slug,
-                }"
+                class="group relative flex h-full flex-col overflow-hidden rounded-2xl border-2 p-6 text-left transition-[border-color,background-color,box-shadow] focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:outline-none"
+                :class="
+                    selected === pkg.slug
+                        ? 'border-accent bg-accent/5 shadow-md'
+                        : 'border-border bg-card shadow-sm hover:border-input hover:shadow-md'
+                "
             >
-                <!-- Aanbevolen badge -->
+                <!-- Selected indicator: same terracotta language as the choice tiles -->
                 <div
-                    v-if="pkg.recommended"
-                    class="absolute -top-px left-6 inline-flex items-center gap-1 rounded-b-md bg-accent px-2.5 py-1 text-xs font-semibold tracking-wider text-accent-foreground uppercase"
-                >
-                    <Star class="size-3 fill-current" />
-                    Aanbevolen
-                </div>
-
-                <!-- Selected indicator -->
-                <div
-                    v-if="selected === pkg.slug"
-                    class="absolute top-4 right-4 flex size-7 items-center justify-center rounded-full bg-primary text-primary-foreground"
+                    class="absolute top-5 right-5 flex size-6 items-center justify-center rounded-full border-2 transition-colors"
+                    :class="
+                        selected === pkg.slug
+                            ? 'border-accent bg-accent text-accent-foreground'
+                            : 'border-input'
+                    "
                     aria-hidden="true"
                 >
-                    <Check class="size-4 stroke-[3]" />
+                    <Check
+                        v-if="selected === pkg.slug"
+                        class="size-3.5 stroke-[3]"
+                    />
                 </div>
 
-                <div :class="pkg.recommended ? 'mt-4' : ''">
+                <div class="pr-8">
                     <h4
-                        class="font-display text-2xl font-semibold text-primary"
+                        class="font-display text-2xl font-semibold text-foreground"
                     >
                         {{ pkg.name }}
                     </h4>
                     <p class="mt-1 text-sm text-muted-foreground">
                         {{ pkg.tagline }}
+                    </p>
+                    <p
+                        v-if="pkg.recommended"
+                        class="mt-2 inline-flex items-center gap-1.5 text-sm font-medium text-foreground"
+                    >
+                        <Star
+                            class="size-4 fill-current text-warning"
+                            aria-hidden="true"
+                        />
+                        Aanbevolen
                     </p>
                 </div>
 
@@ -117,17 +123,26 @@ function selectPackage(slug: string) {
                     </li>
                 </ul>
 
-                <div
-                    class="mt-auto pt-6 text-sm font-medium text-muted-foreground transition-colors group-hover:text-foreground"
-                >
+                <div class="mt-auto pt-6">
                     <span
-                        v-if="selected === pkg.slug"
-                        class="inline-flex items-center gap-1.5 text-primary"
+                        class="flex min-h-11 w-full items-center justify-center gap-1.5 rounded-xl border text-sm font-semibold transition-colors"
+                        :class="
+                            selected === pkg.slug
+                                ? 'border-accent bg-accent text-accent-foreground'
+                                : 'border-input text-foreground group-hover:bg-secondary'
+                        "
                     >
-                        <Check class="size-4 stroke-[3]" />
-                        Gekozen
+                        <Check
+                            v-if="selected === pkg.slug"
+                            class="size-4 stroke-[3]"
+                            aria-hidden="true"
+                        />
+                        {{
+                            selected === pkg.slug
+                                ? 'Gekozen'
+                                : 'Kies dit pakket'
+                        }}
                     </span>
-                    <span v-else>Kies dit pakket</span>
                 </div>
             </button>
         </div>

@@ -111,13 +111,13 @@ function scrollToOfferte() {
                         v-for="item in navItems"
                         :key="item.href"
                         :href="item.href"
-                        class="relative transition-colors hover:text-primary"
+                        class="relative inline-flex min-h-11 items-center transition-colors hover:text-primary"
                         :class="isActive(item.href) ? 'text-primary' : ''"
                     >
                         {{ item.label }}
                         <span
                             v-if="isActive(item.href)"
-                            class="absolute -bottom-[21px] left-0 h-0.5 w-full bg-accent"
+                            class="absolute -bottom-[10px] left-0 h-0.5 w-full bg-accent"
                         />
                     </Link>
                 </nav>
@@ -125,14 +125,14 @@ function scrollToOfferte() {
                 <div class="flex items-center gap-3">
                     <Link
                         :href="login().url"
-                        class="hidden text-sm font-medium text-foreground transition-colors hover:text-primary sm:inline"
+                        class="hidden min-h-11 items-center text-sm font-medium text-foreground transition-colors hover:text-primary sm:inline-flex"
                     >
                         Inloggen
                     </Link>
                     <component
                         :is="isHome ? 'a' : Link"
                         :href="offerteHref"
-                        class="hidden min-h-10 items-center rounded-xl bg-accent px-4 text-sm font-semibold text-accent-foreground shadow-sm transition-colors hover:bg-accent/90 focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:outline-none sm:inline-flex"
+                        class="hidden min-h-11 items-center rounded-xl bg-accent px-4 text-sm font-semibold text-accent-foreground shadow-sm transition-colors hover:bg-accent/90 focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:outline-none sm:inline-flex"
                         @click="
                             isHome &&
                             ($event.preventDefault(), scrollToOfferte())
@@ -202,16 +202,16 @@ function scrollToOfferte() {
             <slot />
         </main>
 
-        <footer class="bg-primary text-primary-foreground">
+        <footer class="border-t border-border bg-brand text-brand-foreground">
             <div
                 class="container mx-auto grid gap-10 px-4 py-14 md:grid-cols-4"
             >
                 <div>
                     <div class="font-display text-lg font-semibold">
-                        autoinvoeren<span class="text-accent-light">spanje</span
+                        autoinvoeren<span class="text-brand-accent">spanje</span
                         >.nl
                     </div>
-                    <p class="mt-3 text-sm text-primary-foreground/70">
+                    <p class="mt-3 text-sm text-brand-foreground/75">
                         Voor Nederlanders aan de Costa del Sol die hun auto op
                         Spaans kenteken willen zetten — alles geregeld, niets
                         aan de hand.
@@ -222,11 +222,11 @@ function scrollToOfferte() {
                     <h2 class="mb-3 font-display text-sm font-semibold">
                         Diensten
                     </h2>
-                    <ul class="space-y-1 text-sm text-primary-foreground/70">
+                    <ul class="space-y-1 text-sm text-brand-foreground/75">
                         <li v-for="item in dienstenLinks" :key="item.href">
                             <Link
                                 :href="item.href"
-                                class="inline-flex min-h-11 items-center transition-colors hover:text-accent-light md:min-h-9"
+                                class="inline-flex min-h-11 items-center transition-colors hover:text-brand-accent md:min-h-11"
                             >
                                 {{ item.label }}
                             </Link>
@@ -238,11 +238,11 @@ function scrollToOfferte() {
                     <h2 class="mb-3 font-display text-sm font-semibold">
                         Bedrijf
                     </h2>
-                    <ul class="space-y-1 text-sm text-primary-foreground/70">
+                    <ul class="space-y-1 text-sm text-brand-foreground/75">
                         <li v-for="item in bedrijfLinks" :key="item.href">
                             <Link
                                 :href="item.href"
-                                class="inline-flex min-h-11 items-center transition-colors hover:text-accent-light md:min-h-9"
+                                class="inline-flex min-h-11 items-center transition-colors hover:text-brand-accent md:min-h-11"
                             >
                                 {{ item.label }}
                             </Link>
@@ -254,13 +254,13 @@ function scrollToOfferte() {
                     <h2 class="mb-3 font-display text-sm font-semibold">
                         Contact
                     </h2>
-                    <ul class="space-y-1 text-sm text-primary-foreground/70">
+                    <ul class="space-y-1 text-sm text-brand-foreground/75">
                         <li>
                             <a
                                 :href="WHATSAPP_URL"
                                 target="_blank"
                                 rel="noopener"
-                                class="inline-flex min-h-11 items-center gap-2 transition-colors hover:text-accent-light md:min-h-9"
+                                class="inline-flex min-h-11 items-center gap-2 transition-colors hover:text-brand-accent md:min-h-11"
                             >
                                 <MessageCircle class="size-4" />
                                 WhatsApp
@@ -269,7 +269,7 @@ function scrollToOfferte() {
                         <li>
                             <a
                                 :href="`tel:${PHONE}`"
-                                class="inline-flex min-h-11 items-center gap-2 transition-colors hover:text-accent-light md:min-h-9"
+                                class="inline-flex min-h-11 items-center gap-2 transition-colors hover:text-brand-accent md:min-h-11"
                             >
                                 <Phone class="size-4" />
                                 {{ PHONE_DISPLAY }}
@@ -278,22 +278,22 @@ function scrollToOfferte() {
                         <li>
                             <a
                                 :href="`mailto:${EMAIL}`"
-                                class="inline-flex min-h-11 items-center gap-2 transition-colors hover:text-accent-light md:min-h-9"
+                                class="inline-flex min-h-11 items-center gap-2 transition-colors hover:text-brand-accent md:min-h-11"
                             >
                                 <Mail class="size-4" />
                                 {{ EMAIL }}
                             </a>
                         </li>
-                        <li class="flex min-h-11 items-center md:min-h-9">
+                        <li class="flex min-h-11 items-center md:min-h-11">
                             Málaga, Spanje
                         </li>
                     </ul>
                 </div>
             </div>
 
-            <div class="border-t border-primary-foreground/10">
+            <div class="border-t border-brand-foreground/10">
                 <div
-                    class="container mx-auto flex flex-col gap-2 px-4 py-4 text-sm text-primary-foreground/70 md:flex-row md:items-center md:justify-between"
+                    class="container mx-auto flex flex-col gap-2 px-4 py-4 text-sm text-brand-foreground/75 md:flex-row md:items-center md:justify-between"
                 >
                     <div>
                         © {{ year }} autoinvoerenspanje.nl — alle rechten
@@ -302,13 +302,13 @@ function scrollToOfferte() {
                     <div class="flex gap-4">
                         <Link
                             href="/privacy"
-                            class="inline-flex min-h-11 items-center transition-colors hover:text-accent-light md:min-h-9"
+                            class="inline-flex min-h-11 items-center transition-colors hover:text-brand-accent md:min-h-11"
                         >
                             Privacy
                         </Link>
                         <Link
                             href="/algemene-voorwaarden"
-                            class="inline-flex min-h-11 items-center transition-colors hover:text-accent-light md:min-h-9"
+                            class="inline-flex min-h-11 items-center transition-colors hover:text-brand-accent md:min-h-11"
                         >
                             Algemene voorwaarden
                         </Link>

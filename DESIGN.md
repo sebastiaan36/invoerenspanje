@@ -13,6 +13,11 @@ colors:
   antraciet: "hsl(222 11% 18%)"
   grijsblauw: "hsl(220 9% 40%)"
   sand-border: "hsl(30 22% 86%)"
+  input-stroke: "hsl(30 15% 52%)"
+  plate: "hsl(40 36% 97%)"
+  dark-night: "hsl(30 12% 9%)"
+  dark-card: "hsl(30 10% 13%)"
+  dark-brand: "hsl(30 14% 6%)"
   zachtgroen: "hsl(142 25% 36%)"
   oker: "hsl(38 61% 57%)"
   diep-rood: "hsl(0 46% 50%)"
@@ -159,7 +164,18 @@ A trustworthy deep blue and a sun-warmed terracotta over sandy neutrals: Dutch c
 - **Oker**: attention states.
 - **Diep Rood**: errors (outlined, never as a full alarm block).
 
+- **Input Stroke** (input-stroke): the border of every form field. Darker than Sand Border so fields stay visible at 3:1 (WCAG 1.4.11); never used for card borders.
+
+### Dark Mode
+"Het Zonnige Dossier" after sunset. The dark theme keeps the warmth: neutrals sit on hue 30 (sun-warmed stone), never the cool slate of a starter kit.
+- **Night** (dark-night) is the page, **Dark Card** (dark-card) the sheets on it, **Dark Brand** (dark-brand) the footer, a step darker than the page.
+- Diepblauw is lifted to a light steel blue (hsl(214 60% 68%)) so links and the wordmark read on dark; buttons on it use dark text.
+- Terracotta brightens to hsl(17 62% 58%) and keeps its job: action and selection.
+- The **brand surface** (footer) uses its own tokens (`--brand`, `--brand-foreground`, `--brand-accent`): diepblauw in light, Dark Brand in dark, always with off-white text and Zandsteen accents. Never build the footer from `--primary`, which flips lightness between themes.
+
 ### Named Rules
+**The Real Plate Rule.** The kenteken plate (input and result chip) is always a light plate (`--plate`) with dark characters, in both themes, like the physical object.
+
 **The Sunlight Rule.** The page is warm off-white, not white. Pure white is reserved for cards and inputs that sit on top of it, so every container reads as a sheet in the dossier.
 
 **The Terracotta Means Action Rule.** Terracotta marks what to do next: CTAs, the hero highlight, selected choices. Money you get back is Zachtgroen with a "+"; costs and net totals stay Antraciet. Never colour a cost terracotta.
@@ -187,7 +203,7 @@ A trustworthy deep blue and a sun-warmed terracotta over sandy neutrals: Dutch c
 
 ## Layout
 
-Centred containers with a 16px gutter. Hero and reading sections use a single column (max-w-6xl for the hero frame, max-w-3xl for text and the lookup tool, max-w-2xl for lead copy). Sections stack with 64px vertical padding, 96px on desktop heroes, separated by a hairline top border and an alternating sandstone-tinted band (Zandsteen at 30%) for rhythm. Grids switch to 3 columns at `lg` for result cards and 4 columns in the footer at `md`. Header is sticky, 64px tall, translucent off-white with backdrop blur; navigation collapses to a sheet below `md`.
+Centred containers with a 16px gutter. Hero and reading sections use a single column (max-w-6xl for the hero frame, max-w-3xl for text and the lookup tool, max-w-2xl for lead copy). Sections stack with 64px vertical padding, 96px on desktop heroes, separated by a hairline top border and an alternating sandstone-tinted band (Zandsteen at 30%) for rhythm. Full-width bands are never pure white; white is for cards. Grids switch to 3 columns at `lg` for result cards and 4 columns in the footer at `md`. Header is sticky, 64px tall, translucent off-white with backdrop blur; navigation collapses to a sheet below `md`.
 
 ## Elevation & Depth
 
@@ -253,11 +269,13 @@ A large 24px-rounded white field shaped like a Dutch plate: an EU-blue strip on 
 - **Do** reserve terracotta for the next action and the selected option; show money coming back in Zachtgroen with a "+".
 - **Do** lead a result with one answer (one amount, one sentence, one action) and fold the detail into a disclosure.
 - **Do** keep corners soft: 24px for big blocks, 16px for public buttons and tiles, full pills for badges.
+- **Do** show a selected option with a terracotta border, a 5% terracotta wash and a filled terracotta indicator; a recommendation is a 14px sentence inside the card, never a second coloured border.
+- **Do** make every form field and button at least 44px tall on public pages.
 - **Do** use Zachtgroen check marks for reassurance lists under the hero.
 
 ### Don't:
 - **Don't** use EU blue anywhere except the plate strip.
-- **Don't** use pure white or cool grey as the page background.
+- **Don't** use pure white or cool grey as the page background, in either theme.
 - **Don't** add bouncy or attention-seeking motion; transitions are colour and opacity fades.
 - **Don't** stack heavy shadows at rest; lift only on hover or for overlays.
 - **Don't** set headings in Inter or body copy in Fraunces.

@@ -64,7 +64,7 @@ const formattedPlate = computed(() => {
                     >NL</span
                 >
                 <span
-                    class="px-2 py-0.5 font-display tracking-wider text-foreground"
+                    class="bg-plate px-2 py-0.5 font-display tracking-wider text-plate-foreground"
                     >{{ formattedPlate }}</span
                 >
             </span>
