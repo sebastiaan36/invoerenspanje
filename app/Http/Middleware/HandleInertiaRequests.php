@@ -67,7 +67,9 @@ class HandleInertiaRequests extends Middleware
     {
         $routeName = $request->route()?->getName();
 
-        $meta = config('seo.routes.'.$routeName, []);
+        // Route names contain dots (blog.index), so look the key up directly
+        // instead of through dot-notation, which would split it.
+        $meta = config('seo.routes', [])[$routeName] ?? [];
 
         $image = $meta['image'] ?? config('seo.default_image');
 

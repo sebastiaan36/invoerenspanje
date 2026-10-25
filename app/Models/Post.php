@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Services\HeroImageOptimizer;
 use Carbon\CarbonInterface;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -34,6 +35,19 @@ final class Post extends Model
     protected $guarded = ['id'];
 
     /**
+     * New or replaced hero images are re-encoded as WebP before saving, so
+     * oversized uploads never reach the public blog.
+     */
+    protected static function booted(): void
+    {
+        self::saving(function (Post $post): void {
+            if ($post->isDirty('hero_image_path') && $post->hero_image_path) {
+                $post->hero_image_path = app(HeroImageOptimizer::class)->optimize($post->hero_image_path);
+            }
+        });
+    }
+
+    /**
      * @return array<string, string>
      */
     protected function casts(): array
@@ -46,6 +60,15 @@ final class Post extends Model
     public function author(): BelongsTo
     {
         return $this->belongsTo(User::class, 'author_id');
+    }
+
+    /**
+     * Synced from a Markdown file in resources/content/blog; edit the file,
+     * not the record (the next `blog:sync` would overwrite admin edits).
+     */
+    public function isFileManaged(): bool
+    {
+        return $this->source === 'file';
     }
 
     public function isPublished(): bool

@@ -8,7 +8,10 @@ import { initializeFlashToast } from '@/lib/flashToast';
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 
 createInertiaApp({
-    title: (title) => (title ? `${title} - ${appName}` : appName),
+    // Titles are complete as sent by the server (config/seo.php, blog
+    // controller), so the browser title matches the server-rendered <title>
+    // that search engines read. Only pages without a title fall back.
+    title: (title) => title || appName,
     layout: (name) => {
         switch (true) {
             case name === 'Welcome':
@@ -18,6 +21,7 @@ createInertiaApp({
             case name === 'Contact':
             case name === 'OverOns':
             case name === 'Faq':
+            case name === 'Gids':
             case name.startsWith('Blog/'):
                 return null;
             case name.startsWith('auth/'):

@@ -1,5 +1,11 @@
 <script setup lang="ts">
-import { Send, CheckCircle2, AlertCircle } from 'lucide-vue-next';
+import {
+    Send,
+    CheckCircle2,
+    AlertCircle,
+    MessageCircle,
+    Phone,
+} from 'lucide-vue-next';
 import { computed, onMounted, reactive, ref } from 'vue';
 import type { ServicePackage } from '@/components/PackageSelector.vue';
 import { Button } from '@/components/ui/button';
@@ -7,6 +13,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { trackEvent } from '@/lib/analytics';
 import { postJson, isApiError, isNetworkError } from '@/lib/api';
+import { PHONE, PHONE_DISPLAY, WHATSAPP_URL } from '@/lib/contact';
 
 const props = defineProps<{
     kenteken: string;
@@ -168,22 +175,60 @@ async function submit() {
         </div>
 
         <template v-else>
-            <header>
-                <div
-                    class="text-xs font-semibold tracking-wider text-accent uppercase"
-                >
-                    Stap 3 van 3 — uw gegevens
+            <header
+                class="flex flex-col gap-5 md:flex-row md:items-start md:justify-between md:gap-8"
+            >
+                <div>
+                    <h3
+                        id="quote-form-title"
+                        class="font-display text-2xl font-semibold text-foreground sm:text-3xl"
+                    >
+                        Vraag een vrijblijvende offerte aan
+                    </h3>
+                    <p class="mt-2 max-w-lg text-base text-muted-foreground">
+                        Maikel belt of mailt u binnen 24 uur met de definitieve
+                        berekening voor pakket
+                        <span class="font-medium text-foreground">{{
+                            selectedPackage.name
+                        }}</span>
+                        en legt de volgende stappen uit.
+                    </p>
                 </div>
-                <h3
-                    id="quote-form-title"
-                    class="mt-1 font-display text-2xl font-semibold text-foreground sm:text-3xl"
+                <div
+                    class="flex shrink-0 items-center gap-3 rounded-xl bg-muted/60 p-3 pr-4"
                 >
-                    Vraag een vrijblijvende offerte aan
-                </h3>
-                <p class="mt-2 text-sm text-muted-foreground">
-                    We nemen binnen 24 uur contact op met een definitieve
-                    berekening en uitleg van de volgende stappen.
-                </p>
+                    <img
+                        src="/images/maikel.jpeg"
+                        alt="Maikel"
+                        width="48"
+                        height="48"
+                        loading="lazy"
+                        class="size-12 rounded-full object-cover"
+                    />
+                    <div class="text-sm">
+                        <p class="font-medium text-foreground">
+                            Liever direct even contact?
+                        </p>
+                        <div class="mt-0.5 flex flex-wrap gap-x-3">
+                            <a
+                                :href="WHATSAPP_URL"
+                                target="_blank"
+                                rel="noopener"
+                                class="inline-flex min-h-11 items-center gap-1.5 font-medium text-primary underline-offset-4 hover:underline"
+                            >
+                                <MessageCircle class="size-4" />
+                                WhatsApp
+                            </a>
+                            <a
+                                :href="`tel:${PHONE}`"
+                                class="inline-flex min-h-11 items-center gap-1.5 font-medium text-primary underline-offset-4 hover:underline"
+                            >
+                                <Phone class="size-4" />
+                                {{ PHONE_DISPLAY }}
+                            </a>
+                        </div>
+                    </div>
+                </div>
             </header>
 
             <form class="mt-6 space-y-5" @submit.prevent="submit" novalidate>
@@ -193,6 +238,7 @@ async function submit() {
                             >Naam <span class="text-destructive">*</span></Label
                         >
                         <Input
+                            class="h-11 text-base"
                             id="qr-name"
                             v-model="form.name"
                             type="text"
@@ -207,6 +253,7 @@ async function submit() {
                             <span class="text-destructive">*</span></Label
                         >
                         <Input
+                            class="h-11 text-base"
                             id="qr-email"
                             v-model="form.email"
                             type="email"
@@ -221,6 +268,7 @@ async function submit() {
                             <span class="text-destructive">*</span></Label
                         >
                         <Input
+                            class="h-11 text-base"
                             id="qr-phone"
                             v-model="form.phone"
                             type="tel"
@@ -235,6 +283,7 @@ async function submit() {
                             <span class="text-destructive">*</span>
                         </Label>
                         <Input
+                            class="h-11 text-base"
                             id="qr-regio"
                             v-model="form.regio"
                             type="text"
@@ -250,6 +299,7 @@ async function submit() {
                         >Verwachte verhuisdatum (optioneel)</Label
                     >
                     <Input
+                        class="h-11 text-base"
                         id="qr-date"
                         v-model="form.expected_move_date"
                         type="text"
@@ -297,14 +347,14 @@ async function submit() {
                 <div
                     class="flex flex-col items-stretch gap-3 sm:flex-row sm:items-center sm:justify-between"
                 >
-                    <p class="text-xs text-muted-foreground sm:max-w-xs">
-                        Geen verplichtingen, geen verborgen kosten. Wij nemen
-                        binnen 24 uur contact met u op.
+                    <p class="text-sm text-muted-foreground sm:max-w-xs">
+                        Vrijblijvend: u zit nergens aan vast tot u de offerte
+                        akkoord geeft.
                     </p>
                     <Button
                         type="submit"
                         size="lg"
-                        class="w-full bg-accent text-accent-foreground hover:bg-accent/90 sm:w-auto"
+                        class="h-11 w-full bg-accent text-accent-foreground hover:bg-accent/90 sm:w-auto"
                         :disabled="isSubmitting"
                     >
                         <Send v-if="!isSubmitting" class="size-4" />

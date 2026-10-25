@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Http\Responses\LoginResponse;
+use App\Services\Blog\BlogFileSync;
 use App\Services\Bpm\BpmCalculator;
 use App\Services\Rdw\RdwService;
 use App\Services\SpainImport\SpainImportCalculator;
@@ -25,6 +26,9 @@ class AppServiceProvider extends ServiceProvider
     {
         // Role-based redirect na login (admin → /admin, klant → /portaal).
         $this->app->singleton(LoginResponseContract::class, LoginResponse::class);
+
+        // Blog posts are authored as Markdown files and synced with `blog:sync`.
+        $this->app->bind(BlogFileSync::class, fn () => new BlogFileSync(resource_path('content/blog')));
 
         $this->app->singleton(BpmCalculator::class, fn ($app): BpmCalculator => new BpmCalculator(
             $app['config']->get('bpm_rates'),

@@ -1,0 +1,429 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-24T22:03:48.851635+00:00",
+  "title": "Design System: autoinvoerenspanje.nl",
+  "extensions": {
+    "colorMeta": {
+      "diepblauw": {
+        "role": "primary",
+        "displayName": "Diepblauw",
+        "canonical": "hsl(220 47% 20%)",
+        "tonalRamp": [
+          "hsl(220 47% 15%)",
+          "hsl(220 47% 25%)",
+          "hsl(220 47% 35%)",
+          "hsl(220 47% 47%)",
+          "hsl(220 47% 58%)",
+          "hsl(220 47% 70%)",
+          "hsl(220 47% 82%)",
+          "hsl(220 47% 95%)"
+        ]
+      },
+      "mistblauw": {
+        "role": "primary",
+        "displayName": "Mistblauw",
+        "canonical": "hsl(216 38% 47%)",
+        "tonalRamp": [
+          "hsl(216 38% 15%)",
+          "hsl(216 38% 25%)",
+          "hsl(216 38% 35%)",
+          "hsl(216 38% 47%)",
+          "hsl(216 38% 58%)",
+          "hsl(216 38% 70%)",
+          "hsl(216 38% 82%)",
+          "hsl(216 38% 95%)"
+        ]
+      },
+      "terracotta": {
+        "role": "secondary",
+        "displayName": "Terracotta",
+        "canonical": "hsl(17 55% 42%)",
+        "tonalRamp": [
+          "hsl(17 55% 15%)",
+          "hsl(17 55% 25%)",
+          "hsl(17 55% 35%)",
+          "hsl(17 55% 47%)",
+          "hsl(17 55% 58%)",
+          "hsl(17 55% 70%)",
+          "hsl(17 55% 82%)",
+          "hsl(17 55% 95%)"
+        ]
+      },
+      "zandsteen": {
+        "role": "secondary",
+        "displayName": "Zandsteen",
+        "canonical": "hsl(21 51% 82%)",
+        "tonalRamp": [
+          "hsl(21 51% 15%)",
+          "hsl(21 51% 25%)",
+          "hsl(21 51% 35%)",
+          "hsl(21 51% 47%)",
+          "hsl(21 51% 58%)",
+          "hsl(21 51% 70%)",
+          "hsl(21 51% 82%)",
+          "hsl(21 51% 95%)"
+        ]
+      },
+      "eu-blue": {
+        "role": "tertiary",
+        "displayName": "EU Blue",
+        "canonical": "#003399",
+        "tonalRamp": [
+          "hsl(220 100% 15%)",
+          "hsl(220 100% 25%)",
+          "hsl(220 100% 35%)",
+          "hsl(220 100% 47%)",
+          "hsl(220 100% 58%)",
+          "hsl(220 100% 70%)",
+          "hsl(220 100% 82%)",
+          "hsl(220 100% 95%)"
+        ]
+      },
+      "warm-off-white": {
+        "role": "neutral",
+        "displayName": "Warm Off-White",
+        "canonical": "hsl(40 36% 95%)",
+        "tonalRamp": [
+          "hsl(40 36% 15%)",
+          "hsl(40 36% 25%)",
+          "hsl(40 36% 35%)",
+          "hsl(40 36% 47%)",
+          "hsl(40 36% 58%)",
+          "hsl(40 36% 70%)",
+          "hsl(40 36% 82%)",
+          "hsl(40 36% 95%)"
+        ]
+      },
+      "linen-muted": {
+        "role": "neutral",
+        "displayName": "Linen Muted",
+        "canonical": "hsl(40 28% 92%)",
+        "tonalRamp": [
+          "hsl(40 28% 15%)",
+          "hsl(40 28% 25%)",
+          "hsl(40 28% 35%)",
+          "hsl(40 28% 47%)",
+          "hsl(40 28% 58%)",
+          "hsl(40 28% 70%)",
+          "hsl(40 28% 82%)",
+          "hsl(40 28% 95%)"
+        ]
+      },
+      "wit": {
+        "role": "neutral",
+        "displayName": "Wit",
+        "canonical": "hsl(0 0% 100%)",
+        "tonalRamp": [
+          "hsl(0 0% 15%)",
+          "hsl(0 0% 25%)",
+          "hsl(0 0% 35%)",
+          "hsl(0 0% 47%)",
+          "hsl(0 0% 58%)",
+          "hsl(0 0% 70%)",
+          "hsl(0 0% 82%)",
+          "hsl(0 0% 95%)"
+        ]
+      },
+      "antraciet": {
+        "role": "neutral",
+        "displayName": "Antraciet",
+        "canonical": "hsl(222 11% 18%)",
+        "tonalRamp": [
+          "hsl(222 11% 15%)",
+          "hsl(222 11% 25%)",
+          "hsl(222 11% 35%)",
+          "hsl(222 11% 47%)",
+          "hsl(222 11% 58%)",
+          "hsl(222 11% 70%)",
+          "hsl(222 11% 82%)",
+          "hsl(222 11% 95%)"
+        ]
+      },
+      "grijsblauw": {
+        "role": "neutral",
+        "displayName": "Grijsblauw",
+        "canonical": "hsl(220 9% 40%)",
+        "tonalRamp": [
+          "hsl(220 9% 15%)",
+          "hsl(220 9% 25%)",
+          "hsl(220 9% 35%)",
+          "hsl(220 9% 47%)",
+          "hsl(220 9% 58%)",
+          "hsl(220 9% 70%)",
+          "hsl(220 9% 82%)",
+          "hsl(220 9% 95%)"
+        ]
+      },
+      "sand-border": {
+        "role": "neutral",
+        "displayName": "Sand Border",
+        "canonical": "hsl(30 22% 86%)",
+        "tonalRamp": [
+          "hsl(30 22% 15%)",
+          "hsl(30 22% 25%)",
+          "hsl(30 22% 35%)",
+          "hsl(30 22% 47%)",
+          "hsl(30 22% 58%)",
+          "hsl(30 22% 70%)",
+          "hsl(30 22% 82%)",
+          "hsl(30 22% 95%)"
+        ]
+      },
+      "zachtgroen": {
+        "role": "status",
+        "displayName": "Zachtgroen",
+        "canonical": "hsl(142 25% 36%)",
+        "tonalRamp": [
+          "hsl(142 25% 15%)",
+          "hsl(142 25% 25%)",
+          "hsl(142 25% 35%)",
+          "hsl(142 25% 47%)",
+          "hsl(142 25% 58%)",
+          "hsl(142 25% 70%)",
+          "hsl(142 25% 82%)",
+          "hsl(142 25% 95%)"
+        ]
+      },
+      "oker": {
+        "role": "status",
+        "displayName": "Oker",
+        "canonical": "hsl(38 61% 57%)",
+        "tonalRamp": [
+          "hsl(38 61% 15%)",
+          "hsl(38 61% 25%)",
+          "hsl(38 61% 35%)",
+          "hsl(38 61% 47%)",
+          "hsl(38 61% 58%)",
+          "hsl(38 61% 70%)",
+          "hsl(38 61% 82%)",
+          "hsl(38 61% 95%)"
+        ]
+      },
+      "diep-rood": {
+        "role": "status",
+        "displayName": "Diep Rood",
+        "canonical": "hsl(0 46% 50%)",
+        "tonalRamp": [
+          "hsl(0 46% 15%)",
+          "hsl(0 46% 25%)",
+          "hsl(0 46% 35%)",
+          "hsl(0 46% 47%)",
+          "hsl(0 46% 58%)",
+          "hsl(0 46% 70%)",
+          "hsl(0 46% 82%)",
+          "hsl(0 46% 95%)"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "Page hero H1 only."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Section H2s."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Card titles, vehicle name, footer heads."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Running text."
+      },
+      "body-lead": {
+        "displayName": "Body Lead",
+        "purpose": "Hero subcopy."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Uppercase eyebrow labels and data group heads."
+      },
+      "plate": {
+        "displayName": "Plate",
+        "purpose": "Typed kenteken in the plate input."
+      }
+    },
+    "shadows": [
+      {
+        "name": "rest",
+        "value": "0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)",
+        "purpose": "Cards, plate input, CTA at rest (shadow-sm)."
+      },
+      {
+        "name": "hover",
+        "value": "0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)",
+        "purpose": "Interactive cards on hover (shadow-md)."
+      },
+      {
+        "name": "overlay",
+        "value": "0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)",
+        "purpose": "Dialogs, popovers, strong hover (shadow-lg)."
+      },
+      {
+        "name": "hairline",
+        "value": "0 1px 2px 0 rgb(0 0 0 / 0.05)",
+        "purpose": "Outline buttons and inputs (shadow-xs)."
+      }
+    ],
+    "motion": [
+      {
+        "name": "color-fade",
+        "value": "color, background-color, border-color 150ms cubic-bezier(0.4, 0, 0.2, 1)",
+        "purpose": "Default hover/state transition (transition-colors)."
+      },
+      {
+        "name": "spin",
+        "value": "animate-spin",
+        "purpose": "Terracotta loader during kenteken lookup."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "sm",
+        "value": "640px"
+      },
+      {
+        "name": "md",
+        "value": "768px"
+      },
+      {
+        "name": "lg",
+        "value": "1024px"
+      },
+      {
+        "name": "xl",
+        "value": "1280px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "CTA Button",
+      "kind": "button",
+      "refersTo": "button-cta",
+      "description": "Terracotta public call to action (Offerte aanvragen).",
+      "html": "<a class=\"ds-btn-cta\" href=\"#\">Offerte aanvragen</a>",
+      "css": ".ds-btn-cta { display:inline-flex; align-items:center; font-family: Inter, ui-sans-serif, system-ui, sans-serif; font-size:14px; font-weight:600; color:#fff; background:var(--accent, hsl(17 55% 42%)); padding:8px 16px; border-radius:16px; box-shadow:0 1px 3px rgba(0,0,0,.1),0 1px 2px -1px rgba(0,0,0,.1); text-decoration:none; transition:background-color .15s; } .ds-btn-cta:hover { background:hsl(17 55% 42% / .9); } .ds-btn-cta:focus-visible { outline:none; box-shadow:0 0 0 3px hsl(220 47% 20% / .5); }"
+    },
+    {
+      "name": "Primary Button (app)",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Deep-blue shadcn primary button used in portal and app screens.",
+      "html": "<button class=\"ds-btn-primary\">Opslaan</button>",
+      "css": ".ds-btn-primary { font-family: Inter, ui-sans-serif, system-ui, sans-serif; height:36px; padding:8px 16px; font-size:14px; font-weight:500; color:hsl(40 36% 95%); background:var(--primary, hsl(220 47% 20%)); border:none; border-radius:10px; cursor:pointer; transition:background-color .15s; } .ds-btn-primary:hover { background:hsl(220 47% 20% / .9); } .ds-btn-primary:focus-visible { outline:none; box-shadow:0 0 0 3px hsl(220 47% 20% / .5); }"
+    },
+    {
+      "name": "Outline Button",
+      "kind": "button",
+      "refersTo": "button-outline",
+      "description": "Hairline secondary action (Inloggen in the mobile menu).",
+      "html": "<a class=\"ds-btn-outline\" href=\"#\">Inloggen</a>",
+      "css": ".ds-btn-outline { display:inline-flex; justify-content:center; font-family: Inter, ui-sans-serif, system-ui, sans-serif; font-size:14px; font-weight:500; color:hsl(222 11% 18%); background:hsl(40 36% 95%); border:1px solid hsl(30 22% 86%); padding:10px 16px; border-radius:16px; text-decoration:none; transition:background-color .15s; } .ds-btn-outline:hover { background:hsl(21 51% 82%); } .ds-btn-outline:focus-visible { outline:none; box-shadow:0 0 0 3px hsl(220 47% 20% / .5); }"
+    },
+    {
+      "name": "Kenteken Plate Input",
+      "kind": "input",
+      "refersTo": "plate-input",
+      "description": "Signature Dutch-plate lookup field with EU-blue strip.",
+      "html": "<label class=\"ds-plate\"><span class=\"ds-plate-eu\">NL</span><input class=\"ds-plate-input\" placeholder=\"Uw kenteken, bijv. AB-123-C\"></label>",
+      "css": ".ds-plate { display:flex; align-items:stretch; overflow:hidden; max-width:520px; background:#fff; border:1px solid hsl(30 22% 86%); border-radius:24px; box-shadow:0 1px 3px rgba(0,0,0,.1); } .ds-plate:focus-within { box-shadow:0 0 0 2px hsl(220 47% 20% / .4); } .ds-plate-eu { display:flex; align-items:center; padding:0 12px; background:#003399; color:#fff; font:700 10px Inter, sans-serif; letter-spacing:.1em; text-transform:uppercase; } .ds-plate-input { flex:1; border:0; outline:none; padding:16px; font-family:Fraunces, Georgia, serif; font-size:24px; letter-spacing:.05em; color:hsl(222 11% 18%); background:transparent; } .ds-plate-input::placeholder { font-family:Inter, sans-serif; font-size:16px; letter-spacing:normal; color:hsl(220 9% 40%); }"
+    },
+    {
+      "name": "Text Input",
+      "kind": "input",
+      "refersTo": "input",
+      "description": "Standard form field (shadcn base).",
+      "html": "<input class=\"ds-input\" placeholder=\"E-mailadres\">",
+      "css": ".ds-input { font-family: Inter, ui-sans-serif, system-ui, sans-serif; height:36px; width:100%; max-width:320px; padding:4px 12px; font-size:14px; color:hsl(222 11% 18%); background:transparent; border:1px solid hsl(30 22% 86%); border-radius:10px; outline:none; transition:box-shadow .15s,border-color .15s; } .ds-input::placeholder { color:hsl(220 9% 40%); } .ds-input:focus-visible { border-color:hsl(220 47% 20%); box-shadow:0 0 0 3px hsl(220 47% 20% / .5); }"
+    },
+    {
+      "name": "Choice Tile",
+      "kind": "custom",
+      "refersTo": "choice-tile",
+      "description": "Radio option as a full-width tile; terracotta when checked.",
+      "html": "<label class=\"ds-tile\"><input type=\"radio\" name=\"ds\" checked><span class=\"ds-dot\"></span><span>Ik woon al in Spanje</span></label>",
+      "css": ".ds-tile { display:flex; align-items:center; gap:12px; min-height:52px; padding:16px; max-width:420px; font-family: Inter, ui-sans-serif, system-ui, sans-serif; font-size:14px; font-weight:500; color:hsl(222 11% 18%); background:hsl(40 36% 95%); border:1px solid hsl(30 22% 86%); border-radius:16px; cursor:pointer; transition:background-color .15s; } .ds-tile:hover { background:hsl(40 28% 92%); } .ds-tile input { position:absolute; opacity:0; } .ds-dot { width:20px; height:20px; border-radius:9999px; border:2px solid hsl(30 22% 86%); } .ds-tile:has(input:checked) { border-color:hsl(17 55% 42%); background:hsl(17 55% 42% / .05); } .ds-tile:has(input:checked) .ds-dot { border-color:hsl(17 55% 42%); background:hsl(17 55% 42%); } .ds-tile:has(input:focus-visible) { box-shadow:0 0 0 2px hsl(17 55% 42% / .4); }"
+    },
+    {
+      "name": "Card",
+      "kind": "card",
+      "refersTo": "card",
+      "description": "White dossier sheet on the warm page with eyebrow label and serif title.",
+      "html": "<div class=\"ds-card\"><div class=\"ds-eyebrow\">Uw voertuig</div><div class=\"ds-card-title\">Volkswagen Golf</div><p class=\"ds-card-text\">Benzine · eerste toelating 2018</p></div>",
+      "css": ".ds-card { max-width:360px; padding:24px; background:#fff; color:hsl(222 11% 18%); border:1px solid hsl(30 22% 86%); border-radius:24px; box-shadow:0 1px 3px rgba(0,0,0,.1); transition:box-shadow .2s; } .ds-card:hover { box-shadow:0 10px 15px -3px rgba(0,0,0,.1); } .ds-eyebrow { font:600 12px Inter, sans-serif; letter-spacing:.05em; text-transform:uppercase; color:hsl(17 55% 42%); } .ds-card-title { margin-top:4px; font:600 20px/1.4 Fraunces, Georgia, serif; } .ds-card-text { margin:4px 0 0; font:400 14px Inter, sans-serif; color:hsl(220 9% 40%); }"
+    },
+    {
+      "name": "Pill Badge",
+      "kind": "chip",
+      "refersTo": "pill-badge",
+      "description": "Sandstone kicker / status tag.",
+      "html": "<span class=\"ds-pill\">Voor Nederlanders aan de Costa del Sol</span>",
+      "css": ".ds-pill { display:inline-flex; align-items:center; padding:4px 12px; font:600 12px Inter, sans-serif; color:hsl(222 11% 18%); background:hsl(21 51% 82%); border-radius:9999px; }"
+    },
+    {
+      "name": "Header Navigation",
+      "kind": "nav",
+      "description": "Sticky translucent header with serif wordmark and terracotta active underline.",
+      "html": "<nav class=\"ds-nav\"><span class=\"ds-logo\">autoinvoeren<span>spanje</span>.nl</span><a class=\"ds-link is-active\" href=\"#\">Diensten</a><a class=\"ds-link\" href=\"#\">Tarieven</a><a class=\"ds-link\" href=\"#\">BPM-calculator</a></nav>",
+      "css": ".ds-nav { display:flex; align-items:center; gap:28px; height:64px; padding:0 16px; background:hsl(40 36% 95% / .9); border-bottom:1px solid hsl(30 22% 86%); backdrop-filter:blur(8px); } .ds-logo { font:600 20px Fraunces, Georgia, serif; letter-spacing:-.01em; color:hsl(220 47% 20%); margin-right:auto; } .ds-logo span { color:hsl(17 55% 42%); } .ds-link { position:relative; font:500 14px Inter, sans-serif; color:hsl(222 11% 18% / .8); text-decoration:none; transition:color .15s; } .ds-link:hover, .ds-link.is-active { color:hsl(220 47% 20%); } .ds-link.is-active::after { content:''; position:absolute; left:0; right:0; bottom:-23px; height:2px; background:hsl(17 55% 42%); } .ds-link:focus-visible { outline:2px solid hsl(220 47% 20% / .5); outline-offset:4px; border-radius:4px; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "Het Zonnige Dossier",
+    "overview": "The system treats a stressful bureaucratic job (BPM, DGT, ITV, matriculación) as one well-kept dossier: ordered, legible, nothing missing. Paper precision supplies the order: a real kenteken plate, labelled data rows, clear amounts, numbered steps. Warm southern light supplies the reassurance: a sun-bleached off-white page instead of clinical white, terracotta for the moments that matter, sandstone for gentle highlights. Deep blue anchors trust in the header text, footer and primary actions.\n\nDensity is calm. Public pages breathe with generous section padding, a single centred column for heroes and reading, and white cards floating lightly on the warm page. The serif display face gives headings gravitas without stiffness; Inter keeps every number, label and form field hyper-legible. Motion is quiet: colour transitions and fades, no bounce.\n\nEverything should feel soft and reassuring to the touch: rounded corners, subtle shadows, warm surfaces, and states that confirm rather than alarm.",
+    "keyCharacteristics": [
+      "Warm off-white page (never pure white) with white cards on top.",
+      "Fraunces serif for every heading; Inter for everything you read or type.",
+      "Terracotta reserved for calls to action, highlights and money that comes back.",
+      "The Dutch kenteken plate (EU blue strip) as the signature input.",
+      "Soft, generously rounded containers (12–24px) with a whisper of shadow."
+    ],
+    "rules": [
+      {
+        "name": "The Sunlight Rule",
+        "body": "The page is warm off-white, not white. Pure white is reserved for cards and inputs that sit on top of it, so every container reads as a sheet in the dossier.",
+        "section": "colors"
+      },
+      {
+        "name": "The Terracotta Means Action Rule",
+        "body": "Terracotta marks what to do next: CTAs, the hero highlight, selected choices. Money you get back is Zachtgroen with a \"+\"; costs and net totals stay Antraciet. Never colour a cost terracotta.",
+        "section": "colors"
+      },
+      {
+        "name": "The Contrast Floor Rule",
+        "body": "Every text colour clears 4.5:1 on its surface. Terracotta and Zandsteen swap roles on deep blue.",
+        "section": "colors"
+      },
+      {
+        "name": "The Serif Heads, Sans Hands Rule",
+        "body": "Every h1–h4 is Fraunces (set globally in the base layer); every number, label, input and button is Inter. The kenteken plate is the only exception.",
+        "section": "typography"
+      },
+      {
+        "name": "The Lift On Touch Rule",
+        "body": "Surfaces rest almost flat; a stronger shadow is a response to hover or a floating layer, never a default.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "**Do** use the warm off-white page with white cards on top; keep pure white for containers.",
+      "**Do** set every heading in Fraunces 600 and every label, number and control in Inter.",
+      "**Do** reserve terracotta for the next action and the selected option; show money coming back in Zachtgroen with a \"+\".",
+      "**Do** lead a result with one answer (one amount, one sentence, one action) and fold the detail into a disclosure.",
+      "**Do** keep corners soft: 24px for big blocks, 16px for public buttons and tiles, full pills for badges.",
+      "**Do** use Zachtgroen check marks for reassurance lists under the hero."
+    ],
+    "donts": [
+      "**Don't** use EU blue anywhere except the plate strip.",
+      "**Don't** use pure white or cool grey as the page background.",
+      "**Don't** add bouncy or attention-seeking motion; transitions are colour and opacity fades.",
+      "**Don't** stack heavy shadows at rest; lift only on hover or for overlays.",
+      "**Don't** set headings in Inter or body copy in Fraunces.",
+      "**Don't** put an eyebrow or kicker label above a heading, or a pill badge above the hero headline.",
+      "**Don't** use body or helper text smaller than 14px on public pages; the audience skews 60+."
+    ]
+  }
+}

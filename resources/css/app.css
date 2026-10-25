@@ -1,5 +1,3 @@
-@import url('https://fonts.bunny.net/css?family=fraunces:400,500,600,700&family=inter:400,500,600&display=swap');
-
 @import 'tailwindcss';
 
 @import 'tw-animate-css';
@@ -46,6 +44,14 @@
     --color-accent: var(--accent);
     --color-accent-foreground: var(--accent-foreground);
     --color-accent-light: var(--accent-light);
+
+    --color-brand: var(--brand);
+    --color-brand-foreground: var(--brand-foreground);
+    --color-brand-accent: var(--brand-accent);
+
+    --color-plate: var(--plate);
+    --color-plate-foreground: var(--plate-foreground);
+    --color-plate-muted: var(--plate-muted);
 
     --color-destructive: var(--destructive);
     --color-destructive-foreground: var(--destructive-foreground);
@@ -120,23 +126,25 @@
     --secondary-foreground: hsl(222 11% 18%);
 
     --muted: hsl(40 28% 92%);
-    --muted-foreground: hsl(220 9% 46%); /* Grijsblauw */
+    --muted-foreground: hsl(220 9% 40%); /* Grijsblauw — 5.5:1 on the page */
 
-    --accent: hsl(17 50% 58%); /* Terracotta */
+    --accent: hsl(17 55% 42%); /* Terracotta — AA for text and under white */
     --accent-foreground: hsl(0 0% 100%);
     --accent-light: hsl(21 51% 82%); /* Zandsteen */
 
     --destructive: hsl(0 46% 50%); /* Diep rood */
     --destructive-foreground: hsl(0 0% 100%);
 
-    --success: hsl(142 20% 46%); /* Zachtgroen */
+    --success: hsl(142 25% 36%); /* Zachtgroen — AA as text on white */
     --success-foreground: hsl(0 0% 100%);
 
     --warning: hsl(38 61% 57%); /* Oker */
     --warning-foreground: hsl(222 11% 18%);
 
     --border: hsl(30 22% 86%);
-    --input: hsl(30 22% 86%);
+    --input: hsl(
+        30 15% 52%
+    ); /* Form strokes only — 3:1 against white (WCAG 1.4.11) */
     --ring: hsl(220 47% 20%);
 
     --chart-1: hsl(220 47% 20%);
@@ -156,58 +164,79 @@
     --sidebar-border: hsl(216 38% 30%);
     --sidebar-ring: hsl(17 50% 58%);
     --sidebar: hsl(220 47% 20%);
+
+    /* Brand surface (footer): diepblauw in light, warm near-black in dark.
+       Separate from --primary because primary has to flip lightness. */
+    --brand: hsl(220 47% 20%);
+    --brand-foreground: hsl(40 36% 95%);
+    --brand-accent: hsl(21 51% 82%); /* Zandsteen */
+
+    /* The kenteken plate stays a light plate in both themes, like a real one. */
+    --plate: hsl(40 36% 97%);
+    --plate-foreground: hsl(222 11% 18%);
+    --plate-muted: hsl(220 9% 40%);
 }
 
 .dark {
-    --background: hsl(222 20% 10%);
-    --foreground: hsl(40 36% 95%);
-    --card: hsl(222 20% 14%);
-    --card-foreground: hsl(40 36% 95%);
-    --popover: hsl(222 20% 14%);
-    --popover-foreground: hsl(40 36% 95%);
+    /* Warm dark: "Het Zonnige Dossier" after sunset. Neutrals sit on hue 30
+       (sun-warmed stone), not the cool slate of the starter kit. */
+    --background: hsl(30 12% 9%);
+    --foreground: hsl(40 30% 92%);
+    --card: hsl(30 10% 13%);
+    --card-foreground: hsl(40 30% 92%);
+    --popover: hsl(30 10% 13%);
+    --popover-foreground: hsl(40 30% 92%);
 
-    --primary: hsl(216 38% 60%);
-    --primary-foreground: hsl(222 20% 10%);
-    --primary-light: hsl(216 45% 70%);
+    --primary: hsl(214 60% 68%); /* Diepblauw lifted for text on dark, 6.4:1 */
+    --primary-foreground: hsl(30 12% 9%);
+    --primary-light: hsl(214 50% 78%);
 
-    --secondary: hsl(222 15% 20%);
-    --secondary-foreground: hsl(40 36% 95%);
+    --secondary: hsl(28 14% 20%);
+    --secondary-foreground: hsl(40 30% 92%);
 
-    --muted: hsl(222 15% 18%);
-    --muted-foreground: hsl(220 12% 65%);
+    --muted: hsl(30 10% 17%);
+    --muted-foreground: hsl(35 10% 66%);
 
-    --accent: hsl(17 55% 62%);
-    --accent-foreground: hsl(222 20% 10%);
-    --accent-light: hsl(21 45% 35%);
+    --accent: hsl(17 62% 58%); /* Terracotta, 5:1 on cards */
+    --accent-foreground: hsl(30 12% 9%);
+    --accent-light: hsl(21 30% 28%);
 
-    --destructive: hsl(0 60% 55%);
-    --destructive-foreground: hsl(40 36% 95%);
+    --destructive: hsl(0 70% 66%);
+    --destructive-foreground: hsl(30 12% 9%);
 
-    --success: hsl(142 30% 55%);
-    --success-foreground: hsl(222 20% 10%);
+    --success: hsl(142 35% 58%);
+    --success-foreground: hsl(30 12% 9%);
 
     --warning: hsl(38 70% 62%);
-    --warning-foreground: hsl(222 20% 10%);
+    --warning-foreground: hsl(30 12% 9%);
 
-    --border: hsl(222 15% 22%);
-    --input: hsl(222 15% 22%);
-    --ring: hsl(216 38% 60%);
+    --border: hsl(30 8% 24%);
+    --input: hsl(30 8% 46%); /* 3.5:1 against cards */
+    --ring: hsl(214 60% 68%);
 
-    --chart-1: hsl(216 38% 60%);
-    --chart-2: hsl(17 55% 62%);
+    --chart-1: hsl(214 60% 68%);
+    --chart-2: hsl(17 62% 58%);
     --chart-3: hsl(40 36% 75%);
-    --chart-4: hsl(142 30% 55%);
+    --chart-4: hsl(142 35% 58%);
     --chart-5: hsl(38 70% 62%);
 
-    --sidebar-background: hsl(222 20% 8%);
-    --sidebar-foreground: hsl(40 36% 95%);
-    --sidebar-primary: hsl(17 55% 62%);
-    --sidebar-primary-foreground: hsl(222 20% 10%);
-    --sidebar-accent: hsl(216 38% 25%);
-    --sidebar-accent-foreground: hsl(40 36% 95%);
-    --sidebar-border: hsl(222 15% 16%);
-    --sidebar-ring: hsl(17 55% 62%);
-    --sidebar: hsl(222 20% 8%);
+    --sidebar-background: hsl(30 14% 6%);
+    --sidebar-foreground: hsl(40 30% 92%);
+    --sidebar-primary: hsl(17 62% 58%);
+    --sidebar-primary-foreground: hsl(30 12% 9%);
+    --sidebar-accent: hsl(30 10% 17%);
+    --sidebar-accent-foreground: hsl(40 30% 92%);
+    --sidebar-border: hsl(30 8% 18%);
+    --sidebar-ring: hsl(17 62% 58%);
+    --sidebar: hsl(30 14% 6%);
+
+    --brand: hsl(30 14% 6%);
+    --brand-foreground: hsl(40 30% 90%);
+    --brand-accent: hsl(21 51% 82%);
+
+    --plate: hsl(40 36% 97%);
+    --plate-foreground: hsl(222 11% 18%);
+    --plate-muted: hsl(220 9% 40%);
 }
 
 @layer base {
@@ -216,6 +245,11 @@
     }
     body {
         @apply bg-background font-sans text-foreground antialiased;
+        caret-color: var(--accent);
+    }
+    ::selection {
+        background-color: var(--accent-light);
+        color: var(--foreground);
     }
     h1,
     h2,

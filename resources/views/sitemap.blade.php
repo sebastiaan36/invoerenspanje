@@ -3,16 +3,15 @@
     @foreach ($staticPages as $page)
     <url>
         <loc>{{ $page['url'] }}</loc>
-        <changefreq>{{ $page['changefreq'] }}</changefreq>
-        <priority>{{ $page['priority'] }}</priority>
+        @if ($page['lastmod'])
+        <lastmod>{{ $page['lastmod'] }}</lastmod>
+        @endif
     </url>
     @endforeach
     @foreach ($posts as $post)
     <url>
         <loc>{{ url('/blog/' . $post->slug) }}</loc>
         <lastmod>{{ ($post->updated_at ?? $post->published_at)->toAtomString() }}</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.6</priority>
     </url>
     @endforeach
 </urlset>

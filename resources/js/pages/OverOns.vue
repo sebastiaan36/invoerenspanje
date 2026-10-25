@@ -1,70 +1,45 @@
 <script setup lang="ts">
 import { Link } from '@inertiajs/vue3';
-import {
-    ArrowRight,
-    Car,
-    Globe,
-    Users,
-    Award,
-    Handshake,
-} from 'lucide-vue-next';
+import { ArrowRight, Check } from 'lucide-vue-next';
+import ContactStrip from '@/components/ContactStrip.vue';
 import PublicLayout from '@/layouts/PublicLayout.vue';
 
 const team = [
     {
         name: 'Maikel',
         photo: '/images/maikel.jpeg',
+        alt: 'Maikel, autospecialist',
         company: 'Maikel Mobility',
-        role: 'Auto-expert & Spaanse importspecialist',
-        bio: "Maikel is de drijvende kracht achter het Spaanse importtraject. Met een diepgewortelde passie voor auto's heeft hij HBO Automotive gestudeerd aan de IVA en jarenlange ervaring opgebouwd in de branche. Hij kent de weg bij de DGT op zijn duimpje. Van Ficha Técnica tot ITV — Maikel regelt het.",
+        role: 'Autospecialist, regelt de Spaanse kant van het traject',
+        bio: 'Maikel is de autospecialist achter het importtraject. Hij studeerde HBO Automotive aan de IVA, werkt met erkende RDW-exportpartners en kent de procedures bij de DGT (de Spaanse RDW). Van Ficha Técnica (Spaans technisch voertuigrapport) tot ITV (de Spaanse APK-keuring): Maikel regelt het.',
         highlights: [
-            'HBO Automotive — IVA (International Vehicle Academy)',
-            'Jarenlange ervaring in de autobranche',
-            'Directe lijnen bij de DGT en Spaanse overheidsinstanties',
-            'Breed netwerk van RDW-exportpartners in Nederland',
-            'Gecertificeerde ITV-begeleiding in de regio Málaga',
+            'IVA-gecertificeerd: HBO Automotive aan de IVA',
+            'Werkt met erkende RDW-exportpartners',
+            'Kent de procedures bij de DGT (de Spaanse RDW)',
         ],
-        icon: Car,
-        accent: true,
     },
     {
         name: 'Sebastiaan',
         photo: '/images/sebastiaan.jpeg',
+        alt: 'Sebastiaan, online aanspreekpunt',
         company: 'Been & van Dam',
-        role: 'Website bouwen & online marketing',
-        bio: 'Sebastiaan zorgt ervoor dat autoinvoerenspanje.nl werkt zoals het hoort. Als website-ontwikkelaar en online marketeer bouwt hij de digitale infrastructuur waarmee klanten eenvoudig hun kenteken kunnen invoeren, een berekening krijgen en een offerte kunnen aanvragen. Hij verbindt de techniek met de markt.',
+        role: 'Uw aanspreekpunt online',
+        bio: 'Sebastiaan is uw aanspreekpunt online. Hij beantwoordt uw vragen over de berekening en de offerte, en houdt uw dossier bij, zodat u steeds weet hoe het met uw auto staat.',
         highlights: [
-            'Ontwikkelaar van autoinvoerenspanje.nl',
-            'Online marketing en zichtbaarheid in Google',
-            'Klantportaal en dossierbeheer',
-            'BPM- en importkostencalculator',
-            'Automatische lead- en offerteafhandeling',
+            'Beantwoordt uw vragen over berekening en offerte',
+            'Houdt uw dossier en de berekening voor u bij',
         ],
-        icon: Globe,
-        accent: false,
     },
 ];
 
 const values = [
     {
-        icon: Handshake,
-        title: 'Transparantie',
-        body: 'Vaste prijzen vooraf, geen verborgen kosten. U weet precies waar u aan toe bent voordat u akkoord gaat.',
+        title: 'Alles uit één hand, van Nederland tot Spanje',
+        body: 'De BPM-teruggave en export in Nederland, en de inschrijving op een Spaans kenteken (matriculación) en de keuring (ITV) in Spanje: één team regelt beide kanten. U hoeft zelf geen Nederlandse exporteur en Spaanse gestoría (administratiekantoor) te combineren.',
     },
     {
-        icon: Users,
-        title: 'Nederlandstalig',
-        body: 'Wij communiceren in het Nederlands — geen taalbarrière, geen misverstanden. U hoeft zelf geen Spaans te spreken.',
-    },
-    {
-        icon: Award,
-        title: 'Gecertificeerd',
-        body: 'Maikel heeft HBO Automotive gestudeerd aan de IVA en werkt met erkende RDW-exportpartners en officiële Spaanse keuringsstations.',
-    },
-    {
-        icon: Car,
-        title: 'Auto-expertise',
-        body: 'Van aankoopadvies in Nederland tot definitieve platen in Spanje — wij kennen het complete traject van binnen en buiten.',
+        title: 'Nederlandstalig, met vaste prijzen',
+        body: 'U spreekt met ons gewoon Nederlands, ook over de Spaanse kant. U kiest vooraf een pakket met een vaste prijs, zodat u weet waar u aan toe bent voordat u akkoord gaat.',
     },
 ];
 </script>
@@ -76,17 +51,14 @@ const values = [
             <div
                 class="container mx-auto max-w-4xl px-4 py-16 text-center md:py-24"
             >
-                <span
-                    class="inline-flex items-center rounded-full bg-secondary px-3 py-1 text-xs font-semibold text-secondary-foreground"
-                >
-                    Twee specialisten, één missie
-                </span>
                 <h1
-                    class="mt-5 font-display text-4xl leading-tight font-semibold text-foreground md:text-5xl"
+                    class="font-display text-4xl leading-tight font-semibold text-balance text-foreground md:text-5xl"
                 >
                     Over ons
                 </h1>
-                <p class="mx-auto mt-5 max-w-2xl text-lg text-muted-foreground">
+                <p
+                    class="mx-auto mt-5 max-w-2xl text-lg text-pretty text-muted-foreground"
+                >
                     autoinvoerenspanje.nl is een samenwerking tussen een
                     IVA-gecertificeerde autospecialist en een online marketeer.
                     Samen maken wij het importtraject eenvoudig, transparant en
@@ -104,8 +76,8 @@ const values = [
                     Onze missie
                 </h2>
                 <p class="mx-auto mt-5 max-w-2xl text-muted-foreground">
-                    Duizenden Nederlanders wonen of verblijven langdurig aan de
-                    Costa del Sol. Zij willen hun vertrouwde auto meenemen naar
+                    Veel Nederlanders wonen of verblijven langdurig aan de Costa
+                    del Sol. Zij willen hun vertrouwde auto meenemen naar
                     Spanje, maar lopen vast op bureaucratie, taalbarrières en
                     een ondoorzichtig systeem. Wij zetten dat recht: één
                     aanspreekpunt, vaste prijs, alles geregeld.
@@ -122,65 +94,47 @@ const values = [
                     >
                         Het team
                     </h2>
-                    <p
-                        class="mx-auto mt-3 max-w-xl text-sm text-muted-foreground"
-                    >
-                        Twee specialisten met elk hun eigen vakgebied — samen
-                        zorgen zij voor het complete plaatje.
+                    <p class="mx-auto mt-3 max-w-xl text-muted-foreground">
+                        Twee mensen met elk hun eigen vakgebied. Samen zorgen
+                        zij voor het complete plaatje.
                     </p>
                 </div>
 
                 <div class="mt-12 grid gap-8 lg:grid-cols-2">
-                    <div
+                    <article
                         v-for="member in team"
                         :key="member.name"
-                        class="flex flex-col overflow-hidden rounded-2xl border bg-card shadow-sm"
-                        :class="
-                            member.accent ? 'border-accent/40' : 'border-border'
-                        "
+                        class="flex flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-sm"
                     >
-                        <!-- Foto bovenaan -->
                         <div
                             class="h-64 w-full overflow-hidden bg-muted sm:h-80 lg:h-96"
                         >
                             <img
-                                v-if="member.photo"
                                 :src="member.photo"
-                                :alt="member.name"
+                                :alt="member.alt"
+                                width="800"
+                                height="800"
+                                loading="lazy"
                                 class="h-full w-full object-cover object-top"
                             />
-                            <div
-                                v-else
-                                class="flex h-full w-full items-center justify-center text-6xl font-bold"
-                                :class="
-                                    member.accent
-                                        ? 'bg-accent/15 text-accent'
-                                        : 'bg-muted text-muted-foreground'
-                                "
-                            >
-                                {{ member.name[0] }}
-                            </div>
                         </div>
 
-                        <!-- Tekst -->
-                        <div class="flex flex-col p-5 sm:p-8">
+                        <div class="flex flex-col p-6 sm:p-8">
                             <div>
                                 <h3
                                     class="font-display text-xl font-semibold text-foreground"
                                 >
                                     {{ member.name }}
                                 </h3>
-                                <div class="text-sm font-medium text-accent">
+                                <p class="text-sm font-medium text-foreground">
                                     {{ member.company }}
-                                </div>
-                                <div class="text-xs text-muted-foreground">
+                                </p>
+                                <p class="text-sm text-muted-foreground">
                                     {{ member.role }}
-                                </div>
+                                </p>
                             </div>
 
-                            <p
-                                class="mt-4 text-sm leading-relaxed text-foreground/80"
-                            >
+                            <p class="mt-4 leading-relaxed text-foreground/80">
                                 {{ member.bio }}
                             </p>
 
@@ -188,16 +142,11 @@ const values = [
                                 <li
                                     v-for="highlight in member.highlights"
                                     :key="highlight"
-                                    class="flex items-start gap-2.5 text-sm"
+                                    class="flex items-start gap-2.5"
                                 >
-                                    <component
-                                        :is="member.icon"
-                                        class="mt-0.5 size-4 shrink-0"
-                                        :class="
-                                            member.accent
-                                                ? 'text-accent'
-                                                : 'text-muted-foreground'
-                                        "
+                                    <Check
+                                        class="mt-1 size-4 shrink-0 stroke-[3] text-success"
+                                        aria-hidden="true"
                                     />
                                     <span class="text-foreground">{{
                                         highlight
@@ -205,7 +154,7 @@ const values = [
                                 </li>
                             </ul>
                         </div>
-                    </div>
+                    </article>
                 </div>
             </div>
         </section>
@@ -213,29 +162,24 @@ const values = [
         <!-- Waarden -->
         <section class="border-t border-border bg-muted/40">
             <div class="container mx-auto max-w-5xl px-4 py-16">
-                <div class="text-center">
-                    <h2
-                        class="font-display text-2xl font-semibold text-foreground sm:text-3xl"
-                    >
-                        Waar wij voor staan
-                    </h2>
-                </div>
+                <h2
+                    class="text-center font-display text-2xl font-semibold text-foreground sm:text-3xl"
+                >
+                    Waar wij voor staan
+                </h2>
 
-                <div class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+                <div class="mt-10 grid gap-10 md:grid-cols-2 md:gap-12">
                     <div
                         v-for="value in values"
                         :key="value.title"
-                        class="flex flex-col gap-3 rounded-2xl border border-border bg-card p-6"
+                        class="border-t border-border pt-6"
                     >
-                        <div
-                            class="flex size-10 items-center justify-center rounded-xl bg-accent/10 text-accent"
+                        <h3
+                            class="font-display text-xl font-semibold text-foreground"
                         >
-                            <component :is="value.icon" class="size-5" />
-                        </div>
-                        <h3 class="font-semibold text-foreground">
                             {{ value.title }}
                         </h3>
-                        <p class="text-sm text-muted-foreground">
+                        <p class="mt-3 leading-relaxed text-muted-foreground">
                             {{ value.body }}
                         </p>
                     </div>
@@ -245,33 +189,35 @@ const values = [
 
         <!-- CTA -->
         <section class="border-t border-border bg-background">
-            <div class="container mx-auto max-w-3xl px-4 py-16 text-center">
-                <h2
-                    class="font-display text-2xl font-semibold text-foreground sm:text-3xl"
-                >
-                    Kennismaken?
-                </h2>
-                <p class="mx-auto mt-4 max-w-lg text-muted-foreground">
-                    Voer uw kenteken in voor een directe berekening, of neem
-                    contact op voor een vrijblijvend gesprek.
-                </p>
-                <div
-                    class="mt-6 flex flex-wrap items-center justify-center gap-4"
-                >
-                    <Link
-                        href="/"
-                        class="inline-flex items-center gap-2 rounded-xl bg-accent px-6 py-3 text-sm font-semibold text-accent-foreground transition-colors hover:bg-accent/90"
+            <div class="container mx-auto max-w-5xl px-4 py-16">
+                <div class="mx-auto max-w-2xl text-center">
+                    <h2
+                        class="font-display text-2xl font-semibold text-foreground sm:text-3xl"
                     >
-                        Bereken mijn kosten
-                        <ArrowRight class="size-4" />
-                    </Link>
-                    <Link
-                        href="/contact"
-                        class="inline-flex items-center gap-2 rounded-xl border border-border px-6 py-3 text-sm font-semibold text-foreground transition-colors hover:bg-muted"
-                    >
-                        Contact opnemen
-                    </Link>
+                        Kennismaken?
+                    </h2>
+                    <p class="mx-auto mt-4 max-w-lg text-muted-foreground">
+                        Vul uw kenteken in voor een directe berekening, of neem
+                        contact op voor een vrijblijvend gesprek.
+                    </p>
+                    <div class="mt-6 flex justify-center">
+                        <Link
+                            href="/#offerte"
+                            class="inline-flex min-h-11 items-center gap-2 rounded-xl bg-accent px-6 text-sm font-semibold text-accent-foreground shadow-sm transition-colors hover:bg-accent/90 focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:outline-none"
+                        >
+                            Bereken mijn kosten
+                            <ArrowRight class="size-4" />
+                        </Link>
+                    </div>
                 </div>
+
+                <ContactStrip
+                    class="mt-12"
+                    title="Liever eerst even praten?"
+                    body="Bel of WhatsApp ons. U spreekt direct met Maikel of Sebastiaan, in het Nederlands."
+                    secondary-label="Contactformulier"
+                    secondary-href="/contact"
+                />
             </div>
         </section>
     </PublicLayout>

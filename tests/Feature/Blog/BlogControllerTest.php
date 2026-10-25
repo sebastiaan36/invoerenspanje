@@ -155,4 +155,51 @@ final class BlogControllerTest extends TestCase
         $response = $this->get(route('blog.show', 'html-test'));
         $this->assertSame($html, $response->viewData('page')['props']['post']['content_html']);
     }
+
+    public function test_markdown_content_is_rendered_as_html(): void
+    {
+        $author = User::factory()->create();
+
+        Post::create([
+            'title' => 'Markdown-post',
+            'slug' => 'markdown-post',
+            'content_html' => "## De forfaitaire methode\nTekst met <script>alert(1)</script> erin.",
+            'status' => Post::STATUS_PUBLISHED,
+            'published_at' => now()->subDay(),
+            'author_id' => $author->id,
+        ]);
+
+        $this->get(route('blog.show', 'markdown-post'))
+            ->assertOk()
+            ->assertInertia(fn ($page) => $page
+                ->where('post.content_html', fn (string $html) => str_contains($html, '<h2>De forfaitaire methode</h2>')
+                    && ! str_contains($html, '##')
+                    && ! str_contains($html, '<script>'))
+            );
+    }
+
+    public function test_html_content_is_passed_through_unchanged(): void
+    {
+        $author = User::factory()->create();
+
+        Post::create([
+            'title' => 'HTML-post',
+            'slug' => 'html-post',
+            'content_html' => '<h2>Kop</h2><p>Tekst</p>',
+            'status' => Post::STATUS_PUBLISHED,
+            'published_at' => now()->subDay(),
+            'author_id' => $author->id,
+        ]);
+
+        $this->get(route('blog.show', 'html-post'))
+            ->assertOk()
+            ->assertInertia(fn ($page) => $page->where('post.content_html', '<h2>Kop</h2><p>Tekst</p>'));
+    }
+
+    public function test_blog_index_uses_its_own_seo_title(): void
+    {
+        $this->get(route('blog.index'))
+            ->assertOk()
+            ->assertSee('<title>'.e(config('seo.routes')['blog.index']['title']).'</title>', false);
+    }
 }

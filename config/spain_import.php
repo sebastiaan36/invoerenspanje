@@ -64,11 +64,11 @@ return [
      * ⚠ Bedragen zijn schattingen — pas aan voor je eigen partner-tarieven.
      */
     'fixed_costs' => [
-        ['key' => 'tasas',                 'label' => 'Tasas (DGT)',                   'amount_eur' => 125],
-        ['key' => 'ficha_tecnica',         'label' => 'Ficha Técnica',                 'amount_eur' => 85],
-        ['key' => 'placas_definitivas',    'label' => 'Placas definitivas',            'amount_eur' => 35],
-        ['key' => 'honorarios',            'label' => 'Honorarios',                    'amount_eur' => 181.50],
-        ['key' => 'matriculas_temporales', 'label' => 'Matrículas Temporales (opt.)', 'amount_eur' => 150],
+        ['key' => 'tasas',                 'label' => 'Tasas DGT (registratieleges)',    'amount_eur' => 125],
+        ['key' => 'ficha_tecnica',         'label' => 'Ficha Técnica (technisch rapport)', 'amount_eur' => 85],
+        ['key' => 'placas_definitivas',    'label' => 'Spaanse kentekenplaten',         'amount_eur' => 35],
+        ['key' => 'honorarios',            'label' => 'Honorarios gestoría (Spaans administratiekantoor)', 'amount_eur' => 181.50],
+        ['key' => 'matriculas_temporales', 'label' => 'Tijdelijke kentekenplaten (optioneel)', 'amount_eur' => 150],
         ['key' => 'itv_keuring',          'label' => 'ITV-keuring (ca. € 150–160)', 'amount_eur' => 155],
     ],
 
@@ -77,7 +77,7 @@ return [
      */
     'static_notes' => [
         'De Ficha Técnica (€ 85) vervalt indien u een COC-document aanlevert.',
-        'Matrículas Temporales zijn niet verplicht, maar nodig om met een geëxporteerde auto naar de ITV te rijden en te blijven rijden.',
+        'Tijdelijke kentekenplaten (matrículas temporales) zijn niet verplicht, maar wel nodig om met een geëxporteerde auto naar de ITV te rijden en te blijven rijden.',
         'De ITV-keuring betaalt u zelf rechtstreeks aan de balie van het keuringsstation.',
     ],
 

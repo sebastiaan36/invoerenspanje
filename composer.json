@@ -63,6 +63,11 @@
             "npm run types:check",
             "@test"
         ],
+        "deploy": [
+            "@php artisan migrate --force",
+            "@php artisan blog:sync",
+            "@php artisan optimize"
+        ],
         "test": [
             "@php artisan config:clear --ansi",
             "@lint:check",

@@ -18,8 +18,10 @@ final class ContactFormNotification extends Mailable
         public readonly string $senderName,
         public readonly string $senderEmail,
         public readonly ?string $senderPhone,
-        public readonly ?string $subject,
-        public readonly string $message,
+        // Not named $subject/$message: Mailable already owns $subject, and
+        // $message is reserved inside mail views.
+        public readonly ?string $contactSubject,
+        public readonly string $contactMessage,
     ) {}
 
     public function envelope(): Envelope

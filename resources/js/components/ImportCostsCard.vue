@@ -47,21 +47,19 @@ function formatEuro(value: number): string {
 </script>
 
 <template>
-    <article
-        class="flex flex-col rounded-2xl border border-border bg-card p-6 shadow-sm"
-    >
-        <div
-            class="text-xs font-medium tracking-wider text-muted-foreground uppercase"
+    <article class="flex flex-col rounded-xl border border-border p-5">
+        <h3 class="font-display text-lg font-semibold text-foreground">
+            Kosten in Spanje
+        </h3>
+        <p
+            class="mt-2 font-display text-3xl font-semibold text-foreground tabular-nums"
         >
-            Spaanse import-kosten
-        </div>
-        <div class="mt-1 font-display text-3xl font-semibold text-foreground">
             {{ formatEuro(importCosts.total_eur) }}
-        </div>
+        </p>
 
         <div
             v-if="isBelowThreshold"
-            class="mt-4 flex items-start gap-2 rounded-xl border border-success/30 bg-success/10 p-3 text-xs text-foreground"
+            class="mt-4 flex items-start gap-2 rounded-lg bg-success/10 p-3 text-sm text-foreground"
         >
             <Leaf class="mt-0.5 size-4 shrink-0 text-success" />
             <p>
@@ -73,10 +71,8 @@ function formatEuro(value: number): string {
         <dl class="mt-5 space-y-3 text-sm">
             <div class="flex items-baseline justify-between gap-3">
                 <dt class="text-muted-foreground">
-                    IEDMT
-                    <span class="text-xs"
-                        >({{ importCosts.iedmt_rate_pct.toFixed(2) }}%)</span
-                    >
+                    Registratiebelasting (IEDMT,
+                    {{ importCosts.iedmt_rate_pct.toLocaleString('nl-NL') }}%)
                 </dt>
                 <dd class="text-right font-medium tabular-nums">
                     <span
@@ -91,7 +87,7 @@ function formatEuro(value: number): string {
             </div>
             <div
                 v-if="importCosts.estimated_market_value_eur > 0"
-                class="flex items-baseline justify-between gap-3 text-xs text-muted-foreground"
+                class="flex items-baseline justify-between gap-3 text-muted-foreground"
             >
                 <dt>Geschatte marktwaarde</dt>
                 <dd class="tabular-nums">
@@ -128,24 +124,22 @@ function formatEuro(value: number): string {
 
         <div
             v-if="importCosts.iedmt_exempt && importCosts.iedmt_exempt_reason"
-            class="mt-4 flex items-start gap-2 rounded-xl bg-success/10 p-3 text-xs text-success"
+            class="mt-4 flex items-start gap-2 rounded-lg bg-success/10 p-3 text-sm text-foreground"
         >
-            <BadgeCheck class="mt-0.5 size-4 shrink-0" />
+            <BadgeCheck class="mt-0.5 size-4 shrink-0 text-success" />
             <p>{{ importCosts.iedmt_exempt_reason }}</p>
         </div>
 
         <div
             v-for="note in importCosts.notes"
             :key="note"
-            class="mt-3 flex items-start gap-2 rounded-xl border border-warning/30 bg-warning/10 p-3 text-xs text-foreground"
+            class="mt-3 flex items-start gap-2 rounded-lg bg-warning/15 p-3 text-sm text-foreground"
         >
             <AlertTriangle class="mt-0.5 size-4 shrink-0 text-warning" />
             <p>{{ note }}</p>
         </div>
 
-        <div
-            class="mt-3 flex items-start gap-2 rounded-xl bg-muted p-3 text-xs text-muted-foreground"
-        >
+        <div class="mt-3 flex items-start gap-2 text-sm text-muted-foreground">
             <Info class="mt-0.5 size-4 shrink-0" />
             <p>
                 Vaste kosten zijn een richtprijs op basis van onze

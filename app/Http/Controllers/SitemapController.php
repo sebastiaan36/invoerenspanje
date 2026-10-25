@@ -6,25 +6,39 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use Illuminate\Http\Response;
+use Illuminate\Support\Carbon;
 
 final class SitemapController extends Controller
 {
+    /**
+     * Static pages in sitemap order, keyed by route name. Their <lastmod>
+     * comes from the `updated` date in config/seo.php, so it only changes
+     * when the content was actually reviewed.
+     *
+     * @var list<string>
+     */
+    private const STATIC_ROUTES = [
+        'home', 'gids', 'diensten', 'tarieven', 'bpm-calculator',
+        'over-ons', 'contact', 'blog.index', 'faq',
+    ];
+
     public function __invoke(): Response
     {
-        $staticPages = [
-            ['url' => url('/'),                  'priority' => '1.0',  'changefreq' => 'weekly'],
-            ['url' => url('/diensten'),           'priority' => '0.9',  'changefreq' => 'monthly'],
-            ['url' => url('/tarieven'),           'priority' => '0.9',  'changefreq' => 'monthly'],
-            ['url' => url('/bpm-calculator'),     'priority' => '0.8',  'changefreq' => 'monthly'],
-            ['url' => url('/over-ons'),           'priority' => '0.7',  'changefreq' => 'monthly'],
-            ['url' => url('/contact'),            'priority' => '0.7',  'changefreq' => 'monthly'],
-            ['url' => url('/blog'),                   'priority' => '0.8',  'changefreq' => 'weekly'],
-            ['url' => url('/veelgestelde-vragen'),    'priority' => '0.8',  'changefreq' => 'monthly'],
-        ];
-
         $posts = Post::published()
             ->orderByDesc('published_at')
             ->get(['slug', 'published_at', 'updated_at']);
+
+        $staticPages = collect(self::STATIC_ROUTES)->map(function (string $routeName) use ($posts): array {
+            $updated = config('seo.routes', [])[$routeName]['updated'] ?? null;
+
+            $lastmod = match (true) {
+                $routeName === 'blog.index' => $posts->max(fn (Post $post) => $post->updated_at ?? $post->published_at),
+                $updated !== null => Carbon::parse($updated),
+                default => null,
+            };
+
+            return ['url' => route($routeName), 'lastmod' => $lastmod?->toAtomString()];
+        });
 
         return response(
             view('sitemap', compact('staticPages', 'posts'))->render(),
