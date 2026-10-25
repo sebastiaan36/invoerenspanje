@@ -5,14 +5,21 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         @production
-            {{-- Google tag (gtag.js) — GA4 --}}
-            <script async src="https://www.googletagmanager.com/gtag/js?id=G-MER8N0VEN2"></script>
+            {{-- Google tag (gtag.js) — GA4. The 196 KB library loads after the page
+                 has finished loading so it doesn't compete with the first render;
+                 calls made before then queue up in dataLayer. --}}
             <script>
                 window.dataLayer = window.dataLayer || [];
                 function gtag(){dataLayer.push(arguments);}
                 gtag('js', new Date());
-
                 gtag('config', 'G-MER8N0VEN2');
+
+                window.addEventListener('load', function () {
+                    var script = document.createElement('script');
+                    script.async = true;
+                    script.src = 'https://www.googletagmanager.com/gtag/js?id=G-MER8N0VEN2';
+                    document.head.appendChild(script);
+                });
             </script>
         @endproduction
 
@@ -56,7 +63,15 @@
             $seoTitle = $seo['title'] ?? config('seo.default.title');
             $seoDescription = $seo['description'] ?? config('seo.default.description');
             $seoImage = $seo['image'] ?? null;
-            $canonicalUrl = url()->current();
+
+            // Built from APP_URL plus the route path, so aliases like /index.php
+            // or a stray host never become their own canonical.
+            $path = trim(request()->path(), '/');
+            $canonicalUrl = rtrim(config('app.url'), '/').($path === '' ? '' : '/'.$path);
+
+            $isPublicPage = in_array($page['component'], ['Welcome', 'Diensten', 'Tarieven', 'BpmCalculator', 'Contact', 'OverOns', 'Faq', 'Gids'], true)
+                || str_starts_with($page['component'], 'Blog/');
+            $isArticle = $page['component'] === 'Blog/Show';
         @endphp
 
         {{-- Title is rendered through Inertia's head so client-side navigation can update it --}}
@@ -66,9 +81,13 @@
 
         {{-- Server-rendered SEO + social meta (visible to crawlers without JavaScript) --}}
         <meta name="description" content="{{ $seoDescription }}">
-        <link rel="canonical" href="{{ $canonicalUrl }}">
+        @if ($isPublicPage)
+            <link rel="canonical" href="{{ $canonicalUrl }}">
+        @else
+            <meta name="robots" content="noindex, nofollow">
+        @endif
 
-        <meta property="og:type" content="website">
+        <meta property="og:type" content="{{ $isArticle ? 'article' : 'website' }}">
         <meta property="og:site_name" content="{{ config('seo.site_name') }}">
         <meta property="og:title" content="{{ $seoTitle }}">
         <meta property="og:description" content="{{ $seoDescription }}">
@@ -84,8 +103,19 @@
         @if ($seoImage)
             <meta name="twitter:image" content="{{ $seoImage }}">
         @endif
+
+        @if ($isPublicPage)
+            @include('partials.schema')
+        @endif
     </head>
     <body class="font-sans antialiased">
-        <x-inertia::app />
+        {{-- Same output as <x-inertia::app />, but #app carries server-rendered
+             content for crawlers on public pages (see seo/fallback). --}}
+        <script data-page="app" type="application/json">{!! json_encode($page) !!}</script>
+        <div id="app">
+            @if ($isPublicPage)
+                @include('seo.fallback')
+            @endif
+        </div>
     </body>
 </html>

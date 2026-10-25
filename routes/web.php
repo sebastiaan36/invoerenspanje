@@ -7,13 +7,11 @@ use App\Http\Controllers\ContactController;
 use App\Http\Controllers\Portal\DocumentController;
 use App\Http\Controllers\Portal\MessageController;
 use App\Http\Controllers\Portal\PortalController;
+use App\Http\Controllers\PublicPageController;
 use App\Http\Controllers\SitemapController;
 use Illuminate\Support\Facades\Route;
-use Laravel\Fortify\Features;
 
-Route::inertia('/', 'Welcome', [
-    'canRegister' => Features::enabled(Features::registration()),
-])->name('home');
+Route::get('/', [PublicPageController::class, 'home'])->name('home');
 
 Route::inertia('diensten', 'Diensten')->name('diensten');
 Route::inertia('over-ons', 'OverOns')->name('over-ons');
@@ -21,9 +19,10 @@ Route::inertia('contact', 'Contact', [
     'werkgebied' => config('werkgebied'),
 ])->name('contact');
 Route::post('contact', [ContactController::class, 'store'])->middleware('throttle:5,1')->name('contact.store');
-Route::inertia('tarieven', 'Tarieven')->name('tarieven');
-Route::inertia('bpm-calculator', 'BpmCalculator')->name('bpm-calculator');
-Route::inertia('veelgestelde-vragen', 'Faq')->name('faq');
+Route::get('tarieven', [PublicPageController::class, 'tarieven'])->name('tarieven');
+Route::get('bpm-calculator', [PublicPageController::class, 'bpmCalculator'])->name('bpm-calculator');
+Route::get('veelgestelde-vragen', [PublicPageController::class, 'faq'])->name('faq');
+Route::get('auto-invoeren-spanje', [PublicPageController::class, 'gids'])->name('gids');
 
 Route::get('sitemap.xml', SitemapController::class)->name('sitemap');
 

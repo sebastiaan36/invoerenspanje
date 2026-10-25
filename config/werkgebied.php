@@ -3,9 +3,10 @@
 declare(strict_types=1);
 
 return [
-    'accent' => '#c0683f',
-    'tiles' => 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',
-    'attribution' => '&copy; OpenStreetMap &copy; CARTO',
+    // Terracotta uit DESIGN.md: hsl(17 55% 42%).
+    'accent' => '#a65230',
+    'tiles' => 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+    'attribution' => '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>-bijdragers',
 
     // Beeldkader waarop de kaart inzoomt (zuidwest- en noordoosthoek).
     'bounds' => [[36.39, -5.28], [36.87, -3.84]],

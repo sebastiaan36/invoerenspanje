@@ -6,12 +6,12 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ContactRequest;
 use App\Mail\ContactFormNotification;
-use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Mail;
 
 final class ContactController extends Controller
 {
-    public function store(ContactRequest $request): JsonResponse
+    public function store(ContactRequest $request): RedirectResponse
     {
         $data = $request->validated();
 
@@ -20,10 +20,12 @@ final class ContactController extends Controller
                 senderName: $data['name'],
                 senderEmail: $data['email'],
                 senderPhone: $data['phone'] ?? null,
-                subject: $data['subject'] ?? null,
-                message: $data['message'],
+                contactSubject: $data['subject'] ?? null,
+                contactMessage: $data['message'],
             ));
 
-        return response()->json(['message' => 'Uw bericht is verzonden.']);
+        // Inertia's form.post() expects a redirect; a JSON body would surface
+        // as an error modal and the success state would never show.
+        return back()->with('success', 'Uw bericht is verzonden.');
     }
 }

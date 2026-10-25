@@ -7,6 +7,7 @@ namespace App\Http\Controllers\Blog;
 use App\Http\Controllers\Controller;
 use App\Models\Post;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -21,7 +22,7 @@ final class BlogController extends Controller
             ->withQueryString()
             ->through(fn (Post $p) => [
                 'slug' => $p->slug,
-                'title' => $p->title,
+                'title' => trim($p->title),
                 'excerpt' => $p->excerpt,
                 'hero_image_url' => $p->hero_image_path
                     ? asset('storage/'.$p->hero_image_path)
@@ -50,7 +51,7 @@ final class BlogController extends Controller
             ->get()
             ->map(fn (Post $p) => [
                 'slug' => $p->slug,
-                'title' => $p->title,
+                'title' => trim($p->title),
                 'excerpt' => $p->excerpt,
                 'hero_image_url' => $p->hero_image_path
                     ? asset('storage/'.$p->hero_image_path)
@@ -65,20 +66,40 @@ final class BlogController extends Controller
 
         return Inertia::render('Blog/Show', [
             'seo' => [
-                'title' => $post->title.' — autoinvoerenspanje.nl',
-                'description' => $post->excerpt ?? config('seo.default.description'),
+                'title' => trim($post->title).' — autoinvoerenspanje.nl',
+                'description' => trim((string) $post->excerpt) ?: config('seo.default.description'),
                 'image' => $heroImageUrl ?? (config('seo.default_image') ? url((string) config('seo.default_image')) : null),
             ],
             'post' => [
                 'slug' => $post->slug,
-                'title' => $post->title,
+                'title' => trim($post->title),
                 'excerpt' => $post->excerpt,
-                'content_html' => $post->content_html,
+                'content_html' => $this->renderContent($post->content_html),
                 'hero_image_url' => $heroImageUrl,
                 'published_at' => $post->published_at?->toIso8601String(),
+                'updated_at' => $post->updated_at?->toIso8601String(),
                 'author' => $post->author?->name,
             ],
             'related' => $related,
         ]);
+    }
+
+    /**
+     * Authors sometimes paste Markdown into the HTML field. Content without
+     * HTML block elements is rendered as Markdown (with any inline HTML
+     * escaped) so it never shows raw "##".
+     */
+    private function renderContent(?string $content): string
+    {
+        $content ??= '';
+
+        if (! preg_match('/<(p|h[1-6]|ul|ol|li|div|br|table|blockquote|figure|img|a|section|article)\b/i', $content)) {
+            return Str::markdown($content, [
+                'html_input' => 'escape',
+                'allow_unsafe_links' => false,
+            ]);
+        }
+
+        return $content;
     }
 }

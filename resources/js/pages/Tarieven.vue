@@ -1,14 +1,10 @@
 <script setup lang="ts">
 import { Link, usePage } from '@inertiajs/vue3';
-import {
-    Check,
-    Star,
-    ArrowRight,
-    FileText,
-    Car,
-    ClipboardCheck,
-    ShieldCheck,
-} from 'lucide-vue-next';
+import { ArrowRight, Check, Star } from 'lucide-vue-next';
+import { computed } from 'vue';
+import ContactStrip from '@/components/ContactStrip.vue';
+import FaqAccordion from '@/components/FaqAccordion.vue';
+import type { FaqItem } from '@/components/FaqAccordion.vue';
 import PublicLayout from '@/layouts/PublicLayout.vue';
 
 interface ServicePackage {
@@ -20,50 +16,110 @@ interface ServicePackage {
     features: string[];
 }
 
+interface FixedCost {
+    key: string;
+    label: string;
+    amount_eur: number;
+}
+
+const props = withDefaults(
+    defineProps<{
+        fixedCosts?: FixedCost[];
+        faqItems?: FaqItem[];
+    }>(),
+    {
+        fixedCosts: () => [],
+        faqItems: () => [],
+    },
+);
+
 const packages = usePage().props.packages as ServicePackage[];
 
-const euroFormatter = new Intl.NumberFormat('nl-NL', {
+// Same example as the guide (resources/views/content/gids.blade.php): a car
+// with a COC (no Ficha Técnica), temporary plates and IEDMT at 0%.
+const EXAMPLE_COST_KEYS = [
+    'tasas',
+    'placas_definitivas',
+    'honorarios',
+    'matriculas_temporales',
+    'itv_keuring',
+];
+
+const workedExample = computed(() => {
+    const pkg = packages.find((p) => p.slug === 'compleet');
+
+    if (!pkg || props.fixedCosts.length === 0) {
+        return null;
+    }
+
+    const spanish = props.fixedCosts
+        .filter((cost) => EXAMPLE_COST_KEYS.includes(cost.key))
+        .reduce((sum, cost) => sum + cost.amount_eur, 0);
+
+    return {
+        packageName: pkg.name,
+        packagePrice: pkg.price_eur,
+        spanish,
+        total: pkg.price_eur + spanish,
+    };
+});
+
+const quoteHref = '/#offerte';
+
+const wholeEuroFormatter = new Intl.NumberFormat('nl-NL', {
     style: 'currency',
     currency: 'EUR',
     maximumFractionDigits: 0,
 });
 
+const centsEuroFormatter = new Intl.NumberFormat('nl-NL', {
+    style: 'currency',
+    currency: 'EUR',
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+});
+
 function formatEuro(value: number): string {
-    return euroFormatter.format(value);
+    return Number.isInteger(value)
+        ? wholeEuroFormatter.format(value)
+        : centsEuroFormatter.format(value);
 }
+
+/**
+ * Short clarifications shown under specific fixed-cost rows.
+ */
+const fixedCostNotes: Record<string, string> = {
+    ficha_tecnica: 'Vervalt als u een COC-document aanlevert.',
+    matriculas_temporales:
+        'Nodig om met de geëxporteerde auto naar de ITV te rijden.',
+    itv_keuring: 'Betaalt u zelf aan de balie van het keuringsstation.',
+};
 
 const steps = [
     {
-        icon: Car,
+        country: 'Nederland',
         title: 'Export in Nederland',
-        body: 'Uw auto wordt uitgeschreven bij de RDW. Dit kan via uw eigen exporteur of via een van onze partners in Nederland.',
+        body: 'Uw auto wordt bij de RDW afgemeld met de status export. Bij Basis regelt u dit zelf, bij Compleet en Compleet Plus gaat het via een van onze erkende RDW-exportpartners.',
     },
     {
-        icon: FileText,
-        title: 'Documenten & Ficha Técnica',
-        body: 'Wij verzamelen de benodigde documenten. Als u een COC aanlevert is de Ficha Técnica al geregeld — anders maken wij die voor u (€ 85 extra).',
+        country: 'Spanje',
+        title: 'Documenten en COC of Ficha Técnica',
+        body: 'Wij controleren uw documenten. Levert u een COC aan, dan is geen Ficha Técnica (technisch rapport) nodig. Zonder COC wordt die opgesteld voor € 85 extra.',
     },
     {
-        icon: ClipboardCheck,
-        title: 'Aanvraag bij de DGT',
-        body: 'Wij verwerken de volledige matriculación-aanvraag bij de Dirección General de Tráfico. U hoeft zelf geen Spaans te spreken.',
+        country: 'Spanje',
+        title: 'Tijdelijke kentekenplaten',
+        body: 'Met groene matrículas temporales (tijdelijke kentekenplaten) rijdt u legaal naar de ITV. Wij vragen ze aan; bij Basis haalt u ze zelf op.',
     },
     {
-        icon: ShieldCheck,
-        title: 'ITV & kenteken',
-        body: 'Na de ITV-keuring (betaalt u zelf, ca. € 150–160) leveren wij de groene matrículas temporales en daarna de definitieve platen.',
+        country: 'Spanje',
+        title: 'ITV-keuring',
+        body: 'De Spaanse APK, die u zelf betaalt (ca. € 150–160). Bij Basis plant u de afspraak zelf, bij Compleet plannen wij die en bij Compleet Plus gaan wij namens u.',
     },
-];
-
-const extraCosts = [
-    { label: 'Tasas DGT (registratietaks)', amount: '€ 125' },
-    { label: 'Ficha Técnica', amount: '€ 85 (vervalt met COC)' },
-    { label: 'Placas definitivas', amount: '€ 35' },
-    { label: 'Matrículas Temporales (opt.)', amount: '€ 150' },
-    { label: 'ITV-keuring (klant betaalt zelf)', amount: 'ca. € 150–160' },
     {
-        label: 'IEDMT registratiebelasting',
-        amount: 'afhankelijk van CO₂ en leeftijd',
+        country: 'Spanje',
+        title: 'Definitieve Spaanse kentekenplaten',
+        body: 'Na de keuring en de registratiebelasting (of vrijstelling) verwerken wij de aanvraag bij de DGT, de Spaanse RDW. Daarna volgen kentekenbewijs en platen; bij Basis haalt u de platen zelf op.',
     },
 ];
 </script>
@@ -75,125 +131,237 @@ const extraCosts = [
             <div
                 class="container mx-auto max-w-4xl px-4 py-16 text-center md:py-24"
             >
-                <span
-                    class="inline-flex items-center rounded-full bg-secondary px-3 py-1 text-xs font-semibold text-secondary-foreground"
-                >
-                    Transparante prijzen
-                </span>
                 <h1
-                    class="mt-5 font-display text-4xl leading-tight font-semibold text-foreground md:text-5xl"
+                    class="font-display text-4xl leading-tight font-semibold text-balance text-foreground md:text-5xl"
                 >
-                    Wat kost het om uw auto<br />
+                    Wat kost het om uw auto
                     <span class="text-accent">op Spaans kenteken</span> te
                     zetten?
                 </h1>
-                <p class="mx-auto mt-5 max-w-2xl text-lg text-muted-foreground">
-                    Een vaste servicevergoeding voor onze begeleiding — plus de
-                    officiële overheidskosten die voor iedereen gelden. Geen
+                <p
+                    class="mx-auto mt-5 max-w-2xl text-lg text-pretty text-muted-foreground"
+                >
+                    Een vaste prijs voor onze begeleiding, plus de vaste kosten
+                    in Spanje die wij hieronder voor u op een rij zetten. Geen
                     verrassingen achteraf.
                 </p>
             </div>
         </section>
 
-        <!-- Hoe het werkt -->
-        <section class="border-t border-border bg-muted/40">
-            <div class="container mx-auto max-w-5xl px-4 py-16">
-                <div class="text-center">
-                    <h2
-                        class="font-display text-2xl font-semibold text-foreground sm:text-3xl"
-                    >
-                        Hoe werkt het traject?
-                    </h2>
-                    <p
-                        class="mx-auto mt-3 max-w-xl text-sm text-muted-foreground"
-                    >
-                        Van export in Nederland tot definitief Spaans kenteken —
-                        dit zijn de vier stappen die altijd doorlopen worden,
-                        ongeacht het pakket.
-                    </p>
-                </div>
+        <!-- Het traject -->
+        <section
+            class="border-t border-border bg-card"
+            aria-labelledby="traject-title"
+        >
+            <div class="container mx-auto max-w-2xl px-4 py-16">
+                <h2
+                    id="traject-title"
+                    class="font-display text-2xl font-semibold text-balance text-foreground sm:text-3xl"
+                >
+                    Hoe verloopt het traject?
+                </h2>
+                <p class="mt-3 max-w-xl text-muted-foreground">
+                    Deze stappen doorloopt elke auto, in deze volgorde. Uw
+                    pakket bepaalt welke stappen wij voor u overnemen.
+                </p>
 
-                <div class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-                    <div
+                <ol class="mt-10">
+                    <li
                         v-for="(step, index) in steps"
                         :key="step.title"
-                        class="relative flex flex-col gap-3 rounded-2xl border border-border bg-card p-6"
+                        class="relative flex gap-5 pb-8 last:pb-0"
                     >
-                        <div
-                            class="flex size-10 items-center justify-center rounded-xl bg-accent/10 text-accent"
-                        >
-                            <component :is="step.icon" class="size-5" />
-                        </div>
-                        <div
-                            class="absolute top-4 right-4 font-display text-4xl font-bold text-muted/30 select-none"
+                        <span
+                            v-if="index < steps.length - 1"
+                            class="absolute top-10 bottom-0 left-[1.1875rem] w-px bg-border"
+                            aria-hidden="true"
+                        />
+                        <span
+                            class="relative flex size-10 shrink-0 items-center justify-center rounded-full border text-sm font-semibold tabular-nums"
+                            :class="
+                                step.country === 'Nederland'
+                                    ? 'border-primary/30 bg-primary/10 text-primary'
+                                    : 'border-border bg-background text-foreground'
+                            "
                         >
                             {{ index + 1 }}
+                        </span>
+                        <div class="pt-1.5">
+                            <h3
+                                class="flex flex-wrap items-baseline gap-x-3 gap-y-1 font-semibold text-foreground"
+                            >
+                                {{ step.title }}
+                                <span
+                                    class="text-sm font-normal text-muted-foreground"
+                                    >{{ step.country }}</span
+                                >
+                            </h3>
+                            <p class="mt-1 text-muted-foreground">
+                                {{ step.body }}
+                            </p>
                         </div>
-                        <h3 class="font-semibold text-foreground">
-                            {{ step.title }}
-                        </h3>
-                        <p class="text-sm text-muted-foreground">
-                            {{ step.body }}
-                        </p>
-                    </div>
-                </div>
+                    </li>
+                </ol>
             </div>
         </section>
 
-        <!-- Overheidskosten -->
-        <section class="border-t border-border bg-background">
+        <!-- Vaste kosten -->
+        <section
+            class="border-t border-border bg-background"
+            aria-labelledby="kosten-title"
+        >
             <div class="container mx-auto max-w-5xl px-4 py-16">
                 <div class="grid gap-10 lg:grid-cols-2 lg:items-start">
                     <div>
                         <h2
-                            class="font-display text-2xl font-semibold text-foreground sm:text-3xl"
+                            id="kosten-title"
+                            class="font-display text-2xl font-semibold text-balance text-foreground sm:text-3xl"
                         >
-                            Servicekosten vs. overheidskosten
+                            Pakketprijs en vaste kosten
                         </h2>
                         <p class="mt-4 text-muted-foreground">
-                            Onze pakketprijs dekt uitsluitend de begeleiding en
-                            administratieve verwerking door ons. Bovenop de
-                            pakketprijs komen altijd officiële overheidskosten
-                            die wij niet kunnen beïnvloeden.
+                            Onze pakketprijs dekt de begeleiding en de
+                            administratieve verwerking door ons. Daarnaast komen
+                            de vaste kosten in Spanje: leges, platen, keuring en
+                            het Spaanse administratiekantoor. Die bedragen
+                            bepalen wij niet zelf.
                         </p>
                         <p class="mt-3 text-muted-foreground">
-                            De exacte hoogte van de IEDMT-registratiebelasting
-                            hangt af van de CO₂-uitstoot en de leeftijd van uw
-                            auto. Gebruik de calculator op de homepage voor een
-                            persoonlijke indicatie.
+                            De registratiebelasting (IEDMT) hangt af van de
+                            CO₂-uitstoot en de waarde van uw auto. Met de
+                            calculator op de homepage ziet u wat dat voor uw
+                            auto betekent.
                         </p>
-                        <Link
-                            href="/"
-                            class="mt-5 inline-flex items-center gap-2 text-sm font-medium text-accent hover:underline"
+                        <div
+                            v-if="workedExample"
+                            class="mt-6 rounded-xl bg-muted/60 p-5"
                         >
-                            Bereken uw kosten
+                            <h3
+                                class="font-display text-lg font-semibold text-foreground"
+                            >
+                                Rekenvoorbeeld
+                            </h3>
+                            <p class="mt-2 text-muted-foreground">
+                                Een auto met COC-document, uitstoot onder de 120
+                                g/km en tijdelijke kentekenplaten.
+                            </p>
+                            <dl class="mt-4 space-y-2 tabular-nums">
+                                <div class="flex justify-between gap-4">
+                                    <dt class="text-muted-foreground">
+                                        Pakket {{ workedExample.packageName }}
+                                    </dt>
+                                    <dd class="font-medium text-foreground">
+                                        {{
+                                            formatEuro(
+                                                workedExample.packagePrice,
+                                            )
+                                        }}
+                                    </dd>
+                                </div>
+                                <div class="flex justify-between gap-4">
+                                    <dt class="text-muted-foreground">
+                                        Vaste kosten in Spanje
+                                    </dt>
+                                    <dd class="font-medium text-foreground">
+                                        {{ formatEuro(workedExample.spanish) }}
+                                    </dd>
+                                </div>
+                                <div class="flex justify-between gap-4">
+                                    <dt class="text-muted-foreground">
+                                        Registratiebelasting (IEDMT)
+                                    </dt>
+                                    <dd class="font-medium text-foreground">
+                                        {{ formatEuro(0) }}
+                                    </dd>
+                                </div>
+                                <div
+                                    class="flex justify-between gap-4 border-t border-border pt-2"
+                                >
+                                    <dt class="font-semibold text-foreground">
+                                        U betaalt
+                                    </dt>
+                                    <dd
+                                        class="font-display text-lg font-semibold text-foreground"
+                                    >
+                                        {{ formatEuro(workedExample.total) }}
+                                    </dd>
+                                </div>
+                            </dl>
+                            <p class="mt-3 text-sm text-muted-foreground">
+                                Daar staat de BPM-teruggave uit Nederland
+                                tegenover. Die hangt af van de leeftijd en de
+                                oorspronkelijke BPM van uw auto.
+                            </p>
+                        </div>
+                        <Link
+                            :href="quoteHref"
+                            class="mt-3 inline-flex min-h-11 items-center gap-2 text-sm font-semibold text-primary underline-offset-4 hover:underline"
+                        >
+                            Bereken uw kosten en vraag een offerte aan
+                            <ArrowRight class="size-4" />
+                        </Link>
+                        <Link
+                            href="/auto-invoeren-spanje"
+                            class="inline-flex min-h-11 items-center gap-2 text-sm font-semibold text-primary underline-offset-4 hover:underline"
+                        >
+                            Lees de complete gids auto invoeren in Spanje
                             <ArrowRight class="size-4" />
                         </Link>
                     </div>
 
-                    <div class="rounded-2xl border border-border bg-card p-6">
-                        <div
-                            class="text-xs font-semibold tracking-wider text-muted-foreground uppercase"
+                    <div
+                        class="rounded-2xl border border-border bg-card p-6 shadow-sm"
+                    >
+                        <h3
+                            class="font-display text-xl font-semibold text-foreground"
                         >
-                            Overheidskostenoverzicht
-                        </div>
+                            Vaste kosten in Spanje
+                        </h3>
                         <p class="mt-1 text-sm text-muted-foreground">
-                            Deze kosten komen bij het pakket en gelden voor elke
-                            auto.
+                            Bovenop de pakketprijs. Welke posten voor u gelden,
+                            hangt af van uw auto en uw keuzes.
                         </p>
-                        <ul class="mt-5 divide-y divide-border">
+                        <ul class="mt-4 divide-y divide-border">
                             <li
-                                v-for="item in extraCosts"
-                                :key="item.label"
-                                class="flex items-baseline justify-between gap-4 py-3 text-sm"
+                                v-for="cost in fixedCosts"
+                                :key="cost.key"
+                                class="flex items-baseline justify-between gap-4 py-3"
                             >
-                                <span class="text-foreground">{{
-                                    item.label
-                                }}</span>
+                                <div class="min-w-0">
+                                    <p class="text-foreground">
+                                        {{ cost.label }}
+                                    </p>
+                                    <p
+                                        v-if="fixedCostNotes[cost.key]"
+                                        class="mt-0.5 text-sm text-muted-foreground"
+                                    >
+                                        {{ fixedCostNotes[cost.key] }}
+                                    </p>
+                                </div>
                                 <span
-                                    class="shrink-0 text-muted-foreground tabular-nums"
-                                    >{{ item.amount }}</span
+                                    class="text-right font-medium whitespace-nowrap text-foreground tabular-nums"
+                                    >{{ formatEuro(cost.amount_eur) }}</span
                                 >
+                            </li>
+                            <li class="py-3">
+                                <div
+                                    class="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1"
+                                >
+                                    <p class="text-foreground">
+                                        IEDMT (Spaanse registratiebelasting)
+                                    </p>
+                                    <span
+                                        class="text-right text-muted-foreground"
+                                        >afhankelijk van CO₂-uitstoot</span
+                                    >
+                                </div>
+                                <p class="mt-1 text-sm text-muted-foreground">
+                                    0% tot 120 g/km, daarboven 4,75%, 9,75% of
+                                    14,75% van de waarde van de auto. Verhuist u
+                                    uw hoofdverblijf naar Spanje en staat de
+                                    auto al minstens zes maanden op uw naam, dan
+                                    kunt u vrijstelling krijgen.
+                                </p>
                             </li>
                         </ul>
                     </div>
@@ -202,18 +370,21 @@ const extraCosts = [
         </section>
 
         <!-- Pakketten -->
-        <section class="border-t border-border bg-muted/40">
+        <section
+            id="pakketten"
+            class="scroll-mt-24 border-t border-border bg-muted/40"
+            aria-labelledby="pakketten-title"
+        >
             <div class="container mx-auto max-w-5xl px-4 py-16">
                 <div class="text-center">
                     <h2
+                        id="pakketten-title"
                         class="font-display text-2xl font-semibold text-foreground sm:text-3xl"
                     >
                         Kies uw pakket
                     </h2>
-                    <p
-                        class="mx-auto mt-3 max-w-xl text-sm text-muted-foreground"
-                    >
-                        Drie vaste pakketten — van zelf de regie houden tot
+                    <p class="mx-auto mt-3 max-w-xl text-muted-foreground">
+                        Drie vaste pakketten, van zelf de regie houden tot
                         volledig ontzorgd worden. U kiest hoeveel u uit handen
                         geeft.
                     </p>
@@ -223,22 +394,21 @@ const extraCosts = [
                     <div
                         v-for="pkg in packages"
                         :key="pkg.slug"
-                        class="relative flex flex-col overflow-hidden rounded-2xl border bg-card p-5 sm:p-8"
+                        class="relative flex flex-col overflow-hidden rounded-2xl bg-card p-5 sm:p-8"
                         :class="{
                             'border-2 border-accent shadow-lg': pkg.recommended,
                             'border border-border shadow-sm': !pkg.recommended,
                         }"
                     >
-                        <!-- Aanbevolen badge -->
                         <div
                             v-if="pkg.recommended"
-                            class="absolute -top-px left-8 inline-flex items-center gap-1 rounded-b-md bg-accent px-2.5 py-1 text-xs font-semibold tracking-wider text-accent-foreground uppercase"
+                            class="absolute -top-px left-8 inline-flex items-center gap-1.5 rounded-b-md bg-accent px-3 py-1 text-sm font-semibold text-accent-foreground"
                         >
-                            <Star class="size-3 fill-current" />
+                            <Star class="size-3.5 fill-current" />
                             Aanbevolen
                         </div>
 
-                        <div :class="pkg.recommended ? 'mt-4' : ''">
+                        <div :class="pkg.recommended ? 'mt-5' : ''">
                             <h3
                                 class="font-display text-2xl font-semibold text-primary"
                             >
@@ -251,7 +421,7 @@ const extraCosts = [
 
                         <div class="mt-6">
                             <span
-                                class="font-display text-4xl font-semibold text-accent tabular-nums sm:text-5xl"
+                                class="font-display text-4xl font-semibold text-foreground tabular-nums sm:text-5xl"
                             >
                                 {{ formatEuro(pkg.price_eur) }}
                             </span>
@@ -259,8 +429,9 @@ const extraCosts = [
                                 >eenmalig</span
                             >
                         </div>
-                        <p class="mt-1 text-xs text-muted-foreground">
-                            Excl. overheidskosten en eventueel transport
+                        <p class="mt-1 text-sm text-muted-foreground">
+                            Exclusief vaste kosten in Spanje en eventueel
+                            transport
                         </p>
 
                         <hr class="my-6 border-border" />
@@ -281,131 +452,59 @@ const extraCosts = [
                         </ul>
 
                         <Link
-                            href="/"
-                            class="mt-8 flex items-center justify-center gap-2 rounded-xl py-3 text-sm font-semibold transition-colors"
+                            :href="`/?pakket=${pkg.slug}#offerte`"
+                            class="mt-8 flex min-h-11 items-center justify-center gap-2 rounded-xl px-4 py-3 text-sm font-semibold transition-colors focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:outline-none"
                             :class="{
-                                'bg-accent text-accent-foreground hover:bg-accent/90':
+                                'bg-accent text-accent-foreground shadow-sm hover:bg-accent/90':
                                     pkg.recommended,
-                                'bg-muted text-foreground hover:bg-muted/70':
+                                'border border-border bg-background text-foreground hover:bg-secondary':
                                     !pkg.recommended,
                             }"
                         >
-                            Direct berekenen
+                            Kies {{ pkg.name }}
                             <ArrowRight class="size-4" />
                         </Link>
                     </div>
                 </div>
+
+                <ContactStrip
+                    class="mt-12"
+                    body="Twijfelt u welk pakket bij u past? Bel of app Maikel, hij denkt graag mee."
+                />
             </div>
         </section>
 
         <!-- Veelgestelde vragen -->
         <section class="border-t border-border bg-background">
-            <div class="container mx-auto max-w-3xl px-4 py-16">
+            <div class="container mx-auto max-w-2xl px-4 py-16">
                 <h2
                     class="text-center font-display text-2xl font-semibold text-foreground sm:text-3xl"
                 >
                     Veelgestelde vragen
                 </h2>
 
-                <dl class="mt-10 space-y-8">
-                    <div>
-                        <dt class="font-semibold text-foreground">
-                            Welke documenten moet ik aanleveren?
-                        </dt>
-                        <dd class="mt-2 text-sm text-muted-foreground">
-                            Voor de standaard matriculación heeft u de volgende
-                            documenten nodig: een geldig paspoort of ID-kaart,
-                            uw NIE-nummer (Spaans fiscaal identificatienummer),
-                            het Nederlandse kentekenbewijs (deel 1A en 1B), de
-                            exportverklaring van de RDW, een COC-document (of
-                            wij regelen de Ficha Técnica voor u) en een bewijs
-                            van adres in Spanje (empadronamiento of
-                            huurcontract). Afhankelijk van uw situatie en het
-                            gekozen pakket begeleiden wij u stap voor stap bij
-                            het verzamelen van alle benodigde stukken.
-                        </dd>
-                    </div>
-                    <div>
-                        <dt class="font-semibold text-foreground">
-                            Is de ITV-keuring bij de prijs inbegrepen?
-                        </dt>
-                        <dd class="mt-2 text-sm text-muted-foreground">
-                            Nee. De ITV-keuring betaalt u zelf aan de balie van
-                            het keuringsstation — dit is circa € 150 tot € 160
-                            afhankelijk van het station. Wij regelen de afspraak
-                            voor u (Compleet en Compleet Plus), maar de kosten
-                            zijn voor uw eigen rekening.
-                        </dd>
-                    </div>
-                    <div>
-                        <dt class="font-semibold text-foreground">
-                            Wat is de Ficha Técnica en wanneer heb ik die nodig?
-                        </dt>
-                        <dd class="mt-2 text-sm text-muted-foreground">
-                            De Ficha Técnica is het Spaanse technische document
-                            van uw auto. Als u een COC-document (Certificaat van
-                            Overeenstemming) aanlevert, vervalt de Ficha Técnica
-                            en bespaart u € 85. Heeft u geen COC, dan regelen
-                            wij de Ficha Técnica voor u — inclusief foto's op
-                            locatie bij het Compleet-pakket.
-                        </dd>
-                    </div>
-                    <div>
-                        <dt class="font-semibold text-foreground">
-                            Wat zijn Matrículas Temporales?
-                        </dt>
-                        <dd class="mt-2 text-sm text-muted-foreground">
-                            Dit zijn tijdelijke groene kentekenplaten. Ze zijn
-                            niet verplicht, maar wel nodig om met een
-                            geëxporteerde auto legaal te blijven rijden en naar
-                            de ITV te gaan. Kosten: € 150.
-                        </dd>
-                    </div>
-                    <div>
-                        <dt class="font-semibold text-foreground">
-                            Wat kost het transport van Nederland naar Spanje?
-                        </dt>
-                        <dd class="mt-2 text-sm text-muted-foreground">
-                            Wij regelen het transport via een van onze partners
-                            (Compleet Plus), maar de transportkosten worden
-                            apart in rekening gebracht en zijn afhankelijk van
-                            ophaallocatie en bestemming. Vraag een offerte aan
-                            via de calculator.
-                        </dd>
-                    </div>
-                    <div>
-                        <dt class="font-semibold text-foreground">
-                            Kan ik een pakket wijzigen nadat ik een offerte heb
-                            aangevraagd?
-                        </dt>
-                        <dd class="mt-2 text-sm text-muted-foreground">
-                            Ja, zolang de aanvraag nog niet is ingediend bij de
-                            DGT kunt u van pakket wisselen. Neem contact met ons
-                            op via het klantenportaal.
-                        </dd>
-                    </div>
-                </dl>
+                <FaqAccordion :items="faqItems" class="mt-10" />
             </div>
         </section>
 
-        <!-- CTA -->
+        <!-- Afsluiting -->
         <section class="border-t border-border bg-muted/40">
             <div class="container mx-auto max-w-3xl px-4 py-16 text-center">
                 <h2
-                    class="font-display text-2xl font-semibold text-foreground sm:text-3xl"
+                    class="font-display text-2xl font-semibold text-balance text-foreground sm:text-3xl"
                 >
-                    Klaar om te beginnen?
+                    Wat kost het voor uw auto?
                 </h2>
                 <p class="mx-auto mt-4 max-w-lg text-muted-foreground">
-                    Voer uw kenteken in en zie direct wat de totale kosten zijn
-                    voor uw specifieke auto — inclusief BPM-teruggave en Spaanse
-                    registratiebelasting.
+                    Vul uw kenteken in en zie direct de totale kosten voor uw
+                    auto, met de BPM-teruggave en de Spaanse
+                    registratiebelasting al meegerekend.
                 </p>
                 <Link
-                    href="/"
-                    class="mt-6 inline-flex items-center gap-2 rounded-xl bg-accent px-6 py-3 text-sm font-semibold text-accent-foreground transition-colors hover:bg-accent/90"
+                    :href="quoteHref"
+                    class="mt-6 inline-flex min-h-11 items-center gap-2 rounded-xl bg-accent px-6 py-3 text-sm font-semibold text-accent-foreground shadow-sm transition-colors hover:bg-accent/90 focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:outline-none"
                 >
-                    Bereken mijn kosten
+                    Bereken uw kosten en vraag een offerte aan
                     <ArrowRight class="size-4" />
                 </Link>
             </div>

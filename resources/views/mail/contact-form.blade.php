@@ -1,20 +1,20 @@
 <x-mail::message>
 # Nieuw contactbericht
 
-**Naam:** {{ $mailable->senderName }}
-**E-mail:** {{ $mailable->senderEmail }}
-@if($mailable->senderPhone)
-**Telefoon:** {{ $mailable->senderPhone }}
+**Naam:** {{ $senderName }}
+**E-mail:** {{ $senderEmail }}
+@if($senderPhone)
+**Telefoon:** {{ $senderPhone }}
 @endif
-@if($mailable->subject)
-**Onderwerp:** {{ $mailable->subject }}
+@if($contactSubject)
+**Onderwerp:** {{ $contactSubject }}
 @endif
 
 ---
 
-{{ $mailable->message }}
+{{ $contactMessage }}
 
 ---
 
-*Beantwoord deze e-mail rechtstreeks om terug te schrijven naar {{ $mailable->senderName }}.*
+*Beantwoord deze e-mail rechtstreeks om terug te schrijven naar {{ $senderName }}.*
 </x-mail::message>

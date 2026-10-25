@@ -1,151 +1,104 @@
 <script setup lang="ts">
 import { Link } from '@inertiajs/vue3';
-import {
-    ArrowRight,
-    Car,
-    ClipboardCheck,
-    ShieldCheck,
-    Euro,
-    Truck,
-    CheckCircle,
-} from 'lucide-vue-next';
+import { ArrowRight, Check } from 'lucide-vue-next';
+import ContactStrip from '@/components/ContactStrip.vue';
 import PublicLayout from '@/layouts/PublicLayout.vue';
 
-const services = [
+interface Service {
+    id: string;
+    title: string;
+    description: string;
+    includes: string[];
+    cta?: { label: string; href: string };
+}
+
+interface Lane {
+    country: string;
+    authorities: string;
+    services: Service[];
+}
+
+const quoteHref = '/#offerte';
+
+const lanes: Lane[] = [
     {
-        icon: Car,
-        slug: 'auto-op-spaans-kenteken',
-        title: 'Auto op Spaans kenteken',
-        tagline:
-            'Van Nederlandse naar Spaanse registratie — wij regelen het complete traject.',
-        description:
-            'Als u langer dan zes maanden per jaar in Spanje verblijft, bent u wettelijk verplicht uw auto op Spaans kenteken te zetten. Wij begeleiden het volledige traject: van het verzamelen van de benodigde documenten tot het aanvragen van de matriculación bij de Dirección General de Tráfico (DGT). U heeft geen Spaans nodig en hoeft nergens in de rij te staan.',
-        includes: [
-            'Volledige aanvraag bij de DGT namens u',
-            'Ficha Técnica of COC-verwerking',
-            'Groene matrículas temporales (tijdelijke platen)',
-            'Definitieve Spaanse kentekenplaten',
-            'Communicatie met overheidsinstanties in het Spaans',
-            'Begeleiding bij aanvullende documenten (NIE, empadronamiento)',
+        country: 'Nederland',
+        authorities: 'RDW en Belastingdienst',
+        services: [
+            {
+                id: 'auto-export-nederland',
+                title: 'Auto-export Nederland',
+                description:
+                    'Voordat uw auto in Spanje ingeschreven kan worden, moet hij in Nederland worden afgemeld met de status export. Bij Compleet en Compleet Plus regelen wij dit via een van onze erkende RDW-exportpartners. Bij Basis regelt u de export zelf en sluiten wij daarop aan.',
+                includes: [
+                    'Exportmelding via een erkende RDW-exportpartner',
+                    'Exportkenteken, veertien dagen geldig voor de rit naar Spanje',
+                    'Exportdocumenten die de DGT (de Spaanse RDW) vraagt',
+                ],
+            },
+            {
+                id: 'bpm-teruggave',
+                title: 'BPM-teruggave',
+                description:
+                    "Bij aankoop in Nederland is BPM (Belasting van Personenauto's en Motorrijwielen) betaald. Exporteert u de auto, dan heeft u recht op teruggave van de rest-BPM. Hoeveel dat is, hangt af van de leeftijd van de auto en de oorspronkelijke BPM. Wij dienen de aanvraag in bij de Belastingdienst.",
+                includes: [
+                    'Indicatie van de rest-BPM vooraf',
+                    'Aanvraag bij de Belastingdienst op basis van de exportmelding',
+                    'Afstemming van de timing met de Spaanse inschrijving',
+                ],
+                cta: {
+                    label: 'Bereken uw BPM-teruggave',
+                    href: '/bpm-calculator',
+                },
+            },
         ],
-        cta: { label: 'Bereken uw kosten', href: '/' },
-        accent: true,
     },
     {
-        icon: Euro,
-        slug: 'bpm-teruggave',
-        title: 'BPM-teruggave',
-        tagline:
-            "Haal terug wat u bij aankoop betaalde — tot duizenden euro's.",
-        description:
-            "Bij de aankoop van uw auto in Nederland betaalde u BPM (Belasting van Personenauto's en Motorrijwielen). Exporteert u uw auto naar Spanje, dan heeft u recht op teruggave van het resterende BPM-bedrag. De hoogte hangt af van de leeftijd van uw auto en de originele catalogusprijs. Wij dienen de teruggaveaanvraag in bij de Nederlandse Belastingdienst.",
-        includes: [
-            'Berekening via de forfaitaire afschrijvingstabel',
-            'Vergelijking met koerslijst- en taxatiemethode',
-            'Aanvraag bij de Nederlandse Belastingdienst',
-            'Verwerking exportverklaring (RDW)',
-            'Uitbetaling direct op uw rekening',
+        country: 'Spanje',
+        authorities: 'DGT en ITV',
+        services: [
+            {
+                id: 'auto-op-spaans-kenteken',
+                title: 'Auto op Spaans kenteken',
+                description:
+                    'Woont u meer dan 183 dagen per jaar in Spanje, dan moet uw auto op Spaans kenteken. Wij verzorgen de matriculación (de Spaanse inschrijving) bij de DGT, van de documenten tot de definitieve platen. U heeft er geen Spaans voor nodig.',
+                includes: [
+                    'Controle van uw documenten, zoals uw NIE (Spaans fiscaal nummer) en empadronamiento (inschrijving bij de gemeente)',
+                    'Verwerking van uw COC, of een Ficha Técnica (technisch rapport) als er geen COC is, voor € 85 extra',
+                    'Matrículas temporales: groene tijdelijke kentekenplaten om legaal naar de ITV te rijden (optioneel)',
+                    'Berekening van de registratiebelasting (IEDMT) of de vrijstelling bij verhuizing',
+                    'Aanvraag bij de DGT en communicatie in het Spaans',
+                    'Definitieve Spaanse kentekenplaten',
+                ],
+            },
+            {
+                id: 'itv-begeleiding',
+                title: 'ITV-begeleiding',
+                description:
+                    'De ITV (Inspección Técnica de Vehículos) is de Spaanse APK en een verplicht onderdeel van de inschrijving. Bij Compleet en Compleet Plus plannen wij de afspraak bij een erkend keuringsstation. Bij Compleet Plus gaan wij namens u naar de keuring.',
+                includes: [
+                    'Afspraak bij een erkend ITV-station in uw buurt',
+                    'Checklist met de documenten die u meeneemt',
+                    'Uitleg over het keuringsproces en hulp bij een herkeuring',
+                    'Namens u aanwezig bij de keuring (Compleet Plus)',
+                ],
+            },
         ],
-        cta: { label: 'Bereken uw BPM-teruggave', href: '/bpm-calculator' },
-        accent: false,
-    },
-    {
-        icon: Car,
-        slug: 'auto-export-nederland',
-        title: 'Auto-export Nederland',
-        tagline:
-            'Correcte uitschrijving bij de RDW — vereist voor elke import in Spanje.',
-        description:
-            'Voordat uw auto in Spanje geregistreerd kan worden, moet hij officieel worden uitgeschreven uit het Nederlandse kentekenregister. Dit heet de exportverklaring. Wij regelen dit via een van onze gecertificeerde RDW-exportpartners in Nederland. U hoeft hier niet zelf voor naar een RDW-kantoor.',
-        includes: [
-            'Exportverklaring via gecertificeerde RDW-partner',
-            'Ophalen of inleveren via partnernetwerk',
-            'Teruggave van de Nederlandse kentekenplaten',
-            'Exportdocumentatie voor de Spaanse DGT',
-            'Coördinatie met ons Spaanse kantoor',
-        ],
-        cta: { label: 'Bekijk pakketten', href: '/tarieven' },
-        accent: false,
-    },
-    {
-        icon: Truck,
-        slug: 'transport',
-        title: 'Transport Nederland → Spanje',
-        tagline:
-            'Wij regelen het vervoer van uw auto — u hoeft er niet zelf mee te rijden.',
-        description:
-            'Na de export in Nederland kunt u uw auto laten transporteren naar uw adres in Spanje. Wij coördineren het transport via ons partnernetwerk van gecertificeerde autotransporteurs. De kosten zijn afhankelijk van de ophaallocatie in Nederland en het afleveradres in Spanje en worden apart in rekening gebracht (excl. pakketprijs).',
-        includes: [
-            'Coördinatie via gecertificeerd transportpartner',
-            'Ophalen op adres of bij exporteur in Nederland',
-            'Aflevering op uw adres in Spanje',
-            'Track & trace gedurende het transport',
-            'Afstemming met ons Spaanse kantoor voor aankomst',
-        ],
-        cta: { label: 'Bekijk Compleet Plus pakket', href: '/tarieven' },
-        accent: false,
-    },
-    {
-        icon: ClipboardCheck,
-        slug: 'aankoopbegeleiding',
-        title: 'Aankoopbegeleiding Nederlandse auto',
-        tagline:
-            'De juiste auto kopen in Nederland — zonder onaangename verrassingen achteraf.',
-        description:
-            'Wilt u in Nederland een auto kopen om vervolgens naar Spanje te importeren? Wij helpen u de juiste keuze te maken via ons uitgebreide dealernetwerk in Nederland. We denken mee over de CO₂-uitstoot (bepalend voor de Spaanse registratiebelasting), de leeftijd van de auto (bepalend voor BPM-teruggave) en de aanwezigheid van een COC-document. Deze dienst is ook los af te nemen — los van een import-pakket.',
-        includes: [
-            'Toegang tot ons uitgebreide dealernetwerk in Nederland',
-            'Adviesgesprek van 30 minuten (telefonisch of video)',
-            'CO₂-check: impact op de Spaanse IEDMT-belasting',
-            'BPM-indicatie op basis van catalogusprijs en leeftijd',
-            'Check op aanwezigheid van COC-document',
-            'Advies over merk/model en importeerbaarheid',
-            'Directe koppeling met exportpartner na aankoop',
-        ],
-        cta: { label: 'Bekijk Compleet Plus pakket', href: '/tarieven' },
-        cta2: { label: 'Neem contact op', href: '/contact' },
-        accent: false,
-    },
-    {
-        icon: ShieldCheck,
-        slug: 'itv-begeleiding',
-        title: 'ITV-begeleiding',
-        tagline:
-            'De Spaanse APK — wij regelen de afspraak en begeleiden u door het proces.',
-        description:
-            'De ITV (Inspección Técnica de Vehículos) is de Spaanse equivalent van de Nederlandse APK en is verplicht onderdeel van de matriculación. Wij regelen de afspraak bij een erkend keuringsstation in uw regio en informeren u over wat u mee moet nemen. Bij het Compleet Plus pakket gaan wij zelfs namens u naar de afspraak.',
-        includes: [
-            'Afspraak bij erkend ITV-station in uw buurt',
-            'Voorbereiding: checklist met vereiste documenten',
-            'Uitleg over het keuringsproces',
-            'Begeleiding bij herkeuring indien nodig',
-            'Namens u aanwezig (Compleet Plus)',
-        ],
-        cta: { label: 'Bekijk pakketten', href: '/tarieven' },
-        accent: false,
     },
 ];
 
-const steps = [
+const addOns = [
     {
-        number: '01',
-        title: 'Kenteken invoeren',
-        body: 'Voer uw kenteken in op de homepage. U ziet direct een berekening van uw BPM-teruggave en de Spaanse import-kosten.',
+        id: 'transport',
+        title: 'Transport naar Spanje',
+        body: 'Wilt u niet zelf rijden? Bij Compleet Plus regelen wij het transport via onze transportpartners, van uw adres in Nederland naar uw adres in Spanje. De transportkosten zelf komen apart en hangen af van ophaal- en afleveradres.',
+        cta: { label: 'Bekijk Compleet Plus', href: '/tarieven#pakketten' },
     },
     {
-        number: '02',
-        title: 'Pakket kiezen',
-        body: 'Kies het pakket dat bij uw situatie past — van zelf de regie houden tot volledig ontzorgd.',
-    },
-    {
-        number: '03',
-        title: 'Offerte aanvragen',
-        body: 'Vul uw gegevens in. Wij nemen binnen één werkdag contact op om alles door te nemen.',
-    },
-    {
-        number: '04',
-        title: 'Wij regelen de rest',
-        body: 'Afhankelijk van uw pakket verzorgen wij export, DGT-aanvraag, ITV en de definitieve platen.',
+        id: 'aankoopbegeleiding',
+        title: 'Aankoopbegeleiding',
+        body: 'Koopt u nog een auto in Nederland om mee te nemen? In een adviesgesprek van 30 minuten kijken we naar CO₂-uitstoot (bepaalt de Spaanse registratiebelasting), leeftijd (bepaalt de BPM-teruggave) en of er een COC is. Inbegrepen bij Compleet Plus, of los af te nemen.',
+        cta: { label: 'Bekijk Compleet Plus', href: '/tarieven#pakketten' },
     },
 ];
 </script>
@@ -157,226 +110,186 @@ const steps = [
             <div
                 class="container mx-auto max-w-4xl px-4 py-16 text-center md:py-24"
             >
-                <span
-                    class="inline-flex items-center rounded-full bg-secondary px-3 py-1 text-xs font-semibold text-secondary-foreground"
-                >
-                    Voor Nederlanders in Spanje
-                </span>
                 <h1
-                    class="mt-5 font-display text-4xl leading-tight font-semibold text-foreground md:text-5xl"
+                    class="font-display text-4xl leading-tight font-semibold text-balance text-foreground md:text-5xl"
                 >
-                    Alles geregeld,<br />
-                    <span class="text-accent">niets aan de hand.</span>
+                    Eén dossier, van
+                    <span class="text-accent">RDW tot Spaans kenteken</span>
                 </h1>
-                <p class="mx-auto mt-5 max-w-2xl text-lg text-muted-foreground">
+                <p
+                    class="mx-auto mt-5 max-w-2xl text-lg text-pretty text-muted-foreground"
+                >
                     Wij begeleiden het volledige traject om uw Nederlandse auto
-                    op Spaans kenteken te zetten — van BPM-teruggave in
-                    Nederland tot de definitieve platen in Spanje.
+                    op Spaans kenteken te zetten: de export en BPM-teruggave in
+                    Nederland, de keuring en inschrijving in Spanje.
                 </p>
                 <div
-                    class="mt-8 flex flex-wrap items-center justify-center gap-4"
+                    class="mt-8 flex flex-wrap items-center justify-center gap-3"
                 >
                     <Link
-                        href="/"
-                        class="inline-flex items-center gap-2 rounded-xl bg-accent px-6 py-3 text-sm font-semibold text-accent-foreground transition-colors hover:bg-accent/90"
+                        :href="quoteHref"
+                        class="inline-flex min-h-11 items-center gap-2 rounded-xl bg-accent px-6 py-3 text-sm font-semibold text-accent-foreground shadow-sm transition-colors hover:bg-accent/90 focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:outline-none"
                     >
-                        Bereken uw kosten
+                        Bereken uw kosten en vraag een offerte aan
                         <ArrowRight class="size-4" />
                     </Link>
                     <Link
-                        href="/tarieven"
-                        class="inline-flex items-center gap-2 rounded-xl border border-border px-6 py-3 text-sm font-semibold text-foreground transition-colors hover:bg-muted"
+                        href="/tarieven#pakketten"
+                        class="inline-flex min-h-11 items-center gap-2 rounded-xl border border-border px-6 py-3 text-sm font-semibold text-foreground transition-colors hover:bg-secondary focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:outline-none"
                     >
-                        Bekijk tarieven
+                        Bekijk de pakketten
                     </Link>
                 </div>
             </div>
         </section>
 
-        <!-- Diensten -->
-        <section class="border-t border-border bg-muted/40">
-            <div class="container mx-auto max-w-5xl px-4 py-16">
-                <div class="text-center">
-                    <h2
-                        class="font-display text-2xl font-semibold text-foreground sm:text-3xl"
-                    >
-                        Onze diensten
-                    </h2>
-                    <p
-                        class="mx-auto mt-3 max-w-xl text-sm text-muted-foreground"
-                    >
-                        Vier gespecialiseerde diensten die samen het complete
-                        importtraject afdekken.
-                    </p>
-                </div>
+        <!-- Het dossier: Nederland en Spanje -->
+        <section
+            class="border-t border-border bg-card"
+            aria-labelledby="dossier-title"
+        >
+            <div class="container mx-auto max-w-5xl px-4 py-16 md:py-24">
+                <h2
+                    id="dossier-title"
+                    class="max-w-2xl font-display text-3xl font-semibold text-balance text-foreground md:text-4xl"
+                >
+                    Wat wij voor u regelen
+                </h2>
+                <p class="mt-4 max-w-2xl text-lg text-muted-foreground">
+                    Uw auto doorloopt een traject in Nederland en een traject in
+                    Spanje. Wij stemmen beide op elkaar af, zodat u één
+                    aanspreekpunt heeft. Welke stappen wij overnemen, hangt af
+                    van uw pakket.
+                </p>
 
-                <div class="mt-12 space-y-10">
-                    <div
-                        v-for="service in services"
-                        :key="service.slug"
-                        class="grid gap-8 rounded-2xl border bg-card p-8 shadow-sm lg:grid-cols-2 lg:items-start"
-                        :class="
-                            service.accent
-                                ? 'border-accent/40'
-                                : 'border-border'
-                        "
-                    >
-                        <!-- Left: info -->
-                        <div>
-                            <div class="flex items-center gap-3">
-                                <div
-                                    class="flex size-11 items-center justify-center rounded-xl"
-                                    :class="
-                                        service.accent
-                                            ? 'bg-accent/15 text-accent'
-                                            : 'bg-muted text-muted-foreground'
-                                    "
-                                >
-                                    <component
-                                        :is="service.icon"
-                                        class="size-5"
-                                    />
-                                </div>
+                <div class="mt-12 space-y-16">
+                    <div v-for="(lane, laneIndex) in lanes" :key="lane.country">
+                        <h3
+                            class="flex flex-wrap items-baseline gap-x-3 gap-y-1 border-b border-border pb-4 font-display text-2xl font-semibold text-foreground"
+                        >
+                            <span
+                                class="size-2.5 shrink-0 self-center rounded-full"
+                                :class="
+                                    laneIndex === 0 ? 'bg-primary' : 'bg-accent'
+                                "
+                                aria-hidden="true"
+                            />
+                            {{ lane.country }}
+                            <span
+                                class="font-sans text-sm font-normal text-muted-foreground"
+                                >{{ lane.authorities }}</span
+                            >
+                        </h3>
+
+                        <div class="divide-y divide-border">
+                            <article
+                                v-for="service in lane.services"
+                                :id="service.id"
+                                :key="service.id"
+                                class="grid scroll-mt-24 gap-6 py-10 md:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] md:gap-12"
+                            >
                                 <div>
-                                    <div
-                                        v-if="service.accent"
-                                        class="text-xs font-semibold tracking-wider text-accent uppercase"
-                                    >
-                                        Hoofddienst
-                                    </div>
-                                    <h3
+                                    <h4
                                         class="font-display text-xl font-semibold text-foreground"
                                     >
                                         {{ service.title }}
-                                    </h3>
+                                    </h4>
+                                    <p
+                                        class="mt-3 leading-relaxed text-foreground/80"
+                                    >
+                                        {{ service.description }}
+                                    </p>
+                                    <Link
+                                        v-if="service.cta"
+                                        :href="service.cta.href"
+                                        class="mt-3 inline-flex min-h-11 items-center gap-2 text-sm font-semibold text-primary underline-offset-4 hover:underline"
+                                    >
+                                        {{ service.cta.label }}
+                                        <ArrowRight class="size-4" />
+                                    </Link>
                                 </div>
-                            </div>
-
-                            <p
-                                class="mt-3 text-sm font-medium text-muted-foreground"
-                            >
-                                {{ service.tagline }}
-                            </p>
-                            <p
-                                class="mt-4 text-sm leading-relaxed text-foreground/80"
-                            >
-                                {{ service.description }}
-                            </p>
-
-                            <div class="mt-5 flex flex-wrap gap-4">
-                                <Link
-                                    :href="service.cta.href"
-                                    class="inline-flex items-center gap-2 text-sm font-semibold text-accent transition-colors hover:underline"
-                                >
-                                    {{ service.cta.label }}
-                                    <ArrowRight class="size-4" />
-                                </Link>
-                                <Link
-                                    v-if="service.cta2"
-                                    :href="service.cta2.href"
-                                    class="inline-flex items-center gap-2 text-sm font-semibold text-muted-foreground transition-colors hover:text-foreground hover:underline"
-                                >
-                                    {{ service.cta2.label }}
-                                    <ArrowRight class="size-4" />
-                                </Link>
-                            </div>
-                        </div>
-
-                        <!-- Right: includes -->
-                        <div class="rounded-xl bg-muted/60 p-6">
-                            <div
-                                class="text-xs font-semibold tracking-wider text-muted-foreground uppercase"
-                            >
-                                Inbegrepen
-                            </div>
-                            <ul class="mt-4 space-y-3">
-                                <li
-                                    v-for="item in service.includes"
-                                    :key="item"
-                                    class="flex items-start gap-3 text-sm"
-                                >
-                                    <CheckCircle
-                                        class="mt-0.5 size-4 shrink-0 text-success"
-                                    />
-                                    <span class="text-foreground">{{
-                                        item
-                                    }}</span>
-                                </li>
-                            </ul>
+                                <ul class="space-y-3">
+                                    <li
+                                        v-for="item in service.includes"
+                                        :key="item"
+                                        class="flex items-start gap-3"
+                                    >
+                                        <Check
+                                            class="mt-1 size-4 shrink-0 stroke-[3] text-success"
+                                        />
+                                        <span class="text-foreground">{{
+                                            item
+                                        }}</span>
+                                    </li>
+                                </ul>
+                            </article>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Hoe het werkt -->
-        <section class="border-t border-border bg-background">
+        <!-- Aanvullend -->
+        <section
+            class="border-t border-border bg-secondary/30"
+            aria-labelledby="addons-title"
+        >
             <div class="container mx-auto max-w-5xl px-4 py-16">
-                <div class="text-center">
-                    <h2
-                        class="font-display text-2xl font-semibold text-foreground sm:text-3xl"
-                    >
-                        Hoe werkt het?
-                    </h2>
-                    <p
-                        class="mx-auto mt-3 max-w-xl text-sm text-muted-foreground"
-                    >
-                        Van eerste berekening tot rijden op Spaans kenteken — in
-                        vier stappen.
-                    </p>
-                </div>
-
-                <div class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-                    <div
-                        v-for="step in steps"
-                        :key="step.number"
-                        class="relative flex flex-col gap-3 rounded-2xl border border-border bg-card p-6"
-                    >
-                        <div
-                            class="font-display text-5xl font-bold text-accent/20 select-none"
-                        >
-                            {{ step.number }}
-                        </div>
-                        <h3 class="font-semibold text-foreground">
-                            {{ step.title }}
-                        </h3>
-                        <p class="text-sm text-muted-foreground">
-                            {{ step.body }}
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- CTA -->
-        <section class="border-t border-border bg-muted/40">
-            <div class="container mx-auto max-w-3xl px-4 py-16 text-center">
                 <h2
+                    id="addons-title"
                     class="font-display text-2xl font-semibold text-foreground sm:text-3xl"
                 >
-                    Klaar om te starten?
+                    Daarnaast mogelijk
                 </h2>
-                <p class="mx-auto mt-4 max-w-lg text-muted-foreground">
-                    Voer uw kenteken in en zie direct wat uw auto u oplevert —
-                    en wat het traject kost.
-                </p>
-                <div
-                    class="mt-6 flex flex-wrap items-center justify-center gap-4"
-                >
-                    <Link
-                        href="/"
-                        class="inline-flex items-center gap-2 rounded-xl bg-accent px-6 py-3 text-sm font-semibold text-accent-foreground transition-colors hover:bg-accent/90"
+                <div class="mt-8 divide-y divide-border border-y border-border">
+                    <div
+                        v-for="addOn in addOns"
+                        :id="addOn.id"
+                        :key="addOn.id"
+                        class="grid scroll-mt-24 gap-3 py-6 md:grid-cols-[12rem_minmax(0,1fr)_auto] md:items-center md:gap-8"
                     >
-                        Bereken mijn kosten
+                        <h3 class="font-semibold text-foreground">
+                            {{ addOn.title }}
+                        </h3>
+                        <p class="text-muted-foreground">
+                            {{ addOn.body }}
+                        </p>
+                        <Link
+                            :href="addOn.cta.href"
+                            class="inline-flex min-h-11 items-center gap-2 text-sm font-semibold whitespace-nowrap text-primary underline-offset-4 hover:underline"
+                        >
+                            {{ addOn.cta.label }}
+                            <ArrowRight class="size-4" />
+                        </Link>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Afsluiting -->
+        <section class="border-t border-border bg-background">
+            <div class="container mx-auto max-w-5xl px-4 py-16 md:py-20">
+                <div class="text-center">
+                    <h2
+                        class="font-display text-2xl font-semibold text-balance text-foreground sm:text-3xl"
+                    >
+                        Weten wat het u kost?
+                    </h2>
+                    <p class="mx-auto mt-4 max-w-lg text-muted-foreground">
+                        Vul uw kenteken in en zie direct de BPM-teruggave en de
+                        kosten in Spanje. Daarna vraagt u met één formulier een
+                        offerte aan.
+                    </p>
+                    <Link
+                        :href="quoteHref"
+                        class="mt-6 inline-flex min-h-11 items-center gap-2 rounded-xl bg-accent px-6 py-3 text-sm font-semibold text-accent-foreground shadow-sm transition-colors hover:bg-accent/90 focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:outline-none"
+                    >
+                        Bereken uw kosten en vraag een offerte aan
                         <ArrowRight class="size-4" />
                     </Link>
-                    <Link
-                        href="/tarieven"
-                        class="inline-flex items-center gap-2 rounded-xl border border-border px-6 py-3 text-sm font-semibold text-foreground transition-colors hover:bg-muted"
-                    >
-                        Bekijk tarieven
-                    </Link>
                 </div>
+
+                <ContactStrip class="mt-12" />
             </div>
         </section>
     </PublicLayout>

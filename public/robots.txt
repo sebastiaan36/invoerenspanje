@@ -1,2 +1,9 @@
 User-agent: *
-Disallow:
+Content-Signal: search=yes, ai-input=yes, ai-train=no
+Allow: /
+Disallow: /portaal
+Disallow: /settings
+Disallow: /dashboard
+Disallow: /admin
+
+Sitemap: https://autoinvoerenspanje.nl/sitemap.xml

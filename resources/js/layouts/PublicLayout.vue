@@ -1,10 +1,18 @@
 <script setup lang="ts">
 import { Head, Link, usePage } from '@inertiajs/vue3';
-import { Menu, X } from 'lucide-vue-next';
+import { Mail, Menu, MessageCircle, Phone, X } from 'lucide-vue-next';
 import { computed, ref } from 'vue';
+import { EMAIL, PHONE, PHONE_DISPLAY, WHATSAPP_URL } from '@/lib/contact';
 import { home, login } from '@/routes';
 
 const currentPath = computed(() => new URL(usePage().url, 'http://x').pathname);
+
+// Section pages (blog posts) keep their parent nav item active.
+function isActive(href: string): boolean {
+    return (
+        currentPath.value === href || currentPath.value.startsWith(`${href}/`)
+    );
+}
 
 // Title/description/Open Graph are rendered server-side from config/seo.php.
 // Here we only sync the document <title> on client-side (SPA) navigation,
@@ -25,16 +33,21 @@ const navItems = [
 const dienstenLinks = [
     {
         label: 'Auto op Spaans kenteken',
-        href: '/diensten/auto-op-spaans-kenteken',
+        href: '/diensten#auto-op-spaans-kenteken',
     },
-    { label: 'BPM-teruggave', href: '/diensten/bpm-teruggave' },
-    { label: 'Auto-export Nederland', href: '/diensten/auto-export-nederland' },
-    { label: 'ITV-begeleiding', href: '/diensten/itv-begeleiding' },
+    { label: 'BPM-teruggave', href: '/diensten#bpm-teruggave' },
+    { label: 'Auto-export Nederland', href: '/diensten#auto-export-nederland' },
+    { label: 'ITV-begeleiding', href: '/diensten#itv-begeleiding' },
 ];
 
+const gidsLink = {
+    label: 'Gids auto invoeren in Spanje',
+    href: '/auto-invoeren-spanje',
+};
+
 const bedrijfLinks = [
+    gidsLink,
     { label: 'Over ons', href: '/over-ons' },
-    { label: 'Reviews', href: '/reviews' },
     { label: 'Blog', href: '/blog' },
     { label: 'Veelgestelde vragen', href: '/veelgestelde-vragen' },
 ];
@@ -44,6 +57,32 @@ const mobileMenuOpen = ref(false);
 
 function closeMenu() {
     mobileMenuOpen.value = false;
+}
+
+// The quote flow lives on the homepage. There, "Offerte" must scroll to it
+// instead of re-visiting the page, which would wipe the visitor's calculation.
+const isHome = computed(() => currentPath.value === '/');
+const offerteHref = '/#offerte';
+
+function scrollToOfferte() {
+    closeMenu();
+
+    const target = document.getElementById('offerte');
+
+    if (!target) {
+        return;
+    }
+
+    const reduceMotion = window.matchMedia(
+        '(prefers-reduced-motion: reduce)',
+    ).matches;
+    target.scrollIntoView({
+        behavior: reduceMotion ? 'auto' : 'smooth',
+        block: 'start',
+    });
+    target
+        .querySelector<HTMLElement>('input, textarea')
+        ?.focus({ preventScroll: true });
 }
 </script>
 
@@ -59,12 +98,13 @@ function closeMenu() {
             >
                 <Link
                     :href="home().url"
-                    class="font-display text-xl font-semibold tracking-tight text-primary"
+                    class="-my-2 py-2 font-display text-xl font-semibold tracking-tight text-primary"
                 >
                     autoinvoeren<span class="text-accent">spanje</span>.nl
                 </Link>
 
                 <nav
+                    aria-label="Hoofdmenu"
                     class="hidden items-center gap-7 text-sm font-medium text-foreground/80 md:flex"
                 >
                     <Link
@@ -72,11 +112,11 @@ function closeMenu() {
                         :key="item.href"
                         :href="item.href"
                         class="relative transition-colors hover:text-primary"
-                        :class="currentPath === item.href ? 'text-primary' : ''"
+                        :class="isActive(item.href) ? 'text-primary' : ''"
                     >
                         {{ item.label }}
                         <span
-                            v-if="currentPath === item.href"
+                            v-if="isActive(item.href)"
                             class="absolute -bottom-[21px] left-0 h-0.5 w-full bg-accent"
                         />
                     </Link>
@@ -89,18 +129,25 @@ function closeMenu() {
                     >
                         Inloggen
                     </Link>
-                    <Link
-                        href="/"
-                        class="hidden rounded-xl bg-accent px-4 py-2 text-sm font-semibold text-accent-foreground shadow-sm transition-colors hover:bg-accent/90 sm:inline-flex"
+                    <component
+                        :is="isHome ? 'a' : Link"
+                        :href="offerteHref"
+                        class="hidden min-h-10 items-center rounded-xl bg-accent px-4 text-sm font-semibold text-accent-foreground shadow-sm transition-colors hover:bg-accent/90 focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:outline-none sm:inline-flex"
+                        @click="
+                            isHome &&
+                            ($event.preventDefault(), scrollToOfferte())
+                        "
                     >
-                        Offerte
-                    </Link>
+                        Offerte aanvragen
+                    </component>
                     <!-- Hamburger -->
                     <button
                         type="button"
-                        class="flex items-center justify-center rounded-lg p-2 text-foreground transition-colors hover:bg-secondary md:hidden"
+                        class="flex size-11 items-center justify-center rounded-lg text-foreground transition-colors hover:bg-secondary md:hidden"
                         :aria-expanded="mobileMenuOpen"
-                        aria-label="Menu openen"
+                        :aria-label="
+                            mobileMenuOpen ? 'Menu sluiten' : 'Menu openen'
+                        "
                         @click="mobileMenuOpen = !mobileMenuOpen"
                     >
                         <X v-if="mobileMenuOpen" class="size-5" />
@@ -120,7 +167,7 @@ function closeMenu() {
                         :key="item.href"
                         :href="item.href"
                         class="flex items-center border-b border-border/50 py-3.5 text-sm font-medium text-foreground/80 transition-colors last:border-0 hover:text-primary"
-                        :class="currentPath === item.href ? 'text-primary' : ''"
+                        :class="isActive(item.href) ? 'text-primary' : ''"
                         @click="closeMenu"
                     >
                         {{ item.label }}
@@ -133,13 +180,19 @@ function closeMenu() {
                         >
                             Inloggen
                         </Link>
-                        <Link
-                            href="/"
+                        <component
+                            :is="isHome ? 'a' : Link"
+                            :href="offerteHref"
                             class="flex-1 rounded-xl bg-accent py-2.5 text-center text-sm font-semibold text-accent-foreground transition-colors hover:bg-accent/90"
-                            @click="closeMenu"
+                            @click="
+                                isHome
+                                    ? ($event.preventDefault(),
+                                      scrollToOfferte())
+                                    : closeMenu()
+                            "
                         >
                             Offerte aanvragen
-                        </Link>
+                        </component>
                     </div>
                 </nav>
             </div>
@@ -155,7 +208,8 @@ function closeMenu() {
             >
                 <div>
                     <div class="font-display text-lg font-semibold">
-                        autoinvoeren<span class="text-accent">spanje</span>.nl
+                        autoinvoeren<span class="text-accent-light">spanje</span
+                        >.nl
                     </div>
                     <p class="mt-3 text-sm text-primary-foreground/70">
                         Voor Nederlanders aan de Costa del Sol die hun auto op
@@ -165,14 +219,14 @@ function closeMenu() {
                 </div>
 
                 <div>
-                    <h4 class="mb-3 font-display text-sm font-semibold">
+                    <h2 class="mb-3 font-display text-sm font-semibold">
                         Diensten
-                    </h4>
-                    <ul class="space-y-2 text-sm text-primary-foreground/70">
+                    </h2>
+                    <ul class="space-y-1 text-sm text-primary-foreground/70">
                         <li v-for="item in dienstenLinks" :key="item.href">
                             <Link
                                 :href="item.href"
-                                class="transition-colors hover:text-accent"
+                                class="inline-flex min-h-11 items-center transition-colors hover:text-accent-light md:min-h-9"
                             >
                                 {{ item.label }}
                             </Link>
@@ -181,14 +235,14 @@ function closeMenu() {
                 </div>
 
                 <div>
-                    <h4 class="mb-3 font-display text-sm font-semibold">
+                    <h2 class="mb-3 font-display text-sm font-semibold">
                         Bedrijf
-                    </h4>
-                    <ul class="space-y-2 text-sm text-primary-foreground/70">
+                    </h2>
+                    <ul class="space-y-1 text-sm text-primary-foreground/70">
                         <li v-for="item in bedrijfLinks" :key="item.href">
                             <Link
                                 :href="item.href"
-                                class="transition-colors hover:text-accent"
+                                class="inline-flex min-h-11 items-center transition-colors hover:text-accent-light md:min-h-9"
                             >
                                 {{ item.label }}
                             </Link>
@@ -197,19 +251,41 @@ function closeMenu() {
                 </div>
 
                 <div>
-                    <h4 class="mb-3 font-display text-sm font-semibold">
+                    <h2 class="mb-3 font-display text-sm font-semibold">
                         Contact
-                    </h4>
-                    <ul class="space-y-2 text-sm text-primary-foreground/70">
-                        <li>info@autoinvoerenspanje.nl</li>
-                        <li>Málaga, Spanje</li>
+                    </h2>
+                    <ul class="space-y-1 text-sm text-primary-foreground/70">
                         <li>
-                            <Link
-                                href="/"
-                                class="transition-colors hover:text-accent"
+                            <a
+                                :href="WHATSAPP_URL"
+                                target="_blank"
+                                rel="noopener"
+                                class="inline-flex min-h-11 items-center gap-2 transition-colors hover:text-accent-light md:min-h-9"
                             >
-                                Offerte aanvragen
-                            </Link>
+                                <MessageCircle class="size-4" />
+                                WhatsApp
+                            </a>
+                        </li>
+                        <li>
+                            <a
+                                :href="`tel:${PHONE}`"
+                                class="inline-flex min-h-11 items-center gap-2 transition-colors hover:text-accent-light md:min-h-9"
+                            >
+                                <Phone class="size-4" />
+                                {{ PHONE_DISPLAY }}
+                            </a>
+                        </li>
+                        <li>
+                            <a
+                                :href="`mailto:${EMAIL}`"
+                                class="inline-flex min-h-11 items-center gap-2 transition-colors hover:text-accent-light md:min-h-9"
+                            >
+                                <Mail class="size-4" />
+                                {{ EMAIL }}
+                            </a>
+                        </li>
+                        <li class="flex min-h-11 items-center md:min-h-9">
+                            Málaga, Spanje
                         </li>
                     </ul>
                 </div>
@@ -217,7 +293,7 @@ function closeMenu() {
 
             <div class="border-t border-primary-foreground/10">
                 <div
-                    class="container mx-auto flex flex-col gap-2 px-4 py-4 text-xs text-primary-foreground/60 md:flex-row md:items-center md:justify-between"
+                    class="container mx-auto flex flex-col gap-2 px-4 py-4 text-sm text-primary-foreground/70 md:flex-row md:items-center md:justify-between"
                 >
                     <div>
                         © {{ year }} autoinvoerenspanje.nl — alle rechten
@@ -226,13 +302,13 @@ function closeMenu() {
                     <div class="flex gap-4">
                         <Link
                             href="/privacy"
-                            class="transition-colors hover:text-accent"
+                            class="inline-flex min-h-11 items-center transition-colors hover:text-accent-light md:min-h-9"
                         >
                             Privacy
                         </Link>
                         <Link
                             href="/algemene-voorwaarden"
-                            class="transition-colors hover:text-accent"
+                            class="inline-flex min-h-11 items-center transition-colors hover:text-accent-light md:min-h-9"
                         >
                             Algemene voorwaarden
                         </Link>

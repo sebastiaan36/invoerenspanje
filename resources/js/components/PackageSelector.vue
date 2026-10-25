@@ -34,20 +34,14 @@ function selectPackage(slug: string) {
 <template>
     <section>
         <header class="text-center">
-            <div
-                class="text-xs font-semibold tracking-wider text-accent uppercase"
-            >
-                Pakketkeuze
-            </div>
             <h3
-                class="mt-1 font-display text-2xl font-semibold text-foreground sm:text-3xl"
+                class="font-display text-2xl font-semibold text-foreground sm:text-3xl"
             >
                 Welk pakket past bij u?
             </h3>
-            <p class="mx-auto mt-2 max-w-xl text-sm text-muted-foreground">
-                Drie transparante pakketten — van zelf-doen met begeleiding tot
-                volledig zorgenpakket inclusief transport. U beslist hoeveel u
-                uit handen geeft.
+            <p class="mx-auto mt-2 max-w-xl text-base text-muted-foreground">
+                Van zelf doen met begeleiding tot alles uit handen, inclusief
+                transport. Het bedrag hierboven past zich aan uw keuze aan.
             </p>
         </header>
 
@@ -102,11 +96,13 @@ function selectPackage(slug: string) {
                 </div>
 
                 <div
-                    class="mt-5 font-display text-4xl font-semibold text-accent tabular-nums"
+                    class="mt-5 font-display text-4xl font-semibold text-foreground tabular-nums"
                 >
                     {{ formatEuro(pkg.price_eur) }}
                 </div>
-                <div class="-mt-1 text-xs text-muted-foreground">eenmalig</div>
+                <div class="text-sm text-muted-foreground">
+                    eenmalig, vaste prijs
+                </div>
 
                 <ul class="mt-6 space-y-2.5 text-sm">
                     <li
@@ -122,12 +118,16 @@ function selectPackage(slug: string) {
                 </ul>
 
                 <div
-                    class="mt-auto pt-6 text-xs font-medium tracking-wider text-muted-foreground uppercase transition-colors group-hover:text-foreground"
+                    class="mt-auto pt-6 text-sm font-medium text-muted-foreground transition-colors group-hover:text-foreground"
                 >
-                    <span v-if="selected === pkg.slug" class="text-primary">
-                        ✓ Geselecteerd
+                    <span
+                        v-if="selected === pkg.slug"
+                        class="inline-flex items-center gap-1.5 text-primary"
+                    >
+                        <Check class="size-4 stroke-[3]" />
+                        Gekozen
                     </span>
-                    <span v-else>Klik om te kiezen</span>
+                    <span v-else>Kies dit pakket</span>
                 </div>
             </button>
         </div>

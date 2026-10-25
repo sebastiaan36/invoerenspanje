@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Services\HeroImageOptimizer;
 use Carbon\CarbonInterface;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -32,6 +33,19 @@ final class Post extends Model
     public const STATUS_ARCHIVED = 'archived';
 
     protected $guarded = ['id'];
+
+    /**
+     * New or replaced hero images are re-encoded as WebP before saving, so
+     * oversized uploads never reach the public blog.
+     */
+    protected static function booted(): void
+    {
+        self::saving(function (Post $post): void {
+            if ($post->isDirty('hero_image_path') && $post->hero_image_path) {
+                $post->hero_image_path = app(HeroImageOptimizer::class)->optimize($post->hero_image_path);
+            }
+        });
+    }
 
     /**
      * @return array<string, string>
