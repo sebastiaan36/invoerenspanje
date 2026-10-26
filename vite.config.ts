@@ -3,7 +3,7 @@ import { wayfinder } from '@laravel/vite-plugin-wayfinder';
 import tailwindcss from '@tailwindcss/vite';
 import vue from '@vitejs/plugin-vue';
 import laravel from 'laravel-vite-plugin';
-import { bunny } from 'laravel-vite-plugin/fonts';
+import { local } from 'laravel-vite-plugin/fonts';
 import { defineConfig } from 'vite';
 
 export default defineConfig({
@@ -11,18 +11,26 @@ export default defineConfig({
         laravel({
             input: ['resources/css/app.css', 'resources/js/app.ts'],
             refresh: true,
-            // Self-hosted at build time (no third-party request at runtime).
-            // Only the hero heading weight is preloaded: it is the LCP element.
+            // Self-hosted latin-only WOFF2 files (resources/fonts, OFL). The
+            // bunny() provider emitted a separate WOFF rule after every WOFF2
+            // rule, so browsers downloaded the larger WOFF and the preload was
+            // wasted. Preloaded: the hero heading (Fraunces 600) and the hero
+            // paragraph / body text (Inter 400), which is the LCP element and
+            // caused the font-swap layout shift.
             fonts: [
-                bunny('Fraunces', {
-                    weights: [400, 500, 600, 700],
-                    subsets: ['latin'],
+                local('Fraunces', {
+                    variants: [400, 500, 600, 700].map((weight) => ({
+                        src: `resources/fonts/fraunces-${weight}-latin.woff2`,
+                        weight,
+                    })),
                     preload: [{ weight: 600, style: 'normal' }],
                 }),
-                bunny('Inter', {
-                    weights: [400, 500, 600],
-                    subsets: ['latin'],
-                    preload: false,
+                local('Inter', {
+                    variants: [400, 500, 600].map((weight) => ({
+                        src: `resources/fonts/inter-${weight}-latin.woff2`,
+                        weight,
+                    })),
+                    preload: [{ weight: 400, style: 'normal' }],
                 }),
             ],
         }),

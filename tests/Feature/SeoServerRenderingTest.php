@@ -46,8 +46,9 @@ class SeoServerRenderingTest extends TestCase
         foreach (config('seo.routes') as $routeName => $meta) {
             $app = $this->appHtml($this->get(route($routeName))->assertOk()->getContent());
 
-            $this->assertStringContainsString('<h1', $app, "{$routeName} has no server-rendered h1");
-            $this->assertStringContainsString(e($meta['h1']), $app, "{$routeName} h1 differs from config");
+            $this->assertSame(1, preg_match('#<h1[^>]*>(.*?)</h1>#s', $app, $h1), "{$routeName} has no server-rendered h1");
+            // Compare the text: the homepage h1 wraps part of it in a styled span, like Welcome.vue.
+            $this->assertSame(e($meta['h1']), trim(strip_tags($h1[1])), "{$routeName} h1 differs from config");
             $this->assertStringContainsString('href="/tarieven"', $app, "{$routeName} lacks crawlable internal links");
         }
     }
@@ -58,6 +59,16 @@ class SeoServerRenderingTest extends TestCase
 
         $this->assertStringContainsString('De stappen van het importproces op een rij', $app);
         $this->assertStringContainsString(e(config('faq.home.0.question')), $app);
+    }
+
+    public function test_homepage_hero_is_server_rendered_with_the_vue_markup(): void
+    {
+        $app = $this->appHtml($this->get(route('home'))->getContent());
+
+        // Same classes as Welcome.vue, so the LCP paragraph paints from HTML.
+        $this->assertStringContainsString('<p class="mx-auto mt-5 max-w-2xl text-lg text-pretty text-muted-foreground">'.e(config('seo.routes.home.intro')).'</p>', $app);
+        $this->assertStringContainsString('<span class="text-accent">Spaans kenteken</span>', $app);
+        $this->assertStringContainsString('class="container mx-auto flex h-16 items-center justify-between px-4"', $app);
     }
 
     public function test_faq_page_prints_every_question(): void
@@ -171,6 +182,10 @@ class SeoServerRenderingTest extends TestCase
         preg_match("/'nonce-([^']+)'/", $reportOnly, $matches);
 
         $this->assertStringContainsString('<script nonce="'.$matches[1].'">', (string) $response->getContent());
+
+        // GA4 beacons that PageSpeed reported as violations of the report-only policy.
+        $this->assertStringContainsString('https://*.g.doubleclick.net', $reportOnly);
+        $this->assertStringContainsString('https://*.google.es', $reportOnly);
     }
 
     public function test_admin_panel_carries_security_headers(): void

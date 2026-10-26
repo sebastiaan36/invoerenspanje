@@ -9,12 +9,44 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/*
+ * Metric-matched fallbacks: until the web font arrives, text is set in a
+ * local font scaled to the same width and line height, so the swap doesn't
+ * move the layout (font-swap CLS) or create a later, larger LCP candidate.
+ * laravel-vite-plugin's own optimizedFallbacks can't read local files
+ * (fontaine needs a file:// URL), so the values are computed once with
+ * fontaine.readMetrics() and the plugin's formula from the files in
+ * resources/fonts: Inter 400 against Arial, Fraunces 600 (headings) against
+ * Times New Roman. Inter's size-adjust is raised 0.9% over the formula so the
+ * hero paragraph wraps on the same lines as with Inter (measured in Chromium).
+ * Recompute when those font files change.
+ */
+@font-face {
+    font-family: 'Inter fallback';
+    src: local('Arial');
+    ascent-override: 88.72%;
+    descent-override: 22.09%;
+    line-gap-override: 0%;
+    size-adjust: 109.19%;
+}
+
+@font-face {
+    font-family: 'Fraunces fallback';
+    src: local('Times New Roman');
+    ascent-override: 82%;
+    descent-override: 21.38%;
+    line-gap-override: 0%;
+    size-adjust: 119.26%;
+}
+
 @theme inline {
     --font-sans:
-        Inter, ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji',
-        'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+        Inter, 'Inter fallback', ui-sans-serif, system-ui, sans-serif,
+        'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
+        'Noto Color Emoji';
     --font-display:
-        Fraunces, ui-serif, Georgia, Cambria, 'Times New Roman', serif;
+        Fraunces, 'Fraunces fallback', ui-serif, Georgia, Cambria,
+        'Times New Roman', serif;
 
     --radius-lg: var(--radius);
     --radius-md: calc(var(--radius) - 2px);
@@ -104,8 +136,9 @@
     body,
     html {
         --font-sans:
-            Inter, ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji',
-            'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+            Inter, 'Inter fallback', ui-sans-serif, system-ui, sans-serif,
+            'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
+            'Noto Color Emoji';
     }
 }
 

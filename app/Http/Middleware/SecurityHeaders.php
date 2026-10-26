@@ -23,6 +23,18 @@ final class SecurityHeaders
     {
         $nonce = Vite::useCspNonce();
 
+        // GA4 beacons, per Google's CSP guidance: ga-audiences goes to the
+        // visitor's country domain (google.es / google.nl for this audience).
+        $analyticsHosts = implode(' ', [
+            'https://*.google-analytics.com',
+            'https://*.analytics.google.com',
+            'https://*.googletagmanager.com',
+            'https://*.g.doubleclick.net',
+            'https://*.google.com',
+            'https://*.google.es',
+            'https://*.google.nl',
+        ]);
+
         $response = $next($request);
 
         $response->headers->set('X-Content-Type-Options', 'nosniff');
@@ -39,8 +51,8 @@ final class SecurityHeaders
             "default-src 'self'",
             "script-src 'self' 'nonce-{$nonce}' 'strict-dynamic' https:",
             "style-src 'self' 'unsafe-inline'",
-            "img-src 'self' data: blob: https://tile.openstreetmap.org https://*.google-analytics.com https://*.googletagmanager.com",
-            "connect-src 'self' https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com",
+            "img-src 'self' data: blob: https://tile.openstreetmap.org {$analyticsHosts}",
+            "connect-src 'self' {$analyticsHosts}",
             "font-src 'self' data:",
             "frame-src 'none'",
             "base-uri 'self'",
