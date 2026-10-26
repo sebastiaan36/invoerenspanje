@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Unit\Services\Rdw;
 
 use App\Services\Rdw\RdwService;
+use App\Services\Rdw\RdwUnavailableException;
 use Illuminate\Http\Client\Factory;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
@@ -185,6 +186,28 @@ final class RdwServiceTest extends TestCase
 
         $this->assertFalse($result->isPluginHybrid);
         $this->assertSame('Benzine', $result->fuel?->brandstofOmschrijving);
+    }
+
+    public function test_it_throws_when_the_rdw_is_unavailable_and_does_not_cache_the_failure(): void
+    {
+        Http::fake([
+            'opendata.rdw.nl/resource/m9d7-ebf2.json*' => Http::sequence()
+                ->push('Service Unavailable', 503)
+                ->push('Service Unavailable', 503)
+                ->push('Service Unavailable', 503)
+                ->push([['kenteken' => '12ABC3', 'merk' => 'VOLKSWAGEN']]),
+        ]);
+
+        $service = $this->makeService();
+
+        try {
+            $service->lookupVehicle('12ABC3');
+            $this->fail('Expected RdwUnavailableException');
+        } catch (RdwUnavailableException) {
+            // expected
+        }
+
+        $this->assertSame('VOLKSWAGEN', $service->lookupVehicle('12ABC3')?->merk);
     }
 
     private function makeService(?string $appToken = null): RdwService

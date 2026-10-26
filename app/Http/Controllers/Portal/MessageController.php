@@ -40,7 +40,7 @@ final class MessageController extends Controller
             foreach ($request->file('attachments', []) as $file) {
                 $path = $file->storeAs(
                     "dossier-message-attachments/{$dossier->id}",
-                    Str::uuid().'.'.$file->getClientOriginalExtension(),
+                    Str::uuid().'.'.$file->extension(),
                     'local',
                 );
 
@@ -73,10 +73,8 @@ final class MessageController extends Controller
 
         abort_unless(Storage::disk('local')->exists($attachment->path), 404);
 
-        return Storage::disk('local')->response(
-            $attachment->path,
-            $attachment->filename,
-            ['Content-Disposition' => 'inline; filename="'.$attachment->filename.'"'],
-        );
+        // response() builds the Content-Disposition header safely from the
+        // client-supplied filename (quotes, non-ASCII) — never concatenate it.
+        return Storage::disk('local')->response($attachment->path, $attachment->filename);
     }
 }

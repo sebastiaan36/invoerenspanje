@@ -161,6 +161,27 @@ class SeoServerRenderingTest extends TestCase
             ->assertHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
     }
 
+    public function test_inline_scripts_carry_the_csp_nonce_from_the_report_only_policy(): void
+    {
+        $response = $this->get(route('home'));
+
+        $this->assertStringContainsString("object-src 'none'", (string) $response->headers->get('Content-Security-Policy'));
+        $reportOnly = (string) $response->headers->get('Content-Security-Policy-Report-Only');
+        $this->assertMatchesRegularExpression("/'nonce-([^']+)'/", $reportOnly);
+        preg_match("/'nonce-([^']+)'/", $reportOnly, $matches);
+
+        $this->assertStringContainsString('<script nonce="'.$matches[1].'">', (string) $response->getContent());
+    }
+
+    public function test_admin_panel_carries_security_headers(): void
+    {
+        $this->actingAs(User::factory()->admin()->create())
+            ->get('/admin')
+            ->assertOk()
+            ->assertHeader('X-Frame-Options', 'SAMEORIGIN')
+            ->assertHeader('X-Content-Type-Options', 'nosniff');
+    }
+
     public function test_robots_txt_references_the_sitemap(): void
     {
         $this->assertStringContainsString(

@@ -7,6 +7,7 @@ use Filament\Support\Components\Contracts\HasEmbeddedView;
 use Filament\Support\Concerns\CanConfigureCommonMark;
 use Filament\Support\Concerns\HasExtraAlpineAttributes;
 use Filament\Support\Facades\FilamentAsset;
+use Filament\Support\View\ComponentAttributeBag as FilamentComponentAttributeBag;
 use Illuminate\Support\Js;
 use LogicException;
 
@@ -78,12 +79,34 @@ class MarkdownEditor extends Field implements Contracts\CanBeLengthConstrained, 
         $id = $this->getId();
         $isDisabled = $this->isDisabled();
         $statePath = $this->getStatePath();
+        $minHeight = $this->getMinHeight();
+        $maxHeight = $this->getMaxHeight();
+        $extraAttributeBag = $this->getExtraAttributeBag();
 
         if ($isDisabled) {
+            $wrapperAttributes = (new FilamentComponentAttributeBag)
+                ->merge($extraAttributeBag->only(['aria-describedby'])->getAttributes(), escape: false)
+                ->merge([
+                    'aria-labelledby' => "{$id}-label",
+                    'aria-describedby' => $this->getAccessibilityAttributes()['aria-describedby'],
+                    'id' => $id,
+                    'role' => 'group',
+                    'tabindex' => filled($maxHeight) ? '0' : null,
+                ], escape: false)
+                ->style(array_filter([
+                    filled($minHeight) ? "--min-height: {$minHeight}" : null,
+                    filled($maxHeight) ? "--max-height: {$maxHeight}" : null,
+                ]))
+                ->class(['fi-fo-markdown-editor', 'fi-disabled', 'fi-prose']);
+
             ob_start(); ?>
 
-            <div aria-labelledby="<?= e($id) ?>-label" id="<?= e($id) ?>" role="group" class="fi-fo-markdown-editor fi-disabled fi-prose">
-                <?= str($this->getState())->markdown($this->getCommonMarkOptions(), $this->getCommonMarkExtensions())->sanitizeHtml() ?>
+            <div <?= $wrapperAttributes->toHtml() ?>>
+                <?php if (filled($this->getState())) { ?>
+                    <?= str($this->getState())->markdown($this->getCommonMarkOptions(), $this->getCommonMarkExtensions())->sanitizeHtml() ?>
+                <?php } else { ?>
+                    <span class="fi-fo-markdown-editor-placeholder"><?= e($this->getPlaceholder()) ?></span>
+                <?php } ?>
             </div>
 
             <?php return $this->wrapEmbeddedHtml(ob_get_clean(), labelTag: 'div');
@@ -94,11 +117,17 @@ class MarkdownEditor extends Field implements Contracts\CanBeLengthConstrained, 
         $fileAttachmentsMaxSize = $this->getFileAttachmentsMaxSize();
         $fileAttachmentsAcceptedFileTypes = $this->getFileAttachmentsAcceptedFileTypes();
 
-        $wrapperAttributes = $this->getExtraAttributeBag()
+        $wrapperAttributes = $extraAttributeBag
             ->class(['fi-fo-markdown-editor']);
+        $extraAlpineAttributeBag = $this->getExtraAlpineAttributeBag();
+        $accessibilityAttributes = $extraAlpineAttributeBag
+            ->merge($wrapperAttributes->getAttributes(), escape: false)
+            ->merge($this->getAccessibilityAttributes(), escape: false)
+            ->only(['aria-describedby', 'aria-invalid']);
 
         ob_start(); ?>
 
+        <div hidden data-field-accessibility <?= $accessibilityAttributes->toHtml() ?>></div>
         <div
             aria-labelledby="<?= e($id) ?>-label"
             id="<?= e($id) ?>"
@@ -111,8 +140,8 @@ class MarkdownEditor extends Field implements Contracts\CanBeLengthConstrained, 
                         isLiveOnBlur: <?= Js::from($this->isLiveOnBlur()) ?>,
                         label: <?= Js::from($label) ?>,
                         liveDebounce: <?= Js::from($this->getNormalizedLiveDebounce()) ?>,
-                        maxHeight: <?= Js::from($this->getMaxHeight()) ?>,
-                        minHeight: <?= Js::from($this->getMinHeight()) ?>,
+                        maxHeight: <?= Js::from($maxHeight) ?>,
+                        minHeight: <?= Js::from($minHeight) ?>,
                         placeholder: <?= Js::from($this->getPlaceholder()) ?>,
                         state: $wire.<?= $this->applyStateBindingModifiers("\$entangle('{$statePath}')", isOptimisticallyLive: false) ?>,
                         toolbarButtons: <?= Js::from($this->getToolbarButtons()) ?>,
@@ -147,7 +176,7 @@ class MarkdownEditor extends Field implements Contracts\CanBeLengthConstrained, 
                         },
                     })"
             wire:ignore
-            <?= $this->getExtraAlpineAttributeBag()->toHtml() ?>
+            <?= $extraAlpineAttributeBag->toHtml() ?>
         >
             <textarea x-ref="editor" x-cloak></textarea>
         </div>

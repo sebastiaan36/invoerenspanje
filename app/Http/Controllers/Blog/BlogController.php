@@ -6,6 +6,8 @@ namespace App\Http\Controllers\Blog;
 
 use App\Http\Controllers\Controller;
 use App\Models\Post;
+use App\Services\Blog\BlogHtmlSanitizer;
+use App\Services\HeroImageOptimizer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
@@ -13,6 +15,11 @@ use Inertia\Response;
 
 final class BlogController extends Controller
 {
+    public function __construct(
+        private readonly BlogHtmlSanitizer $sanitizer,
+        private readonly HeroImageOptimizer $heroImages,
+    ) {}
+
     public function index(Request $request): Response
     {
         $posts = Post::published()
@@ -20,16 +27,7 @@ final class BlogController extends Controller
             ->latest('published_at')
             ->paginate(9)
             ->withQueryString()
-            ->through(fn (Post $p) => [
-                'slug' => $p->slug,
-                'title' => trim($p->title),
-                'excerpt' => $p->excerpt,
-                'hero_image_url' => $p->hero_image_path
-                    ? asset('storage/'.$p->hero_image_path)
-                    : null,
-                'published_at' => $p->published_at?->toIso8601String(),
-                'author' => $p->author?->name,
-            ]);
+            ->through(fn (Post $p) => $this->card($p));
 
         return Inertia::render('Blog/Index', [
             'posts' => $posts,
@@ -49,16 +47,7 @@ final class BlogController extends Controller
             ->latest('published_at')
             ->take(3)
             ->get()
-            ->map(fn (Post $p) => [
-                'slug' => $p->slug,
-                'title' => trim($p->title),
-                'excerpt' => $p->excerpt,
-                'hero_image_url' => $p->hero_image_path
-                    ? asset('storage/'.$p->hero_image_path)
-                    : null,
-                'published_at' => $p->published_at?->toIso8601String(),
-                'author' => $p->author?->name,
-            ]);
+            ->map(fn (Post $p) => $this->card($p));
 
         $heroImageUrl = $post->hero_image_path
             ? asset('storage/'.$post->hero_image_path)
@@ -76,6 +65,7 @@ final class BlogController extends Controller
                 'excerpt' => $post->excerpt,
                 'content_html' => $this->renderContent($post->content_html),
                 'hero_image_url' => $heroImageUrl,
+                'hero_image_srcset' => $post->hero_image_path ? $this->heroImages->srcset($post->hero_image_path) : null,
                 'published_at' => $post->published_at?->toIso8601String(),
                 'updated_at' => $post->updated_at?->toIso8601String(),
                 'author' => $post->author?->name,
@@ -85,9 +75,26 @@ final class BlogController extends Controller
     }
 
     /**
+     * @return array{slug: string, title: string, excerpt: ?string, hero_image_url: ?string, hero_image_srcset: ?string, published_at: ?string, author: ?string}
+     */
+    private function card(Post $post): array
+    {
+        return [
+            'slug' => $post->slug,
+            'title' => trim($post->title),
+            'excerpt' => $post->excerpt,
+            'hero_image_url' => $post->hero_image_path ? asset('storage/'.$post->hero_image_path) : null,
+            'hero_image_srcset' => $post->hero_image_path ? $this->heroImages->srcset($post->hero_image_path) : null,
+            'published_at' => $post->published_at?->toIso8601String(),
+            'author' => $post->author?->name,
+        ];
+    }
+
+    /**
      * Authors sometimes paste Markdown into the HTML field. Content without
      * HTML block elements is rendered as Markdown (with any inline HTML
-     * escaped) so it never shows raw "##".
+     * escaped) so it never shows raw "##". HTML content goes through the
+     * allowlist sanitizer, since it is rendered with v-html.
      */
     private function renderContent(?string $content): string
     {
@@ -100,6 +107,6 @@ final class BlogController extends Controller
             ]);
         }
 
-        return $content;
+        return $this->sanitizer->sanitize($content);
     }
 }

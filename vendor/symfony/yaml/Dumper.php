@@ -108,15 +108,14 @@ class Dumper
                 if (Yaml::DUMP_OBJECT_AS_MAP & $flags && ($value instanceof \ArrayObject || $value instanceof \stdClass)) {
                     $dumpObjectAsInlineMap = !(array) $value;
                 }
-                $isSequenceItem = !$dumpAsMap;
+
                 $willBeInlined = $inline - 1 <= 0 || !\is_array($value) && $dumpObjectAsInlineMap || !$value;
-                $isSimpleSequenceHash = !$willBeInlined && $isSequenceItem && \is_array($value) && Inline::isHash($value) && $this->isSimpleSequenceHash($value);
 
                 $output .= \sprintf('%s%s%s%s',
                     $prefix,
                     $dumpAsMap ? Inline::dump($key, $flags).':' : '-',
-                    $willBeInlined || $isSimpleSequenceHash || ($compactNestedMapping && \is_array($value) && Inline::isHash($value)) ? ' ' : "\n",
-                    ($compactNestedMapping && \is_array($value) && Inline::isHash($value)) || $isSimpleSequenceHash ? substr($this->doDump($value, $inline - 1, $indent + 2, $flags, $nestingLevel + 1), $indent + 2) : $this->doDump($value, $inline - 1, $willBeInlined ? 0 : $indent + $this->indentation, $flags, $nestingLevel + 1)
+                    $willBeInlined || ($compactNestedMapping && \is_array($value) && Inline::isHash($value)) ? ' ' : "\n",
+                    $compactNestedMapping && \is_array($value) && Inline::isHash($value) ? substr($this->doDump($value, $inline - 1, $indent + 2, $flags, $nestingLevel + 1), $indent + 2) : $this->doDump($value, $inline - 1, $willBeInlined ? 0 : $indent + $this->indentation, $flags, $nestingLevel + 1)
                 ).($willBeInlined ? "\n" : '');
             }
         }
@@ -144,7 +143,8 @@ class Dumper
 
     private function getBlockChompingIndicator(string $value): string
     {
-        if (isset($value[-2]) && "\n" === $value[-2] && "\n" === $value[-1]) {
+        // a block made of line breaks only has no content, so only the keep indicator preserves them
+        if ("\n" === $value || isset($value[-2]) && "\n" === $value[-2] && "\n" === $value[-1]) {
             return '+';
         }
 
@@ -174,26 +174,14 @@ class Dumper
     {
         $lines = explode("\n", $value);
 
-        // If the first line (that is neither empty nor contains only spaces)
-        // starts with a space character, the spec requires a block indentation indicator
+        // The spec requires a block indentation indicator when the first line that is not empty starts with a space, even if that line holds only spaces
         // http://www.yaml.org/spec/1.2/spec.html#id2793979
         foreach ($lines as $line) {
-            if ('' !== trim($line, ' ')) {
+            if ('' !== $line) {
                 return str_starts_with($line, ' ') ? (string) $this->indentation : '';
             }
         }
 
         return '';
-    }
-
-    private function isSimpleSequenceHash(array $value): bool
-    {
-        foreach ($value as $v) {
-            if (\is_array($v) || $v instanceof TaggedValue) {
-                return false;
-            }
-        }
-
-        return true;
     }
 }

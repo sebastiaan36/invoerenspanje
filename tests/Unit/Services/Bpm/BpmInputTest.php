@@ -77,6 +77,36 @@ final class BpmInputTest extends TestCase
         $this->assertSame(3562, $input->historischBrutoBpm);
     }
 
+    public function test_a_combustion_car_without_co2_or_bruto_bpm_cannot_be_calculated(): void
+    {
+        $vehicle = VehicleData::fromRdwRow(['datum_eerste_toelating' => '20190415', 'voertuigsoort' => 'Personenauto']);
+        $fuel = FuelData::fromRdwRow(['brandstof_omschrijving' => 'Benzine']);
+
+        $this->assertNull(BpmInput::fromLookup(new VehicleLookupResult('12ABC3', $vehicle, $fuel)));
+    }
+
+    public function test_a_car_without_co2_but_with_rdw_bruto_bpm_can_be_calculated(): void
+    {
+        $vehicle = VehicleData::fromRdwRow(['datum_eerste_toelating' => '20190415', 'bruto_bpm' => '4100']);
+        $fuel = FuelData::fromRdwRow(['brandstof_omschrijving' => 'Diesel']);
+
+        $input = BpmInput::fromLookup(new VehicleLookupResult('12ABC3', $vehicle, $fuel));
+
+        $this->assertNotNull($input);
+        $this->assertSame(4100, $input->historischBrutoBpm);
+    }
+
+    public function test_an_electric_car_without_co2_can_be_calculated(): void
+    {
+        $vehicle = VehicleData::fromRdwRow(['datum_eerste_toelating' => '20220415']);
+        $fuel = FuelData::fromRdwRow(['brandstof_omschrijving' => 'Elektriciteit']);
+
+        $input = BpmInput::fromLookup(new VehicleLookupResult('12ABC3', $vehicle, $fuel));
+
+        $this->assertNotNull($input);
+        $this->assertSame(0, $input->co2);
+    }
+
     private function lookupResult(bool $isPluginHybrid, string $voertuigsoort = 'Personenauto'): VehicleLookupResult
     {
         $vehicle = VehicleData::fromRdwRow([

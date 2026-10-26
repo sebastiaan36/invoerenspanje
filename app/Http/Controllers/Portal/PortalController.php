@@ -7,6 +7,9 @@ namespace App\Http\Controllers\Portal;
 use App\Http\Controllers\Controller;
 use App\Models\Document;
 use App\Models\Dossier;
+use App\Models\DossierMessage;
+use App\Models\DossierMessageAttachment;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -21,7 +24,7 @@ final class PortalController extends Controller
         $dossiers = $user
             ? $user->dossiers()
                 ->withCount([
-                    'messages as unread_admin_messages_count' => fn ($q) => $q
+                    'messages as unread_admin_messages_count' => fn (Builder $query) => $query
                         ->where('author_role', 'admin')
                         ->whereNull('read_at'),
                 ])
@@ -77,13 +80,13 @@ final class PortalController extends Controller
             ->with(['author:id,name', 'attachments'])
             ->oldest()
             ->get()
-            ->map(fn ($m) => [
+            ->map(fn (DossierMessage $m) => [
                 'id' => $m->id,
                 'body' => $m->body,
                 'author_name' => $m->author?->name ?? 'Onbekend',
                 'author_role' => $m->author_role,
                 'created_at' => $m->created_at?->toIso8601String(),
-                'attachments' => $m->attachments->map(fn ($a) => [
+                'attachments' => $m->attachments->map(fn (DossierMessageAttachment $a) => [
                     'id' => $a->id,
                     'filename' => $a->filename,
                     'mime_type' => $a->mime_type,

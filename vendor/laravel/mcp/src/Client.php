@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace Laravel\Mcp;
 
 use Illuminate\Container\Container;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Str;
 use Laravel\Mcp\Client\ClientManager;
 use Laravel\Mcp\Client\Contracts\Transport;
 use Laravel\Mcp\Client\Exceptions\AuthorizationRequiredException;
@@ -20,6 +22,8 @@ use Laravel\Mcp\Client\Primitives\Prompt;
 use Laravel\Mcp\Client\Primitives\Resource;
 use Laravel\Mcp\Client\Primitives\Tool;
 use Laravel\Mcp\Client\Protocol;
+use Laravel\Mcp\Client\ResponseCache;
+use Laravel\Mcp\Client\Schema\DiscoverResult;
 use Laravel\Mcp\Client\Schema\InitializeResult;
 use Laravel\Mcp\Client\Schema\PromptResult;
 use Laravel\Mcp\Client\Schema\ResourceReadResult;
@@ -27,13 +31,24 @@ use Laravel\Mcp\Client\Schema\ToolResult;
 use Laravel\Mcp\Client\Transport\HttpTransport;
 use Laravel\Mcp\Client\Transport\StdioTransport;
 use Laravel\Mcp\Client\Transport\TransportFactory;
+use Laravel\Mcp\Enums\ErrorCode;
+use Laravel\Mcp\Enums\ProtocolVersion;
+use Laravel\Mcp\Exceptions\ClientException;
+use Laravel\Mcp\Exceptions\JsonRpcException;
 use Laravel\Mcp\Schema\Implementation;
+use Laravel\Mcp\Support\MirroredParameters;
 
 class Client
 {
     protected Protocol $protocol;
 
     protected ?string $name = null;
+
+    /** @var array<int, string>|null */
+    protected ?array $onlyTools = null;
+
+    /** @var array<int, string> */
+    protected array $exceptTools = [];
 
     public function __construct(
         protected Transport $transport,
@@ -61,10 +76,11 @@ class Client
 
     /**
      * @param  array<int, string>  $args
+     * @param  array<string, string>  $env
      */
-    public static function local(string $command, array $args = []): static
+    public static function local(string $command, array $args = [], array $env = []): static
     {
-        return new static(new StdioTransport($command, $args));
+        return new static(new StdioTransport($command, $args, $env));
     }
 
     public static function web(string $url): WebClient
@@ -72,11 +88,51 @@ class Client
         return new WebClient(new HttpTransport($url));
     }
 
+    public function withCache(?string $store = null, ?string $for = null): static
+    {
+        $this->protocol->useCache(new ResponseCache($store, $for));
+
+        return $this;
+    }
+
+    public function withoutCache(): static
+    {
+        $this->protocol->useCache(null);
+
+        return $this;
+    }
+
     public function withTimeout(float $seconds): static
     {
         $this->transport->setTimeoutSeconds($seconds);
 
         return $this;
+    }
+
+    /**
+     * @param  array<int, string>  $tools
+     */
+    public function onlyTools(array $tools): static
+    {
+        $this->onlyTools = $tools;
+
+        return $this;
+    }
+
+    /**
+     * @param  array<int, string>  $tools
+     */
+    public function exceptTools(array $tools): static
+    {
+        $this->exceptTools = $tools;
+
+        return $this;
+    }
+
+    public function allowsTool(string $name): bool
+    {
+        return ($this->onlyTools === null || Str::is($this->onlyTools, $name))
+            && ! Str::is($this->exceptTools, $name);
     }
 
     public function connect(): static
@@ -101,6 +157,57 @@ class Client
         return $this->protocol->initializeResult();
     }
 
+    public function discoverResult(): ?DiscoverResult
+    {
+        return $this->protocol->discoverResult();
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    public function capabilities(): array
+    {
+        $this->protocol->connect();
+
+        return $this->protocol->capabilities();
+    }
+
+    public function serverInfo(): ?Implementation
+    {
+        $this->protocol->connect();
+
+        return $this->protocol->serverInfo();
+    }
+
+    public function instructions(): ?string
+    {
+        $this->protocol->connect();
+
+        return $this->protocol->instructions();
+    }
+
+    public function withProtocolVersion(?ProtocolVersion $version): static
+    {
+        if ($version instanceof ProtocolVersion && ! in_array($version->value, ProtocolVersion::clientSupported(), true)) {
+            throw new ClientException(sprintf(
+                'This client does not support protocol version [%s]. It supports [%s].',
+                $version->value,
+                implode(', ', ProtocolVersion::clientSupported()),
+            ));
+        }
+
+        $this->protocol->pinProtocolVersion($version);
+
+        return $this;
+    }
+
+    public function protocolVersion(): ProtocolVersion
+    {
+        $this->protocol->connect();
+
+        return $this->protocol->connectionProtocol();
+    }
+
     public function ping(): void
     {
         (new Ping)->handle($this->protocol);
@@ -113,7 +220,8 @@ class Client
     public function tools(?int $limit = null, ?iterable $default = null): Collection
     {
         try {
-            return (new ListTools(client: $this, limit: $limit))->handle($this->protocol);
+            return (new ListTools(client: $this, limit: $limit))->handle($this->protocol)
+                ->filter(fn (Tool $tool): bool => $this->allowsTool($tool->name));
         } catch (AuthorizationRequiredException $authorizationRequiredException) {
             if ($default === null) {
                 throw $authorizationRequiredException;
@@ -126,9 +234,31 @@ class Client
     /**
      * @param  array<string, mixed>  $arguments
      */
-    public function callTool(string $name, array $arguments = []): ToolResult
+    public function callTool(Tool|string $tool, array $arguments = []): ToolResult
     {
-        return (new CallTool($name, $arguments))->handle($this->protocol);
+        $name = $tool instanceof Tool ? $tool->name : $tool;
+        $mirroredParameters = $tool instanceof Tool ? $tool->mirroredParameters() : null;
+
+        if (! $this->allowsTool($name)) {
+            throw new ClientException("MCP tool [{$name}] is not allowed on this client.");
+        }
+
+        try {
+            return (new CallTool($name, $arguments, $mirroredParameters))->handle($this->protocol);
+        } catch (JsonRpcException $jsonRpcException) {
+            if ($jsonRpcException->getCode() !== ErrorCode::HEADER_MISMATCH->value) {
+                throw $jsonRpcException;
+            }
+
+            $refreshed = $this->tools()->get($name)?->mirroredParameters();
+
+            if (! $refreshed instanceof MirroredParameters
+                || $refreshed->headers($arguments) === ($mirroredParameters?->headers($arguments) ?? [])) {
+                throw $jsonRpcException;
+            }
+
+            return (new CallTool($name, $arguments, $refreshed))->handle($this->protocol);
+        }
     }
 
     /**
@@ -191,6 +321,10 @@ class Client
             'name' => null,
             'clientInfo' => $this->clientInfo,
             'transport' => $this->transport->recipe(),
+            'protocolVersion' => $this->protocol->pinnedProtocolVersion()?->value,
+            'cache' => $this->protocol->cache(),
+            'onlyTools' => $this->onlyTools,
+            'exceptTools' => $this->exceptTools,
         ];
     }
 
@@ -199,21 +333,30 @@ class Client
      */
     public function __unserialize(array $data): void
     {
-        $this->name = $data['name'] ?? null;
+        $this->name = Arr::get($data, 'name');
 
         if ($this->name !== null) {
             $resolved = Container::getInstance()->make(ClientManager::class)->build($this->name);
 
             $this->transport = $resolved->transport;
             $this->clientInfo = $resolved->clientInfo;
+            $pinned = $resolved->protocol->pinnedProtocolVersion();
+            $cache = $resolved->protocol->cache();
+            $this->onlyTools = $resolved->onlyTools;
+            $this->exceptTools = $resolved->exceptTools;
         } else {
-            $this->clientInfo = $data['clientInfo'];
-            $this->transport = TransportFactory::fromRecipe($data['transport']);
+            $this->clientInfo = Arr::get($data, 'clientInfo');
+            $this->transport = TransportFactory::fromRecipe(Arr::get($data, 'transport'));
+            $pinned = ProtocolVersion::tryFrom((string) Arr::get($data, 'protocolVersion'));
+            $cache = Arr::get($data, 'cache');
+            $this->onlyTools = Arr::get($data, 'onlyTools');
+            $this->exceptTools = Arr::get($data, 'exceptTools', []);
         }
 
         $this->clientInfo ??= $this->defaultClientInfo();
 
-        $this->protocol = new Protocol($this->transport, $this->clientInfo);
+        $this->protocol = new Protocol($this->transport, $this->clientInfo, $pinned);
+        $this->protocol->useCache($cache instanceof ResponseCache ? $cache : null);
     }
 
     public function __destruct()

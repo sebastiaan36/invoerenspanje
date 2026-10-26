@@ -5,9 +5,11 @@ namespace Filament\Actions\Exports;
 use Carbon\CarbonInterface;
 use Filament\Actions\Action;
 use Filament\Actions\ActionGroup;
+use Filament\Actions\Exports\Downloaders\Contracts\Downloader;
 use Filament\Actions\Exports\Enums\Contracts\ExportFormat as ExportFormatInterface;
 use Filament\Actions\Exports\Enums\ExportFormat;
 use Filament\Actions\Exports\Models\Export;
+use Filament\Actions\Testing\TestableExport;
 use Filament\Notifications\Notification;
 use Filament\Schemas\Components\Component;
 use Illuminate\Database\Eloquent\Builder;
@@ -48,6 +50,15 @@ abstract class Exporter
         protected array $columnMap,
         protected array $options,
     ) {}
+
+    /**
+     * @param  array<string, string> | null  $columnMap
+     * @param  array<string, mixed>  $options
+     */
+    public static function test(?array $columnMap = null, array $options = [], ?Export $export = null): TestableExport
+    {
+        return TestableExport::make(static::class, $columnMap, $options, $export);
+    }
 
     /**
      * @return array<mixed>
@@ -119,7 +130,8 @@ abstract class Exporter
     public function getJobMiddleware(): array
     {
         return [
-            (new WithoutOverlapping("export{$this->export->getKey()}"))->expireAfter(600),
+            (new WithoutOverlapping("export{$this->export->getKey()}"))->expireAfter(600), // Legacy
+            (new WithoutOverlapping("filament:exports:{$this->export->getKey()}"))->expireAfter(600),
         ];
     }
 
@@ -220,6 +232,11 @@ abstract class Exporter
     public function getFormats(): array
     {
         return [ExportFormat::Csv, ExportFormat::Xlsx];
+    }
+
+    public static function getDownloader(ExportFormatInterface $format): Downloader
+    {
+        return $format->getDownloader();
     }
 
     public function getXlsxCellStyle(): ?Style

@@ -104,6 +104,14 @@ return [
 
         ],
 
+        'block_picker' => [
+
+            'no_search_results_message' => 'No existen bloques que coincidan con su búsqueda.',
+
+            'search_prompt' => 'Buscar bloques',
+
+        ],
+
     ],
 
     'checkbox_list' => [
@@ -495,6 +503,10 @@ return [
 
             ],
 
+            'close_panel' => [
+                'label' => 'Cerrar panel',
+            ],
+
             'custom_block' => [
 
                 'modal' => [
@@ -659,6 +671,28 @@ return [
 
         ],
 
+        'custom_blocks' => [
+
+            'actions' => [
+
+                'delete' => [
+                    'label' => 'Borrar bloque',
+                ],
+
+                'edit' => [
+                    'label' => 'Editar bloque',
+                ],
+
+            ],
+
+            'no_search_results_message' => 'No existen bloques que coincidan con su búsqueda.',
+
+            'search_label' => 'Buscar bloques',
+
+            'search_prompt' => 'Buscar bloques',
+
+        ],
+
         'file_attachments_accepted_file_types_message' => 'Los archivos cargados deben ser de tipo: :values.',
 
         'file_attachments_max_size_message' => 'Los archivos cargados no deben tener más de :max kilobytes.',
@@ -736,6 +770,10 @@ return [
 
         'actions' => [
 
+            'clear' => [
+                'label' => 'Limpiar selección',
+            ],
+
             'create_option' => [
 
                 'label' => 'Crear',
@@ -780,6 +818,10 @@ return [
 
             ],
 
+            'remove_option' => [
+                'label' => 'Quitar :label',
+            ],
+
         ],
 
         'boolean' => [
@@ -799,7 +841,9 @@ return [
 
         'searching_message' => 'Buscando...',
 
-        'search_prompt' => 'Teclee para buscar...',
+        'search_label' => ' Buscar',
+
+        'search_prompt' => 'Empiece a escribir para buscar...',
 
     ],
 

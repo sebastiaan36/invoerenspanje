@@ -8,10 +8,8 @@ use App\Services\Rdw\Dto\FuelData;
 use App\Services\Rdw\Dto\VehicleData;
 use App\Services\Rdw\Dto\VehicleLookupResult;
 use Illuminate\Contracts\Cache\Repository as CacheRepository;
-use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Http\Client\Factory as HttpFactory;
 use Illuminate\Http\Client\PendingRequest;
-use Illuminate\Http\Client\RequestException;
 use Psr\Log\LoggerInterface;
 use Throwable;
 
@@ -122,6 +120,8 @@ final class RdwService
 
     /**
      * @return array<string, mixed>|null cached RDW row, or null when the kenteken is not registered
+     *
+     * @throws RdwUnavailableException when the RDW cannot be reached
      */
     private function fetchRow(string $kind, string $endpoint, string $kenteken): ?array
     {
@@ -138,7 +138,7 @@ final class RdwService
             $response = $this->client()
                 ->get($endpoint, ['kenteken' => $kenteken])
                 ->throw();
-        } catch (ConnectionException|RequestException|Throwable $e) {
+        } catch (Throwable $e) {
             $this->logger->error('RDW lookup failed', [
                 'kind' => $kind,
                 'kenteken' => $kenteken,
@@ -147,7 +147,7 @@ final class RdwService
             ]);
 
             // Don't cache failures — let the next request retry.
-            return null;
+            throw RdwUnavailableException::fromPrevious($kind, $e);
         }
 
         $rows = $response->json();
@@ -171,6 +171,8 @@ final class RdwService
      * nothing found" sentinel.
      *
      * @return list<array<string, mixed>>
+     *
+     * @throws RdwUnavailableException when the RDW cannot be reached
      */
     private function fetchRows(string $kind, string $endpoint, string $kenteken): array
     {
@@ -186,7 +188,7 @@ final class RdwService
             $response = $this->client()
                 ->get($endpoint, ['kenteken' => $kenteken])
                 ->throw();
-        } catch (ConnectionException|RequestException|Throwable $e) {
+        } catch (Throwable $e) {
             $this->logger->error('RDW lookup failed', [
                 'kind' => $kind,
                 'kenteken' => $kenteken,
@@ -195,7 +197,7 @@ final class RdwService
             ]);
 
             // Don't cache failures — let the next request retry.
-            return [];
+            throw RdwUnavailableException::fromPrevious($kind, $e);
         }
 
         $rows = $response->json();

@@ -104,9 +104,19 @@ return [
 
         ],
 
+        'block_picker' => [
+
+            'no_search_results_message' => 'Nenhum bloco corresponde à sua pesquisa.',
+
+            'search_prompt' => 'Pesquisar blocos',
+
+        ],
+
     ],
 
     'checkbox_list' => [
+
+        'required_description' => 'Selecione pelo menos uma opção.',
 
         'actions' => [
 
@@ -495,6 +505,10 @@ return [
 
             ],
 
+            'close_panel' => [
+                'label' => 'Fechar painel',
+            ],
+
             'custom_block' => [
 
                 'modal' => [
@@ -659,6 +673,28 @@ return [
 
         ],
 
+        'custom_blocks' => [
+
+            'actions' => [
+
+                'delete' => [
+                    'label' => 'Excluir bloco',
+                ],
+
+                'edit' => [
+                    'label' => 'Editar bloco',
+                ],
+
+            ],
+
+            'no_search_results_message' => 'Nenhum bloco corresponde à sua pesquisa.',
+
+            'search_label' => 'Pesquisar blocos',
+
+            'search_prompt' => 'Pesquisar blocos',
+
+        ],
+
         'file_attachments_accepted_file_types_message' => 'Os arquivos enviados devem ser do tipo: :values.',
 
         'file_attachments_max_size_message' => 'Os arquivos enviados não devem ser maiores que :max kilobytes.',
@@ -736,6 +772,10 @@ return [
 
         'actions' => [
 
+            'clear' => [
+                'label' => 'Limpar seleção',
+            ],
+
             'create_option' => [
 
                 'label' => 'Criar',
@@ -780,6 +820,10 @@ return [
 
             ],
 
+            'remove_option' => [
+                'label' => 'Remover :label',
+            ],
+
         ],
 
         'boolean' => [
@@ -798,6 +842,8 @@ return [
         'placeholder' => 'Selecione uma opção',
 
         'searching_message' => 'Pesquisando...',
+
+        'search_label' => 'Pesquisar',
 
         'search_prompt' => 'Comece a digitar para pesquisar...',
 
@@ -843,6 +889,8 @@ return [
     ],
 
     'toggle_buttons' => [
+
+        'required_description' => 'Selecione pelo menos uma opção.',
 
         'boolean' => [
             'true' => 'Sim',

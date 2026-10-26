@@ -18,16 +18,19 @@
 ])
 
 @php
+    use Filament\Actions\Action;
+    use Filament\Support\View\ComponentAttributeBag;
     use Filament\Support\View\Components\InputComponent\WrapperComponent\IconComponent;
+    use Illuminate\Support\Str;
 
     $prefixActions = array_filter(
         $prefixActions,
-        fn (\Filament\Actions\Action $prefixAction): bool => $prefixAction->isVisible(),
+        fn (Action $prefixAction): bool => $prefixAction->isVisible(),
     );
 
     $suffixActions = array_filter(
         $suffixActions,
-        fn (\Filament\Actions\Action $suffixAction): bool => $suffixAction->isVisible(),
+        fn (Action $suffixAction): bool => $suffixAction->isVisible(),
     );
 
     $hasAlpineDisabledClasses = filled($alpineDisabled);
@@ -47,7 +50,7 @@
         : null;
 
     $prefixIconHtml = ($prefixIcon || $prefixIconAlias)
-        ? \Filament\Support\generate_icon_html($prefixIcon, $prefixIconAlias, (new \Filament\Support\View\ComponentAttributeBag)
+        ? \Filament\Support\generate_icon_html($prefixIcon, $prefixIconAlias, (new ComponentAttributeBag)
             ->merge([
                 'wire:loading.remove.delay.' . $loadingDelay => $hasLoadingIndicator,
                 'wire:target' => $hasLoadingIndicator ? $loadingIndicatorTarget : false,
@@ -56,7 +59,7 @@
         : null;
 
     $suffixIconHtml = ($suffixIcon || $suffixIconAlias)
-        ? \Filament\Support\generate_icon_html($suffixIcon, $suffixIconAlias, (new \Filament\Support\View\ComponentAttributeBag)
+        ? \Filament\Support\generate_icon_html($suffixIcon, $suffixIconAlias, (new ComponentAttributeBag)
             ->merge([
                 'wire:loading.remove.delay.' . $loadingDelay => $hasLoadingIndicator,
                 'wire:target' => $hasLoadingIndicator ? $loadingIndicatorTarget : false,
@@ -67,9 +70,8 @@
     $hasPrefix = count($prefixActions) || ($prefixIconHtml !== null) || filled($prefix);
     $hasSuffix = count($suffixActions) || ($suffixIconHtml !== null) || filled($suffix);
 
-    $hasFocusInputListener = $attributes->has('x-on:focus-input.stop');
-    $canClickPrefixAffix = $hasFocusInputListener && (($prefixIconHtml !== null) || filled($prefix));
-    $canClickSuffixAffix = $hasFocusInputListener && (($suffixIconHtml !== null) || filled($suffix));
+    $canClickPrefixAffix = ($prefixIconHtml !== null) || filled($prefix);
+    $canClickSuffixAffix = ($suffixIconHtml !== null) || filled($suffix);
 @endphp
 
 <div
@@ -94,10 +96,10 @@
             @if (! $hasPrefix)
                 wire:loading.delay.{{ $loadingDelay }}.flex
                 wire:target="{{ $loadingIndicatorTarget }}"
-                wire:key="{{ \Illuminate\Support\Str::random() }}" {{-- Makes sure the loading indicator gets hidden again. --}}
+                wire:key="{{ Str::random() }}" {{-- Makes sure the loading indicator gets hidden again. --}}
             @endif
             @if ($canClickPrefixAffix)
-                x-on:click="$dispatch('focus-input')"
+                x-on:click="if (! $event.target.closest('.fi-input-wrp-actions')) $dispatch('focus-input')"
             @endif
             @class([
                 'fi-input-wrp-prefix',
@@ -107,10 +109,7 @@
             ])
         >
             @if (count($prefixActions))
-                <div
-                    @class(['fi-input-wrp-actions'])
-                    @if ($canClickPrefixAffix) x-on:click.stop @endif
-                >
+                <div @class(['fi-input-wrp-actions'])>
                     @foreach ($prefixActions as $prefixAction)
                         {{ $prefixAction }}
                     @endforeach
@@ -121,7 +120,7 @@
 
             @if ($hasLoadingIndicator)
                 {{
-                    \Filament\Support\generate_loading_indicator_html((new \Filament\Support\View\ComponentAttributeBag([
+                    \Filament\Support\generate_loading_indicator_html((new ComponentAttributeBag([
                         'wire:loading.delay.' . $loadingDelay => $hasPrefix,
                         'wire:target' => $hasPrefix ? $loadingIndicatorTarget : null,
                     ]))->color(IconComponent::class, 'gray'))
@@ -155,7 +154,7 @@
     @if ($hasSuffix)
         <div
             @if ($canClickSuffixAffix)
-                x-on:click="$dispatch('focus-input')"
+                x-on:click="if (! $event.target.closest('.fi-input-wrp-actions')) $dispatch('focus-input')"
             @endif
             @class([
                 'fi-input-wrp-suffix',
@@ -172,10 +171,7 @@
             {{ $suffixIconHtml }}
 
             @if (count($suffixActions))
-                <div
-                    @class(['fi-input-wrp-actions'])
-                    @if ($canClickSuffixAffix) x-on:click.stop @endif
-                >
+                <div @class(['fi-input-wrp-actions'])>
                     @foreach ($suffixActions as $suffixAction)
                         {{ $suffixAction }}
                     @endforeach

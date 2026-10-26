@@ -8,19 +8,28 @@ use App\Mail\WelcomeKlantMail;
 use App\Models\Dossier;
 use App\Models\Lead;
 use App\Models\User;
+use App\Services\Quote\VehicleQuoteService;
+use App\Services\Rdw\RdwUnavailableException;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Str;
 
 final class LeadConverter
 {
+    public function __construct(
+        private readonly VehicleQuoteService $quoteService,
+    ) {}
+
     /**
      * Maak op basis van een lead een (eventueel bestaande) user + dossier aan en
      * stuur een welkomstmail met set-password link.
      */
     public function convert(Lead $lead, ?int $serviceFeeEur = null): Dossier
     {
+        $this->backfillQuoteSnapshots($lead);
+
         return DB::transaction(function () use ($lead, $serviceFeeEur): Dossier {
             $user = User::firstOrCreate(
                 ['email' => $lead->email],
@@ -82,5 +91,41 @@ final class LeadConverter
 
             return $dossier;
         });
+    }
+
+    /**
+     * Een lead die tijdens een RDW-storing binnenkwam heeft geen snapshots.
+     * Probeer ze alsnog op te halen, zodat het dossier voertuiggegevens krijgt.
+     */
+    private function backfillQuoteSnapshots(Lead $lead): void
+    {
+        if ($lead->rdw_snapshot_json !== null) {
+            return;
+        }
+
+        try {
+            $quote = $this->quoteService->quote(
+                $lead->kenteken,
+                residencyChange: (bool) $lead->residency_change,
+                autonomia: $lead->autonomia,
+            );
+        } catch (RdwUnavailableException $e) {
+            Log::warning('Dossier aangemaakt zonder RDW-snapshot: RDW niet bereikbaar.', [
+                'lead_id' => $lead->id,
+                'exception' => $e->getMessage(),
+            ]);
+
+            return;
+        }
+
+        if (! $quote->found()) {
+            return;
+        }
+
+        $lead->update([
+            'rdw_snapshot_json' => $quote->rdwSnapshot(),
+            'bpm_calculation_json' => $quote->bpmSnapshot(),
+            'import_calculation_json' => $quote->importSnapshot(),
+        ]);
     }
 }

@@ -9,6 +9,7 @@ use App\Mail\QuoteRequestConfirmation;
 use App\Models\Lead;
 use App\Services\Leads\LeadConverter;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\Client\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Mail;
 use Tests\TestCase;
@@ -94,6 +95,59 @@ final class LeadControllerTest extends TestCase
         $this->assertIsArray($dossier->import_calculation_json);
         $this->assertSame($lead->bpm_calculation_json, $dossier->bpm_calculation_json);
         $this->assertSame($lead->import_calculation_json, $dossier->import_calculation_json);
+    }
+
+    public function test_it_stores_the_lead_without_snapshots_when_the_rdw_is_down(): void
+    {
+        Mail::fake();
+        Http::fake([
+            'opendata.rdw.nl/*' => Http::response('Service Unavailable', 503),
+        ]);
+
+        $this->postJson(route('api.leads.store'), $this->validPayload())->assertCreated();
+
+        $lead = Lead::firstOrFail();
+        $this->assertNull($lead->rdw_snapshot_json);
+        $this->assertNull($lead->bpm_calculation_json);
+        Mail::assertSent(LeadReceivedNotification::class);
+        Mail::assertSent(QuoteRequestConfirmation::class);
+    }
+
+    public function test_conversion_backfills_snapshots_for_a_lead_stored_during_an_rdw_outage(): void
+    {
+        Mail::fake();
+        $rdwIsUp = false;
+        Http::fake(function (Request $request) use (&$rdwIsUp) {
+            if (! $rdwIsUp) {
+                return Http::response('Service Unavailable', 503);
+            }
+
+            return str_contains($request->url(), 'm9d7-ebf2')
+                ? Http::response([[
+                    'kenteken' => '12ABC3',
+                    'merk' => 'VOLKSWAGEN',
+                    'handelsbenaming' => 'GOLF',
+                    'voertuigsoort' => 'Personenauto',
+                    'datum_eerste_toelating' => '20190401',
+                    'catalogusprijs' => '31500',
+                ]])
+                : Http::response([[
+                    'kenteken' => '12ABC3',
+                    'brandstof_omschrijving' => 'Benzine',
+                    'co2_uitstoot_gecombineerd' => '130',
+                ]]);
+        });
+
+        $this->postJson(route('api.leads.store'), $this->validPayload(['kenteken' => '12-ABC-3']))->assertCreated();
+        $lead = Lead::firstOrFail();
+        $this->assertNull($lead->rdw_snapshot_json);
+
+        $rdwIsUp = true;
+        $dossier = app(LeadConverter::class)->convert($lead, 895);
+
+        $this->assertSame('VOLKSWAGEN', $dossier->merk);
+        $this->assertIsArray($dossier->bpm_calculation_json);
+        $this->assertIsArray($lead->fresh()->rdw_snapshot_json);
     }
 
     public function test_it_stores_a_lead_and_sends_two_mails(): void

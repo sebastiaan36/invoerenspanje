@@ -134,7 +134,7 @@ class BaseFileUpload extends Field implements Contracts\HasNestedRecursiveValida
         });
 
         $this->getUploadedFileNameForStorageUsing(static function (BaseFileUpload $component, TemporaryUploadedFile $file) {
-            return $component->shouldPreserveFilenames() ? $file->getClientOriginalName() : (Str::ulid() . '.' . $file->getClientOriginalExtension());
+            return $component->shouldPreserveFilenames() ? $file->getClientOriginalName() : $file->hashName();
         });
 
         $this->saveUploadedFileUsing(static function (BaseFileUpload $component, TemporaryUploadedFile $file): ?string {
@@ -201,7 +201,7 @@ class BaseFileUpload extends Field implements Contracts\HasNestedRecursiveValida
             }
         }
 
-        $url ??= $storage->url($file);
+        $url ??= str_replace(' ', '%20', $storage->url($file));
 
         return [
             'name' => ($this->isMultiple() ? ($storedFileNames[$file] ?? null) : $storedFileNames) ?? basename($file),
@@ -229,12 +229,16 @@ class BaseFileUpload extends Field implements Contracts\HasNestedRecursiveValida
         ) {
             $newPath = trim($this->getDirectory() . '/' . $this->getUploadedFileNameForStorage($file), '/');
 
-            $this->getDisk()->move(
+            $hasMoved = $this->getDisk()->move(
                 (function (): string {
                     return $this->path;
                 })->call($file),
                 $newPath,
             );
+
+            if ($hasMoved && ($this->getVisibility() === 'public')) {
+                rescue(fn () => $this->getDisk()->setVisibility($newPath, 'public'), report: false);
+            }
 
             return $newPath;
         }
@@ -242,7 +246,10 @@ class BaseFileUpload extends Field implements Contracts\HasNestedRecursiveValida
         $path = $file->storeAs(
             $this->getDirectory(),
             $this->getUploadedFileNameForStorage($file),
-            $this->getDiskName(),
+            [
+                'disk' => $this->getDiskName(),
+                'mimetype' => $file->getMimeType(),
+            ],
         );
 
         if ($this->getVisibility() === 'public') {
@@ -682,13 +689,19 @@ class BaseFileUpload extends Field implements Contracts\HasNestedRecursiveValida
         return (bool) $this->evaluate($this->shouldPreventFilePathTampering);
     }
 
-    public function getFileNamesStatePath(): ?string
+    public function getFileNamesStatePath(bool $isAbsolute = true): ?string
     {
-        if (! $this->fileNamesStatePath) {
+        $statePath = $this->evaluate($this->fileNamesStatePath);
+
+        if (! $isAbsolute) {
+            return $statePath;
+        }
+
+        if (! $statePath) {
             return null;
         }
 
-        return $this->resolveRelativeStatePath($this->fileNamesStatePath);
+        return $this->resolveRelativeStatePath($statePath);
     }
 
     /**
@@ -854,7 +867,7 @@ class BaseFileUpload extends Field implements Contracts\HasNestedRecursiveValida
 
     public function removeStoredFileName(string $file): void
     {
-        $statePath = $this->fileNamesStatePath;
+        $statePath = $this->getFileNamesStatePath(isAbsolute: false);
 
         if (blank($statePath)) {
             return;
@@ -934,7 +947,9 @@ class BaseFileUpload extends Field implements Contracts\HasNestedRecursiveValida
             }
 
             if (! $callback) {
-                return [$fileKey => null];
+                $urls[$fileKey] = null;
+
+                continue;
             }
 
             $urls[$fileKey] = $this->evaluate($callback, [
@@ -1022,7 +1037,7 @@ class BaseFileUpload extends Field implements Contracts\HasNestedRecursiveValida
             return $storedFile;
         }, Arr::wrap($this->getRawState())));
 
-        if ($this->isReorderable && ($callback = $this->reorderUploadedFilesUsing)) {
+        if ($this->isReorderable() && ($callback = $this->reorderUploadedFilesUsing)) {
             $rawState = $this->evaluate($callback, [
                 'rawState' => $rawState,
                 // The `state` injection is deprecated, as this value is raw state that
@@ -1075,7 +1090,7 @@ class BaseFileUpload extends Field implements Contracts\HasNestedRecursiveValida
 
     public function storeFileName(string $file, string $fileName): void
     {
-        $statePath = $this->fileNamesStatePath;
+        $statePath = $this->getFileNamesStatePath(isAbsolute: false);
 
         if (blank($statePath)) {
             return;
@@ -1103,7 +1118,7 @@ class BaseFileUpload extends Field implements Contracts\HasNestedRecursiveValida
     public function getStoredFileNames(): string | array | null
     {
         $rawState = null;
-        $statePath = $this->fileNamesStatePath;
+        $statePath = $this->getFileNamesStatePath(isAbsolute: false);
 
         if (filled($statePath)) {
             $rawState = $this->makeGetUtility()($statePath);

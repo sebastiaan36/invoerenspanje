@@ -1,25 +1,7 @@
 <script setup lang="ts">
 import { Info, AlertTriangle, BadgeCheck, Leaf } from 'lucide-vue-next';
 import { computed } from 'vue';
-
-interface FixedCost {
-    key: string;
-    label: string;
-    amount_eur: number;
-}
-
-interface ImportCostsPayload {
-    iedmt_eur: number;
-    iedmt_rate_pct: number;
-    iedmt_exempt: boolean;
-    iedmt_exempt_reason: string | null;
-    estimated_market_value_eur: number;
-    fixed_costs: FixedCost[];
-    fixed_costs_total_eur: number;
-    total_eur: number;
-    autonomia: string;
-    notes: string[];
-}
+import type { ImportCostsPayload } from '@/types/quote';
 
 const props = defineProps<{
     importCosts: ImportCostsPayload;

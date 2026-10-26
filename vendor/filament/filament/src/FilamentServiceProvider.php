@@ -2,6 +2,7 @@
 
 namespace Filament;
 
+use Filament\Actions\Imports\Jobs\ImportCsv;
 use Filament\Auth\Http\Responses\BlockEmailChangeVerificationResponse;
 use Filament\Auth\Http\Responses\Contracts\BlockEmailChangeVerificationResponse as BlockEmailChangeVerificationResponseContract;
 use Filament\Auth\Http\Responses\Contracts\EmailChangeVerificationResponse as EmailChangeVerificationResponseContract;
@@ -25,15 +26,21 @@ use Filament\Http\Middleware\IdentifyPageConfiguration;
 use Filament\Http\Middleware\IdentifyResourceConfiguration;
 use Filament\Http\Middleware\IdentifyTenant;
 use Filament\Http\Middleware\SetUpPanel;
+use Filament\Livewire\ScopedModelPropertiesComponentHook;
 use Filament\Navigation\NavigationManager;
+use Filament\Queue\Middleware\RestoreImportTenant;
+use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Support\Assets\Font;
 use Filament\Support\Assets\Js;
 use Filament\Support\Assets\Theme;
 use Filament\Support\Facades\FilamentAsset;
 use Filament\View\LegacyComponents;
+use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Routing\Router;
 use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\Facades\RateLimiter;
+use Livewire\Component;
 use Livewire\Livewire;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
@@ -87,10 +94,44 @@ class FilamentServiceProvider extends PackageServiceProvider
         app(Router::class)->aliasMiddleware('panel', SetUpPanel::class);
         app(Router::class)->aliasMiddleware('resource-configuration', IdentifyResourceConfiguration::class);
         app(Router::class)->aliasMiddleware('page-configuration', IdentifyPageConfiguration::class);
+
+        $this->app->booting(static function (): void {
+            app('livewire')->componentHook(app(ScopedModelPropertiesComponentHook::class));
+        });
+
+        $this->app->resolving(ImportCsv::class, static function (ImportCsv $job): void {
+            $panel = Filament::getCurrentPanel();
+            $tenant = Filament::getTenant();
+
+            if ((! $panel?->hasTenancy()) || (! $tenant)) {
+                return;
+            }
+
+            $job->through([
+                ...$job->middleware,
+                app(RestoreImportTenant::class, [
+                    'panelId' => $panel->getId(),
+                    'tenantId' => $tenant->getKey(),
+                ]),
+            ]);
+        });
     }
 
     public function packageBooted(): void
     {
+        Livewire::listen('hydrate', static function (Component $component, array $memo): void {
+            // Livewire skips lifecycle hooks for lazy components that have not mounted yet.
+            if (($component instanceof RelationManager) && (($memo['lazyLoaded'] ?? null) === false)) {
+                $component->bootCanAuthorizeAccess();
+            }
+        });
+
+        RateLimiter::for(
+            'filament:auth',
+            static fn (): Limit => Limit::perMinute(6)
+                ->by(Filament::getUserScopedAuthIdentifier()),
+        );
+
         Blade::components([
             LegacyComponents\PageComponent::class => 'filament::page',
             LegacyComponents\WidgetComponent::class => 'filament::widget',

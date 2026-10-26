@@ -1,12 +1,3 @@
-@php
-    use Filament\Support\Enums\Alignment;
-    use Filament\Support\Enums\IconSize;
-    use Filament\Support\View\Components\SectionComponent\IconComponent;
-    use Illuminate\Support\Js;
-
-    use function Filament\Support\is_slot_empty;
-@endphp
-
 @props([
     'afterHeader' => null,
     'aside' => false,
@@ -30,6 +21,15 @@
 ])
 
 @php
+    use Filament\Support\Enums\IconSize;
+    use Filament\Support\Icons\Heroicon;
+    use Filament\Support\View\ComponentAttributeBag;
+    use Filament\Support\View\Components\SectionComponent\IconComponent;
+    use Filament\Support\View\SupportIconAlias;
+    use Illuminate\Support\Js;
+
+    use function Filament\Support\is_slot_empty;
+
     if (filled($iconSize) && (! $iconSize instanceof IconSize)) {
         $iconSize = IconSize::tryFrom($iconSize) ?? $iconSize;
     }
@@ -44,7 +44,7 @@
 <section
     {{-- TODO: Investigate Livewire bug - https://github.com/filamentphp/filament/pull/8511 --}}
     x-data="{
-        isCollapsed: @if ($persistCollapsed) $persist(@js($collapsed)).as(`section-${@js($collapseId) ?? $el.id}-isCollapsed`) @else @js($collapsed) @endif,
+        isCollapsed: @if ($persistCollapsed) $persist(@js($collapsed)).as(`filament:section:collapsed:${@js($collapseId) ?? $el.id}`) @else @js($collapsed) @endif,
     }"
     @if ($collapsible)
         x-id="['fi-section-content']"
@@ -77,29 +77,40 @@
             class="fi-section-header"
         >
             {{
-                \Filament\Support\generate_icon_html($icon, attributes: (new \Filament\Support\View\ComponentAttributeBag)
+                \Filament\Support\generate_icon_html($icon, attributes: (new ComponentAttributeBag)
                     ->color(IconComponent::class, $iconColor), size: $iconSize ?? IconSize::Large)
             }}
 
-            @if ($hasHeading || $hasDescription)
-                <div class="fi-section-header-text-ctn">
-                    @if ($hasHeading)
-                        <{{ $headingTag }} class="fi-section-header-heading">
-                            {{ $heading }}
-                        </{{ $headingTag }}>
+            @if ($hasHeading || $hasDescription || (! is_slot_empty($afterHeader)))
+                <div
+                    @class([
+                        'fi-section-header-content',
+                        'fi-section-header-content-has-heading' => $hasHeading || $hasDescription,
+                    ])
+                >
+                    @if ($hasHeading || $hasDescription)
+                        <div class="fi-section-header-text-ctn">
+                            @if ($hasHeading)
+                                <{{ $headingTag }}
+                                    class="fi-section-header-heading"
+                                >
+                                    {{ $heading }}
+                                </{{ $headingTag }}>
+                            @endif
+
+                            @if ($hasDescription)
+                                <p class="fi-section-header-description">
+                                    {{ $description }}
+                                </p>
+                            @endif
+                        </div>
                     @endif
 
-                    @if ($hasDescription)
-                        <p class="fi-section-header-description">
-                            {{ $description }}
-                        </p>
+                    @if (! is_slot_empty($afterHeader))
+                        <div class="fi-section-header-after-ctn">
+                            {{ $afterHeader }}
+                        </div>
                     @endif
-                </div>
-            @endif
-
-            @if (! is_slot_empty($afterHeader))
-                <div class="fi-section-header-after-ctn">
-                    {{ $afterHeader }}
                 </div>
             @endif
 
@@ -107,8 +118,8 @@
                 {{-- The content container is not rendered when the slot and footer are empty, so `aria-controls` must not reference it then. --}}
                 <x-filament::icon-button
                     color="gray"
-                    :icon="\Filament\Support\Icons\Heroicon::ChevronUp"
-                    :icon-alias="\Filament\Support\View\SupportIconAlias::SECTION_COLLAPSE_BUTTON"
+                    :icon="Heroicon::ChevronUp"
+                    :icon-alias="SupportIconAlias::SECTION_COLLAPSE_BUTTON"
                     :label="__($collapsed ? 'filament::components/section.actions.expand.label' : 'filament::components/section.actions.collapse.label')"
                     :x-bind:aria-label="'isCollapsed ? ' . Js::from(__('filament::components/section.actions.expand.label')) . ' : ' . Js::from(__('filament::components/section.actions.collapse.label'))"
                     aria-expanded="{{ $collapsed ? 'false' : 'true' }}"

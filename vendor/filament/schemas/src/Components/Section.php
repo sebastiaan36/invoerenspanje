@@ -15,7 +15,6 @@ use Filament\Schemas\Components\Concerns\HasFooterActions;
 use Filament\Schemas\Components\Concerns\HasHeaderActions;
 use Filament\Schemas\Components\Concerns\HasHeading;
 use Filament\Schemas\Components\Concerns\HasLabel;
-use Filament\Schemas\Components\Contracts\CanConcealComponents;
 use Filament\Schemas\Components\Contracts\CanEntangleWithSingularRelationships;
 use Filament\Schemas\Schema;
 use Filament\Support\Components\Contracts\HasEmbeddedView;
@@ -33,6 +32,7 @@ use Filament\Support\View\Components\IconButtonComponent;
 use Filament\Support\View\Components\SectionComponent\IconComponent;
 use Filament\Support\View\SupportIconAlias;
 use Illuminate\Contracts\Support\Htmlable;
+use Illuminate\Support\Arr;
 use Illuminate\Support\HtmlString;
 use Illuminate\Support\Js;
 use Illuminate\Support\Str;
@@ -40,7 +40,7 @@ use Illuminate\Support\Str;
 use function Filament\Support\generate_icon_html;
 use function Filament\Support\is_slot_empty;
 
-class Section extends Component implements CanConcealComponents, CanEntangleWithSingularRelationships, HasEmbeddedView
+class Section extends Component implements CanEntangleWithSingularRelationships, HasEmbeddedView
 {
     use CanBeCollapsed;
     use CanBeCompact;
@@ -63,6 +63,8 @@ class Section extends Component implements CanConcealComponents, CanEntangleWith
     protected bool | Closure | null $isAside = null;
 
     protected bool | Closure $isFormBefore = false;
+
+    protected ?Closure $contentSchemaExtraAttributes = null;
 
     const AFTER_HEADER_SCHEMA_KEY = 'after_header';
 
@@ -129,11 +131,6 @@ class Section extends Component implements CanConcealComponents, CanEntangleWith
         $this->isAside = $condition;
 
         return $this;
-    }
-
-    public function canConcealComponents(): bool
-    {
-        return $this->isCollapsible();
     }
 
     public function isAside(): bool
@@ -228,6 +225,13 @@ class Section extends Component implements CanConcealComponents, CanEntangleWith
     {
         $schema = parent::configureChildSchema($schema, $key);
 
+        if ($key === 'default') {
+            $schema->extraAttributes(
+                $this->contentSchemaExtraAttributes ??= static fn (): array => ['class' => 'fi-section-content'],
+                merge: true,
+            );
+        }
+
         if (in_array($key, [
             static::AFTER_HEADER_SCHEMA_KEY,
             static::FOOTER_SCHEMA_KEY,
@@ -313,7 +317,7 @@ class Section extends Component implements CanConcealComponents, CanEntangleWith
         $collapseId = $id;
 
         // Render child schema content
-        $contentHtml = $this->getChildSchema()?->extraAttributes(['class' => 'fi-section-content'])->toHtml();
+        $contentHtml = $this->getChildSchema()?->toHtml();
         $hasContent = ! is_slot_empty(filled($contentHtml) ? new HtmlString($contentHtml) : null);
         $hasFooter = ! is_slot_empty($footer);
 
@@ -358,7 +362,7 @@ class Section extends Component implements CanConcealComponents, CanEntangleWith
 
             <section
                 x-data="{
-                    isCollapsed: <?php if ($shouldPersistCollapsed) { ?>$persist(<?= Js::from($isCollapsed) ?>).as(`section-${<?= Js::from($collapseId) ?> ?? $el.id}-isCollapsed`)<?php } else { ?><?= Js::from($isCollapsed) ?><?php } ?>,
+                    isCollapsed: <?php if ($shouldPersistCollapsed) { ?>$persist(<?= Js::from($isCollapsed) ?>).as(`filament:section:collapsed:${<?= Js::from($collapseId) ?> ?? $el.id}`)<?php } else { ?><?= Js::from($isCollapsed) ?><?php } ?>,
                 }"
                 <?php if ($collapsible) { ?>
                     x-on:collapse-section.window="if ($event.detail.id == (<?= Js::from($collapseId) ?> ?? $el.id)) isCollapsed = true"
@@ -389,31 +393,38 @@ class Section extends Component implements CanConcealComponents, CanEntangleWith
                         <?= generate_icon_html($icon, attributes: (new FilamentComponentAttributeBag)
                             ->color(IconComponent::class, $iconColor), size: $iconSize ?? IconSize::Large)?->toHtml() ?>
 
-                        <?php if ($hasHeading || $hasDescription) { ?>
-                            <div class="fi-section-header-text-ctn">
-                                <?php if ($hasHeading) { ?>
-                                    <<?= $headingTag ?>
-                                        <?php if (filled($headingId)) { ?>id="<?= e($headingId) ?>"<?php } ?>
-                                        class="fi-section-header-heading"
-                                    >
-                                        <?= e($heading) ?>
-                                    </<?= $headingTag ?>>
+                        <?php if ($hasHeading || $hasDescription || $hasAfterHeader) { ?>
+                            <div class="<?= Arr::toCssClasses([
+                                'fi-section-header-content',
+                                'fi-section-header-content-has-heading' => $hasHeading || $hasDescription,
+                            ]) ?>">
+                                <?php if ($hasHeading || $hasDescription) { ?>
+                                    <div class="fi-section-header-text-ctn">
+                                        <?php if ($hasHeading) { ?>
+                                            <<?= $headingTag ?>
+                                                <?php if (filled($headingId)) { ?>id="<?= e($headingId) ?>"<?php } ?>
+                                                class="fi-section-header-heading"
+                                            >
+                                                <?= e($heading) ?>
+                                            </<?= $headingTag ?>>
+                                        <?php } ?>
+
+                                        <?php if ($hasDescription) { ?>
+                                            <p
+                                                <?php if (filled($descriptionId)) { ?>id="<?= e($descriptionId) ?>"<?php } ?>
+                                                class="fi-section-header-description"
+                                            >
+                                                <?= e($description) ?>
+                                            </p>
+                                        <?php } ?>
+                                    </div>
                                 <?php } ?>
 
-                                <?php if ($hasDescription) { ?>
-                                    <p
-                                        <?php if (filled($descriptionId)) { ?>id="<?= e($descriptionId) ?>"<?php } ?>
-                                        class="fi-section-header-description"
-                                    >
-                                        <?= e($description) ?>
-                                    </p>
+                                <?php if ($hasAfterHeader) { ?>
+                                    <div class="fi-section-header-after-ctn">
+                                        <?= $afterHeader ?>
+                                    </div>
                                 <?php } ?>
-                            </div>
-                        <?php } ?>
-
-                        <?php if ($hasAfterHeader) { ?>
-                            <div class="fi-section-header-after-ctn">
-                                <?= $afterHeader ?>
                             </div>
                         <?php } ?>
 
@@ -422,7 +433,6 @@ class Section extends Component implements CanConcealComponents, CanEntangleWith
                                 $collapseButtonAttributes = (new FilamentComponentAttributeBag)
                                     ->merge([
                                         'type' => 'button',
-                                        'wire:loading.attr' => 'disabled',
                                         'x-on:click.stop' => 'isCollapsed = ! isCollapsed',
                                         // The button only contains a decorative chevron, so give it an accessible
                                         // name. Static values cover the pre-Alpine/no-JS render; `x-bind` keeps the

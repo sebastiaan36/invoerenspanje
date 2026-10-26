@@ -4,11 +4,13 @@ namespace Filament\Forms\Components;
 
 use Closure;
 use Filament\Actions\Action;
+use Filament\Forms\View\FormsIconAlias;
 use Filament\Schemas\Components\StateCasts\Contracts\StateCast;
 use Filament\Schemas\Components\StateCasts\OptionsArrayStateCast;
 use Filament\Schemas\Components\StateCasts\OptionStateCast;
 use Filament\Support\Components\Contracts\HasEmbeddedView;
 use Filament\Support\Enums\IconPosition;
+use Filament\Support\Facades\FilamentIcon;
 use Filament\Support\Icons\Heroicon;
 use Filament\Support\Services\RelationshipJoiner;
 use Filament\Support\View\ComponentAttributeBag as FilamentComponentAttributeBag;
@@ -110,7 +112,7 @@ class ModalTableSelect extends Field implements HasEmbeddedView
             ->slideOver()
             ->modalHeading($this->getLabel())
             ->modalSubmitActionLabel(__('filament-forms::components.modal_table_select.actions.select.actions.select.label'))
-            ->icon(Heroicon::PencilSquare)
+            ->icon(FilamentIcon::resolve(FormsIconAlias::COMPONENTS_MODAL_TABLE_SELECT_ACTIONS_SELECT) ?? Heroicon::PencilSquare)
             ->iconPosition(IconPosition::After)
             ->fillForm(['selection' => $this->getState()])
             ->schema([$this->getTableSelect()])
@@ -128,7 +130,10 @@ class ModalTableSelect extends Field implements HasEmbeddedView
             ]) ?? $action;
         }
 
-        return $action;
+        return $action->extraAttributes(
+            fn (): array => ['aria-describedby' => $this->getAccessibilityAttributes()['aria-describedby']],
+            merge: true,
+        );
     }
 
     public function getTableSelect(): TableSelect
@@ -919,6 +924,7 @@ class ModalTableSelect extends Field implements HasEmbeddedView
                 'role' => 'group',
             ], escape: false)
             ->merge($extraAttributes, escape: false)
+            ->merge(['aria-describedby' => $this->getAccessibilityAttributes()['aria-describedby'] ?? null], escape: false)
             ->class([
                 'fi-fo-modal-table-select',
                 'fi-fo-modal-table-select-disabled' => $isDisabled,

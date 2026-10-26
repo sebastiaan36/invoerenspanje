@@ -37,6 +37,53 @@ class HeroImageOptimizerTest extends TestCase
         $this->assertSame(IMAGETYPE_WEBP, $type);
     }
 
+    public function test_width_variants_are_written_for_srcset(): void
+    {
+        Storage::fake('public');
+        $this->storePng('blog/heroes/hero.png', 2400, 1350);
+        $optimizer = app(HeroImageOptimizer::class);
+
+        $path = $optimizer->optimize('blog/heroes/hero.png');
+
+        foreach (HeroImageOptimizer::VARIANT_WIDTHS as $width) {
+            $variant = $optimizer->variantPath($path, $width);
+            Storage::disk('public')->assertExists($variant);
+            $this->assertSame($width, getimagesizefromstring(Storage::disk('public')->get($variant))[0]);
+        }
+
+        $srcset = (string) $optimizer->srcset($path);
+        $this->assertStringContainsString('hero-480.webp 480w', $srcset);
+        $this->assertStringContainsString('hero.webp 1600w', $srcset);
+    }
+
+    public function test_no_variants_wider_than_the_image_and_no_srcset_without_variants(): void
+    {
+        Storage::fake('public');
+        $this->storePng('blog/heroes/small.png', 600, 340);
+        $optimizer = app(HeroImageOptimizer::class);
+
+        $path = $optimizer->optimize('blog/heroes/small.png');
+
+        Storage::disk('public')->assertExists('blog/heroes/small-480.webp');
+        Storage::disk('public')->assertMissing('blog/heroes/small-800.webp');
+        $this->assertStringContainsString('small.webp 600w', (string) $optimizer->srcset($path));
+        $this->assertNull($optimizer->srcset('blog/heroes/unknown.webp'));
+    }
+
+    public function test_existing_webp_heroes_get_their_variants_backfilled(): void
+    {
+        Storage::fake('public');
+        $image = imagecreatetruecolor(1600, 900);
+        ob_start();
+        imagewebp($image);
+        Storage::disk('public')->put('blog/heroes/legacy.webp', (string) ob_get_clean());
+
+        $path = app(HeroImageOptimizer::class)->optimize('blog/heroes/legacy.webp');
+
+        $this->assertSame('blog/heroes/legacy.webp', $path);
+        Storage::disk('public')->assertExists('blog/heroes/legacy-1200.webp');
+    }
+
     public function test_missing_file_is_left_untouched(): void
     {
         Storage::fake('public');

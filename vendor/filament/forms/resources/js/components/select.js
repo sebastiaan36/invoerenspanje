@@ -1,8 +1,13 @@
-import { Select } from '../../../../support/resources/js/utilities/select.js'
+import {
+    Select,
+    createSelectOptionRequestHandler,
+} from '../../../../support/resources/js/utilities/select.js'
 
 export default function selectFormComponent({
     canOptionLabelsWrap,
     canSelectPlaceholder,
+    clearButtonLabel,
+    errorMessage,
     getOptionLabelUsing,
     getOptionLabelsUsing,
     getOptionsUsing,
@@ -30,15 +35,21 @@ export default function selectFormComponent({
     optionsLimit,
     placeholder,
     position,
+    removeButtonLabel,
     searchDebounce,
     searchingMessage,
+    searchLabel,
     searchPrompt,
     searchableOptionFields,
     state,
     statePath,
 }) {
+    const optionRequests = createSelectOptionRequestHandler()
+
     return {
         select: null,
+
+        accessibilityObserver: null,
 
         state,
 
@@ -46,11 +57,15 @@ export default function selectFormComponent({
             this.select = new Select({
                 canOptionLabelsWrap,
                 canSelectPlaceholder,
+                clearButtonLabel,
                 element: this.$refs.select,
+                errorMessage,
                 getOptionLabelUsing,
                 getOptionLabelsUsing,
-                getOptionsUsing,
-                getSearchResultsUsing,
+                getOptionsUsing: optionRequests.wrap(getOptionsUsing),
+                getSearchResultsUsing: optionRequests.wrap(
+                    getSearchResultsUsing,
+                ),
                 hasDynamicOptions,
                 hasDynamicSearchResults,
                 hasInitialNoOptionsMessage,
@@ -77,13 +92,33 @@ export default function selectFormComponent({
                 optionsLimit,
                 placeholder,
                 position,
+                removeButtonLabel,
                 searchableOptionFields,
                 searchDebounce,
                 searchingMessage,
+                searchLabel,
                 searchPrompt,
                 state: this.state,
                 statePath,
             })
+
+            const attributesElement = this.$el.previousElementSibling
+            if (attributesElement?.hasAttribute('data-select-accessibility')) {
+                const syncAccessibility = () =>
+                    this.select?.setAccessibilityAttributes(
+                        JSON.parse(
+                            attributesElement.dataset.selectAccessibility,
+                        ),
+                    )
+                syncAccessibility()
+                this.accessibilityObserver = new MutationObserver(
+                    syncAccessibility,
+                )
+                this.accessibilityObserver.observe(attributesElement, {
+                    attributes: true,
+                    attributeFilter: ['data-select-accessibility'],
+                })
+            }
 
             this.$watch('state', (newState) => {
                 this.$nextTick(() => {
@@ -97,10 +132,12 @@ export default function selectFormComponent({
         },
 
         destroy() {
+            this.accessibilityObserver?.disconnect()
             if (this.select) {
                 this.select.destroy()
                 this.select = null
             }
+            optionRequests.destroy()
         },
     }
 }

@@ -18,13 +18,9 @@ import {
     nextTick,
     onMounted,
     onBeforeUnmount,
+    defineAsyncComponent,
 } from 'vue';
-import ImportCostsCard from '@/components/ImportCostsCard.vue';
-import PackageSelector from '@/components/PackageSelector.vue';
 import type { ServicePackage } from '@/components/PackageSelector.vue';
-import QuoteRequestForm from '@/components/QuoteRequestForm.vue';
-import ResidencyExemptionHighlight from '@/components/ResidencyExemptionHighlight.vue';
-import ResultAnswerCard from '@/components/ResultAnswerCard.vue';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
 import {
@@ -36,60 +32,43 @@ import {
 import { postJson } from '@/lib/api';
 import type { ApiError } from '@/lib/api';
 import { PHONE, PHONE_DISPLAY, WHATSAPP_URL } from '@/lib/contact';
+import type { VehicleResponse } from '@/types/quote';
+
+// Result-only parts load after the first lookup is under way, so the hero
+// input on the homepage doesn't wait for them.
+const loadResultComponents = {
+    ImportCostsCard: () => import('@/components/ImportCostsCard.vue'),
+    PackageSelector: () => import('@/components/PackageSelector.vue'),
+    QuoteRequestForm: () => import('@/components/QuoteRequestForm.vue'),
+    ResidencyExemptionHighlight: () =>
+        import('@/components/ResidencyExemptionHighlight.vue'),
+    ResultAnswerCard: () => import('@/components/ResultAnswerCard.vue'),
+};
+const ImportCostsCard = defineAsyncComponent(
+    loadResultComponents.ImportCostsCard,
+);
+const PackageSelector = defineAsyncComponent(
+    loadResultComponents.PackageSelector,
+);
+const QuoteRequestForm = defineAsyncComponent(
+    loadResultComponents.QuoteRequestForm,
+);
+const ResidencyExemptionHighlight = defineAsyncComponent(
+    loadResultComponents.ResidencyExemptionHighlight,
+);
+const ResultAnswerCard = defineAsyncComponent(
+    loadResultComponents.ResultAnswerCard,
+);
+
+function preloadResultComponents() {
+    Object.values(loadResultComponents).forEach((load) => void load());
+}
 
 type ResidencyChoice = '' | 'permanent' | 'second_home' | 'other';
 
 // TODO: maak hier een dropdown van zodra we Costa Brava (Cataluña) of
 // Costa Blanca (Valencia) ondersteunen — die hebben afwijkende IEDMT-tarieven.
 const DEFAULT_AUTONOMIA = 'costa_del_sol';
-
-interface BpmPayload {
-    is_eligible: boolean;
-    ineligible_reason: string | null;
-    bruto_bpm_eur: number;
-    rest_bpm_eur: number;
-    afschrijving_pct: number;
-    age_months: number;
-    method: string;
-    notes: string[];
-}
-
-interface ImportCostsPayload {
-    iedmt_eur: number;
-    iedmt_without_exemption_eur: number;
-    iedmt_rate_pct: number;
-    iedmt_exempt: boolean;
-    iedmt_exempt_reason: string | null;
-    estimated_market_value_eur: number;
-    fixed_costs: { key: string; label: string; amount_eur: number }[];
-    fixed_costs_total_eur: number;
-    total_eur: number;
-    autonomia: string;
-    notes: string[];
-}
-
-interface VehicleResponse {
-    found: true;
-    kenteken: string;
-    vehicle: {
-        merk: string | null;
-        handelsbenaming: string | null;
-        voertuigsoort: string | null;
-        eerste_kleur: string | null;
-        datum_eerste_toelating: string | null;
-        massa_ledig_voertuig: number | null;
-    };
-    fuel: {
-        brandstof: string | null;
-        co2_gecombineerd: number | null;
-        co2_gewogen: number | null;
-        co2_wltp_gecombineerd: number | null;
-        co2_wltp_gewogen: number | null;
-    } | null;
-    bpm: BpmPayload | null;
-    import_costs: ImportCostsPayload | null;
-    net_effect_eur: number | null;
-}
 
 interface ValidationErrorBody {
     errors?: { kenteken?: string[] };
@@ -229,6 +208,7 @@ async function performRecalc() {
     loading.value = true;
     errorMessage.value = null;
     notFound.value = false;
+    preloadResultComponents();
     const seq = ++requestSeq;
 
     try {
@@ -263,6 +243,10 @@ async function performRecalc() {
                 e.data?.message ?? 'Geen voertuig gevonden bij dit kenteken.';
             notFound.value = true;
             result.value = null;
+        } else if (e.status === 503) {
+            errorMessage.value =
+                e.data?.message ??
+                'De RDW is op dit moment niet bereikbaar. Probeer het later opnieuw.';
         } else {
             errorMessage.value =
                 'Er ging iets mis bij het ophalen van de gegevens. Probeer het opnieuw.';

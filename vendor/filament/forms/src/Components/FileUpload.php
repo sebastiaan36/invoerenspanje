@@ -12,6 +12,7 @@ use Filament\Support\Facades\FilamentAsset;
 use Filament\Support\Icons\Heroicon;
 use Filament\Support\View\ComponentAttributeBag as FilamentComponentAttributeBag;
 use Filament\Support\View\Components\ButtonComponent;
+use Filament\Support\View\Components\LinkComponent;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Js;
 use InvalidArgumentException;
@@ -125,6 +126,17 @@ class FileUpload extends BaseFileUpload implements HasEmbeddedView
         $this->placeholder($label);
 
         return $this;
+    }
+
+    public function getPlaceholder(): ?string
+    {
+        $placeholder = $this->evaluate($this->placeholder);
+
+        if (($placeholder !== null) || (! $this->isDisabled())) {
+            return $placeholder;
+        }
+
+        return blank($this->getState()) ? __('filament-forms::components.file_upload.placeholder') : '';
     }
 
     public function image(): static
@@ -838,6 +850,7 @@ class FileUpload extends BaseFileUpload implements HasEmbeddedView
         $key = $this->getKey();
         $statePath = $this->getStatePath();
         $isDisabled = $this->isDisabled();
+        $placeholder = $this->getPlaceholder();
         $hasImageEditor = $this->hasImageEditor();
         $isImageEditorExplicitlyEnabled = $this->isImageEditorExplicitlyEnabled();
         $hasCircleCropper = $this->hasCircleCropper();
@@ -852,7 +865,7 @@ class FileUpload extends BaseFileUpload implements HasEmbeddedView
             $alignment = filled($alignment) ? (Alignment::tryFrom($alignment) ?? $alignment) : null;
         }
 
-        $wireKey = $livewireKey . '.' . substr(md5(serialize([$isDisabled])), 0, 64);
+        $wireKey = $livewireKey . '.' . substr(md5(serialize([$isDisabled, $isDisabled ? $placeholder : null])), 0, 64);
 
         $outerAttributes = $this->getExtraAttributeBag()
             ->merge([
@@ -867,7 +880,10 @@ class FileUpload extends BaseFileUpload implements HasEmbeddedView
                 ($alignment instanceof Alignment) ? "fi-align-{$alignment->value}" : $alignment,
             ]);
 
-        $inputAttributes = $this->getExtraInputAttributeBag()
+        $extraInputAttributeBag = $this->getExtraInputAttributeBag();
+
+        $inputAttributes = $extraInputAttributeBag
+            ->merge($this->getAccessibilityAttributes(), escape: false)
             ->merge([
                 'aria-labelledby' => "{$id}-label",
                 'disabled' => $isDisabled,
@@ -879,6 +895,12 @@ class FileUpload extends BaseFileUpload implements HasEmbeddedView
 
         ob_start(); ?>
 
+        <div
+            hidden
+            data-field-accessibility
+            <?php if (! $extraInputAttributeBag->has('aria-describedby')) { ?> data-preserve-filepond-description <?php } ?>
+            <?= $inputAttributes->only(['aria-describedby', 'aria-invalid'])->toHtml() ?>
+        ></div>
         <div
             x-load
             x-load-src="<?= e($alpineComponentSrc) ?>"
@@ -937,7 +959,7 @@ class FileUpload extends BaseFileUpload implements HasEmbeddedView
                         minSize: <?= Js::from($minSize ? "{$minSize}KB" : null) ?>,
                         panelAspectRatio: <?= Js::from($this->getPanelAspectRatio()) ?>,
                         panelLayout: <?= Js::from($this->getPanelLayout()) ?>,
-                        placeholder: <?= Js::from($this->getPlaceholder()) ?>,
+                        placeholder: <?= Js::from($placeholder) ?>,
                         removeUploadedFileButtonPosition: <?= Js::from($this->getRemoveUploadedFileButtonPosition()) ?>,
                         removeUploadedFileUsing: async (fileKey) => {
                             return await $wire.callSchemaComponentMethod(
@@ -1139,6 +1161,20 @@ class FileUpload extends BaseFileUpload implements HasEmbeddedView
                                             <?php } ?>
                                         </div>
                                     <?php } ?>
+                                    <div class="fi-fo-file-upload-editor-control-panel-reset-action-ctn">
+                                        <button
+                                            type="button"
+                                            x-on:click.prevent.stop="editor.reset()"
+                                            <?= (new FilamentComponentAttributeBag)
+                                                ->color(LinkComponent::class, 'danger')
+                                                ->class(['fi-link fi-size-sm fi-fo-file-upload-editor-control-panel-reset-action'])
+                                                ->toHtml() ?>
+                                        >
+                                            <span class="fi-link-label">
+                                                <?= e(__('filament-forms::components.file_upload.editor.actions.reset.label')) ?>
+                                            </span>
+                                        </button>
+                                    </div>
                                 </div>
                             <?php } ?>
 
@@ -1150,17 +1186,6 @@ class FileUpload extends BaseFileUpload implements HasEmbeddedView
                                         class="fi-btn"
                                     >
                                         <?= e(__('filament-forms::components.file_upload.editor.actions.cancel.label')) ?>
-                                    </button>
-
-                                    <button
-                                        type="button"
-                                        x-on:click.prevent.stop="editor.reset()"
-                                        <?= (new FilamentComponentAttributeBag)
-                                            ->color(ButtonComponent::class, 'danger')
-                                            ->class(['fi-btn fi-fo-file-upload-editor-control-panel-reset-action'])
-                                            ->toHtml() ?>
-                                    >
-                                        <?= e(__('filament-forms::components.file_upload.editor.actions.reset.label')) ?>
                                     </button>
 
                                     <button

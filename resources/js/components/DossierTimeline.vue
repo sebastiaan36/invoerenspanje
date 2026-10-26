@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { Check, Clock, XCircle } from 'lucide-vue-next';
 import { computed } from 'vue';
+import type { DossierStatus } from '@/types/dossier';
 
 const PHASES = [
     { key: 'offerte', label: 'Offerte' },
@@ -9,11 +10,8 @@ const PHASES = [
     { key: 'afgerond', label: 'Afgerond' },
 ] as const;
 
-type PhaseKey = (typeof PHASES)[number]['key'];
-type Status = PhaseKey | 'concept' | 'geannuleerd';
-
 const props = defineProps<{
-    status: Status;
+    status: DossierStatus;
 }>();
 
 const currentIndex = computed(() => {

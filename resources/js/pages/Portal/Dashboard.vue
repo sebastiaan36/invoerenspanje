@@ -2,10 +2,11 @@
 import { Head, Link } from '@inertiajs/vue3';
 import { FolderPlus, MessageSquare } from 'lucide-vue-next';
 import DossierTimeline from '@/components/DossierTimeline.vue';
+import type { DossierStatus } from '@/types/dossier';
 
 interface DossierSummary {
     id: number;
-    status: string;
+    status: DossierStatus;
     kenteken: string;
     merk: string | null;
     model: string | null;
@@ -100,7 +101,7 @@ function formatDate(iso: string | null): string {
                 </div>
 
                 <div class="mt-5">
-                    <DossierTimeline :status="d.status as any" />
+                    <DossierTimeline :status="d.status" />
                 </div>
 
                 <div

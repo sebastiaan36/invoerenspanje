@@ -1,9 +1,17 @@
 import { createInertiaApp } from '@inertiajs/vue3';
+import { defineAsyncComponent } from 'vue';
 import { initializeTheme } from '@/composables/useAppearance';
-import AppLayout from '@/layouts/AppLayout.vue';
-import AuthLayout from '@/layouts/AuthLayout.vue';
-import SettingsLayout from '@/layouts/settings/Layout.vue';
 import { initializeFlashToast } from '@/lib/flashToast';
+
+// Public pages have no layout, so the app/auth/settings shells (sidebar, nav,
+// UI primitives) load on demand instead of shipping to every visitor.
+const AppLayout = defineAsyncComponent(() => import('@/layouts/AppLayout.vue'));
+const AuthLayout = defineAsyncComponent(
+    () => import('@/layouts/AuthLayout.vue'),
+);
+const SettingsLayout = defineAsyncComponent(
+    () => import('@/layouts/settings/Layout.vue'),
+);
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 

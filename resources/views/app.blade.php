@@ -8,7 +8,7 @@
             {{-- Google tag (gtag.js) — GA4. The 196 KB library loads after the page
                  has finished loading so it doesn't compete with the first render;
                  calls made before then queue up in dataLayer. --}}
-            <script>
+            <script nonce="{{ Vite::cspNonce() }}">
                 window.dataLayer = window.dataLayer || [];
                 function gtag(){dataLayer.push(arguments);}
                 gtag('js', new Date());
@@ -24,7 +24,7 @@
         @endproduction
 
         {{-- Inline script to detect system dark mode preference and apply it immediately --}}
-        <script>
+        <script nonce="{{ Vite::cspNonce() }}">
             (function() {
                 const appearance = '{{ $appearance ?? "system" }}';
 
