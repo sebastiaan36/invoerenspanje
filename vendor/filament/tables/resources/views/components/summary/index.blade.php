@@ -19,6 +19,7 @@
     use Filament\Tables\Columns\Column;
     use Filament\Tables\Enums\RecordActionsPosition;
     use Filament\Tables\Enums\RecordCheckboxPosition;
+    use Illuminate\Contracts\Pagination\Paginator;
 
     if ($groupsOnly && $groupColumn) {
         $columns = collect($columns)
@@ -26,7 +27,7 @@
             ->all();
     }
 
-    $hasPageSummary = $pageSummary && (! $groupsOnly) && $records instanceof \Illuminate\Contracts\Pagination\Paginator && $records->hasPages();
+    $hasPageSummary = $pageSummary && (! $groupsOnly) && $records instanceof Paginator && $records->hasPages();
 
     $pageTableSummaryQuery = $hasPageSummary ? $this->getPageTableSummaryQuery() : null;
     $allTableSummaryQuery = $allTableSummary ? $this->getAllTableSummaryQuery() : null;
@@ -75,6 +76,9 @@
                     $alignmentClass = $isFirstSummaryHeading
                         ? 'fi-align-start'
                         : (($alignment instanceof Alignment) ? "fi-align-{$alignment->value}" : (is_string($alignment) ? $alignment : ''));
+
+                    $columnHiddenFrom = $column->getHiddenFrom();
+                    $columnVisibleFrom = $column->getVisibleFrom();
                 @endphp
 
                 <{{ $headerCellTag }}
@@ -84,6 +88,8 @@
                             'fi-ta-cell fi-ta-summary-header-cell',
                             'fi-wrapped' => $column->canHeaderWrap(),
                             $alignmentClass => $isFirstSummaryHeading || $hasColumnHeaderLabel,
+                            filled($columnHiddenFrom) ? "{$columnHiddenFrom}:fi-hidden" : '',
+                            filled($columnVisibleFrom) ? "{$columnVisibleFrom}:fi-visible" : '',
                         ])
                     }}
                 >

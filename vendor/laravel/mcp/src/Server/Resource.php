@@ -6,6 +6,7 @@ namespace Laravel\Mcp\Server;
 
 use Illuminate\Support\Str;
 use Laravel\Mcp\Server\Annotations\Annotation;
+use Laravel\Mcp\Server\Attributes\Cacheable;
 use Laravel\Mcp\Server\Attributes\MimeType;
 use Laravel\Mcp\Server\Attributes\Uri;
 use Laravel\Mcp\Server\Concerns\HasAnnotations;
@@ -29,18 +30,19 @@ abstract class Resource extends Primitive
 
         $attribute = $this->resolveAttribute(Uri::class);
 
-        return $attribute !== null
-            ? $attribute->value
-            : ($this->uri !== '' ? $this->uri : $this->defaultUriScheme.'://resources/'.Str::kebab(class_basename($this)));
+        return $attribute->value ?? ($this->uri !== '' ? $this->uri : $this->defaultUriScheme.'://resources/'.Str::kebab(class_basename($this)));
+    }
+
+    public function cacheable(): ?Cacheable
+    {
+        return $this->resolveAttribute(Cacheable::class);
     }
 
     public function mimeType(): string
     {
         $attribute = $this->resolveAttribute(MimeType::class);
 
-        return $attribute !== null
-            ? $attribute->value
-            : ($this->mimeType !== '' ? $this->mimeType : 'text/plain');
+        return $attribute->value ?? ($this->mimeType !== '' ? $this->mimeType : 'text/plain');
     }
 
     /**

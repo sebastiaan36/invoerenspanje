@@ -535,8 +535,6 @@ class ActionGroup extends ViewComponent implements Arrayable, HasEmbeddedView
             <?= $this->getExtraDropdownAttributeBag()->class(['fi-dropdown'])->toHtml() ?>
         >
             <div
-                x-on:keyup.enter="toggle($event)"
-                x-on:keyup.space="toggle($event)"
                 x-on:mousedown="if ($event.button === 0) toggle($event)"
                 class="fi-dropdown-trigger"
             >
@@ -762,6 +760,10 @@ class ActionGroup extends ViewComponent implements Arrayable, HasEmbeddedView
         // pass unsanitized user input as attribute names or values.
 
         if ($merge) {
+            if (($attributes instanceof Closure) && in_array($attributes, $this->extraDropdownAttributes, strict: true)) {
+                return $this;
+            }
+
             $this->extraDropdownAttributes[] = $attributes;
         } else {
             $this->extraDropdownAttributes = [$attributes];

@@ -21,10 +21,10 @@ final class DocumentController extends Controller
         abort_unless($request->user()?->id === $dossier->user_id, 403);
 
         $file = $request->file('file');
-        $extension = $file->getClientOriginalExtension();
+        // Extension from the detected MIME type, never from the client filename.
         $stored = $file->storeAs(
             "dossiers/{$dossier->id}",
-            Str::uuid().'.'.$extension,
+            Str::uuid().'.'.$file->extension(),
             'local',
         );
 

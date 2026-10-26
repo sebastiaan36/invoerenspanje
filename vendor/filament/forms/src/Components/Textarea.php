@@ -70,7 +70,6 @@ class Textarea extends Field implements Contracts\CanBeLengthConstrained, HasEmb
 
     public function toEmbeddedHtml(): string
     {
-        $isConcealed = $this->isConcealed();
         $isDisabled = $this->isDisabled();
         $rows = $this->getRows();
         $placeholder = $this->getPlaceholder();
@@ -85,23 +84,23 @@ class Textarea extends Field implements Contracts\CanBeLengthConstrained, HasEmb
                 'fi-autosizable' => $shouldAutosize,
             ]);
 
-        $textareaAttributes = $this->getExtraInputAttributeBag()
+        $textareaAttributes = $this->getExtraAlpineAttributeBag()
+            ->merge($this->getExtraInputAttributeBag()->getAttributes(), escape: false)
             ->merge([
+                ...$this->getAccessibilityAttributes(),
                 'autocomplete' => $this->getAutocomplete(),
                 'autofocus' => $this->isAutofocused(),
                 'cols' => $this->getCols(),
                 'disabled' => $isDisabled,
                 'id' => $this->getId(),
-                'maxlength' => (! $isConcealed) ? $this->getMaxLength() : null,
-                'minlength' => (! $isConcealed) ? $this->getMinLength() : null,
+                'maxlength' => $this->getMaxLength(),
+                'minlength' => $this->getMinLength(),
                 'placeholder' => filled($placeholder) ? e($placeholder) : null,
                 'readonly' => $this->isReadOnly(),
-                'required' => $this->isRequired() && (! $isConcealed),
+                'required' => $this->isRequired() && (! $isDisabled) && (! $this->isReadOnly()),
                 'rows' => $rows,
                 $this->applyStateBindingModifiers('wire:model') => $statePath,
             ], escape: false);
-
-        $alpineAttributes = $this->getExtraAlpineAttributeBag();
 
         ob_start(); ?>
 
@@ -124,7 +123,6 @@ class Textarea extends Field implements Contracts\CanBeLengthConstrained, HasEmb
                     data-gramm_editor="false"
                     data-enable-grammarly="false"
                 <?php } ?>
-                <?= $alpineAttributes->toHtml() ?>
                 <?= $textareaAttributes->toHtml() ?>
             ></textarea>
         </div>

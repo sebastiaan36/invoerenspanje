@@ -265,12 +265,27 @@ final class BpmCalculator
     }
 
     /**
-     * Belastingdienst-regel: einde-maand-tot-einde-maand telt als hele maand.
-     * Carbon's diffInMonths past dit toe (truncates towards zero).
+     * Whole months between first admission and export. Belastingdienst-regel:
+     * einde-maand-tot-einde-maand telt als hele maand (31 jan → 29 feb = 1).
+     * Carbon's diffInMonths returns a fractional 0,93 there, so count the
+     * months that fit without overflowing into the next month instead.
      */
     private function calculateAgeInMonths(CarbonImmutable $start, CarbonImmutable $end): int
     {
-        return (int) floor($start->diffInMonths($end));
+        $start = $start->startOfDay();
+        $end = $end->startOfDay();
+
+        if ($end->lte($start)) {
+            return 0;
+        }
+
+        $months = ($end->year - $start->year) * 12 + ($end->month - $start->month);
+
+        if ($start->addMonthsNoOverflow($months)->gt($end)) {
+            $months--;
+        }
+
+        return $months;
     }
 
     private function getDepreciationPercentage(int $months): float

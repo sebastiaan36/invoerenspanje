@@ -196,6 +196,34 @@ final class BlogControllerTest extends TestCase
             ->assertInertia(fn ($page) => $page->where('post.content_html', '<h2>Kop</h2><p>Tekst</p>'));
     }
 
+    public function test_html_content_is_stripped_of_scripts_event_handlers_and_javascript_links(): void
+    {
+        $author = User::factory()->create();
+
+        Post::create([
+            'title' => 'Onveilige post',
+            'slug' => 'onveilige-post',
+            'content_html' => '<h2>Kop</h2><p onclick="steal()">Tekst<script>alert(1)</script></p>'
+                .'<p><a href="javascript:alert(1)">klik</a> <a href="/tarieven">tarieven</a></p>'
+                .'<table><tr><td>BPM</td></tr></table><iframe src="https://evil.example"></iframe>',
+            'status' => Post::STATUS_PUBLISHED,
+            'published_at' => now()->subDay(),
+            'author_id' => $author->id,
+        ]);
+
+        $html = $this->get(route('blog.show', 'onveilige-post'))
+            ->assertOk()
+            ->viewData('page')['props']['post']['content_html'];
+
+        $this->assertStringContainsString('<h2>Kop</h2>', $html);
+        $this->assertStringContainsString('<a href="/tarieven">tarieven</a>', $html);
+        $this->assertStringContainsString('<td>BPM</td>', $html);
+        $this->assertStringNotContainsString('<script', $html);
+        $this->assertStringNotContainsString('onclick', $html);
+        $this->assertStringNotContainsString('javascript:', $html);
+        $this->assertStringNotContainsString('<iframe', $html);
+    }
+
     public function test_blog_index_uses_its_own_seo_title(): void
     {
         $this->get(route('blog.index'))

@@ -2,10 +2,11 @@
 import { Head } from '@inertiajs/vue3';
 import DossierTabs from '@/components/DossierTabs.vue';
 import DossierTimeline from '@/components/DossierTimeline.vue';
+import type { DossierStatus } from '@/types/dossier';
 
 interface Dossier {
     id: number;
-    status: string;
+    status: DossierStatus;
     kenteken: string;
     merk: string | null;
     model: string | null;
@@ -62,7 +63,7 @@ function formatDate(iso: string | null): string {
                 Huidige fase
             </div>
             <div class="mt-5">
-                <DossierTimeline :status="dossier.status as any" />
+                <DossierTimeline :status="dossier.status" />
             </div>
         </section>
 

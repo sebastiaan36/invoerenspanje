@@ -69,9 +69,10 @@ class Notification extends ViewComponent implements Arrayable, HasEmbeddedView
     public function toArray(): array
     {
         $icon = $this->getIcon();
+        $iconSize = $this->getIconSize();
 
         if ($icon instanceof ScalableIcon) {
-            $icon = $icon->getIconForSize(IconSize::Large);
+            $icon = $icon->getIconForSize($iconSize instanceof IconSize ? $iconSize : IconSize::Large);
         } elseif ($icon instanceof BackedEnum) {
             $icon = $icon->value;
         }
@@ -84,6 +85,7 @@ class Notification extends ViewComponent implements Arrayable, HasEmbeddedView
             'duration' => $this->getDuration(),
             'icon' => $icon,
             'iconColor' => $this->getIconColor(),
+            'iconSize' => $iconSize,
             'status' => $this->getStatus(),
             'title' => $this->getTitle(),
             'view' => $this->hasView() ? $this->getView() : null,
@@ -131,6 +133,11 @@ class Notification extends ViewComponent implements Arrayable, HasEmbeddedView
         $static->status($data['status'] ?? $static->getStatus());
         $static->icon($data['icon'] ?? $static->getIcon());
         $static->iconColor($data['iconColor'] ?? $static->getIconColor());
+
+        if (isset($data['iconSize'])) {
+            $static->iconSize($data['iconSize']);
+        }
+
         $static->title($data['title'] ?? null);
 
         return $static;
@@ -159,10 +166,7 @@ class Notification extends ViewComponent implements Arrayable, HasEmbeddedView
 
     public function send(): static
     {
-        session()->push(
-            'filament.notifications',
-            $this->toArray(),
-        );
+        app(NotificationMailbox::class)->push($this->toArray());
 
         return $this;
     }
@@ -248,8 +252,11 @@ class Notification extends ViewComponent implements Arrayable, HasEmbeddedView
 
     public static function assertNotified(Notification | string | null $notification = null): void
     {
+        app(NotificationMailbox::class)->flush();
+
         $notificationsLivewireComponent = new Notifications;
         $notificationsLivewireComponent->mount();
+        $notificationsLivewireComponent->pullNotificationsFromSession();
         $notifications = $notificationsLivewireComponent->notifications;
 
         $expectedNotification = null;
@@ -293,8 +300,11 @@ class Notification extends ViewComponent implements Arrayable, HasEmbeddedView
 
     public static function assertNotNotified(Notification | string | null $notification = null): void
     {
+        app(NotificationMailbox::class)->flush();
+
         $notificationsLivewireComponent = new Notifications;
         $notificationsLivewireComponent->mount();
+        $notificationsLivewireComponent->pullNotificationsFromSession();
         $notifications = $notificationsLivewireComponent->notifications;
 
         $expectedNotification = null;
@@ -361,8 +371,8 @@ class Notification extends ViewComponent implements Arrayable, HasEmbeddedView
                 // would replay every stored danger notification as an assertive burst.
                 'role' => ($status === 'danger' && ! $this->isInline) ? 'alert' : null,
                 'wire:key' => "{$this->getId()}.notifications.{$this->getId()}",
-                'x-on:close-notification.window' => "if (\$event.detail.id == '{$this->getId()}') close()",
-            ], escape: false)
+                'x-on:close-notification.window' => 'if ($event.detail.id == ' . Js::from($this->getId()) . ') close()',
+            ])
             ->color(NotificationComponent::class, $this->getColor() ?? 'gray')
             ->class([
                 'fi-no-notification',
@@ -381,6 +391,13 @@ class Notification extends ViewComponent implements Arrayable, HasEmbeddedView
             x-transition:enter-end="fi-transition-enter-end"
             x-transition:leave-start="fi-transition-leave-start"
             x-transition:leave-end="fi-transition-leave-end"
+            <?php if (! $this->isInline) { ?>
+                x-on:mouseenter="pauseDuration('hover')"
+                x-on:mouseleave="resumeDuration('hover')"
+                x-on:focusin="handleFocusIn($event)"
+                x-on:focusout="handleFocusOut($event)"
+                x-on:keydown.escape="handleEscape($event)"
+            <?php } ?>
             <?= $attributes ?>
         >
             <?= generate_icon_html(
@@ -423,7 +440,7 @@ class Notification extends ViewComponent implements Arrayable, HasEmbeddedView
 
             <button
                 type="button"
-                x-on:click="close"
+                x-on:click="<?= $this->isInline ? 'close' : 'dismiss()' ?>"
                 aria-label="<?= e($closeButtonLabel) ?>"
                 title="<?= e($closeButtonLabel) ?>"
                 class="fi-icon-btn fi-no-notification-close-btn"

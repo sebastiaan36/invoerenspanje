@@ -1,6 +1,6 @@
 ---
 name: wayfinder-development
-description: "Use this skill for Laravel Wayfinder which auto-generates typed functions for Laravel controllers and routes. ALWAYS use this skill when frontend code needs to call backend routes or controller actions. Trigger when: connecting any React/Vue/Svelte/Inertia frontend to Laravel controllers, routes, building end-to-end features with both frontend and backend, wiring up forms or links to backend endpoints, fixing route-related TypeScript errors, importing from @/actions or @/routes, or running wayfinder:generate. Use Wayfinder route functions instead of hardcoded URLs. Covers: wayfinder() vite plugin, .url()/.get()/.post()/.form(), query params, route model binding, tree-shaking. Do not use for backend-only task"
+description: "Use this skill for Laravel Wayfinder which auto-generates typed functions for Laravel controllers and routes. ALWAYS use this skill when frontend code needs to call backend routes or controller actions. Trigger when: connecting any React/Vue/Svelte/Inertia frontend to Laravel controllers, routes, building end-to-end features with both frontend and backend, wiring up forms or links to backend endpoints, fixing route-related TypeScript errors, importing from @/actions or @/routes, or running wayfinder:generate. Use Wayfinder route functions instead of hardcoded URLs. Covers: wayfinder() vite plugin, .url()/.get()/.post()/.form(), query params, route model binding, tree-shaking. Do not use for backend-only tasks"
 license: MIT
 metadata:
   author: laravel
@@ -58,22 +58,22 @@ store.form() // { action: "/posts", method: "post" }
 show(1, { query: { page: 1 } }) // "/posts/1?page=1"
 @endboostsnippet
 
-@if($assist->roster->uses(\Laravel\Roster\Enums\Packages::INERTIA_LARAVEL) || $assist->roster->uses(\Laravel\Roster\Enums\Packages::INERTIA_REACT) || $assist->roster->uses(\Laravel\Roster\Enums\Packages::INERTIA_VUE) || $assist->roster->uses(\Laravel\Roster\Enums\Packages::INERTIA_SVELTE))
+@if($assist->hasPackage(\Laravel\Boost\Support\PackageRegistry::INERTIA_LARAVEL) || $assist->hasPackage(\Laravel\Boost\Support\PackageRegistry::INERTIA_REACT) || $assist->hasPackage(\Laravel\Boost\Support\PackageRegistry::INERTIA_VUE) || $assist->hasPackage(\Laravel\Boost\Support\PackageRegistry::INERTIA_SVELTE))
 ## Wayfinder + Inertia
 
 @if($assist->inertia()->hasFormComponent())
 Use Wayfinder with the `<Form>` component:
-@if($assist->roster->uses(\Laravel\Roster\Enums\Packages::INERTIA_REACT))
+@if($assist->hasPackage(\Laravel\Boost\Support\PackageRegistry::INERTIA_REACT))
 @boostsnippet("Wayfinder Form (React)", "typescript")
 <Form {...store.form()}><input name="title" /></Form>
 @endboostsnippet
 @endif
-@if($assist->roster->uses(\Laravel\Roster\Enums\Packages::INERTIA_VUE))
+@if($assist->hasPackage(\Laravel\Boost\Support\PackageRegistry::INERTIA_VUE))
 @boostsnippet("Wayfinder Form (Vue)", "vue")
 <Form v-bind="store.form()"><input name="title" /></Form>
 @endboostsnippet
 @endif
-@if($assist->roster->uses(\Laravel\Roster\Enums\Packages::INERTIA_SVELTE))
+@if($assist->hasPackage(\Laravel\Boost\Support\PackageRegistry::INERTIA_SVELTE))
 @boostsnippet("Wayfinder Form (Svelte)", "svelte")
 <Form {...store.form()}><input name="title" /></Form>
 @endboostsnippet

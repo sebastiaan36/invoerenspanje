@@ -11,16 +11,12 @@ use Filament\Support\Components\Contracts\HasEmbeddedView;
 use Filament\Support\Concerns\HasColor;
 use Filament\Support\Concerns\HasExtraAlpineAttributes;
 use Filament\Support\Concerns\HasReorderAnimationDuration;
-use Filament\Support\Enums\IconSize;
 use Filament\Support\Facades\FilamentAsset;
-use Filament\Support\Icons\Heroicon;
 use Filament\Support\View\ComponentAttributeBag as FilamentComponentAttributeBag;
 use Filament\Support\View\Components\BadgeComponent;
-use Filament\Support\View\SupportIconAlias;
 use Illuminate\Contracts\Support\Arrayable;
+use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Support\Js;
-
-use function Filament\Support\generate_icon_html;
 
 class TagsInput extends Field implements Contracts\HasAffixes, Contracts\HasNestedRecursiveValidationRules, HasEmbeddedView
 {
@@ -72,7 +68,7 @@ class TagsInput extends Field implements Contracts\HasAffixes, Contracts\HasNest
             return $state;
         });
 
-        $this->placeholder(__('filament-forms::components.tags_input.placeholder'));
+        $this->placeholder(static fn (TagsInput $component): ?string => $component->isDisabled() ? null : __('filament-forms::components.tags_input.placeholder'));
 
         $this->reorderAnimationDuration(100);
     }
@@ -92,10 +88,7 @@ class TagsInput extends Field implements Contracts\HasAffixes, Contracts\HasNest
         }
 
         $state = explode($separator, $state ?? '');
-
-        if (count($state) === 1 && blank($state[0])) {
-            $state = [];
-        }
+        $state = array_values(array_filter($state, static fn (string $tag): bool => filled($tag)));
 
         $this->state($state);
     }
@@ -238,6 +231,8 @@ class TagsInput extends Field implements Contracts\HasAffixes, Contracts\HasNest
         $isPrefixInline = $this->isPrefixInline();
         $isReorderable = (! $isDisabled) && $this->isReorderable();
         $isSuffixInline = $this->isSuffixInline();
+        $label = $this->getLabel();
+        $labelText = $label instanceof Htmlable ? html_entity_decode(strip_tags($label->toHtml()), ENT_QUOTES | ENT_HTML5, 'UTF-8') : $label;
         $placeholder = $this->getPlaceholder();
         $prefixActions = $this->getPrefixActions();
         $prefixIcon = $this->getPrefixIcon();
@@ -251,6 +246,7 @@ class TagsInput extends Field implements Contracts\HasAffixes, Contracts\HasNest
 
         $inputAttributes = $extraInputAttributeBag
             ->merge([
+                'aria-describedby' => $this->getAccessibilityAttributes()['aria-describedby'] ?? null,
                 'autocomplete' => 'off',
                 'autofocus' => $isAutofocused,
                 'disabled' => $isDisabled,
@@ -278,6 +274,9 @@ class TagsInput extends Field implements Contracts\HasAffixes, Contracts\HasNest
 
         $wrapperAttributes = $this->getExtraAttributeBag()
             ->merge([
+                'aria-describedby' => $this->getAccessibilityAttributes()['aria-describedby'] ?? null,
+                'aria-label' => filled($labelText) ? e($labelText) : null,
+                'role' => 'group',
                 'x-on:focus-input.stop' => "\$el.querySelector('input')?.focus()",
             ], escape: false)
             ->class([
@@ -293,12 +292,6 @@ class TagsInput extends Field implements Contracts\HasAffixes, Contracts\HasNest
                 'fi-size-md',
             ])
             ->color(BadgeComponent::class, $color);
-
-        $deleteIconHtml = generate_icon_html(
-            Heroicon::XMark,
-            alias: SupportIconAlias::BADGE_DELETE_BUTTON,
-            size: IconSize::ExtraSmall,
-        )?->toHtml();
 
         ob_start(); ?>
 
@@ -328,7 +321,7 @@ class TagsInput extends Field implements Contracts\HasAffixes, Contracts\HasNest
                 <?php } ?>
             </datalist>
 
-            <div wire:ignore>
+            <div wire:ignore wire:key="<?= e($this->getLivewireKey()) ?>.<?= substr(md5(serialize([$isDisabled, $isReorderable])), 0, 64) ?>">
                 <template x-cloak x-if="state?.length">
                     <div
                         <?php if ($isReorderable) { ?>
@@ -365,7 +358,10 @@ class TagsInput extends Field implements Contracts\HasAffixes, Contracts\HasNest
                                     x-bind:aria-label="'<?= e($deleteLabel) ?>: ' + tag"
                                     class="fi-badge-delete-btn"
                                 >
-                                    <?= $deleteIconHtml ?>
+                                    <span
+                                        aria-hidden="true"
+                                        class="fi-badge-delete-btn-icon"
+                                    ></span>
                                 </button>
                             </span>
                         </template>

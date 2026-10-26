@@ -1,3 +1,8 @@
+import {
+    observeFieldAccessibility,
+    setFieldAccessibilityAttributes,
+} from '../utilities/field-accessibility.js'
+
 window.CodeMirror = require('codemirror/lib/codemirror')
 
 require('codemirror')
@@ -37,7 +42,7 @@ require('codemirror/mode/vue/vue')
 require('codemirror/mode/xml/xml')
 require('codemirror/mode/yaml/yaml')
 
-require('./markdown-editor/EasyMDE')
+require('./markdown-editor/EasyMDE.js')
 
 CodeMirror.commands.tabAndIndentMarkdownList = function (codemirror) {
     var ranges = codemirror.listSelections()
@@ -97,8 +102,12 @@ export default function markdownEditorFormComponent({
     toolbarButtons,
     uploadFileAttachmentUsing,
 }) {
+    let isDestroyed = false
+
     return {
         editor: null,
+
+        form: null,
 
         state,
 
@@ -107,6 +116,7 @@ export default function markdownEditorFormComponent({
         resizeObserver: null,
 
         intersectionObserver: null,
+        accessibilityObserver: null,
 
         async init() {
             // If the editor is inside a modal, wait for the modal transition to finish before initializing the editor.
@@ -116,10 +126,16 @@ export default function markdownEditorFormComponent({
                 await new Promise((resolve) => setTimeout(resolve, 300))
             }
 
+            if (isDestroyed) {
+                return
+            }
+
             if (this.$root._editor) {
                 this.$root._editor.toTextArea()
                 this.$root._editor = null
             }
+
+            this.form = this.$refs.editor.form
 
             this.$root._editor = this.editor = new EasyMDE({
                 autoDownloadFontAwesome: false,
@@ -131,9 +147,13 @@ export default function markdownEditorFormComponent({
                 imageUploadFunction: uploadFileAttachmentUsing,
                 initialValue: this.state ?? '',
                 maxHeight,
-                minHeight,
+                minHeight: minHeight ?? '3rem',
                 placeholder,
                 previewImagesInEditor: true,
+                shortcuts: {
+                    togglePreview: null,
+                    toggleSideBySide: null,
+                },
                 spellChecker: false,
                 status: [
                     {
@@ -252,6 +272,15 @@ export default function markdownEditorFormComponent({
                 setUpUsing(this)
             }
 
+            this.accessibilityObserver = observeFieldAccessibility(
+                this.$el,
+                (attributes) =>
+                    setFieldAccessibilityAttributes(
+                        this.editor.codemirror.getInputField(),
+                        attributes,
+                    ),
+            )
+
             // If the editor initializes while hidden, such as in a collapsed
             // section or an inactive tab, CodeMirror renders no lines, and no
             // update pass runs when the editor is revealed, so inline image
@@ -289,21 +318,10 @@ export default function markdownEditorFormComponent({
             const isEditorVisible = this.isEditorVisible()
 
             if (isEditorVisible && !this.wasEditorVisible) {
-                this.editor?.codemirror?.refresh()
+                Alpine.raw(this.editor)?.codemirror?.refresh()
             }
 
             this.wasEditorVisible = isEditorVisible
-        },
-
-        destroy() {
-            this.resizeObserver?.disconnect()
-            this.resizeObserver = null
-
-            this.intersectionObserver?.disconnect()
-            this.intersectionObserver = null
-
-            this.editor.cleanup()
-            this.editor = null
         },
 
         getToolbar() {
@@ -484,6 +502,30 @@ export default function markdownEditorFormComponent({
                 action: EasyMDE.redo,
                 title: translations.tools?.redo,
             }
+        },
+
+        destroy() {
+            isDestroyed = true
+            this.accessibilityObserver?.disconnect()
+
+            this.resizeObserver?.disconnect()
+            this.resizeObserver = null
+
+            this.intersectionObserver?.disconnect()
+            this.intersectionObserver = null
+
+            if (this.editor) {
+                this.editor.codemirror.setOption('autoRefresh', false)
+                this.form?.removeEventListener(
+                    'submit',
+                    this.editor.codemirror.save,
+                )
+                this.editor.cleanup()
+                this.editor.toTextArea()
+            }
+
+            this.$root._editor = null
+            this.editor = null
         },
     }
 }

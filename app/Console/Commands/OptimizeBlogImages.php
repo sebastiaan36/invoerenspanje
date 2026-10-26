@@ -12,7 +12,7 @@ final class OptimizeBlogImages extends Command
 {
     protected $signature = 'blog:optimize-images';
 
-    protected $description = 'Converteer bestaande blogafbeeldingen naar WebP (max. 1600 px breed)';
+    protected $description = 'Converteer bestaande blogafbeeldingen naar WebP (max. 1600 px breed) en maak de srcset-varianten aan';
 
     public function handle(HeroImageOptimizer $optimizer): int
     {

@@ -43,7 +43,7 @@ final class SitemapController extends Controller
         return response(
             view('sitemap', compact('staticPages', 'posts'))->render(),
             200,
-            ['Content-Type' => 'application/xml'],
+            ['Content-Type' => 'application/xml', 'Cache-Control' => 'public, max-age=3600'],
         );
     }
 }

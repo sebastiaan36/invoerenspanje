@@ -62,7 +62,24 @@ php artisan wayfinder:generate --skip-actions
 php artisan wayfinder:generate --skip-routes
 ```
 
+The `--skip-database` option skips the database schema when typing route model bindings and reads the model's `@property` docblocks instead. Use it when the database is unreachable at build time. Bindings without a matching `@property` tag fall back to `string | number`:
+
+```
+php artisan wayfinder:generate --skip-database
+```
+
 You can safely `.gitignore` the `wayfinder`, `actions`, and `routes` directories as they are completely re-generated on every build.
+
+### Deploying
+
+Wayfinder reads routes from the registered router, so if Laravel boots with a cached route table left over from a previous release, generation will run against those stale routes. Any routes added since the last `route:cache` will be silently missing from the generated `routes/` and `actions/` directories, and Vite will fail with errors like `Could not load resources/js/routes/<name>`.
+
+If your deploy script runs `php artisan optimize` (or `route:cache` directly) at the end of a deploy, run `php artisan route:clear` before regenerating on the next deploy. With the Vite plugin, this needs to happen before `npm run build`, since the plugin invokes `wayfinder:generate` during the build:
+
+```shell
+php artisan route:clear
+npm run build
+```
 
 ## Usage
 
@@ -81,6 +98,15 @@ import { show } from "@/actions/App/Http/Controllers/PostController";
 
 show.url(1); // "/posts/1"
 show.head(1); // { url: "/posts/1", method: "head" }
+```
+
+Routes registered with the [`QUERY`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Methods/QUERY) method, such as `Route::match(['QUERY'], '/search', ...)`, receive a `query` method like any other verb:
+
+```ts
+import { search } from "@/actions/App/Http/Controllers/SearchController";
+
+search(); // { url: "/search", method: "query" }
+search.query(); // { url: "/search", method: "query" }
 ```
 
 Wayfinder functions accept a variety of shapes for their arguments:
@@ -164,6 +190,26 @@ import { index } from "@/actions/App/Http/Controllers/ClientPaymentsController";
 index["/clients/{client}/payments"]({ client: 1 });
 ```
 
+If two of those routes share a URI and differ only by verb, each key is prefixed with the verb, so you can still pick the one you want:
+
+```php
+Route::get('/exports/{report}', ExportController::class)
+    ->name('exports.show');
+
+Route::post('/exports/{report}', ExportController::class)
+    ->middleware('throttle:5,1')
+    ->name('exports.run');
+```
+
+```ts
+import ExportController from "@/actions/App/Http/Controllers/ExportController";
+
+ExportController["get /exports/{report}"]({ report: 1 });
+ExportController["post /exports/{report}"]({ report: 1 });
+```
+
+A route that answers to more than one verb joins them with `|`, as in `ExportController["put|patch /exports/{report}"]`. Exports whose URIs are already unique keep the plain URI keys shown above.
+
 In most cases it is easier to import the route by name from your generated `routes/` directory instead:
 
 ```ts
@@ -212,6 +258,8 @@ const Page = () => (
     </form>
 );
 ```
+
+Since HTML forms only support `GET` and `POST`, `QUERY` routes are spoofed the same way as `PUT`, `PATCH`, and `DELETE`: `search.form()` produces `<form action="/search?_method=QUERY" method="post">`.
 
 ## Query Parameters
 

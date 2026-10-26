@@ -7,6 +7,7 @@ namespace Tests\Unit\Services\Bpm;
 use App\Services\Bpm\BpmCalculator;
 use App\Services\Bpm\Dto\BpmInput;
 use Carbon\CarbonImmutable;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Tests\TestCase;
 
 final class BpmCalculatorTest extends TestCase
@@ -332,6 +333,42 @@ final class BpmCalculatorTest extends TestCase
         $resultOld = $calculator->calculateRestBpm($inputOld, CarbonImmutable::create(2050, 1, 1));
         $this->assertSame(100.0, $resultOld->afschrijvingPercentage);
         $this->assertSame(0.0, $resultOld->restBpm);
+    }
+
+    /**
+     * Belastingdienst: a partial month doesn't count, but end-of-month to
+     * end-of-month is a whole month even when the later month is shorter.
+     */
+    #[DataProvider('monthBoundaries')]
+    public function test_age_in_months_follows_the_end_of_month_rule(string $firstAdmission, string $export, int $expectedMonths): void
+    {
+        $input = new BpmInput(
+            datumEersteToelating: CarbonImmutable::parse($firstAdmission),
+            co2: 130,
+            brandstof: 'Benzine',
+        );
+
+        $result = $this->makeCalculator()->calculateRestBpm($input, CarbonImmutable::parse($export));
+
+        $this->assertSame($expectedMonths, $result->ageMonths);
+    }
+
+    /**
+     * @return array<string, array{string, string, int}>
+     */
+    public static function monthBoundaries(): array
+    {
+        return [
+            'same day next month' => ['2020-01-15', '2020-02-15', 1],
+            'one day short of a month' => ['2020-01-15', '2020-02-14', 0],
+            'end of month into leap February' => ['2020-01-31', '2020-02-29', 1],
+            'one day before end of leap February' => ['2020-01-31', '2020-02-28', 0],
+            'end of March to end of April' => ['2020-03-31', '2020-04-30', 1],
+            'one day short of two months' => ['2020-01-31', '2020-03-30', 1],
+            'seven years' => ['2019-04-15', '2026-04-15', 84],
+            'seven years minus a day' => ['2019-04-15', '2026-04-14', 83],
+            'export before admission' => ['2026-04-15', '2026-04-01', 0],
+        ];
     }
 
     private function makeCalculator(): BpmCalculator

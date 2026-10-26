@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\Models\Post;
 use App\Models\User;
 use App\Services\Blog\BlogFileSync;
+use App\Services\HeroImageOptimizer;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
@@ -102,7 +103,8 @@ class BlogFileSyncTest extends TestCase
         $result = $sync->sync();
 
         $this->assertSame(['bpm-uitleg'], $result['unchanged']);
-        $this->assertCount(1, Storage::disk('public')->files('blog/heroes'));
+        // One hero plus its srcset width variants — nothing copied twice.
+        $this->assertCount(1 + count(HeroImageOptimizer::VARIANT_WIDTHS), Storage::disk('public')->files('blog/heroes'));
     }
 
     public function test_hero_image_is_copied_and_converted_to_webp(): void

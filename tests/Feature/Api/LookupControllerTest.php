@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Api;
 
+use App\Models\KentekenLookup;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Http;
 use Tests\TestCase;
@@ -175,6 +176,18 @@ final class LookupControllerTest extends TestCase
             ->assertJsonPath('found', false);
     }
 
+    public function test_an_overlong_referer_is_truncated_instead_of_failing(): void
+    {
+        Http::fake([
+            'opendata.rdw.nl/*' => Http::response([]),
+        ]);
+
+        $this->postJson(route('api.lookup'), ['kenteken' => '00ZZZ0'], ['Referer' => 'https://autoinvoerenspanje.nl/?'.str_repeat('a', 400)])
+            ->assertNotFound();
+
+        $this->assertSame(255, mb_strlen((string) KentekenLookup::sole()->page));
+    }
+
     public function test_it_validates_the_kenteken_format(): void
     {
         $response = $this->postJson(route('api.lookup'), ['kenteken' => '!!!']);
@@ -191,7 +204,7 @@ final class LookupControllerTest extends TestCase
             ->assertJsonValidationErrors(['kenteken']);
     }
 
-    public function test_it_returns_500_safe_response_when_rdw_is_down(): void
+    public function test_it_returns_503_instead_of_not_found_when_rdw_is_down(): void
     {
         Http::fake([
             'opendata.rdw.nl/resource/m9d7-ebf2.json*' => Http::response('boom', 503),
@@ -199,8 +212,11 @@ final class LookupControllerTest extends TestCase
 
         $response = $this->postJson(route('api.lookup'), ['kenteken' => '12ABC3']);
 
-        // Failed RDW call → service returns null → controller returns 404 with friendly message
-        $response->assertNotFound()
-            ->assertJsonPath('found', false);
+        // An outage is not "kenteken unknown": 503 so the visitor retries.
+        $response->assertStatus(503)
+            ->assertJsonPath('found', false)
+            ->assertJsonPath('kenteken', '12ABC3');
+
+        $this->assertDatabaseCount('kenteken_lookups', 0);
     }
 }

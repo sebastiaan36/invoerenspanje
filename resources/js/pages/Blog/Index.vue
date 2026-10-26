@@ -10,6 +10,7 @@ interface PostSummary {
     title: string;
     excerpt: string | null;
     hero_image_url: string | null;
+    hero_image_srcset: string | null;
     published_at: string | null;
     author: string | null;
 }
@@ -139,11 +140,14 @@ function formatDate(iso: string | null): string {
                             v-if="post.hero_image_url"
                             class="aspect-[16/10] w-full shrink-0 overflow-hidden bg-muted sm:aspect-auto sm:w-2/5"
                         >
+                            <!-- At most two cards, both at the top: likely the LCP, so not lazy. -->
                             <img
                                 :src="post.hero_image_url"
+                                :srcset="post.hero_image_srcset ?? undefined"
+                                sizes="(min-width: 640px) 40vw, 100vw"
                                 alt=""
                                 class="size-full object-cover"
-                                loading="lazy"
+                                fetchpriority="high"
                             />
                         </div>
                         <div class="flex flex-1 flex-col p-6">
@@ -183,7 +187,7 @@ function formatDate(iso: string | null): string {
             <!-- 3+ posts: grid -->
             <div v-else class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
                 <article
-                    v-for="post in posts.data"
+                    v-for="(post, index) in posts.data"
                     :key="post.slug"
                     class="group flex flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-sm transition-shadow hover:shadow-md"
                 >
@@ -197,9 +201,11 @@ function formatDate(iso: string | null): string {
                         >
                             <img
                                 :src="post.hero_image_url"
+                                :srcset="post.hero_image_srcset ?? undefined"
+                                sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
                                 alt=""
                                 class="size-full object-cover"
-                                loading="lazy"
+                                :loading="index < 3 ? 'eager' : 'lazy'"
                             />
                         </div>
                         <div class="flex flex-1 flex-col p-6">

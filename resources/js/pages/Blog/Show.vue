@@ -11,6 +11,7 @@ interface Post {
     excerpt: string | null;
     content_html: string;
     hero_image_url: string | null;
+    hero_image_srcset: string | null;
     published_at: string | null;
     author: string | null;
 }
@@ -20,6 +21,7 @@ interface RelatedPost {
     title: string;
     excerpt: string | null;
     hero_image_url: string | null;
+    hero_image_srcset: string | null;
     published_at: string | null;
     author: string | null;
 }
@@ -130,6 +132,8 @@ function formatDate(iso: string | null): string {
                      the hero is the LCP element, so fetch it first. -->
                 <img
                     :src="post.hero_image_url"
+                    :srcset="post.hero_image_srcset ?? undefined"
+                    sizes="(min-width: 896px) 864px, calc(100vw - 2rem)"
                     alt=""
                     width="1600"
                     height="900"
@@ -171,6 +175,10 @@ function formatDate(iso: string | null): string {
                             >
                                 <img
                                     :src="item.hero_image_url"
+                                    :srcset="
+                                        item.hero_image_srcset ?? undefined
+                                    "
+                                    sizes="(min-width: 768px) 33vw, 100vw"
                                     alt=""
                                     class="size-full object-cover"
                                     loading="lazy"

@@ -9,7 +9,6 @@ use Illuminate\Container\Container;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Route;
 use Illuminate\Support\Facades\Route as Router;
-use Illuminate\Support\Str;
 use Illuminate\Support\Traits\Macroable;
 use Laravel\Mcp\Client;
 use Laravel\Mcp\Client\ClientManager;
@@ -20,6 +19,7 @@ use Laravel\Mcp\Server\Contracts\Transport;
 use Laravel\Mcp\Server\Http\Controllers\OAuthRegisterController;
 use Laravel\Mcp\Server\Middleware\AddWwwAuthenticateHeader;
 use Laravel\Mcp\Server\Middleware\ReorderJsonAccept;
+use Laravel\Mcp\Server\Middleware\ValidateMcpHeaders;
 use Laravel\Mcp\Server\Transport\HttpTransport;
 use Laravel\Mcp\Server\Transport\StdioTransport;
 use Laravel\Passport\Passport;
@@ -48,13 +48,10 @@ class Registrar
 
         $route = Router::post($route, static fn (): mixed => static::startServer(
             $serverClass,
-            static fn (): HttpTransport => new HttpTransport(
-                $request = request(),
-                // @phpstan-ignore-next-line
-                (string) $request->header('MCP-Session-Id')
-            ),
+            static fn (): HttpTransport => new HttpTransport(request()),
         ))->middleware([
             ReorderJsonAccept::class,
+            ValidateMcpHeaders::class,
             AddWwwAuthenticateHeader::class,
         ]);
 
@@ -70,9 +67,7 @@ class Registrar
      */
     public function local(string $handle, string $serverClass): void
     {
-        $this->localServers[$handle] = fn (): mixed => static::startServer($serverClass, fn (): StdioTransport => new StdioTransport(
-            Str::uuid()->toString(),
-        ));
+        $this->localServers[$handle] = fn (): mixed => static::startServer($serverClass, fn (): StdioTransport => new StdioTransport);
     }
 
     /**
@@ -91,6 +86,7 @@ class Registrar
     /**
      * @param  Closure(string, TokenSet): mixed|array{0: class-string, 1: string}  $handler
      * @param  array<int, string>|string  $middleware
+     * @param  array<string, mixed>  $clientMetadata
      */
     public function oAuthRoutesFor(
         string $client,
@@ -98,8 +94,10 @@ class Registrar
         array|string $middleware = 'web',
         ?string $connectUri = null,
         ?string $callbackUri = null,
+        ?string $clientMetadataUri = null,
+        array $clientMetadata = [],
     ): void {
-        (new OAuthRouteRegistrar)->register($client, $handler, $middleware, $connectUri, $callbackUri);
+        (new OAuthRouteRegistrar)->register($client, $handler, $middleware, $connectUri, $callbackUri, $clientMetadataUri, $clientMetadata);
     }
 
     public function getLocalServer(string $handle): ?callable
@@ -123,7 +121,7 @@ class Registrar
         );
     }
 
-    public function oauthRoutes(string $oauthPrefix = 'oauth'): void
+    public function oauthRoutes(string $oauthPrefix = 'oauth', bool $registration = true): void
     {
         static::ensureMcpScope();
         $hasExactProtectedResourceRoute = $this->hasGetRoute('.well-known/oauth-protected-resource');
@@ -151,7 +149,10 @@ class Registrar
             ->where('path', '.*')
             ->name('mcp.oauth.authorization-server.nested');
 
-        Router::post($oauthPrefix.'/register', OAuthRegisterController::class);
+        if ($registration) {
+            Router::post($oauthPrefix.'/register', OAuthRegisterController::class)
+                ->name('mcp.oauth.register');
+        }
     }
 
     /**
@@ -159,16 +160,17 @@ class Registrar
      */
     protected static function authorizationServerMetadata(string $oauthPrefix): array
     {
-        return [
+        return array_filter([
             'issuer' => config('mcp.authorization_server') ?? url('/'),
             'authorization_endpoint' => route('passport.authorizations.authorize'),
             'token_endpoint' => route('passport.token'),
-            'registration_endpoint' => url($oauthPrefix.'/register'),
+            'registration_endpoint' => Router::has('mcp.oauth.register') ? route('mcp.oauth.register') : null,
             'response_types_supported' => ['code'],
             'code_challenge_methods_supported' => ['S256'],
             'scopes_supported' => [self::OAUTH_SCOPE],
             'grant_types_supported' => ['authorization_code', 'refresh_token'],
-        ];
+            'token_endpoint_auth_methods_supported' => ['none', 'client_secret_basic', 'client_secret_post'],
+        ], fn (mixed $value): bool => $value !== null);
     }
 
     /**

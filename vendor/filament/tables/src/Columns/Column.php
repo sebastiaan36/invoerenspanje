@@ -12,9 +12,11 @@ use Filament\Support\Concerns\HasAlignment;
 use Filament\Support\Concerns\HasCellState;
 use Filament\Support\Concerns\HasExtraAttributes;
 use Filament\Support\Concerns\HasPlaceholder;
+use Filament\Support\Concerns\HasRelatedRecord;
 use Filament\Support\Concerns\HasVerticalAlignment;
 use Filament\Support\Concerns\HasWidth;
 use Filament\Support\Enums\Alignment;
+use Filament\Support\Enums\VerticalAlignment;
 use Filament\Support\View\ComponentAttributeBag as FilamentComponentAttributeBag;
 use Filament\Tables\Columns\Concerns\HasTooltip;
 use Filament\Tables\Table;
@@ -53,6 +55,7 @@ class Column extends ViewComponent
     use HasCellState;
     use HasExtraAttributes;
     use HasPlaceholder;
+    use HasRelatedRecord;
     use HasTooltip;
     use HasVerticalAlignment;
     use HasWidth;
@@ -92,6 +95,11 @@ class Column extends ViewComponent
     public function getTable(): Table
     {
         return $this->table ?? $this->getGroup()?->getTable() ?? $this->getLayout()?->getTable() ?? throw new LogicException("The column [{$this->getName()}] is not mounted to a table.");
+    }
+
+    public function hasTable(): bool
+    {
+        return isset($this->table) || ($this->getGroup()?->hasTable() ?? false) || ($this->getLayout()?->hasTable() ?? false);
     }
 
     /**
@@ -200,7 +208,7 @@ class Column extends ViewComponent
             'fi-ta-cell',
             'fi-ta-cell-' . str($this->getName())->camel()->kebab(),
             (($columnAlignment instanceof Alignment) ? "fi-align-{$columnAlignment->value}" : (is_string($columnAlignment) ? $columnAlignment : '')),
-            (($columnVerticalAlignment instanceof \Filament\Support\Enums\VerticalAlignment) ? "fi-vertical-align-{$columnVerticalAlignment->value}" : (is_string($columnVerticalAlignment) ? $columnVerticalAlignment : '')),
+            (($columnVerticalAlignment instanceof VerticalAlignment) ? "fi-vertical-align-{$columnVerticalAlignment->value}" : (is_string($columnVerticalAlignment) ? $columnVerticalAlignment : '')),
             (filled($columnHiddenFrom = $this->getHiddenFrom()) ? "{$columnHiddenFrom}:fi-hidden" : ''),
             (filled($columnVisibleFrom = $this->getVisibleFrom()) ? "{$columnVisibleFrom}:fi-visible" : ''),
         ])->toHtml();

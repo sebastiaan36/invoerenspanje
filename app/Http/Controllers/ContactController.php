@@ -15,7 +15,7 @@ final class ContactController extends Controller
     {
         $data = $request->validated();
 
-        Mail::to(config('app.internal_notifications_email', env('INTERNAL_NOTIFICATIONS_EMAIL', 'info@autoinvoerenspanje.nl')))
+        Mail::to(config('services.internal_notifications.email'))
             ->send(new ContactFormNotification(
                 senderName: $data['name'],
                 senderEmail: $data['email'],
