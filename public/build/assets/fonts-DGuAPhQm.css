@@ -1,0 +1,68 @@
+@font-face {
+  font-family: "Fraunces";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/build/assets/fraunces-400-normal-6IfK1voy.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Fraunces";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("/build/assets/fraunces-500-normal-DnGCNyPD.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Fraunces";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("/build/assets/fraunces-600-normal-BFCDtZfi.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Fraunces";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("/build/assets/fraunces-700-normal-CEOla-zY.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/build/assets/inter-400-normal-C38fXH4l.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("/build/assets/inter-500-normal-Cerq10X2.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("/build/assets/inter-600-normal-LgqL8muc.woff2") format("woff2");
+}
+
+:root {
+  --font-fraunces: "Fraunces", "Fraunces fallback";
+  --font-inter: "Inter", "Inter fallback";
+}
+
+.font-fraunces {
+  font-family: var(--font-fraunces);
+}
+
+.font-inter {
+  font-family: var(--font-inter);
+}
