@@ -20,7 +20,8 @@
     $component = $page['component'] ?? '';
     $routeName = request()->route()?->getName();
     $meta = config('seo.routes', [])[$routeName] ?? [];
-    $euro = fn (float $amount): string => '€ '.number_format($amount, fmod($amount, 1) ? 2 : 0, ',', '.');
+    // Non-breaking space, so an amount never wraps away from its € sign.
+    $euro = fn (float $amount): string => "€\u{00A0}".number_format($amount, fmod($amount, 1) ? 2 : 0, ',', '.');
 
     // Same items as navItems in PublicLayout.vue.
     $nav = [
@@ -58,16 +59,16 @@
     <header class="sticky top-0 z-40 border-b border-border bg-background/90 backdrop-blur">
         <div class="container mx-auto flex h-16 items-center justify-between px-4">
             <a href="/" class="-my-2 py-2 font-display text-xl font-semibold tracking-tight text-primary">autoinvoeren<span class="text-accent">spanje</span>.nl</a>
-            <nav aria-label="Hoofdmenu" class="hidden items-center gap-7 text-sm font-medium text-foreground/80 md:flex">
+            <nav aria-label="Hoofdmenu" class="hidden items-center gap-7 text-sm font-medium text-foreground/80 lg:flex">
                 @foreach ($nav as $href => $label)
                     <a href="{{ $href }}" class="relative inline-flex min-h-11 items-center">{{ $label }}</a>
                 @endforeach
             </nav>
-            <div class="flex items-center gap-3">
+            <div class="flex items-center gap-1.5 sm:gap-3">
                 <a href="/login" class="hidden min-h-11 items-center text-sm font-medium text-foreground sm:inline-flex">Inloggen</a>
                 <a href="/#offerte" class="hidden min-h-11 items-center rounded-xl bg-accent px-4 text-sm font-semibold text-accent-foreground shadow-sm sm:inline-flex">Offerte aanvragen</a>
                 {{-- Same footprint as the hamburger button, which needs JavaScript. --}}
-                <span class="flex size-11 md:hidden" aria-hidden="true"></span>
+                <span class="flex size-11 lg:hidden" aria-hidden="true"></span>
             </div>
         </div>
     </header>

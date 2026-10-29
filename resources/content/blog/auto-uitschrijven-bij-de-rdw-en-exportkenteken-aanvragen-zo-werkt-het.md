@@ -1,9 +1,9 @@
 ---
-title: "Auto uitschrijven bij de RDW en exportkenteken aanvragen"
-excerpt: "Zo meldt u uw auto bij de RDW af voor export, rijdt u met het exportkenteken naar Spanje en houdt u recht op BPM-teruggave."
+title: "Auto uitschrijven bij de RDW voor export: het exportkenteken in 4 stappen"
+excerpt: "Zo meldt u uw auto bij de RDW af voor export, wat u meeneemt, hoe lang het exportkenteken geldig is en waarom u niet te vroeg moet afmelden."
 author: Sebastiaan
 published_at: 2026-05-23 17:31
-updated_at: 2026-10-25
+updated_at: 2026-10-29
 status: published
 hero_image: images/auto-uitschrijven-bij-de-rdw-en-exportkenteken-aanvragen-zo-werkt-het.webp
 ---
@@ -65,29 +65,15 @@ Bij export naar een land buiten de Europese Unie is een uitvoeraangifte bij de d
 
 ## Wat er daarna gebeurt met de BPM
 
-Met de exportmelding kunt u in Nederland de **rest-BPM** terugvragen. Dat is het deel van de oorspronkelijke BPM dat nog in de waarde van de auto zit. Hoeveel dat is, hangt af van de oorspronkelijke BPM en de leeftijd van de auto. Een voorbeeld: een auto van vijf jaar met € 6.000 oorspronkelijke BPM levert ongeveer € 1.800 op. Met de [BPM-calculator](/bpm-calculator) ziet u een indicatie voor uw eigen kenteken.
+De exportmelding is de basis voor de teruggave van de **rest-BPM**. Voor de RDW-kant betekent dat twee dingen: bewaar het uitschrijfbewijs, want de Belastingdienst vraagt erom, en houd de 13 weken in de gaten. Is de auto dan nog niet in Spanje ingeschreven, dan vervalt uw recht op teruggave.
 
-U heeft recht op teruggave als:
-
-- de auto op of na 16 oktober 2006 zijn eerste Nederlandse kenteken kreeg;
-- de auto bij de RDW niet geregistreerd staat als schadevoertuig;
-- u de auto bij de RDW afmeldt voor export;
-- de auto binnen 13 weken na de exportmelding in Spanje is ingeschreven.
-
-Bij uw aanvraag stuurt u het Spaanse kentekenbewijs mee. De Belastingdienst heeft daarna 8 weken om op uw verzoek te reageren. Bent u te laat met de Spaanse inschrijving, dan verliest u uw recht op teruggave. Controleer de actuele voorwaarden altijd bij de [Belastingdienst](https://www.belastingdienst.nl/wps/wcm/connect/nl/bpm/content/teruggaaf-bpm-export-gebruikt-motorrijtuig).
-
-Meer hierover leest u in ons artikel over [BPM-teruggave bij het importeren in Spanje](/blog/bpm-teruggave-auto-importeren-spanje).
+De voorwaarden, een rekenvoorbeeld en hoe u de aanvraag indient, leest u in ons artikel over [BPM-teruggave bij export naar Spanje](/blog/bpm-teruggave-auto-importeren-spanje). Met de [BPM-calculator](/bpm-calculator) ziet u direct een indicatie voor uw kenteken.
 
 ## Wat er daarna gebeurt in Spanje
 
-Is de auto in Spanje, dan begint de Spaanse kant van het traject:
+Het exportkenteken geldt alleen in Nederland en maar 14 dagen. In Spanje rijdt u daarna met tijdelijke groene platen (*matrículas temporales*, € 150) naar de [ITV-keuring bij import](/blog/itv-keuring-auto-import-spanje). Daarna volgen de registratiebelasting en de inschrijving bij de DGT.
 
-- **Tijdelijke kentekenplaten.** Het exportkenteken geldt alleen in Nederland en maar 14 dagen. Met tijdelijke groene platen (matrículas temporales, € 150) rijdt u legaal naar de keuring. Ze zijn niet verplicht, maar wel nodig om met een geëxporteerde auto naar de ITV te rijden en te blijven rijden tot de definitieve platen er zijn.
-- **De ITV-keuring.** Dit is de Spaanse APK. Zonder goedgekeurde ITV kan de auto niet op een Spaans kenteken. Lees meer in ons artikel over [de ITV-keuring bij auto-import](/blog/itv-keuring-auto-import-spanje).
-- **Registratiebelasting (IEDMT).** Auto's tot en met 120 g/km CO₂ betalen geen IEDMT. Verhuist u uw hoofdverblijf naar Spanje en staat de auto al minimaal zes maanden op uw naam, dan kunt u onder voorwaarden vrijstelling aanvragen.
-- **Inschrijving bij de DGT.** De gestoría (het Spaanse administratiekantoor) dient de aanvraag in. U ontvangt een Spaans kentekenbewijs en de definitieve Spaanse kentekenplaten.
-
-Voor de Spaanse inschrijving heeft u onder meer het Nederlandse kentekenbewijs en het uitschrijfbewijs van de RDW nodig. Daarnaast uw NIE-nummer, een COC-document of een Ficha Técnica, en een bewijs van adres in Spanje. Het complete overzicht staat in onze [gids over auto invoeren in Spanje](/auto-invoeren-spanje).
+Neem het Nederlandse kentekenbewijs en het uitschrijfbewijs van de RDW mee naar Spanje: beide heeft u nodig voor de inschrijving. Alle Spaanse stappen, documenten en kosten staan in onze [gids over auto invoeren in Spanje](/auto-invoeren-spanje).
 
 ## Veelgemaakte fouten
 
@@ -99,9 +85,9 @@ Voor de Spaanse inschrijving heeft u onder meer het Nederlandse kentekenbewijs e
 
 ## Zelf doen of laten regelen?
 
-U kunt de export in Nederland zelf regelen. Dat doet u in ons **Basis-pakket** (€ 395): u regelt de export zelf en levert de documenten aan. Wij verwerken de aanvraag bij de DGT.
+U kunt de export in Nederland zelf regelen. Dat doet u in ons **Basis-pakket** (€ 395): u regelt de export zelf en levert de documenten aan. Wij verwerken de aanvraag bij de DGT.
 
-Wilt u de timing niet zelf bewaken? In het **Compleet-pakket** (€ 895) en het **Compleet Plus-pakket** (€ 1.495) loopt de export via een van onze partners in Nederland, inclusief de aanvraag van de BPM-teruggave. Wij stemmen de export af op de Spaanse inschrijving. Bij Compleet Plus regelen wij ook het transport van de auto; de transportkosten komen daar nog bij.
+Wilt u de timing niet zelf bewaken? In het **Compleet-pakket** (€ 895) en het **Compleet Plus-pakket** (€ 1.495) loopt de export via een van onze partners in Nederland, inclusief de aanvraag van de BPM-teruggave. Wij stemmen de export af op de Spaanse inschrijving. Bij Compleet Plus regelen wij ook het transport van de auto; de transportkosten komen daar nog bij.
 
 Bekijk wat elk pakket bevat op de [tarievenpagina](/tarieven), of lees meer over [onze diensten](/diensten).
 

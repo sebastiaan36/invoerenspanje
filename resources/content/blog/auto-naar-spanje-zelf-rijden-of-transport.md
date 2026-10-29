@@ -69,7 +69,7 @@ Leg alle papieren bij elkaar in één map. Raak niets kwijt, want u heeft het me
 
 ### Aangekomen in Spanje
 
-Het exportkenteken is geen Spaans kenteken. Om in Spanje legaal te blijven rijden tot de definitieve platen er zijn, zijn tijdelijke groene platen nodig: de matrículas temporales (€ 150). Die zijn ook nodig om met de auto naar de ITV-keuring te rijden. Over die keuring leest u meer in ons artikel over [de ITV-keuring bij import](/blog/itv-keuring-auto-import-spanje).
+Het exportkenteken is geen Spaans kenteken. Om in Spanje legaal te blijven rijden tot de definitieve platen er zijn, zijn tijdelijke groene platen nodig: de matrículas temporales (€ 150). Die zijn ook nodig om met de auto naar de ITV-keuring te rijden. Over die keuring leest u meer in ons artikel over [de ITV-keuring bij import](/blog/itv-keuring-auto-import-spanje).
 
 Stem dus af wanneer u aankomt en wanneer de tijdelijke platen klaar zijn. Zo staat de auto niet dagenlang stil.
 
@@ -127,7 +127,7 @@ Zelf rijden geeft u de meeste vrijheid. U bent wel zelf verantwoordelijk voor ve
 
 ## Hoe wij kunnen helpen
 
-In het **Basis-pakket** (€ 395) en het **Compleet-pakket** (€ 895) zorgt u zelf dat de auto in Spanje komt. In het Compleet-pakket loopt de export wel via een van onze partners in Nederland. Bij het **Compleet Plus-pakket** (€ 1.495) regelen wij ook het transport van de auto. De transportkosten zelf komen daar apart bij. Bekijk alle pakketten op de [tarievenpagina](/tarieven), of lees het hele traject na in onze [gids over auto invoeren in Spanje](/auto-invoeren-spanje).
+In het **Basis-pakket** (€ 395) en het **Compleet-pakket** (€ 895) zorgt u zelf dat de auto in Spanje komt. In het Compleet-pakket loopt de export wel via een van onze partners in Nederland. Bij het **Compleet Plus-pakket** (€ 1.495) regelen wij ook het transport van de auto. De transportkosten zelf komen daar apart bij. Bekijk alle pakketten op de [tarievenpagina](/tarieven), of lees het hele traject na in onze [gids over auto invoeren in Spanje](/auto-invoeren-spanje).
 
 ## Uw auto naar Spanje laten brengen?
 

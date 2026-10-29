@@ -88,7 +88,8 @@ class SeoServerRenderingTest extends TestCase
 
         $this->assertStringContainsString('Compleet Plus', $app);
         $this->assertStringContainsString('Honorarios gestoría', $app);
-        $this->assertStringContainsString('€ 181,50', $app);
+        // Non-breaking space: the amount never wraps away from the € sign.
+        $this->assertStringContainsString("€\u{00A0}181,50", $app);
     }
 
     public function test_guide_page_renders_cost_tables_from_config(): void
@@ -98,6 +99,43 @@ class SeoServerRenderingTest extends TestCase
         $this->assertSame(2, substr_count($app, '<table'));
         $this->assertStringContainsString('14,75%', $app);
         $this->assertStringContainsString('€ 395', $app);
+    }
+
+    /**
+     * The printed depreciation table must match the table the calculator uses.
+     */
+    public function test_bpm_calculator_prints_a_depreciation_table_matching_the_config(): void
+    {
+        $app = $this->appHtml($this->get(route('bpm-calculator'))->assertOk()->getContent());
+
+        $this->assertStringContainsString('Bereken uw rest-BPM bij export', $app);
+        $this->assertStringContainsString('Afschrijving BPM', $app);
+
+        $rows = [6 => '6 maanden', 12 => '1 jaar', 24 => '2 jaar', 36 => '3 jaar', 48 => '4 jaar', 60 => '5 jaar', 72 => '6 jaar', 84 => '7 jaar', 96 => '8 jaar', 120 => '10 jaar'];
+
+        foreach ($rows as $months => $label) {
+            $tier = collect(config('bpm_rates.depreciation_table'))->first(fn (array $tier): bool => $months <= $tier['max_months']);
+            // per_month values like 0.583 approximate 7/12, so drop that float noise before rounding to whole percents.
+            $depreciated = (int) round(round($tier['base_percentage'] + ($months - $tier['base_months']) * $tier['per_month'], 1));
+
+            $this->assertStringContainsString("<tr><td>{$label}</td><td>ca. {$depreciated}%</td><td>ca. ".(100 - $depreciated).'%</td></tr>', $app);
+        }
+    }
+
+    public function test_homepage_links_to_the_guide_and_supporting_articles(): void
+    {
+        $app = $this->appHtml($this->get(route('home'))->getContent());
+
+        $this->assertStringContainsString('<a href="/auto-invoeren-spanje">auto invoeren in Spanje</a>', $app);
+
+        foreach ([
+            '/blog/wanneer-auto-op-spaans-kenteken-verplicht',
+            '/blog/auto-uitschrijven-bij-de-rdw-en-exportkenteken-aanvragen-zo-werkt-het',
+            '/blog/itv-keuring-auto-import-spanje',
+            '/blog/registratiebelasting-iedmt-spanje-vrijstelling-verhuizing',
+        ] as $href) {
+            $this->assertStringContainsString('href="'.$href.'"', $app);
+        }
     }
 
     public function test_blog_post_body_is_in_the_raw_html(): void

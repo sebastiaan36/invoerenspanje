@@ -99,7 +99,7 @@ Koopt u bewust in Nederland? Denk dan vóór de aankoop na over deze vragen:
 4. **Wat is de CO₂-uitstoot?** Die bepaalt het IEDMT-tarief als er geen vrijstelling is.
 5. **Hoe gaat de auto naar Spanje?** Zelf rijden op exportkenteken of laten vervoeren. De auto wordt daarvoor bij de RDW afgemeld; hoe dat werkt, leest u in ons artikel over [de auto uitschrijven bij de RDW](/blog/auto-uitschrijven-bij-de-rdw-en-exportkenteken-aanvragen-zo-werkt-het).
 
-Wilt u hier vooraf over sparren? In ons pakket Compleet Plus zit aankoopadvies voor een auto in Nederland: een belafspraak van 30 minuten. Daarnaast exporteren wij de auto via een van onze partners en regelen wij het transport. De transportkosten komen daar apart bij. Op de [tarievenpagina](/tarieven) ziet u wat elk pakket bevat.
+Wilt u hier vooraf over sparren? In ons pakket Compleet Plus zit aankoopadvies voor een auto in Nederland: een belafspraak van 30 minuten. Daarnaast exporteren wij de auto via een van onze partners en regelen wij het transport. De transportkosten komen daar apart bij. Op de [tarievenpagina](/tarieven) ziet u wat elk pakket bevat. Alle stappen na de aankoop staan in onze [complete gids over auto invoeren in Spanje](/auto-invoeren-spanje).
 
 ## Wat betekent dit voor uw auto?
 

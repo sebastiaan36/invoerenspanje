@@ -84,6 +84,42 @@ al maanden met de Spaanse kant bezig zijn. Het loont dus
 om de export niet onnodig uit te stellen.
 </p>
 
+<h2>Afschrijving BPM: hoeveel rest-BPM houdt u over per leeftijd?</h2>
+<p>
+De Belastingdienst schrijft de BPM af met een vaste
+tabel per maand. In de eerste maanden gaat dat snel,
+daarna steeds langzamer. Deze tabel laat zien welk deel
+van de oorspronkelijke BPM u ongeveer terugkrijgt bij
+export:
+</p>
+<div class="overflow-x-auto">
+<table>
+<thead>
+<tr><th>Leeftijd van de auto</th><th>Afgeschreven</th><th>Rest-BPM terug</th></tr>
+</thead>
+<tbody>
+<tr><td>6 maanden</td><td>ca. 20%</td><td>ca. 80%</td></tr>
+<tr><td>1 jaar</td><td>ca. 31%</td><td>ca. 69%</td></tr>
+<tr><td>2 jaar</td><td>ca. 42%</td><td>ca. 58%</td></tr>
+<tr><td>3 jaar</td><td>ca. 52%</td><td>ca. 48%</td></tr>
+<tr><td>4 jaar</td><td>ca. 62%</td><td>ca. 38%</td></tr>
+<tr><td>5 jaar</td><td>ca. 70%</td><td>ca. 30%</td></tr>
+<tr><td>6 jaar</td><td>ca. 76%</td><td>ca. 24%</td></tr>
+<tr><td>7 jaar</td><td>ca. 82%</td><td>ca. 18%</td></tr>
+<tr><td>8 jaar</td><td>ca. 86%</td><td>ca. 14%</td></tr>
+<tr><td>10 jaar</td><td>ca. 92%</td><td>ca. 8%</td></tr>
+</tbody>
+</table>
+</div>
+<p>
+De calculator rekent met de exacte leeftijd in maanden,
+vanaf de datum van de eerste toelating. Is uw auto meer
+in waarde gedaald dan deze forfaitaire afschrijving
+aanneemt, dan kan een taxatierapport meer opleveren.
+Lees meer in ons artikel over
+<a href="/blog/bpm-teruggave-auto-importeren-spanje">BPM-teruggave bij export naar Spanje</a>.
+</p>
+
 <h2>
 BPM-teruggave en de kosten van auto invoeren in Spanje
 </h2>

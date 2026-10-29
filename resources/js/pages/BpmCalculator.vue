@@ -15,7 +15,8 @@ withDefaults(defineProps<{ contentHtml?: string }>(), { contentHtml: '' });
                 <h1
                     class="font-display text-4xl leading-tight font-semibold text-balance text-foreground md:text-5xl"
                 >
-                    Hoeveel <span class="text-accent">BPM</span> krijgt u terug?
+                    Bereken uw rest-<span class="text-accent">BPM</span> bij
+                    export
                 </h1>
                 <p
                     class="mx-auto mt-5 max-w-2xl text-lg text-pretty text-muted-foreground"

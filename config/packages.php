@@ -29,7 +29,7 @@ return [
             'features' => [
                 'U regelt zelf de export in Nederland',
                 'U levert de gevraagde documenten aan',
-                'U levert COC (Ficha Técnica kost € 85 extra zonder COC)',
+                'U levert COC (Ficha Técnica kost € 85 extra zonder COC)',
                 'Wij verwerken de aanvraag richting DGT',
                 'Groene platen leveren — u haalt ze op',
                 'U regelt zelf de ITV-afspraak en gaat zelf',

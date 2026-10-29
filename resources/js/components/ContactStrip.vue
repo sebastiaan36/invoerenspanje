@@ -29,12 +29,13 @@ const team = [
         class="flex flex-col gap-6 rounded-2xl bg-muted/60 p-6 sm:p-8 lg:flex-row lg:items-center lg:justify-between lg:gap-8"
     >
         <div class="flex items-center gap-5">
+            <!-- Decorative: the names are in the text next to the photos. -->
             <div class="flex shrink-0 -space-x-3">
                 <img
                     v-for="person in team"
                     :key="person.name"
                     :src="person.photo"
-                    :alt="person.name"
+                    alt=""
                     width="64"
                     height="64"
                     loading="lazy"

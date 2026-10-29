@@ -64,7 +64,7 @@ const lanes: Lane[] = [
                     'Woont u meer dan 183 dagen per jaar in Spanje, dan moet uw auto op Spaans kenteken. Wij verzorgen de matriculación (de Spaanse inschrijving) bij de DGT, van de documenten tot de definitieve platen. U heeft er geen Spaans voor nodig.',
                 includes: [
                     'Controle van uw documenten, zoals uw NIE (Spaans fiscaal nummer) en empadronamiento (inschrijving bij de gemeente)',
-                    'Verwerking van uw COC, of een Ficha Técnica (technisch rapport) als er geen COC is, voor € 85 extra',
+                    'Verwerking van uw COC, of een Ficha Técnica (technisch rapport) als er geen COC is, voor € 85 extra',
                     'Matrículas temporales: groene tijdelijke kentekenplaten om legaal naar de ITV te rijden (optioneel)',
                     'Berekening van de registratiebelasting (IEDMT) of de vrijstelling bij verhuizing',
                     'Aanvraag bij de DGT en communicatie in het Spaans',

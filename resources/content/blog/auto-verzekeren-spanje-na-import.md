@@ -1,9 +1,9 @@
 ---
-title: "Uw auto verzekeren in Spanje na de invoer"
-excerpt: "Wanneer stopt uw Nederlandse autoverzekering en wanneer begint de Spaanse? Zo voorkomt u een gat in de dekking en neemt u uw schadeverleden mee."
+title: "Autoverzekering in Spanje na import: zo regelt u het zonder gat in de dekking"
+excerpt: "Zonder verzekering riskeert u in Spanje € 601 tot € 3.005 boete. Wat verplicht is, het verschil tussen terceros en todo riesgo, en hoe u uw schadevrije jaren meeneemt."
 author: Sebastiaan
 published_at: 2026-10-01 10:00
-updated_at: 2026-10-25
+updated_at: 2026-10-29
 status: published
 hero_image: images/auto-verzekeren-spanje-na-import.webp
 ---
@@ -12,7 +12,7 @@ Komt uw auto op een Spaans kenteken, dan verandert ook uw verzekering. De Nederl
 ## In het kort
 
 - In Spanje is een verzekering voor wettelijke aansprakelijkheid verplicht: het *seguro obligatorio*. Dat is vergelijkbaar met de Nederlandse WA-verzekering.
-- Rijden zonder verzekering kan in Spanje een boete van € 601 tot € 3.005 opleveren. De auto kan ook aan de ketting gaan tot hij verzekerd is.
+- Rijden zonder verzekering kan in Spanje een boete van € 601 tot € 3.005 opleveren. De auto kan ook aan de ketting gaan tot hij verzekerd is.
 - Zeg uw Nederlandse polis niet op voordat de Spaanse dekking ingaat. Bel uw verzekeraar vóór de exportmelding.
 - Vraag uw Nederlandse verzekeraar om een verklaring van uw schadeverleden. Daar heeft u recht op binnen 15 dagen.
 - Met het Compleet- of Compleet Plus-pakket verwijzen wij u door naar een aangesloten verzekeraar.
@@ -31,12 +31,12 @@ De verplichte verzekering heet in Spanje *seguro obligatorio de responsabilidad 
 
 De wet noemt minimale bedragen waarvoor deze verzekering moet dekken:
 
-- € 70 miljoen per ongeval bij letselschade, ongeacht het aantal slachtoffers;
-- € 15 miljoen per ongeval bij schade aan spullen en voertuigen.
+- € 70 miljoen per ongeval bij letselschade, ongeacht het aantal slachtoffers;
+- € 15 miljoen per ongeval bij schade aan spullen en voertuigen.
 
 Deze bedragen staan in artikel 4 van dezelfde [wet](https://www.boe.es/buscar/act.php?id=BOE-A-2004-18911).
 
-Rijdt u zonder deze verzekering, dan zijn de gevolgen fors. Volgens artikel 3 van de wet mag een onverzekerde auto niet de weg op. De auto kan in beslag worden genomen of verzegeld, op kosten van de eigenaar. Daarnaast geldt een boete van € 601 tot € 3.005.
+Rijdt u zonder deze verzekering, dan zijn de gevolgen fors. Volgens artikel 3 van de wet mag een onverzekerde auto niet de weg op. De auto kan in beslag worden genomen of verzegeld, op kosten van de eigenaar. Daarnaast geldt een boete van € 601 tot € 3.005.
 
 Let op: de verplichte verzekering dekt geen schade aan uw eigen auto. Daarvoor heeft u een uitgebreidere dekking nodig.
 
