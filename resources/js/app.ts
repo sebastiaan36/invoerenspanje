@@ -1,6 +1,7 @@
 import { createInertiaApp } from '@inertiajs/vue3';
 import { defineAsyncComponent } from 'vue';
 import { initializeTheme } from '@/composables/useAppearance';
+import { initializeContactClickTracking } from '@/lib/analytics';
 import { initializeFlashToast } from '@/lib/flashToast';
 
 // Public pages have no layout, so the app/auth/settings shells (sidebar, nav,
@@ -50,3 +51,6 @@ initializeTheme();
 
 // This will listen for flash toast data from the server...
 initializeFlashToast();
+
+// GA4 events for clicks on e-mail and WhatsApp links...
+initializeContactClickTracking();

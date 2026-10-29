@@ -16,12 +16,15 @@ type GtagParams = Record<string, unknown>;
  * - select_package: a service package was chosen.
  * - generate_lead: the quote form or the contact form was sent (GA4
  *   recommended event, mark it as a key event).
+ * - email_click / whatsapp_click: an e-mail or WhatsApp link was clicked.
  */
 export type AnalyticsEvent =
     | 'kenteken_lookup'
     | 'bpm_calculation'
     | 'select_package'
-    | 'generate_lead';
+    | 'generate_lead'
+    | 'email_click'
+    | 'whatsapp_click';
 
 declare global {
     interface Window {
@@ -42,4 +45,44 @@ export function trackEvent(
             ...params,
         });
     }
+}
+
+/**
+ * Track clicks on e-mail and WhatsApp links anywhere on the site with one
+ * delegated listener, so links in layouts, components, server-rendered
+ * fallback HTML and blog posts are all covered without wiring each one.
+ */
+export function initializeContactClickTracking(): void {
+    if (typeof document === 'undefined') {
+        return;
+    }
+
+    document.addEventListener(
+        'click',
+        (event) => {
+            const link = (event.target as Element | null)?.closest?.('a[href]');
+
+            if (!(link instanceof HTMLAnchorElement)) {
+                return;
+            }
+
+            const href = link.href.toLowerCase();
+            const name: AnalyticsEvent | null = href.startsWith('mailto:')
+                ? 'email_click'
+                : /^https:\/\/(wa\.me|api\.whatsapp\.com)\//.test(href)
+                  ? 'whatsapp_click'
+                  : null;
+
+            if (name) {
+                trackEvent(name, {
+                    link_location: link.closest('header')
+                        ? 'header'
+                        : link.closest('footer')
+                          ? 'footer'
+                          : 'content',
+                });
+            }
+        },
+        { capture: true },
+    );
 }
