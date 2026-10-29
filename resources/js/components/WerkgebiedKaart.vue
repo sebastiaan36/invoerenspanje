@@ -29,6 +29,32 @@ const props = withDefaults(
     },
 );
 
+/**
+ * Round the corners of a closed ring with Chaikin's corner cutting: every
+ * pass replaces each corner with two points at 1/4 and 3/4 of its edges.
+ * Dense stretches (the coastline) barely move; sparse corners turn into
+ * smooth curves.
+ */
+function smoothRing(
+    points: [number, number][],
+    passes = 3,
+): [number, number][] {
+    let ring = points;
+
+    for (let pass = 0; pass < passes; pass++) {
+        ring = ring.flatMap(([lat, lng], i) => {
+            const [nextLat, nextLng] = ring[(i + 1) % ring.length];
+
+            return [
+                [0.75 * lat + 0.25 * nextLat, 0.75 * lng + 0.25 * nextLng],
+                [0.25 * lat + 0.75 * nextLat, 0.25 * lng + 0.75 * nextLng],
+            ] as [number, number][];
+        });
+    }
+
+    return ring;
+}
+
 const mapEl = useTemplateRef<HTMLDivElement>('mapEl');
 let mapInstance: LeafletMap | null = null;
 
@@ -58,9 +84,11 @@ onMounted(async () => {
         maxZoom: 19,
     }).addTo(map);
 
-    L.polygon(cfg.gebied, {
+    L.polygon(smoothRing(cfg.gebied), {
         color: cfg.accent,
-        weight: 2,
+        weight: 2.5,
+        lineJoin: 'round',
+        lineCap: 'round',
         fillColor: cfg.accent,
         fillOpacity: 0.15,
     }).addTo(map);
