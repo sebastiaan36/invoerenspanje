@@ -4,14 +4,17 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Api;
 
+use App\Filament\Resources\Leads\LeadResource;
 use App\Mail\LeadReceivedNotification;
 use App\Mail\QuoteRequestConfirmation;
 use App\Models\Lead;
 use App\Services\Leads\LeadConverter;
+use App\Services\Leads\LeadTelegramAlert;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Client\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Mail;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Tests\TestCase;
 
 final class LeadControllerTest extends TestCase
@@ -215,8 +218,29 @@ final class LeadControllerTest extends TestCase
                 && str_contains($request['text'], sprintf('Nieuwe lead #%05d', $lead->id))
                 && str_contains($request['text'], 'Jan &amp; Co')
                 && str_starts_with($whatsappUrl, 'https://wa.me/34600112233?text=')
-                && $query['text'] === "Nieuwe klant:\nNaam: Jan & Co\nLocatie: Marbella, Costa del Sol\nTelefoon: +31 6 12345678";
+                && $query['text'] === "Nieuwe klant:\nNaam: Jan & Co\nLocatie: Marbella, Costa del Sol\nTelefoon: +31612345678\nLead: ".LeadResource::getUrl('view', ['record' => $lead]);
         });
+    }
+
+    /**
+     * @return array<string, array{0: string, 1: string}>
+     */
+    public static function phoneNumbers(): array
+    {
+        return [
+            'international with spaces' => ['+31 6 12345678', '+31612345678'],
+            'international compact' => ['+34650015942', '+34650015942'],
+            'double zero prefix' => ['0031 6 1234 5678', '+31612345678'],
+            'dutch mobile' => ['06-12345678', '+31612345678'],
+            'spanish without country code' => ['650 015 942', '+34650015942'],
+            'unrecognised stays as entered' => ['12345', '12345'],
+        ];
+    }
+
+    #[DataProvider('phoneNumbers')]
+    public function test_whatsapp_text_writes_phone_numbers_in_international_format(string $entered, string $expected): void
+    {
+        $this->assertSame($expected, app(LeadTelegramAlert::class)->internationalPhone($entered));
     }
 
     public function test_it_skips_the_telegram_alert_when_it_is_not_configured(): void

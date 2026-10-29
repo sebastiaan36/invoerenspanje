@@ -55,10 +55,31 @@ final class LeadTelegramAlert
             'Nieuwe klant:',
             'Naam: '.$lead->name,
             'Locatie: '.$lead->woonplaats_spanje,
-            'Telefoon: '.$lead->phone,
+            'Telefoon: '.$this->internationalPhone($lead->phone),
+            'Lead: '.LeadResource::getUrl('view', ['record' => $lead]),
         ]);
 
         return 'https://wa.me/'.$number.'?text='.rawurlencode($text);
+    }
+
+    /**
+     * Schrijf het nummer als +landcode zonder spaties, zodat WhatsApp het als
+     * aantikbaar telefoonnummer herkent. Zonder landcode gaan we uit van een
+     * Nederlands (06…) of Spaans (9 cijfers) nummer; al het andere blijft
+     * zoals de klant het invulde.
+     */
+    public function internationalPhone(string $phone): string
+    {
+        $phone = trim($phone);
+        $digits = preg_replace('/\D+/', '', $phone);
+
+        return match (true) {
+            str_starts_with($phone, '+') => '+'.$digits,
+            str_starts_with($digits, '00') => '+'.substr($digits, 2),
+            strlen($digits) === 10 && str_starts_with($digits, '0') => '+31'.substr($digits, 1),
+            strlen($digits) === 9 && in_array($digits[0], ['6', '7', '8', '9'], true) => '+34'.$digits,
+            default => $phone,
+        };
     }
 
     private function message(Lead $lead): string
@@ -68,7 +89,7 @@ final class LeadTelegramAlert
             '',
             'Naam: '.e($lead->name),
             'Locatie: '.e($lead->woonplaats_spanje),
-            'Telefoon: '.e($lead->phone),
+            'Telefoon: '.e($this->internationalPhone($lead->phone)),
             'Kenteken: '.e($lead->kenteken),
             'Pakket: '.e($lead->package_slug),
         ]);
