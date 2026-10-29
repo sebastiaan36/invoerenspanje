@@ -9,6 +9,7 @@ use App\Http\Requests\LeadRequest;
 use App\Mail\LeadReceivedNotification;
 use App\Mail\QuoteRequestConfirmation;
 use App\Models\Lead;
+use App\Services\Leads\LeadTelegramAlert;
 use App\Services\Quote\VehicleQuoteService;
 use App\Services\Rdw\RdwUnavailableException;
 use Illuminate\Http\JsonResponse;
@@ -22,6 +23,7 @@ final class LeadController extends Controller
 {
     public function __construct(
         private readonly VehicleQuoteService $quoteService,
+        private readonly LeadTelegramAlert $telegramAlert,
     ) {}
 
     public function store(LeadRequest $request): JsonResponse
@@ -57,6 +59,15 @@ final class LeadController extends Controller
         // shared hosting), elk in een eigen try/catch: een mailprobleem mag de
         // leadregistratie of de gebruiker nooit raken.
         defer(function () use ($lead): void {
+            try {
+                $this->telegramAlert->send($lead);
+            } catch (Throwable $e) {
+                Log::error('Telegram-melding voor nieuwe lead kon niet worden verstuurd.', [
+                    'lead_id' => $lead->id,
+                    'exception' => $e->getMessage(),
+                ]);
+            }
+
             try {
                 Mail::to(config('services.internal_notifications.email'))
                     ->send(new LeadReceivedNotification($lead));

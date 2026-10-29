@@ -188,6 +188,61 @@ final class LeadControllerTest extends TestCase
         });
     }
 
+    public function test_it_sends_a_telegram_alert_with_a_prefilled_whatsapp_link(): void
+    {
+        Mail::fake();
+        Http::fake(['api.telegram.org/*' => Http::response(['ok' => true])]);
+        config([
+            'services.telegram.bot_token' => 'test-token',
+            'services.telegram.chat_id' => '12345',
+            'services.telegram.lead_forward_whatsapp' => '+34 600 11 22 33',
+        ]);
+
+        $this->postJson(route('api.leads.store'), $this->validPayload(['name' => 'Jan & Co']))
+            ->assertCreated();
+
+        $lead = Lead::firstOrFail();
+
+        Http::assertSent(function (Request $request) use ($lead): bool {
+            if ($request->url() !== 'https://api.telegram.org/bottest-token/sendMessage') {
+                return false;
+            }
+
+            $whatsappUrl = $request['reply_markup']['inline_keyboard'][0][0]['url'];
+            parse_str((string) parse_url($whatsappUrl, PHP_URL_QUERY), $query);
+
+            return $request['chat_id'] === '12345'
+                && str_contains($request['text'], sprintf('Nieuwe lead #%05d', $lead->id))
+                && str_contains($request['text'], 'Jan &amp; Co')
+                && str_starts_with($whatsappUrl, 'https://wa.me/34600112233?text=')
+                && $query['text'] === "Nieuwe klant:\nNaam: Jan & Co\nLocatie: Marbella, Costa del Sol\nTelefoon: +31 6 12345678";
+        });
+    }
+
+    public function test_it_skips_the_telegram_alert_when_it_is_not_configured(): void
+    {
+        Mail::fake();
+        Http::fake();
+        config(['services.telegram.bot_token' => null, 'services.telegram.chat_id' => null]);
+
+        $this->postJson(route('api.leads.store'), $this->validPayload())->assertCreated();
+
+        Http::assertNotSent(fn (Request $request): bool => str_contains($request->url(), 'api.telegram.org'));
+    }
+
+    public function test_a_failing_telegram_alert_does_not_block_the_lead_or_the_mails(): void
+    {
+        Mail::fake();
+        Http::fake(['api.telegram.org/*' => Http::response(['ok' => false], 500)]);
+        config(['services.telegram.bot_token' => 'test-token', 'services.telegram.chat_id' => '12345']);
+
+        $this->postJson(route('api.leads.store'), $this->validPayload())->assertCreated();
+
+        $this->assertDatabaseCount('leads', 1);
+        Mail::assertSent(LeadReceivedNotification::class);
+        Mail::assertSent(QuoteRequestConfirmation::class);
+    }
+
     public function test_it_marks_source_as_ads_when_utm_source_is_present(): void
     {
         Mail::fake();
