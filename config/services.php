@@ -39,6 +39,16 @@ return [
         'email' => env('INTERNAL_NOTIFICATIONS_EMAIL', 'info@autoinvoerenspanje.nl'),
     ],
 
+    // Telegram-bericht bij elke nieuwe lead, met een WhatsApp-link om de
+    // klantgegevens door te sturen. Zonder token of chat-id gebeurt er niets.
+    'telegram' => [
+        'bot_token' => env('TELEGRAM_BOT_TOKEN'),
+        'chat_id' => env('TELEGRAM_CHAT_ID'),
+        // WhatsApp-nummer waar de link naartoe opent (alleen cijfers, met
+        // landcode). Leeg: WhatsApp laat zelf een contact kiezen.
+        'lead_forward_whatsapp' => env('LEAD_FORWARD_WHATSAPP'),
+    ],
+
     'rdw' => [
         'vehicle_endpoint' => env('RDW_VEHICLE_ENDPOINT', 'https://opendata.rdw.nl/resource/m9d7-ebf2.json'),
         'fuel_endpoint' => env('RDW_FUEL_ENDPOINT', 'https://opendata.rdw.nl/resource/8ys7-d773.json'),
