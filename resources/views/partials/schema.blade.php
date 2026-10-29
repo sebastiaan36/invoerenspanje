@@ -31,7 +31,7 @@
             'logo' => $base.'/images/logo.svg',
             'image' => $hasOgImage ? $base.'/og-image.jpg' : null,
             'description' => config('seo.default.description'),
-            'telephone' => '+31618969732',
+            'telephone' => '+34650015942',
             'email' => 'info@autoinvoerenspanje.nl',
             'priceRange' => '€395 - €1.495',
             'knowsLanguage' => 'nl',
@@ -39,7 +39,7 @@
             'contactPoint' => [
                 '@type' => 'ContactPoint',
                 'contactType' => 'customer service',
-                'telephone' => '+31618969732',
+                'telephone' => '+34650015942',
                 'email' => 'info@autoinvoerenspanje.nl',
                 'availableLanguage' => 'nl',
             ],
