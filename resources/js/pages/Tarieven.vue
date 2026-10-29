@@ -6,6 +6,7 @@ import ContactStrip from '@/components/ContactStrip.vue';
 import FaqAccordion from '@/components/FaqAccordion.vue';
 import type { FaqItem } from '@/components/FaqAccordion.vue';
 import PublicLayout from '@/layouts/PublicLayout.vue';
+import { trackEvent } from '@/lib/analytics';
 
 interface ServicePackage {
     slug: string;
@@ -453,6 +454,13 @@ const steps = [
 
                         <Link
                             :href="`/?pakket=${pkg.slug}#offerte`"
+                            @click="
+                                trackEvent('select_package', {
+                                    package_slug: pkg.slug,
+                                    package_price: pkg.price_eur,
+                                    location: 'tarieven',
+                                })
+                            "
                             class="mt-8 flex min-h-11 items-center justify-center gap-2 rounded-xl px-4 py-3 text-sm font-semibold transition-colors focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:outline-none"
                             :class="{
                                 'bg-accent text-accent-foreground shadow-sm hover:bg-accent/90':

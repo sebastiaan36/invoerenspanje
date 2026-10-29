@@ -112,7 +112,7 @@ async function submit() {
         // GA4: mark a completed quote request as a lead conversion.
         trackEvent('generate_lead', {
             method: 'quote_form',
-            page_path: window.location.pathname,
+            package_slug: props.selectedPackage.slug,
         });
     } catch (raw) {
         if (isNetworkError(raw)) {

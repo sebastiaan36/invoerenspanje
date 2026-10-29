@@ -13,6 +13,7 @@ import {
 import { ref } from 'vue';
 import WerkgebiedKaart from '@/components/WerkgebiedKaart.vue';
 import PublicLayout from '@/layouts/PublicLayout.vue';
+import { trackEvent } from '@/lib/analytics';
 import { EMAIL, PHONE, PHONE_DISPLAY, WHATSAPP_URL } from '@/lib/contact';
 
 interface Plaats {
@@ -58,6 +59,7 @@ function submit(): void {
         onSuccess: () => {
             submitted.value = true;
             form.reset();
+            trackEvent('generate_lead', { method: 'contact_form' });
         },
     });
 }

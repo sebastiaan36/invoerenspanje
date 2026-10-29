@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { Check, Star } from 'lucide-vue-next';
+import { trackEvent } from '@/lib/analytics';
 
 export interface ServicePackage {
     slug: string;
@@ -10,7 +11,7 @@ export interface ServicePackage {
     features: string[];
 }
 
-defineProps<{
+const props = defineProps<{
     packages: ServicePackage[];
 }>();
 
@@ -27,6 +28,16 @@ function formatEuro(value: number): string {
 }
 
 function selectPackage(slug: string) {
+    if (selected.value !== slug) {
+        const pkg = props.packages.find((p) => p.slug === slug);
+
+        trackEvent('select_package', {
+            package_slug: slug,
+            package_price: pkg?.price_eur,
+            location: 'kentekencheck',
+        });
+    }
+
     selected.value = slug;
 }
 </script>
