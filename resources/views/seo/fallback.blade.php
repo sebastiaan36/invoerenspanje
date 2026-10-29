@@ -185,7 +185,7 @@
             </ul>
             <p>autoinvoerenspanje.nl, voor Nederlanders aan de Costa del Sol die hun auto op Spaans kenteken willen zetten.</p>
             <p class="mt-2">
-                Telefoon en WhatsApp: <a href="tel:+31618969732">+31 6 18 96 97 32</a> ·
+                Telefoon en WhatsApp: <a href="tel:+34650015942">+34 650 015 942</a> ·
                 E-mail: <a href="mailto:info@autoinvoerenspanje.nl">info@autoinvoerenspanje.nl</a> · Málaga, Spanje
             </p>
         </div>

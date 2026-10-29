@@ -173,6 +173,16 @@ class SeoServerRenderingTest extends TestCase
         $this->assertFalse($types->contains('AggregateRating'));
     }
 
+    public function test_schema_and_fallback_show_the_current_phone_number(): void
+    {
+        $html = $this->get(route('contact'))->getContent();
+
+        $business = collect($this->jsonLdGraph($html))->firstWhere('@type', 'ProfessionalService');
+        $this->assertSame('+34650015942', $business['telephone']);
+        $this->assertStringContainsString('<a href="tel:+34650015942">+34 650 015 942</a>', $html);
+        $this->assertStringNotContainsString('618969732', $html);
+    }
+
     public function test_canonical_is_built_from_app_url_not_the_request(): void
     {
         config(['app.url' => 'https://autoinvoerenspanje.nl']);
