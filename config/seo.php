@@ -93,11 +93,11 @@ return [
         ],
 
         'bpm-calculator' => [
-            'title' => 'BPM-calculator — Bereken uw BPM-teruggave',
-            'description' => 'Voer uw kenteken in en zie direct hoeveel BPM-teruggave u kunt verwachten bij export van uw auto naar Spanje.',
-            'h1' => 'Hoeveel BPM krijgt u terug?',
+            'title' => 'Rest-BPM berekenen bij export — gratis BPM-teruggave calculator',
+            'description' => 'Bereken gratis uw rest-BPM bij export. Voer uw kenteken in en zie direct hoeveel BPM u terugkrijgt, met de afschrijvingstabel van de Belastingdienst.',
+            'h1' => 'Bereken uw rest-BPM bij export',
             'intro' => 'Voer uw kenteken in en zie gratis hoeveel BPM u ongeveer terugkrijgt bij export naar Spanje. Wij rekenen met de BPM die de RDW voor uw auto heeft geregistreerd en de vaste afschrijvingstabel van de Belastingdienst.',
-            'updated' => '2026-10-25',
+            'updated' => '2026-10-29',
         ],
 
         'faq' => [

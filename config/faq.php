@@ -45,17 +45,17 @@ return [
         [
             'id' => 'itv-inbegrepen',
             'question' => 'Is de ITV-keuring bij de prijs inbegrepen?',
-            'answer' => 'Nee. De ITV-keuring betaalt u zelf aan de balie van het keuringsstation, circa € 150 tot € 160 afhankelijk van het station. Bij Compleet en Compleet Plus plannen wij de afspraak voor u, maar de keuring zelf is voor uw eigen rekening.',
+            'answer' => 'Nee. De ITV-keuring betaalt u zelf aan de balie van het keuringsstation, circa € 150 tot € 160 afhankelijk van het station. Bij Compleet en Compleet Plus plannen wij de afspraak voor u, maar de keuring zelf is voor uw eigen rekening.',
         ],
         [
             'id' => 'ficha-tecnica',
             'question' => 'Wat is de Ficha Técnica en wanneer heb ik die nodig?',
-            'answer' => 'De Ficha Técnica is het Spaanse technische rapport van uw auto. Levert u een COC-document (Certificaat van Overeenstemming) aan, dan is de Ficha Técnica niet nodig en bespaart u € 85. Zonder COC wordt de Ficha Técnica opgesteld; bij Compleet en Compleet Plus regelen wij dat, inclusief foto\'s op locatie.',
+            'answer' => 'De Ficha Técnica is het Spaanse technische rapport van uw auto. Levert u een COC-document (Certificaat van Overeenstemming) aan, dan is de Ficha Técnica niet nodig en bespaart u € 85. Zonder COC wordt de Ficha Técnica opgesteld; bij Compleet en Compleet Plus regelen wij dat, inclusief foto\'s op locatie.',
         ],
         [
             'id' => 'matriculas-temporales',
             'question' => 'Wat zijn matrículas temporales?',
-            'answer' => 'Dit zijn tijdelijke groene kentekenplaten. Ze zijn niet verplicht, maar wel nodig om met een geëxporteerde auto naar de ITV te rijden en legaal te blijven rijden tot de definitieve platen er zijn. Kosten: € 150.',
+            'answer' => 'Dit zijn tijdelijke groene kentekenplaten. Ze zijn niet verplicht, maar wel nodig om met een geëxporteerde auto naar de ITV te rijden en legaal te blijven rijden tot de definitieve platen er zijn. Kosten: € 150.',
         ],
         [
             'id' => 'transportkosten',

@@ -5,18 +5,32 @@ import ContactStrip from '@/components/ContactStrip.vue';
 import FaqAccordion from '@/components/FaqAccordion.vue';
 import type { FaqItem } from '@/components/FaqAccordion.vue';
 import KentekenLookup from '@/components/KentekenLookup.vue';
+import ReviewsSection from '@/components/ReviewsSection.vue';
+import type { Review } from '@/components/ReviewsSection.vue';
+import { scrollToQuote } from '@/composables/useScrollToQuote';
 import PublicLayout from '@/layouts/PublicLayout.vue';
+
+interface RecentPost {
+    slug: string;
+    title: string;
+    hero_image_url: string;
+    hero_image_srcset: string | null;
+}
 
 withDefaults(
     defineProps<{
         canRegister?: boolean;
         faqItems?: FaqItem[];
         contentHtml?: string;
+        reviews?: Review[];
+        recentPosts?: RecentPost[];
     }>(),
     {
         canRegister: true,
         faqItems: () => [],
         contentHtml: '',
+        reviews: () => [],
+        recentPosts: () => [],
     },
 );
 
@@ -99,7 +113,7 @@ const lanes = [
                     </span>
                 </div>
 
-                <div class="mt-10 text-left">
+                <div id="kentekencheck" class="mt-10 scroll-mt-24 text-left">
                     <KentekenLookup />
                 </div>
             </div>
@@ -174,6 +188,8 @@ const lanes = [
             </div>
         </section>
 
+        <ReviewsSection :reviews="reviews" />
+
         <!-- SEO content -->
         <section class="border-t border-border bg-secondary/30">
             <div class="container mx-auto max-w-2xl px-4 py-16 md:py-20">
@@ -200,19 +216,79 @@ const lanes = [
                     </Link>
                 </p>
 
-                <div
-                    class="prose prose-lg max-w-none prose-headings:font-display prose-headings:text-foreground prose-h2:mt-12 prose-h2:text-2xl prose-h3:mt-8 prose-h3:text-xl prose-p:text-foreground prose-a:font-medium prose-a:text-primary prose-a:underline prose-a:underline-offset-4 hover:prose-a:text-primary/80 prose-strong:text-foreground"
-                >
-                    <p
-                        class="mt-10 rounded-xl border border-border bg-card p-5 text-base text-muted-foreground"
+                <template v-if="recentPosts.length">
+                    <h2
+                        class="mt-14 font-display text-2xl font-semibold text-balance text-foreground"
                     >
-                        Wilt u meer lezen over het importproces? In onze
-                        <a href="/blog">blogreeks</a> behandelen we onderwerpen
-                        als BPM-teruggave, het exportkenteken aanvragen, de
-                        ITV-keuring en de Spaanse invoerbelasting — stap voor
-                        stap uitgelegd.
+                        Meer lezen over het importproces
+                    </h2>
+                    <ul class="mt-6 grid gap-4 sm:grid-cols-3">
+                        <li v-for="post in recentPosts" :key="post.slug">
+                            <Link
+                                :href="`/blog/${post.slug}`"
+                                class="group flex h-full flex-col overflow-hidden rounded-xl border border-border bg-card shadow-sm transition-shadow hover:shadow-md focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:outline-none"
+                            >
+                                <div
+                                    class="aspect-[16/9] w-full overflow-hidden bg-muted"
+                                >
+                                    <img
+                                        :src="post.hero_image_url"
+                                        :srcset="
+                                            post.hero_image_srcset ?? undefined
+                                        "
+                                        sizes="(min-width: 640px) 220px, 100vw"
+                                        alt=""
+                                        loading="lazy"
+                                        class="size-full object-cover"
+                                    />
+                                </div>
+                                <p
+                                    class="p-4 text-base leading-snug font-medium text-foreground group-hover:text-primary"
+                                >
+                                    {{ post.title }}
+                                </p>
+                            </Link>
+                        </li>
+                    </ul>
+                    <p class="mt-4">
+                        <Link
+                            href="/blog"
+                            class="inline-flex min-h-11 items-center gap-1.5 text-sm font-medium text-primary underline-offset-4 hover:underline"
+                        >
+                            Alle artikelen
+                            <ArrowRight class="size-4" aria-hidden="true" />
+                        </Link>
                     </p>
-                </div>
+                </template>
+            </div>
+        </section>
+
+        <!-- Closing CTA: the page is long, so offer the primary action again -->
+        <section
+            class="border-t border-border bg-background"
+            aria-labelledby="closing-cta-title"
+        >
+            <div
+                class="container mx-auto max-w-3xl px-4 py-16 text-center md:py-20"
+            >
+                <h2
+                    id="closing-cta-title"
+                    class="font-display text-3xl font-semibold text-balance text-foreground md:text-4xl"
+                >
+                    Wat kost het voor uw auto?
+                </h2>
+                <p class="mx-auto mt-4 max-w-xl text-lg text-muted-foreground">
+                    Vul uw kenteken in en zie binnen een paar seconden de netto
+                    kosten, met de BPM-teruggave al verrekend. Vrijblijvend.
+                </p>
+                <a
+                    href="#kentekencheck"
+                    class="mt-8 inline-flex min-h-12 items-center gap-2 rounded-xl bg-accent px-6 text-base font-semibold text-accent-foreground shadow-sm transition-colors hover:bg-accent/90 focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:outline-none"
+                    @click.prevent="scrollToQuote()"
+                >
+                    Bereken uw kosten
+                    <ArrowRight class="size-5" aria-hidden="true" />
+                </a>
             </div>
         </section>
     </PublicLayout>

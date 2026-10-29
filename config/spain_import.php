@@ -69,14 +69,14 @@ return [
         ['key' => 'placas_definitivas',    'label' => 'Spaanse kentekenplaten',         'amount_eur' => 35],
         ['key' => 'honorarios',            'label' => 'Honorarios gestoría (Spaans administratiekantoor)', 'amount_eur' => 181.50],
         ['key' => 'matriculas_temporales', 'label' => 'Tijdelijke kentekenplaten (optioneel)', 'amount_eur' => 150],
-        ['key' => 'itv_keuring',          'label' => 'ITV-keuring (ca. € 150–160)', 'amount_eur' => 155],
+        ['key' => 'itv_keuring',          'label' => 'ITV-keuring (ca. € 150–160)', 'amount_eur' => 155],
     ],
 
     /*
      * Notities die altijd worden meegestuurd met het resultaat (niet afhankelijk van voertuigtype).
      */
     'static_notes' => [
-        'De Ficha Técnica (€ 85) vervalt indien u een COC-document aanlevert.',
+        'De Ficha Técnica (€ 85) vervalt indien u een COC-document aanlevert.',
         'Tijdelijke kentekenplaten (matrículas temporales) zijn niet verplicht, maar wel nodig om met een geëxporteerde auto naar de ITV te rijden en te blijven rijden.',
         'De ITV-keuring betaalt u zelf rechtstreeks aan de balie van het keuringsstation.',
     ],

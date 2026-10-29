@@ -1,9 +1,9 @@
 ---
-title: "Periodieke ITV-keuring in Spanje: hoe vaak en wat kost het"
-excerpt: "Hoe vaak uw auto in Spanje naar de ITV moet, hoe u in Málaga een afspraak maakt, wat het kost en wat er gebeurt bij gebreken."
+title: "APK in Spanje: hoe vaak moet uw auto naar de periodieke ITV?"
+excerpt: "Tot 4 jaar geen keuring, daarna elke 2 jaar en na 10 jaar jaarlijks. Wat de periodieke ITV in Málaga kost (ca. € 29–49) en hoe u een afspraak maakt."
 author: Sebastiaan
 published_at: 2026-09-16 10:00
-updated_at: 2026-10-25
+updated_at: 2026-10-29
 status: published
 hero_image: images/periodieke-itv-keuring-spanje.webp
 ---
@@ -13,7 +13,7 @@ Staat uw auto op een Spaans kenteken? Dan moet hij op vaste momenten terug naar 
 
 - Een personenauto tot 4 jaar oud hoeft niet naar de periodieke ITV. Van 4 tot 10 jaar gaat hij elke 2 jaar, daarna elk jaar.
 - In Andalucía voert het overheidsbedrijf VEIASA de keuringen uit. U maakt online een afspraak (*cita previa*).
-- Een periodieke keuring voor een personenauto kost bij VEIASA ongeveer € 29 tot € 49, afhankelijk van motor en brandstof.
+- Een periodieke keuring voor een personenauto kost bij VEIASA ongeveer € 29 tot € 49, afhankelijk van motor en brandstof.
 - Bent u op tijd, dan krijgt u 10% korting op het tarief. Bent u meer dan een maand te laat, dan betaalt u 12% meer.
 - Na goedkeuring krijgt u de ITV-sticker (distintivo V-19). Die hoort op de voorruit.
 
@@ -74,19 +74,19 @@ De tarieven in Andalucía worden vastgesteld door de overheid. VEIASA publiceert
 
 | Personenauto | Benzine | Diesel |
 |---|---|---|
-| Minder dan 1.600 cc | € 33,28 | € 38,39 |
-| 1.600 cc of meer | € 43,52 | € 48,62 |
+| Minder dan 1.600 cc | € 33,28 | € 38,39 |
+| 1.600 cc of meer | € 43,52 | € 48,62 |
 
-Voor elektrische auto's en hybrides noemt VEIASA de tarieven van de categorie onder 1.600 cc. Bij een volledig elektrische auto is er geen uitlaatgasmeting. Daarvoor geldt het basistarief van € 29,11.
+Voor elektrische auto's en hybrides noemt VEIASA de tarieven van de categorie onder 1.600 cc. Bij een volledig elektrische auto is er geen uitlaatgasmeting. Daarvoor geldt het basistarief van € 29,11.
 
 Twee regels zijn belangrijk:
 
 - **Op tijd:** keurt u of reserveert u binnen de wettelijke termijn, dan krijgt u 10% korting op het tarief.
 - **Te laat:** bent u meer dan een maand over de termijn, dan komt er 12% bij.
 
-Die korting en toeslag gelden niet voor de btw (21%) en de verkeersheffing van € 4,18. Ze gelden ook niet bij de mobiele keuringsstations. Tarieven kunnen wijzigen, dus kijk voor uw afspraak op de site van VEIASA.
+Die korting en toeslag gelden niet voor de btw (21%) en de verkeersheffing van € 4,18. Ze gelden ook niet bij de mobiele keuringsstations. Tarieven kunnen wijzigen, dus kijk voor uw afspraak op de site van VEIASA.
 
-Deze bedragen gaan alleen over de periodieke keuring. De keuring bij invoer kost meer, ongeveer € 150 tot € 160. Een overzicht van alle kosten bij invoer staat op onze pagina [tarieven](/tarieven).
+Deze bedragen gaan alleen over de periodieke keuring. De keuring bij invoer kost meer, ongeveer € 150 tot € 160. Een overzicht van alle kosten bij invoer staat op onze pagina [tarieven](/tarieven).
 
 ## Wat wordt er gecontroleerd?
 
@@ -139,7 +139,7 @@ Rijdt u met een verlopen keuring, dan riskeert u een boete. Vraag ook bij uw ver
 
 ## Uw auto nog naar Spanje halen?
 
-De periodieke ITV regelt u zelf, gewoon zoals de APK in Nederland. Staat uw auto nog op een Nederlands kenteken? Dan begeleiden wij de invoer: van de export in Nederland tot het Spaanse kenteken, inclusief de ITV-keuring bij invoer. Welk pakket bij u past, ziet u op de pagina [diensten](/diensten).
+De periodieke ITV regelt u zelf, gewoon zoals de APK in Nederland. Staat uw auto nog op een Nederlands kenteken? Dan begeleiden wij de invoer: van de export in Nederland tot het Spaanse kenteken, inclusief de ITV-keuring bij invoer. Hoe dat traject verloopt, leest u in onze [complete gids over auto invoeren in Spanje](/auto-invoeren-spanje). Welk pakket bij u past, ziet u op de pagina [diensten](/diensten).
 
 Wilt u weten wat de invoer voor uw auto betekent? Doe de kentekencheck en [vraag een vrijblijvende offerte aan](/#offerte).
 

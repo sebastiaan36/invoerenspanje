@@ -46,7 +46,7 @@ Bij een gebruikte auto is de grondslag de marktwaarde op het moment van inschrij
 
 Voor die marktwaarde mag u de officiële tabellen met gemiddelde verkoopprijzen gebruiken. Het Spaanse ministerie van Financiën publiceert die elk jaar per merk, model en uitvoering. Daarbij hoort een afschrijving naar leeftijd. Voor 2026 is dat de [Orden HAC/1501/2025](https://www.boe.es/buscar/act.php?id=BOE-A-2025-26357).
 
-Een rekenvoorbeeld, alleen ter illustratie: stel dat de tabelwaarde van uw auto € 20.000 is en de uitstoot 140 g/km. Dan valt de auto in de schijf van 4,75%. De IEDMT is dan € 950.
+Een rekenvoorbeeld, alleen ter illustratie: stel dat de tabelwaarde van uw auto € 20.000 is en de uitstoot 140 g/km. Dan valt de auto in de schijf van 4,75%. De IEDMT is dan € 950.
 
 Bij een nieuwe auto gelden andere regels. Dan is de grondslag de aankoopprijs zonder btw. Wat dat betekent, leest u in ons artikel over [een nieuwe auto meenemen naar Spanje en de btw](/blog/nieuwe-auto-meenemen-naar-spanje-btw).
 

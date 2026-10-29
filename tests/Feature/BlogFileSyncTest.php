@@ -119,6 +119,19 @@ class BlogFileSyncTest extends TestCase
         Storage::disk('public')->assertExists($path);
     }
 
+    /**
+     * Guards the real articles in resources/content/blog, so a broken front
+     * matter block or a missing image fails here instead of during deploy.
+     */
+    public function test_every_article_in_the_repository_syncs(): void
+    {
+        $result = (new BlogFileSync(resource_path('content/blog')))->sync(dryRun: true);
+
+        $this->assertNotEmpty($result['created']);
+        $this->assertContains('kosten-auto-invoeren-spanje-rekenvoorbeelden', $result['created']);
+        $this->assertSame(0, Post::count());
+    }
+
     public function test_drafts_stay_unpublished_and_dry_run_saves_nothing(): void
     {
         $this->writePost('concept', ['title' => 'Concept', 'published_at' => '2026-05-23 16:40', 'status' => 'draft']);

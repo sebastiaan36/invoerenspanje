@@ -37,7 +37,7 @@
     De auto wordt bij de RDW afgemeld met de status export. U krijgt een exportkenteken dat 14 dagen geldig is,
     zodat u naar Spanje kunt rijden. Met de exportdocumenten vraagt u bij de Belastingdienst de rest-BPM terug.
     Hoeveel dat is, hangt af van de oorspronkelijke BPM en de leeftijd van de auto: een auto van vijf jaar met
-    € 6.000 oorspronkelijke BPM levert ongeveer € 1.800 op. Bereken het voor uw auto met de
+    € 6.000 oorspronkelijke BPM levert ongeveer € 1.800 op. Bereken het voor uw auto met de
     <a href="/bpm-calculator">BPM-calculator</a>.
 </p>
 <p>
@@ -62,7 +62,7 @@
     Met tijdelijke kentekenplaten (matrículas temporales, {{ $euro($fixedCosts['matriculas_temporales']['amount_eur']) }})
     rijdt u legaal naar de keuring. Die zijn niet verplicht, maar wel nodig om met een geëxporteerde auto naar de ITV
     te rijden en te blijven rijden tot de definitieve platen er zijn. De ITV-keuring is de Spaanse APK; die betaalt u
-    zelf aan de balie van het keuringsstation, ongeveer € 150 tot € 160.
+    zelf aan de balie van het keuringsstation, ongeveer € 150 tot € 160.
 </p>
 
 <h2>Stap 4: registratiebelasting (IEDMT) of vrijstelling</h2>

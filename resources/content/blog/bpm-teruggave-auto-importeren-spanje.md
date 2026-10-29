@@ -14,7 +14,7 @@ Neemt u uw Nederlandse auto mee naar Spanje, dan denkt u waarschijnlijk eerst aa
 
 - Wordt uw auto definitief in Spanje ingeschreven, dan krijgt u het deel van de BPM terug dat nog in de waarde van de auto zit: de **rest-BPM**.
 - Hoeveel dat is, hangt af van de oorspronkelijke BPM en de leeftijd van de auto in maanden.
-- Voorbeeld: € 6.000 oorspronkelijke BPM en een auto van precies vijf jaar oud. Dan is ca. 70% afgeschreven en krijgt u ca. € 1.800 terug.
+- Voorbeeld: € 6.000 oorspronkelijke BPM en een auto van precies vijf jaar oud. Dan is ca. 70% afgeschreven en krijgt u ca. € 1.800 terug.
 - De auto moet op of na 16 oktober 2006 zijn eerste Nederlandse kenteken hebben gekregen en mag geen schadevoertuig zijn.
 - De auto moet binnen 13 weken na de exportmelding in Spanje zijn ingeschreven.
 - Met onze [BPM-calculator](/bpm-calculator) ziet u direct een indicatie voor uw eigen kenteken.
@@ -57,16 +57,16 @@ Op de oorspronkelijke BPM past de Belastingdienst een vaste afschrijvingstabel t
 
 ### Rekenvoorbeeld
 
-Stel: bij de eerste registratie is € 6.000 BPM betaald. In de tabel hieronder ziet u ongeveer wat u terugkrijgt bij verschillende leeftijden. De bedragen zijn afgerond en bedoeld als indicatie.
+Stel: bij de eerste registratie is € 6.000 BPM betaald. In de tabel hieronder ziet u ongeveer wat u terugkrijgt bij verschillende leeftijden. De bedragen zijn afgerond en bedoeld als indicatie.
 
 | Leeftijd auto bij export | Afgeschreven (ca.) | Teruggave (ca.) |
 | --- | --- | --- |
-| 1 jaar | 31% | € 4.140 |
-| 3 jaar | 52% | € 2.880 |
-| 5 jaar | 70% | € 1.800 |
-| 8 jaar | 86% | € 840 |
+| 1 jaar | 31% | € 4.140 |
+| 3 jaar | 52% | € 2.880 |
+| 5 jaar | 70% | € 1.800 |
+| 8 jaar | 86% | € 840 |
 
-U ziet het: bij een jonge auto gaat het om een flink bedrag. Bij een auto van vijf jaar oud krijgt u in dit voorbeeld nog ca. € 1.800 terug. Neemt u een bijna nieuwe auto mee, let dan ook op de btw: zie [een nieuwe auto meenemen naar Spanje](/blog/nieuwe-auto-meenemen-naar-spanje-btw).
+U ziet het: bij een jonge auto gaat het om een flink bedrag. Bij een auto van vijf jaar oud krijgt u in dit voorbeeld nog ca. € 1.800 terug. Neemt u een bijna nieuwe auto mee, let dan ook op de btw: zie [een nieuwe auto meenemen naar Spanje](/blog/nieuwe-auto-meenemen-naar-spanje-btw).
 
 ### Elke maand telt
 

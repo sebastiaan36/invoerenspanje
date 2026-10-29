@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { Head, Link, usePage } from '@inertiajs/vue3';
 import { Mail, Menu, MessageCircle, Phone, X } from 'lucide-vue-next';
-import { computed, ref } from 'vue';
+import { computed, onBeforeUnmount, onMounted, ref } from 'vue';
+import { scrollToQuote } from '@/composables/useScrollToQuote';
 import { EMAIL, PHONE, PHONE_DISPLAY, WHATSAPP_URL } from '@/lib/contact';
 import { home, login } from '@/routes';
 
@@ -66,24 +67,33 @@ const offerteHref = '/#offerte';
 
 function scrollToOfferte() {
     closeMenu();
+    scrollToQuote();
+}
 
-    const target = document.getElementById('offerte');
+// Mobile has no room for "Offerte aanvragen" in the header. A compact
+// "Bereken" button takes its place once the homepage's kenteken check has
+// scrolled out of view (and always on other pages), so the primary action
+// stays one tap away on a long page. Below 360px it doesn't fit next to the
+// logo; the menu still has "Offerte aanvragen" there.
+const lookupInView = ref(true);
+let lookupObserver: IntersectionObserver | null = null;
 
-    if (!target) {
+onMounted(() => {
+    const lookup = document.getElementById('kentekencheck');
+
+    if (!isHome.value || !lookup) {
         return;
     }
 
-    const reduceMotion = window.matchMedia(
-        '(prefers-reduced-motion: reduce)',
-    ).matches;
-    target.scrollIntoView({
-        behavior: reduceMotion ? 'auto' : 'smooth',
-        block: 'start',
+    lookupObserver = new IntersectionObserver(([entry]) => {
+        lookupInView.value = entry.isIntersecting;
     });
-    target
-        .querySelector<HTMLElement>('input, textarea')
-        ?.focus({ preventScroll: true });
-}
+    lookupObserver.observe(lookup);
+});
+
+onBeforeUnmount(() => lookupObserver?.disconnect());
+
+const showMobileQuickCta = computed(() => !isHome.value || !lookupInView.value);
 </script>
 
 <template>
@@ -105,7 +115,7 @@ function scrollToOfferte() {
 
                 <nav
                     aria-label="Hoofdmenu"
-                    class="hidden items-center gap-7 text-sm font-medium text-foreground/80 md:flex"
+                    class="hidden items-center gap-7 text-sm font-medium text-foreground/80 lg:flex"
                 >
                     <Link
                         v-for="item in navItems"
@@ -122,7 +132,7 @@ function scrollToOfferte() {
                     </Link>
                 </nav>
 
-                <div class="flex items-center gap-3">
+                <div class="flex items-center gap-1.5 sm:gap-3">
                     <Link
                         :href="login().url"
                         class="hidden min-h-11 items-center text-sm font-medium text-foreground transition-colors hover:text-primary sm:inline-flex"
@@ -140,10 +150,29 @@ function scrollToOfferte() {
                     >
                         Offerte aanvragen
                     </component>
+                    <Transition
+                        enter-active-class="transition-opacity duration-200"
+                        enter-from-class="opacity-0"
+                        leave-active-class="transition-opacity duration-150"
+                        leave-to-class="opacity-0"
+                    >
+                        <component
+                            :is="isHome ? 'a' : Link"
+                            v-if="showMobileQuickCta"
+                            :href="offerteHref"
+                            class="inline-flex min-h-11 items-center rounded-xl bg-accent px-3 text-sm font-semibold text-accent-foreground shadow-sm transition-colors hover:bg-accent/90 focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:outline-none max-[359px]:hidden sm:hidden"
+                            @click="
+                                isHome &&
+                                ($event.preventDefault(), scrollToOfferte())
+                            "
+                        >
+                            Bereken
+                        </component>
+                    </Transition>
                     <!-- Hamburger -->
                     <button
                         type="button"
-                        class="flex size-11 items-center justify-center rounded-lg text-foreground transition-colors hover:bg-secondary md:hidden"
+                        class="flex size-11 items-center justify-center rounded-lg text-foreground transition-colors hover:bg-secondary lg:hidden"
                         :aria-expanded="mobileMenuOpen"
                         :aria-label="
                             mobileMenuOpen ? 'Menu sluiten' : 'Menu openen'
@@ -159,7 +188,7 @@ function scrollToOfferte() {
             <!-- Mobile menu -->
             <div
                 v-if="mobileMenuOpen"
-                class="border-t border-border bg-background/95 backdrop-blur md:hidden"
+                class="border-t border-border bg-background/95 backdrop-blur lg:hidden"
             >
                 <nav class="container mx-auto flex flex-col px-4 py-4">
                     <Link

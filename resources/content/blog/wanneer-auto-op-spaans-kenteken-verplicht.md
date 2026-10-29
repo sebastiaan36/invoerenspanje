@@ -1,9 +1,9 @@
 ---
-title: "Wanneer moet uw auto op een Spaans kenteken?"
-excerpt: "Gaat u in Spanje wonen of overwintert u alleen? Lees wanneer uw Nederlandse auto op een Spaans kenteken moet en wat de risico's zijn als u wacht."
+title: "Wanneer moet uw auto op een Spaans kenteken? Resident, overwinteraar of niet-resident"
+excerpt: "Resident? Dan heeft u een maand. Overwinteraar? Maximaal zes maanden per jaar op Nederlands kenteken. Plus: wat geldt als niet-resident en welke boetes u riskeert."
 author: Sebastiaan
 published_at: 2026-09-09 10:00
-updated_at: 2026-10-25
+updated_at: 2026-10-29
 status: published
 hero_image: images/wanneer-auto-op-spaans-kenteken-verplicht.webp
 ---
@@ -37,7 +37,7 @@ Deze regels hebben elk een eigen doel. Ze vallen niet altijd op dezelfde dag sam
 
 Wie in Spanje gaat wonen, schrijft de auto in. Volgens [administracion.gob.es](https://administracion.gob.es/pag_Home/Tu-espacio-europeo/derechos-obligaciones/ciudadanos/vehiculos/traslado/matriculacion.html) heeft u daarvoor een maand vanaf het moment dat u resident bent. Lukt dat niet op tijd, dan kunt u bij de DGT een tijdelijke inschrijving aanvragen.
 
-U krijgt dan groene tijdelijke kentekenplaten, de *matrículas temporales*. Volgens de DGT mag u daarmee twee maanden rijden, met mogelijkheid tot verlenging. De auto moet wel verzekerd zijn. Bij ons kosten deze platen € 150. Ze zijn niet verplicht, maar wel nodig om met een geëxporteerde auto naar de ITV-keuring te rijden.
+U krijgt dan groene tijdelijke kentekenplaten, de *matrículas temporales*. Volgens de DGT mag u daarmee twee maanden rijden, met mogelijkheid tot verlenging. De auto moet wel verzekerd zijn. Bij ons kosten deze platen € 150. Ze zijn niet verplicht, maar wel nodig om met een geëxporteerde auto naar de ITV-keuring te rijden.
 
 Er is ook goed nieuws voor wie verhuist. Verhuist u uw hoofdverblijf naar Spanje en had u de auto al vóór de verhuizing, dan is onder voorwaarden vrijstelling van de Spaanse registratiebelasting mogelijk. Een van de voorwaarden is dat u de auto minimaal zes maanden in uw oude woonplaats heeft gebruikt. Meer hierover leest u in ons artikel over [de registratiebelasting (IEDMT) en de vrijstelling bij verhuizing](/blog/registratiebelasting-iedmt-spanje-vrijstelling-verhuizing).
 
@@ -53,12 +53,25 @@ Let daarbij op drie dingen:
 - Leen de auto niet uit aan iemand die in Spanje woont. Dat mag volgens Your Europe niet bij een auto met een buitenlands kenteken.
 - Neem uw kentekenbewijs en een bewijs van uw woonadres in Nederland mee in de auto.
 
+## Niet-resident in Spanje: kan de auto toch op een Spaans kenteken?
+
+Veel Nederlanders hebben een huis aan de Costa del Sol, maar wonen officieel nog in Nederland. Zij zijn in Spanje *no residente*. Voor hen is een Spaans kenteken niet verplicht. Zolang het verblijf tijdelijk blijft, mag de auto op het Nederlandse kenteken blijven.
+
+Wilt u de auto toch in Spanje inschrijven, bijvoorbeeld omdat hij daar het hele jaar staat? Dan heeft u in elk geval een NIE-nummer nodig en een adres in Spanje dat u kunt aantonen. Vraag vooraf bij de DGT of een gestoría na welke stukken uw situatie vraagt. Houd daarbij rekening met drie gevolgen:
+
+- **Geen vrijstelling van de registratiebelasting.** De vrijstelling van de IEDMT is bedoeld voor wie zijn hoofdverblijf naar Spanje verhuist. Als niet-resident betaalt u de IEDMT dus volgens het gewone CO₂-tarief.
+- **Rijden in Nederland wordt lastig.** Woont u in Nederland, dan mag u daar in principe niet rijden met een auto op een buitenlands kenteken. De Belastingdienst kan dan alsnog BPM en motorrijtuigenbelasting heffen.
+- **De BPM-teruggave blijft mogelijk.** Die hangt niet af van uw woonplaats, maar van de export: de auto wordt bij de RDW afgemeld en binnen 13 weken in Spanje ingeschreven.
+
+Voor de meeste niet-residenten is het daarom gunstiger de auto op het Nederlandse kenteken te houden, of een tweede auto in Spanje te kopen. Gaat u op termijn wel in Spanje wonen? Wacht dan met de invoer tot u resident bent, zodat u de vrijstelling van de IEDMT kunt aanvragen.
+
 ## Overzicht: welke situatie past bij u?
 
 | Uw situatie | Spaans kenteken nodig? | Waar moet u op letten? |
 |---|---|---|
 | Vakantie of korte reis | Nee | Geldige APK, verzekering en kentekenbewijs |
 | Overwinteren, u woont in Nederland | Nee, zolang het verblijf tijdelijk blijft | Maximaal zes maanden per twaalf maanden (EU-richtlijn) |
+| Huis in Spanje, maar niet-resident | Nee, wel mogelijk | Geen vrijstelling van de IEDMT, in Nederland niet rijden op Spaans kenteken |
 | U gaat in Spanje wonen | Ja | Inschrijven binnen een maand na het resident worden |
 | U woont al in Spanje en rijdt nog op Nederlands kenteken | Ja | Zo snel mogelijk regelen, eventueel met tijdelijke platen |
 
@@ -97,7 +110,7 @@ Een overzicht van alle stappen vindt u in onze [complete gids over auto invoeren
 
 ## Hulp bij de overstap naar een Spaans kenteken
 
-Wij regelen beide kanten van het traject: de export en de BPM-teruggave in Nederland, en de inschrijving en ITV in Spanje. U kiest zelf hoeveel u uit handen geeft. Ons Basispakket kost € 395, Compleet € 895 en Compleet Plus € 1.495. De verschillen ziet u op de pagina [tarieven](/tarieven).
+Wij regelen beide kanten van het traject: de export en de BPM-teruggave in Nederland, en de inschrijving en ITV in Spanje. U kiest zelf hoeveel u uit handen geeft. Ons Basispakket kost € 395, Compleet € 895 en Compleet Plus € 1.495. De verschillen ziet u op de pagina [tarieven](/tarieven).
 
 Wilt u weten wat dit voor uw auto betekent? Doe de [kentekencheck en vraag een vrijblijvende offerte aan](/#offerte).
 

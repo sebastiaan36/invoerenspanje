@@ -104,7 +104,7 @@ const steps = [
     {
         country: 'Spanje',
         title: 'Documenten en COC of Ficha Técnica',
-        body: 'Wij controleren uw documenten. Levert u een COC aan, dan is geen Ficha Técnica (technisch rapport) nodig. Zonder COC wordt die opgesteld voor € 85 extra.',
+        body: 'Wij controleren uw documenten. Levert u een COC aan, dan is geen Ficha Técnica (technisch rapport) nodig. Zonder COC wordt die opgesteld voor € 85 extra.',
     },
     {
         country: 'Spanje',
@@ -114,7 +114,7 @@ const steps = [
     {
         country: 'Spanje',
         title: 'ITV-keuring',
-        body: 'De Spaanse APK, die u zelf betaalt (ca. € 150–160). Bij Basis plant u de afspraak zelf, bij Compleet plannen wij die en bij Compleet Plus gaan wij namens u.',
+        body: 'De Spaanse APK, die u zelf betaalt (ca. € 150–160). Bij Basis plant u de afspraak zelf, bij Compleet plannen wij die en bij Compleet Plus gaan wij namens u.',
     },
     {
         country: 'Spanje',
