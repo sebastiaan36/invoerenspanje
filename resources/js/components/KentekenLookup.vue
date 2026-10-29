@@ -29,6 +29,7 @@ import {
     TooltipProvider,
     TooltipTrigger,
 } from '@/components/ui/tooltip';
+import { trackEvent } from '@/lib/analytics';
 import { postJson } from '@/lib/api';
 import type { ApiError } from '@/lib/api';
 import { PHONE, PHONE_DISPLAY, WHATSAPP_URL } from '@/lib/contact';
@@ -243,6 +244,7 @@ async function performRecalc() {
                 e.data?.message ?? 'Geen voertuig gevonden bij dit kenteken.';
             notFound.value = true;
             result.value = null;
+            trackLookup('not_found');
         } else if (e.status === 503) {
             errorMessage.value =
                 e.data?.message ??
@@ -332,11 +334,30 @@ function scrollToPackages() {
 // het ophalen meteen bij het formulier uitkomen in plaats van bij de kaart.
 let scrollToQuoteOnResult = false;
 
+// Een kenteken uit de URL (herladen, of doorklikken vanaf de BPM-calculator)
+// is al eerder als event geteld.
+let skipNextLookupEvent = false;
+
+// GA4: elk opgezocht kenteken telt één keer, zonder het kenteken zelf mee
+// te sturen. De BPM-calculator krijgt een eigen event.
+function trackLookup(lookupResult: 'found' | 'not_found') {
+    if (skipNextLookupEvent) {
+        skipNextLookupEvent = false;
+
+        return;
+    }
+
+    trackEvent(props.bpmOnly ? 'bpm_calculation' : 'kenteken_lookup', {
+        lookup_result: lookupResult,
+    });
+}
+
 function onNewResult(data: VehicleResponse) {
     const vehicleName = [data.vehicle.merk, data.vehicle.handelsbenaming]
         .filter(Boolean)
         .join(' ');
     announcement.value = `Berekening klaar voor ${vehicleName || data.kenteken}.`;
+    trackLookup('found');
 
     syncKentekenToUrl(data.kenteken);
 
@@ -390,6 +411,7 @@ onMounted(() => {
 
     if (fromUrl) {
         scrollToQuoteOnResult = wantsQuote && !props.bpmOnly;
+        skipNextLookupEvent = true;
         kenteken.value = fromUrl;
     } else if (wantsQuote) {
         kentekenInput.value?.focus();

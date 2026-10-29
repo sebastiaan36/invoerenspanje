@@ -1,0 +1,1 @@
+function e(e,t={}){typeof window<`u`&&typeof window.gtag==`function`&&window.gtag(`event`,e,{page_path:window.location.pathname,...t})}export{e as t};
