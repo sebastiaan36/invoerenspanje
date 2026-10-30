@@ -83,7 +83,13 @@ final class LeadRequest extends FormRequest
             'import_kosten_indicatie_eur' => $this->input('import_kosten_indicatie'),
             'totaalprijs_indicatie_eur' => $this->input('totaalprijs_indicatie'),
 
-            'source' => $utmSource ? 'ads' : 'organic',
+            // utm_medium=social marks unpaid social links (the Instagram bio
+            // page); any other tagged visit counts as an ad.
+            'source' => match (true) {
+                ! $utmSource => 'organic',
+                $this->input('utm_medium') === 'social' => 'social',
+                default => 'ads',
+            },
             'utm_source' => $utmSource ?: null,
             'utm_medium' => $this->input('utm_medium') ?: null,
             'utm_campaign' => $this->input('utm_campaign') ?: null,

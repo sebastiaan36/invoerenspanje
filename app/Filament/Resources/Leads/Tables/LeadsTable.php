@@ -100,6 +100,7 @@ class LeadsTable
                     ->options([
                         'organic' => 'Organic',
                         'ads' => 'Ads',
+                        'social' => 'Social',
                         'referral' => 'Referral',
                     ])
                     ->multiple(),

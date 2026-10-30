@@ -43,7 +43,8 @@ class SeoServerRenderingTest extends TestCase
 
     public function test_every_public_page_renders_its_heading_and_intro_server_side(): void
     {
-        foreach (config('seo.routes') as $routeName => $meta) {
+        // Entries without an h1 (the noindex Instagram page) have no crawler HTML.
+        foreach (array_filter(config('seo.routes'), fn (array $meta): bool => isset($meta['h1'])) as $routeName => $meta) {
             $app = $this->appHtml($this->get(route($routeName))->assertOk()->getContent());
 
             $this->assertSame(1, preg_match('#<h1[^>]*>(.*?)</h1>#s', $app, $h1), "{$routeName} has no server-rendered h1");

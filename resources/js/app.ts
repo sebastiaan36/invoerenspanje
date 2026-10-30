@@ -31,6 +31,7 @@ createInertiaApp({
             case name === 'OverOns':
             case name === 'Faq':
             case name === 'Gids':
+            case name === 'Instagram':
             case name.startsWith('Blog/'):
                 return null;
             case name.startsWith('auth/'):

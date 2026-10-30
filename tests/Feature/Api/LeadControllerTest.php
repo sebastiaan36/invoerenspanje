@@ -286,6 +286,21 @@ final class LeadControllerTest extends TestCase
         $this->assertSame('cpc', $lead->utm_medium);
     }
 
+    public function test_it_marks_source_as_social_for_the_instagram_bio_link(): void
+    {
+        Mail::fake();
+
+        $this->postJson(route('api.leads.store'), $this->validPayload([
+            'utm_source' => 'instagram',
+            'utm_medium' => 'social',
+            'utm_campaign' => 'bio',
+        ]))->assertCreated();
+
+        $lead = Lead::firstOrFail();
+        $this->assertSame('social', $lead->source);
+        $this->assertSame('instagram', $lead->utm_source);
+    }
+
     public function test_it_validates_required_fields(): void
     {
         Mail::fake();
