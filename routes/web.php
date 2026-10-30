@@ -23,6 +23,7 @@ Route::get('tarieven', [PublicPageController::class, 'tarieven'])->name('tarieve
 Route::get('bpm-calculator', [PublicPageController::class, 'bpmCalculator'])->name('bpm-calculator');
 Route::get('veelgestelde-vragen', [PublicPageController::class, 'faq'])->name('faq');
 Route::get('auto-invoeren-spanje', [PublicPageController::class, 'gids'])->name('gids');
+Route::get('instagram', [PublicPageController::class, 'instagram'])->name('instagram');
 
 Route::get('sitemap.xml', SitemapController::class)->name('sitemap');
 

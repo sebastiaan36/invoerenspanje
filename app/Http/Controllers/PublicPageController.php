@@ -94,4 +94,43 @@ final class PublicPageController extends Controller
             'updatedLabel' => 'Bijgewerkt: '.config('seo.routes.gids.updated_label'),
         ]);
     }
+
+    /**
+     * Link-in-bio page for Instagram: a price-check button and a hand-picked
+     * set of articles, in the order of INSTAGRAM_POSTS. Unpublished slugs are
+     * skipped, so the list never shows a dead link.
+     */
+    public function instagram(HeroImageOptimizer $heroImages): Response
+    {
+        $posts = Post::published()
+            ->whereIn('slug', self::INSTAGRAM_POSTS)
+            ->get()
+            ->sortBy(fn (Post $post): int|false => array_search($post->slug, self::INSTAGRAM_POSTS, true))
+            ->map(fn (Post $post): array => [
+                'slug' => $post->slug,
+                'title' => trim($post->title),
+                'hero_image_url' => $post->hero_image_path ? asset('storage/'.$post->hero_image_path) : null,
+                'hero_image_srcset' => $post->hero_image_path ? $heroImages->srcset($post->hero_image_path) : null,
+            ])
+            ->values()
+            ->all();
+
+        return Inertia::render('Instagram', [
+            'posts' => $posts,
+        ]);
+    }
+
+    /**
+     * Articles on the Instagram page, most useful first.
+     *
+     * @var list<string>
+     */
+    private const INSTAGRAM_POSTS = [
+        'kosten-auto-invoeren-spanje-rekenvoorbeelden',
+        'bpm-teruggave-auto-importeren-spanje',
+        'wanneer-auto-op-spaans-kenteken-verplicht',
+        'auto-naar-spanje-zelf-rijden-of-transport',
+        'registratiebelasting-iedmt-spanje-vrijstelling-verhuizing',
+        'leaseauto-of-gefinancierde-auto-meenemen-naar-spanje',
+    ];
 }

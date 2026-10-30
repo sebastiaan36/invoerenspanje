@@ -76,6 +76,12 @@ return [
             'updated' => '2026-10-25',
         ],
 
+        // Link-in-bio page; noindex and not in the sitemap (see app.blade.php).
+        'instagram' => [
+            'title' => 'Auto op Spaans kenteken — autoinvoerenspanje.nl',
+            'description' => 'Bereken direct wat het kost om uw Nederlandse auto op Spaans kenteken te zetten, of lees onze artikelen over BPM-teruggave, kosten en de ITV.',
+        ],
+
         'contact' => [
             'title' => 'Contact — autoinvoerenspanje.nl',
             'description' => 'Neem contact op met ons team. Bel, WhatsApp of stuur een bericht via het contactformulier.',
