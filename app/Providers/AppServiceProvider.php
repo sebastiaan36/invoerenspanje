@@ -5,6 +5,8 @@ namespace App\Providers;
 use App\Http\Responses\LoginResponse;
 use App\Services\Blog\BlogFileSync;
 use App\Services\Bpm\BpmCalculator;
+use App\Services\Hacienda\HaciendaPriceImporter;
+use App\Services\Hacienda\HaciendaVehicleMatcher;
 use App\Services\Rdw\RdwService;
 use App\Services\SpainImport\SpainImportCalculator;
 use Carbon\CarbonImmutable;
@@ -32,6 +34,16 @@ class AppServiceProvider extends ServiceProvider
 
         $this->app->singleton(BpmCalculator::class, fn ($app): BpmCalculator => new BpmCalculator(
             $app['config']->get('bpm_rates'),
+        ));
+
+        // Hacienda "precios medios de venta" are committed as CSV and loaded with `hacienda:sync`.
+        $this->app->bind(HaciendaPriceImporter::class, fn ($app): HaciendaPriceImporter => new HaciendaPriceImporter(
+            $app->make(CacheRepository::class),
+            database_path('data/hacienda'),
+        ));
+
+        $this->app->bind(HaciendaVehicleMatcher::class, fn ($app): HaciendaVehicleMatcher => new HaciendaVehicleMatcher(
+            (int) $app['config']->get('spain_import.hacienda.table_year'),
         ));
 
         $this->app->singleton(SpainImportCalculator::class, fn ($app): SpainImportCalculator => new SpainImportCalculator(

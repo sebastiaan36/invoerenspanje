@@ -50,7 +50,8 @@ class ContactFormTest extends TestCase
             ->assertOk()
             ->assertInertia(fn ($page) => $page
                 ->has('fixedCosts', count(config('spain_import.fixed_costs')))
-                ->where('fixedCosts.3.key', 'honorarios')
+                ->where('fixedCosts.2.key', 'honorarios')
+                ->where('fixedCosts.2.amount_eur', 219.62)
             );
     }
 }

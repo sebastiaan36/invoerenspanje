@@ -6,6 +6,7 @@ namespace App\Services\Quote;
 
 use App\Services\Bpm\BpmCalculator;
 use App\Services\Bpm\Dto\BpmInput;
+use App\Services\Hacienda\HaciendaVehicleMatcher;
 use App\Services\Quote\Dto\VehicleQuote;
 use App\Services\Rdw\KentekenNormalizer;
 use App\Services\Rdw\RdwService;
@@ -26,6 +27,7 @@ final class VehicleQuoteService
         private readonly RdwService $rdw,
         private readonly BpmCalculator $bpm,
         private readonly SpainImportCalculator $spainImport,
+        private readonly HaciendaVehicleMatcher $hacienda,
     ) {}
 
     public function quote(string $kenteken, bool $residencyChange = false, string $autonomia = 'default'): VehicleQuote
@@ -46,22 +48,18 @@ final class VehicleQuoteService
         $bpmInput = BpmInput::fromLookup($rdwResult);
         $bpmResult = $bpmInput !== null ? $this->bpm->calculateRestBpm($bpmInput) : null;
 
-        $importInput = SpainImportInput::fromLookup($rdwResult, $residencyChange, $autonomia);
+        $importInput = SpainImportInput::fromLookup(
+            $rdwResult,
+            $residencyChange,
+            $autonomia,
+            $this->hacienda->match($rdwResult),
+        );
         $importResult = $importInput !== null ? $this->spainImport->calculate($importInput) : null;
 
         // Voor de exemption-savings berekenen we ook de "zonder vrijstelling"-variant.
         $importBaseline = null;
         if ($importInput !== null && $importInput->residencyChange) {
-            $importBaseline = $this->spainImport->calculate(
-                new SpainImportInput(
-                    datumEersteToelating: $importInput->datumEersteToelating,
-                    co2: $importInput->co2,
-                    catalogusprijsEur: $importInput->catalogusprijsEur,
-                    voertuigsoort: $importInput->voertuigsoort,
-                    residencyChange: false,
-                    autonomia: $importInput->autonomia,
-                ),
-            );
+            $importBaseline = $this->spainImport->calculate($importInput->withResidencyChange(false));
         }
 
         return new VehicleQuote(

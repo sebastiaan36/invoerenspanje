@@ -50,12 +50,12 @@ return [
         [
             'id' => 'ficha-tecnica',
             'question' => 'Wat is de Ficha Técnica en wanneer heb ik die nodig?',
-            'answer' => 'De Ficha Técnica is het Spaanse technische rapport van uw auto. Levert u een COC-document (Certificaat van Overeenstemming) aan, dan is de Ficha Técnica niet nodig en bespaart u € 85. Zonder COC wordt de Ficha Técnica opgesteld; bij Compleet en Compleet Plus regelen wij dat, inclusief foto\'s op locatie.',
+            'answer' => 'De Ficha Técnica is het Spaanse technische rapport van uw auto. Levert u een COC-document (Certificaat van Overeenstemming) aan, dan is de Ficha Técnica niet nodig en bespaart u € 102,85. Zonder COC wordt de Ficha Técnica opgesteld; bij Compleet en Compleet Plus regelen wij dat, inclusief foto\'s op locatie.',
         ],
         [
             'id' => 'matriculas-temporales',
             'question' => 'Wat zijn matrículas temporales?',
-            'answer' => 'Dit zijn tijdelijke groene kentekenplaten. Ze zijn niet verplicht, maar wel nodig om met een geëxporteerde auto naar de ITV te rijden en legaal te blijven rijden tot de definitieve platen er zijn. Kosten: € 150.',
+            'answer' => 'Dit zijn tijdelijke groene kentekenplaten. Ze zijn niet verplicht, maar wel nodig om met een geëxporteerde auto naar de ITV te rijden en legaal te blijven rijden tot de definitieve platen er zijn. Kosten: € 181,50.',
         ],
         [
             'id' => 'transportkosten',
@@ -138,7 +138,7 @@ return [
                 [
                     'id' => 'hoogte-bpm-teruggave',
                     'question' => 'Hoe hoog is de BPM-teruggave?',
-                    'answer' => 'Dat hangt af van de oorspronkelijke BPM die bij de eerste registratie is betaald en van de leeftijd van de auto in maanden. Op die BPM past de Belastingdienst een vaste afschrijvingstabel toe: hoe jonger de auto, hoe meer u terugkrijgt. Een voorbeeld: bij €6.000 oorspronkelijke BPM en een auto van precies vijf jaar oud krijgt u ca. €1.800 terug. Onze BPM-calculator haalt de oorspronkelijke BPM bij de RDW op en rekent het voor uw kenteken uit.',
+                    'answer' => 'Dat hangt af van de oorspronkelijke BPM die bij de eerste registratie is betaald en van de leeftijd van de auto in maanden. Op die BPM past de Belastingdienst een vaste afschrijvingstabel toe: hoe jonger de auto, hoe meer u terugkrijgt. Een voorbeeld: bij €6.000 oorspronkelijke BPM en een auto van precies vijf jaar oud krijgt u ca. €2.100 terug. Komt de rest-BPM uit onder €50, dan keert de Belastingdienst niets uit. Onze BPM-calculator haalt de oorspronkelijke BPM bij de RDW op en rekent het voor uw kenteken uit.',
                     'links' => [
                         ['label' => 'Naar de BPM-calculator', 'href' => '/bpm-calculator'],
                     ],
@@ -283,7 +283,7 @@ return [
                 [
                     'id' => 'totale-kosten',
                     'question' => 'Wat zijn de totale kosten voor het invoeren van mijn auto?',
-                    'answer' => 'De totale kosten bestaan uit drie delen. Ten eerste de vaste prijs van uw pakket: Basis €395, Compleet €895 of Compleet Plus €1.495. Ten tweede de vaste kosten in Spanje: leges van de DGT (€125), Spaanse kentekenplaten (€35), de gestoría, het Spaanse administratiekantoor (€181,50), de ITV-keuring (ca. €150–160), de Ficha Técnica, een technisch rapport (€85, vervalt als u een COC-document aanlevert) en eventueel tijdelijke kentekenplaten (€150, optioneel). Ten derde de IEDMT, de Spaanse registratiebelasting, die afhangt van de CO₂-uitstoot en waarvoor bij verhuizing onder voorwaarden vrijstelling mogelijk is. De BPM-teruggave gaat daar weer vanaf.',
+                    'answer' => 'De totale kosten bestaan uit drie delen. Ten eerste de vaste prijs van uw pakket: Basis €395, Compleet €895 of Compleet Plus €1.495. Ten tweede de vaste kosten in Spanje: leges van de DGT (€125), de gestoría, het Spaanse administratiekantoor, inclusief de definitieve kentekenplaten (€219,62), de ITV-keuring (ca. €150–160), de Ficha Técnica, een technisch rapport (€102,85, vervalt als u een COC-document aanlevert) en eventueel tijdelijke kentekenplaten (€181,50, optioneel). Ten derde de IEDMT, de Spaanse registratiebelasting, die afhangt van de CO₂-uitstoot en waarvoor bij verhuizing onder voorwaarden vrijstelling mogelijk is. De BPM-teruggave gaat daar weer vanaf.',
                     'links' => [
                         ['label' => 'Bereken wat u terugkrijgt', 'href' => '/#offerte'],
                         ['label' => 'Alle tarieven', 'href' => '/tarieven'],
@@ -292,7 +292,7 @@ return [
                 [
                     'id' => 'basis-pakket',
                     'question' => 'Wat is inbegrepen in het Basis-pakket?',
-                    'answer' => 'Met Basis (€395) houdt u zelf de regie. U regelt zelf de export in Nederland, levert de gevraagde documenten en het COC-document aan (zonder COC kost de Ficha Técnica €85 extra) en regelt zelf de ITV-afspraak en de keuring. Wij verwerken de aanvraag bij de DGT en leveren de groene tijdelijke platen en daarna het officiële kenteken met de platen; die haalt u bij ons op. De Spaanse vaste kosten en de IEDMT zijn niet inbegrepen.',
+                    'answer' => 'Met Basis (€395) houdt u zelf de regie. U regelt zelf de export in Nederland, levert de gevraagde documenten en het COC-document aan (zonder COC kost de Ficha Técnica €102,85 extra) en regelt zelf de ITV-afspraak en de keuring. Wij verwerken de aanvraag bij de DGT en leveren de groene tijdelijke platen en daarna het officiële kenteken met de platen; die haalt u bij ons op. De Spaanse vaste kosten en de IEDMT zijn niet inbegrepen.',
                     'links' => [
                         ['label' => 'Pakketten vergelijken', 'href' => '/tarieven'],
                     ],
@@ -308,7 +308,7 @@ return [
                 [
                     'id' => 'verborgen-kosten',
                     'question' => 'Zijn er verborgen kosten?',
-                    'answer' => 'Nee. Onze pakketprijs is vast. Daarnaast zijn er kosten die niet in het pakket zitten: de Spaanse overheidskosten (leges, kentekenplaten en de IEDMT), de gestoría, de ITV-keuring en, bij Compleet Plus, de transportkosten. Die staan apart en noemen wij vooraf, zodat u weet waar u aan toe bent.',
+                    'answer' => 'Nee. Onze pakketprijs is vast. Daarnaast zijn er kosten die niet in het pakket zitten: de Spaanse overheidskosten (leges en de IEDMT), de gestoría (inclusief de definitieve kentekenplaten), de ITV-keuring en, bij Compleet Plus, de transportkosten. Die staan apart en noemen wij vooraf, zodat u weet waar u aan toe bent.',
                     'links' => [
                         ['label' => 'Alle tarieven', 'href' => '/tarieven'],
                     ],

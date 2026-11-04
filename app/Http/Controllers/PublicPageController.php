@@ -9,6 +9,7 @@ use App\Models\Review;
 use App\Services\HeroImageOptimizer;
 use App\Services\Packages\ServicePackage;
 use App\Services\Packages\ServicePackages;
+use App\Services\SpainImport\SpainFixedCosts;
 use Inertia\Inertia;
 use Inertia\Response;
 use Laravel\Fortify\Features;
@@ -26,7 +27,7 @@ final class PublicPageController extends Controller
             'faqItems' => config('faq.home'),
             'contentHtml' => view('content.home', [
                 'lowestPackagePrice' => min(array_map(fn (ServicePackage $p): int => $p->priceEur, ServicePackages::all())),
-                'fixedCostsTotal' => array_sum(array_column(config('spain_import.fixed_costs'), 'amount_eur')),
+                'fixedCostsTotal' => array_sum(array_column(SpainFixedCosts::fromConfig(), 'amount_eur')),
             ])->render(),
             'reviews' => $this->reviews(),
             'recentPosts' => Post::published()
@@ -67,7 +68,7 @@ final class PublicPageController extends Controller
     public function tarieven(): Response
     {
         return Inertia::render('Tarieven', [
-            'fixedCosts' => config('spain_import.fixed_costs'),
+            'fixedCosts' => SpainFixedCosts::fromConfig(),
             'faqItems' => config('faq.tarieven'),
         ]);
     }

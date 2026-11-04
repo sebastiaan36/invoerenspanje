@@ -3,7 +3,7 @@ title: "Nederlandse auto keuren in Spanje: de ITV-keuring bij import"
 excerpt: "Uw Nederlandse auto laten keuren in Spanje? De eenmalige ITV bij import kost ca. € 150–160. Welke documenten u meeneemt en hoe u afkeuring voorkomt."
 author: Sebastiaan
 published_at: 2026-06-18 17:42
-updated_at: 2026-10-29
+updated_at: 2026-11-04
 status: published
 hero_image: images/itv-keuring-auto-import-spanje.webp
 ---
@@ -14,7 +14,7 @@ Is uw auto in Nederland uitgeschreven en staat hij klaar in Spanje? Dan moet u u
 - De ITV is de Spaanse APK. Elke auto die voor het eerst in Spanje wordt ingeschreven, moet erlangs.
 - De keuring kost ca. € 150–160, afhankelijk van het station. U betaalt dit zelf aan de balie van het keuringsstation.
 - Neem uw identiteitsbewijs, NIE-nummer, de Nederlandse kentekenpapieren en het COC-document mee.
-- Om met een geëxporteerde auto naar de ITV te rijden, heeft u tijdelijke kentekenplaten nodig (matrículas temporales, € 150).
+- Om met een geëxporteerde auto naar de ITV te rijden, heeft u tijdelijke kentekenplaten nodig (matrículas temporales, € 181,50).
 - Bied de auto aan in originele staat. Niet geregistreerde aanpassingen zijn een veelvoorkomende reden voor afkeuring.
 - Wordt de auto afgekeurd, dan laat u de gebreken herstellen en volgt een herkeuring.
 
@@ -39,7 +39,7 @@ Bij een import is de ITV niet over te slaan. Elke auto die voor het eerst in Spa
 
 Bij deze eerste keuring vergelijkt het station de auto met de technische gegevens van de fabriek. Die gegevens staan op het COC-document (Certificaat van Overeenstemming). Heeft u een COC, dan kan het station die gegevens overnemen.
 
-Heeft u geen COC? Dan is een Ficha Técnica nodig: een technisch rapport van uw auto. Dat kost € 85 extra. Het loont dus om het COC-document vooraf op te vragen.
+Heeft u geen COC? Dan is een Ficha Técnica nodig: een technisch rapport van uw auto. Dat kost € 102,85 extra. Het loont dus om het COC-document vooraf op te vragen.
 
 ### De gewone periodieke ITV is iets anders
 
@@ -47,7 +47,7 @@ Na de inschrijving volgt de gewone, periodieke ITV: de Spaanse APK die u op vast
 
 ## Tijdelijke kentekenplaten om naar de ITV te rijden
 
-Een auto die in Nederland is uitgeschreven, mag niet zomaar de weg op. Om naar het keuringsstation te rijden, heeft u tijdelijke kentekenplaten nodig: de groene *matrículas temporales*. Die kosten € 150.
+Een auto die in Nederland is uitgeschreven, mag niet zomaar de weg op. Om naar het keuringsstation te rijden, heeft u tijdelijke kentekenplaten nodig: de groene *matrículas temporales*. Die kosten € 181,50.
 
 Ze zijn niet verplicht. Wel heeft u ze nodig om met de geëxporteerde auto naar de ITV te rijden. Met deze platen blijft u ook legaal rijden tot de definitieve Spaanse platen er zijn. Zorg ook dat de auto verzekerd is. Hoe u dat regelt, leest u in [uw auto verzekeren in Spanje](/blog/auto-verzekeren-spanje-na-import).
 
@@ -114,8 +114,8 @@ De keuring zelf kost ca. € 150–160. Het precieze bedrag verschilt per stati
 
 Daarnaast kunt u bij de keuring te maken krijgen met:
 
-- tijdelijke kentekenplaten (matrículas temporales): € 150;
-- een Ficha Técnica als u geen COC heeft: € 85.
+- tijdelijke kentekenplaten (matrículas temporales): € 181,50;
+- een Ficha Técnica als u geen COC heeft: € 102,85.
 
 Dit zijn niet de enige kosten van de invoer. Ook de leges, de kentekenplaten, het administratiekantoor en mogelijk registratiebelasting komen erbij. Een volledig overzicht staat op onze pagina [tarieven](/tarieven).
 
@@ -129,7 +129,7 @@ Vergeet ook de Nederlandse kant niet. Na export kunt u een deel van de BPM terug
 
 ## Veelgemaakte fouten
 
-- **Zonder COC verschijnen.** Zonder COC is een Ficha Técnica nodig. Dat kost tijd en € 85 extra.
+- **Zonder COC verschijnen.** Zonder COC is een Ficha Técnica nodig. Dat kost tijd en € 102,85 extra.
 - **Aanpassingen niet laten registreren.** Een trekhaak of getinte ramen die niet bij de auto geregistreerd zijn, kunnen tot afkeuring leiden.
 - **Kleine gebreken onderschatten.** Een kapotte lamp of versleten band is snel verholpen, maar leidt bij de keuring wel tot problemen.
 - **Een onvolledig dossier.** Eén ontbrekend document kan betekenen dat u een nieuwe afspraak moet maken.

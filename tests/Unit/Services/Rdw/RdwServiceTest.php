@@ -166,6 +166,45 @@ final class RdwServiceTest extends TestCase
         $this->assertSame(40, $result->fuel?->co2UitstootGewogen);
     }
 
+    public function test_full_lookup_uses_the_rdw_hybrid_class_to_detect_a_plugin_hybrid(): void
+    {
+        Http::fake([
+            'opendata.rdw.nl/resource/m9d7-ebf2.json*' => Http::response([[
+                'kenteken' => '12ABC3',
+                'datum_eerste_toelating' => '20200401',
+            ]]),
+            'opendata.rdw.nl/resource/8ys7-d773.json*' => Http::response([
+                ['kenteken' => '12ABC3', 'brandstof_omschrijving' => 'Elektriciteit', 'klasse_hybride_elektrisch_voertuig' => 'OVC-HEV'],
+                ['kenteken' => '12ABC3', 'brandstof_omschrijving' => 'Benzine', 'nettomaximumvermogen' => '118.00', 'klasse_hybride_elektrisch_voertuig' => 'OVC-HEV'],
+            ]),
+        ]);
+
+        $result = $this->makeService()->fullLookup('12ABC3');
+
+        $this->assertTrue($result->isPluginHybrid);
+        $this->assertSame(118, $result->fuel?->powerKw());
+    }
+
+    public function test_full_lookup_does_not_mark_a_regular_hybrid_as_plugin_hybrid(): void
+    {
+        Http::fake([
+            'opendata.rdw.nl/resource/m9d7-ebf2.json*' => Http::response([[
+                'kenteken' => '12ABC3',
+                'datum_eerste_toelating' => '20210401',
+            ]]),
+            'opendata.rdw.nl/resource/8ys7-d773.json*' => Http::response([
+                ['kenteken' => '12ABC3', 'brandstof_omschrijving' => 'Elektriciteit', 'klasse_hybride_elektrisch_voertuig' => 'NOVC-HEV'],
+                ['kenteken' => '12ABC3', 'brandstof_omschrijving' => 'Benzine', 'nettomaximumvermogen' => '150.00', 'klasse_hybride_elektrisch_voertuig' => 'NOVC-HEV'],
+            ]),
+        ]);
+
+        $result = $this->makeService()->fullLookup('12ABC3');
+
+        $this->assertFalse($result->isPluginHybrid);
+        $this->assertSame('Benzine', $result->fuel?->brandstofOmschrijving);
+        $this->assertTrue($result->fuel?->isNonPluginHybrid());
+    }
+
     public function test_full_lookup_marks_a_single_fuel_car_as_not_plugin_hybrid(): void
     {
         Http::fake([

@@ -819,14 +819,33 @@ onBeforeUnmount(() => {
                                     </span>
                                 </p>
                             </template>
-                            <p
-                                v-else
-                                class="mt-2 text-sm text-muted-foreground"
-                            >
-                                {{ result.bpm.ineligible_reason }}. We helpen u
-                                nog steeds graag met de Spaanse kant: ITV,
-                                kenteken en al het papierwerk.
-                            </p>
+                            <template v-else>
+                                <p
+                                    v-if="
+                                        result.bpm.calculated_rest_bpm_eur !==
+                                        null
+                                    "
+                                    class="mt-2 text-sm text-muted-foreground"
+                                >
+                                    Oorspronkelijke BPM
+                                    {{ formatEuro(result.bpm.bruto_bpm_eur) }},
+                                    daarvan is
+                                    {{
+                                        result.bpm.afschrijving_pct.toLocaleString(
+                                            'nl-NL',
+                                            {
+                                                maximumFractionDigits: 1,
+                                            },
+                                        )
+                                    }}% afgeschreven in
+                                    {{ result.bpm.age_months }} maanden.
+                                </p>
+                                <p class="mt-2 text-sm text-muted-foreground">
+                                    {{ result.bpm.ineligible_reason }}. We
+                                    helpen u nog steeds graag met de Spaanse
+                                    kant: ITV, kenteken en al het papierwerk.
+                                </p>
+                            </template>
                         </article>
                         <article
                             v-else
@@ -914,6 +933,21 @@ onBeforeUnmount(() => {
                         />
                         Geen BPM-teruggave voor deze auto
                     </h2>
+                    <p
+                        v-if="result.bpm.calculated_rest_bpm_eur !== null"
+                        class="mt-2 text-muted-foreground"
+                    >
+                        Oorspronkelijke BPM
+                        {{ formatEuro(result.bpm.bruto_bpm_eur) }}, daarvan is
+                        {{
+                            result.bpm.afschrijving_pct.toLocaleString(
+                                'nl-NL',
+                                {
+                                    maximumFractionDigits: 1,
+                                },
+                            )
+                        }}% afgeschreven in {{ result.bpm.age_months }} maanden.
+                    </p>
                     <p class="mt-2 text-muted-foreground">
                         {{ result.bpm.ineligible_reason }}. We helpen u nog
                         steeds graag met de Spaanse kant: ITV-keuring, kenteken

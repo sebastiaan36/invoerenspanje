@@ -3,7 +3,7 @@ title: "Auto uitschrijven bij de RDW voor export: het exportkenteken in 4 stappe
 excerpt: "Zo meldt u uw auto bij de RDW af voor export, wat u meeneemt, hoe lang het exportkenteken geldig is en waarom u niet te vroeg moet afmelden."
 author: Sebastiaan
 published_at: 2026-05-23 17:31
-updated_at: 2026-10-29
+updated_at: 2026-11-04
 status: published
 hero_image: images/auto-uitschrijven-bij-de-rdw-en-exportkenteken-aanvragen-zo-werkt-het.webp
 ---
@@ -71,7 +71,7 @@ De voorwaarden, een rekenvoorbeeld en hoe u de aanvraag indient, leest u in ons 
 
 ## Wat er daarna gebeurt in Spanje
 
-Het exportkenteken geldt alleen in Nederland en maar 14 dagen. In Spanje rijdt u daarna met tijdelijke groene platen (*matrículas temporales*, € 150) naar de [ITV-keuring bij import](/blog/itv-keuring-auto-import-spanje). Daarna volgen de registratiebelasting en de inschrijving bij de DGT.
+Het exportkenteken geldt alleen in Nederland en maar 14 dagen. In Spanje rijdt u daarna met tijdelijke groene platen (*matrículas temporales*, € 181,50) naar de [ITV-keuring bij import](/blog/itv-keuring-auto-import-spanje). Daarna volgen de registratiebelasting en de inschrijving bij de DGT.
 
 Neem het Nederlandse kentekenbewijs en het uitschrijfbewijs van de RDW mee naar Spanje: beide heeft u nodig voor de inschrijving. Alle Spaanse stappen, documenten en kosten staan in onze [gids over auto invoeren in Spanje](/auto-invoeren-spanje).
 

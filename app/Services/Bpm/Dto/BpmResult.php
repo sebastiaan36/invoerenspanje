@@ -18,6 +18,7 @@ final readonly class BpmResult
         public float $restBpm,
         public string $method,
         public array $notes,
+        public ?float $calculatedRestBpm = null,
     ) {}
 
     public static function eligible(
@@ -37,6 +38,33 @@ final readonly class BpmResult
             restBpm: $restBpm,
             method: $method,
             notes: $notes,
+        );
+    }
+
+    /**
+     * The calculation itself is shown, but nothing is paid out: the refund is
+     * below the Belastingdienst minimum (or there was no BPM at all).
+     *
+     * @param  list<string>  $notes
+     */
+    public static function belowMinimum(
+        string $reason,
+        float $brutoBpm,
+        float $afschrijvingPercentage,
+        int $ageMonths,
+        float $calculatedRestBpm,
+        array $notes = [],
+    ): self {
+        return new self(
+            isEligible: false,
+            ineligibleReason: $reason,
+            brutoBpm: $brutoBpm,
+            afschrijvingPercentage: $afschrijvingPercentage,
+            ageMonths: $ageMonths,
+            restBpm: 0.0,
+            method: 'forfaitair',
+            notes: $notes,
+            calculatedRestBpm: $calculatedRestBpm,
         );
     }
 

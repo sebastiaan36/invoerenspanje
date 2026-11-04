@@ -168,7 +168,14 @@ class LeadInfolist
                             ->label('Reden vrijstelling')
                             ->placeholder('—')
                             ->columnSpanFull(),
-                        TextEntry::make('import_calculation_json.estimated_market_value_eur')->label('Geschatte marktwaarde')->money('eur'),
+                        TextEntry::make('import_calculation_json.hacienda_model')
+                            ->label('Hacienda-model (Orden HAC)')
+                            ->placeholder('— (geen match: catalogusprijs gebruikt)')
+                            ->helperText(fn ($record) => ($confidence = data_get($record, 'import_calculation_json.hacienda_confidence')) ? "Zekerheid match: {$confidence}" : null)
+                            ->columnSpanFull(),
+                        TextEntry::make('import_calculation_json.new_value_eur')->label('Nieuwwaarde')->money('eur')->placeholder('—'),
+                        TextEntry::make('import_calculation_json.retention_pct')->label('Afschrijving (Anexo IV)')->suffix('% resterend')->placeholder('—'),
+                        TextEntry::make('import_calculation_json.estimated_market_value_eur')->label('Marktwaarde (grondslag IEDMT)')->money('eur'),
                         TextEntry::make('import_calculation_json.fixed_costs_total_eur')->label('Vaste kosten totaal')->money('eur'),
                         TextEntry::make('import_calculation_json.total_eur')->label('Totaal Spanje')->money('eur'),
                         TextEntry::make('fixed_costs_breakdown')

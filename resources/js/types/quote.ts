@@ -5,6 +5,8 @@ export interface BpmPayload {
     ineligible_reason: string | null;
     bruto_bpm_eur: number;
     rest_bpm_eur: number;
+    /** Set when a rest-BPM was calculated but is below the € 50 payout minimum. */
+    calculated_rest_bpm_eur: number | null;
     afschrijving_pct: number;
     age_months: number;
     method: string;
@@ -24,6 +26,12 @@ export interface ImportCostsPayload {
     iedmt_exempt: boolean;
     iedmt_exempt_reason: string | null;
     estimated_market_value_eur: number;
+    value_source: 'hacienda' | 'catalogusprijs' | 'onbekend';
+    new_value_eur: number;
+    hacienda_model: string | null;
+    hacienda_confidence: 'hoog' | 'gemiddeld' | 'laag' | null;
+    retention_pct: number;
+    taxable_value_eur: number;
     fixed_costs: FixedCost[];
     fixed_costs_total_eur: number;
     total_eur: number;

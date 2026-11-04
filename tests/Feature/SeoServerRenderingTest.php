@@ -123,6 +123,15 @@ class SeoServerRenderingTest extends TestCase
         }
     }
 
+    public function test_bpm_calculator_mentions_the_minimum_refund(): void
+    {
+        $app = $this->appHtml($this->get(route('bpm-calculator'))->assertOk()->getContent());
+        $minimum = config('bpm_rates.minimum_refund_eur');
+
+        $this->assertStringContainsString("De teruggave komt uit op minimaal €&nbsp;{$minimum}.", $app);
+        $this->assertStringContainsString("Komt de rest-BPM uit onder €&nbsp;{$minimum}", $app);
+    }
+
     public function test_homepage_links_to_the_guide_and_supporting_articles(): void
     {
         $app = $this->appHtml($this->get(route('home'))->getContent());

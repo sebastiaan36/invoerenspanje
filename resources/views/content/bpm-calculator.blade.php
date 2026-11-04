@@ -58,6 +58,7 @@ voldaan:
 <li class="flex gap-3 text-lg leading-relaxed text-foreground"><svg class="mt-1.5 size-5 shrink-0 text-success" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span>U meldt de auto bij de RDW af voor export.</span></li>
 <li class="flex gap-3 text-lg leading-relaxed text-foreground"><svg class="mt-1.5 size-5 shrink-0 text-success" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span>De auto wordt binnen 13 weken na die exportmelding in Spanje ingeschreven.</span></li>
 <li class="flex gap-3 text-lg leading-relaxed text-foreground"><svg class="mt-1.5 size-5 shrink-0 text-success" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span>U stuurt het Spaanse kentekenbewijs mee met uw aanvraag bij de Belastingdienst.</span></li>
+<li class="flex gap-3 text-lg leading-relaxed text-foreground"><svg class="mt-1.5 size-5 shrink-0 text-success" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span>De teruggave komt uit op minimaal €&nbsp;50. Een lager bedrag keert de Belastingdienst niet uit.</span></li>
 </ul>
 <p>
 Wij begeleiden het hele traject, van de exportmelding
@@ -74,8 +75,8 @@ Dat hangt af van twee dingen: de oorspronkelijke BPM en
 de leeftijd van de auto in maanden. Een voorbeeld: is er
 bij de eerste registratie €6.000 BPM betaald en is de
 auto precies vijf jaar oud, dan is volgens de tabel
-ongeveer 70% afgeschreven.
-<strong>U krijgt dan ca. €1.800 terug.</strong>
+ongeveer 65% afgeschreven.
+<strong>U krijgt dan ca. €2.100 terug.</strong>
 </p>
 <p>
 Elke maand telt: hoe jonger de auto bij export, hoe meer
@@ -98,16 +99,16 @@ export:
 <tr><th>Leeftijd van de auto</th><th>Afgeschreven</th><th>Rest-BPM terug</th></tr>
 </thead>
 <tbody>
-<tr><td>6 maanden</td><td>ca. 20%</td><td>ca. 80%</td></tr>
-<tr><td>1 jaar</td><td>ca. 31%</td><td>ca. 69%</td></tr>
-<tr><td>2 jaar</td><td>ca. 42%</td><td>ca. 58%</td></tr>
-<tr><td>3 jaar</td><td>ca. 52%</td><td>ca. 48%</td></tr>
-<tr><td>4 jaar</td><td>ca. 62%</td><td>ca. 38%</td></tr>
-<tr><td>5 jaar</td><td>ca. 70%</td><td>ca. 30%</td></tr>
-<tr><td>6 jaar</td><td>ca. 76%</td><td>ca. 24%</td></tr>
-<tr><td>7 jaar</td><td>ca. 82%</td><td>ca. 18%</td></tr>
-<tr><td>8 jaar</td><td>ca. 86%</td><td>ca. 14%</td></tr>
-<tr><td>10 jaar</td><td>ca. 92%</td><td>ca. 8%</td></tr>
+<tr><td>6 maanden</td><td>ca. 29%</td><td>ca. 71%</td></tr>
+<tr><td>1 jaar</td><td>ca. 36%</td><td>ca. 64%</td></tr>
+<tr><td>2 jaar</td><td>ca. 47%</td><td>ca. 53%</td></tr>
+<tr><td>3 jaar</td><td>ca. 54%</td><td>ca. 46%</td></tr>
+<tr><td>4 jaar</td><td>ca. 60%</td><td>ca. 40%</td></tr>
+<tr><td>5 jaar</td><td>ca. 65%</td><td>ca. 35%</td></tr>
+<tr><td>6 jaar</td><td>ca. 70%</td><td>ca. 30%</td></tr>
+<tr><td>7 jaar</td><td>ca. 74%</td><td>ca. 26%</td></tr>
+<tr><td>8 jaar</td><td>ca. 77%</td><td>ca. 23%</td></tr>
+<tr><td>10 jaar</td><td>ca. 82%</td><td>ca. 18%</td></tr>
 </tbody>
 </table>
 </div>
@@ -116,6 +117,8 @@ De calculator rekent met de exacte leeftijd in maanden,
 vanaf de datum van de eerste toelating. Is uw auto meer
 in waarde gedaald dan deze forfaitaire afschrijving
 aanneemt, dan kan een taxatierapport meer opleveren.
+Komt de rest-BPM uit onder €&nbsp;50, dan krijgt u niets
+terug: zo'n klein bedrag keert de Belastingdienst niet uit.
 Lees meer in ons artikel over
 <a href="/blog/bpm-teruggave-auto-importeren-spanje">BPM-teruggave bij export naar Spanje</a>.
 </p>
@@ -137,9 +140,9 @@ uw naam staan.
 <p>
 Op de <a href="/tarieven">tarievenpagina</a> ziet u alle
 kosten op een rij: onze vaste pakketprijs en de Spaanse
-kosten, zoals de ITV-keuring (de Spaanse APK), de leges,
-de kentekenplaten en de gestoría (het Spaanse
-administratiekantoor dat de inschrijving indient).
+kosten, zoals de ITV-keuring (de Spaanse APK), de leges en
+de gestoría (het Spaanse administratiekantoor dat de
+inschrijving indient, inclusief de kentekenplaten).
 </p>
 
 <h2>Zelf regelen of uitbesteden?</h2>

@@ -3,7 +3,7 @@ title: "Auto naar Spanje: zelf rijden of laten vervoeren?"
 excerpt: "Zelf naar Spanje rijden op exportkenteken of de auto laten vervoeren? Wat er geregeld moet zijn, wat u meeneemt en wat bij uw situatie past."
 author: Sebastiaan
 published_at: 2026-10-08 10:00
-updated_at: 2026-10-25
+updated_at: 2026-11-04
 status: published
 hero_image: images/auto-naar-spanje-zelf-rijden-of-transport.webp
 ---
@@ -69,7 +69,7 @@ Leg alle papieren bij elkaar in één map. Raak niets kwijt, want u heeft het me
 
 ### Aangekomen in Spanje
 
-Het exportkenteken is geen Spaans kenteken. Om in Spanje legaal te blijven rijden tot de definitieve platen er zijn, zijn tijdelijke groene platen nodig: de matrículas temporales (€ 150). Die zijn ook nodig om met de auto naar de ITV-keuring te rijden. Over die keuring leest u meer in ons artikel over [de ITV-keuring bij import](/blog/itv-keuring-auto-import-spanje).
+Het exportkenteken is geen Spaans kenteken. Om in Spanje legaal te blijven rijden tot de definitieve platen er zijn, zijn tijdelijke groene platen nodig: de matrículas temporales (€ 181,50). Die zijn ook nodig om met de auto naar de ITV-keuring te rijden. Over die keuring leest u meer in ons artikel over [de ITV-keuring bij import](/blog/itv-keuring-auto-import-spanje).
 
 Stem dus af wanneer u aankomt en wanneer de tijdelijke platen klaar zijn. Zo staat de auto niet dagenlang stil.
 

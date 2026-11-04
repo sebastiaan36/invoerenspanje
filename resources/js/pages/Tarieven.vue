@@ -40,7 +40,6 @@ const packages = usePage().props.packages as ServicePackage[];
 // with a COC (no Ficha Técnica), temporary plates and IEDMT at 0%.
 const EXAMPLE_COST_KEYS = [
     'tasas',
-    'placas_definitivas',
     'honorarios',
     'matriculas_temporales',
     'itv_keuring',
@@ -105,7 +104,7 @@ const steps = [
     {
         country: 'Spanje',
         title: 'Documenten en COC of Ficha Técnica',
-        body: 'Wij controleren uw documenten. Levert u een COC aan, dan is geen Ficha Técnica (technisch rapport) nodig. Zonder COC wordt die opgesteld voor € 85 extra.',
+        body: 'Wij controleren uw documenten. Levert u een COC aan, dan is geen Ficha Técnica (technisch rapport) nodig. Zonder COC wordt die opgesteld voor € 102,85 extra.',
     },
     {
         country: 'Spanje',

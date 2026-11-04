@@ -3,7 +3,7 @@ title: "Wat kost auto invoeren in Spanje? Drie rekenvoorbeelden"
 excerpt: "Van een kleine hybride tot een grote SUV: drie uitgewerkte voorbeelden van de kosten in Spanje, de registratiebelasting en de BPM-teruggave. Soms houdt u er geld aan over."
 author: Sebastiaan
 published_at: 2026-10-29 10:00
-updated_at: 2026-10-29
+updated_at: 2026-11-04
 status: published
 hero_image: images/kosten-auto-invoeren-spanje-rekenvoorbeelden.webp
 ---
@@ -11,7 +11,7 @@ hero_image: images/kosten-auto-invoeren-spanje-rekenvoorbeelden.webp
 
 ## In het kort
 
-- De vaste kosten in Spanje liggen rond de € 650, met een COC-document. Zonder COC komt er € 85 bij.
+- De vaste kosten in Spanje liggen rond de € 680, met een COC-document. Zonder COC komt er € 102,85 bij.
 - De registratiebelasting (IEDMT) hangt af van de CO₂-uitstoot. Tot 120 g/km betaalt u niets, daarboven 4,75% tot 14,75% van de waarde.
 - Verhuist u uw hoofdverblijf naar Spanje, dan is onder voorwaarden vrijstelling van de IEDMT mogelijk.
 - Daar staat de BPM-teruggave tegenover. Bij een jonge auto met veel BPM is die vaak hoger dan alle kosten samen.
@@ -24,12 +24,13 @@ Deze kosten heeft u bij elke invoer, ongeacht de auto:
 | Kostenpost | Bedrag |
 |---|---|
 | Leges van de DGT (*tasas*) | € 125 |
-| Spaanse kentekenplaten | € 35 |
-| Gestoría (Spaans administratiekantoor) | € 181,50 |
+| Gestoría (Spaans administratiekantoor), incl. definitieve kentekenplaten | € 219,62 |
 | ITV-keuring bij import | ca. € 155 |
-| Tijdelijke groene platen (*matrículas temporales*) | € 150 |
-| **Totaal met COC-document** | **ca. € 646,50** |
-| Technisch rapport als u geen COC heeft | + € 85 |
+| Tijdelijke groene platen (*matrículas temporales*) | € 181,50 |
+| **Totaal met COC-document** | **ca. € 681,12** |
+| Technisch rapport als u geen COC heeft | + € 102,85 |
+
+De bedragen voor de gestoría, de tijdelijke platen en het technisch rapport zijn inclusief 21% Spaanse btw (IVA).
 
 De tijdelijke platen zijn niet verplicht, maar wel nodig om met de geëxporteerde auto naar de ITV te rijden. In de praktijk heeft vrijwel iedereen ze nodig. De ITV-keuring betaalt u zelf aan de balie van het station.
 
@@ -54,7 +55,7 @@ Verhuist u uw hoofdverblijf naar Spanje en had u de auto al minimaal zes maanden
 
 ### De BPM-teruggave
 
-Exporteert u de auto, dan krijgt u in Nederland het deel van de BPM terug dat nog in de waarde zit: de rest-BPM. Hoeveel dat is, hangt af van de oorspronkelijke BPM en de leeftijd van de auto. Na drie jaar krijgt u ongeveer 48% terug, na vijf jaar ongeveer 30%. Met de [BPM-calculator](/bpm-calculator) ziet u het bedrag voor uw kenteken.
+Exporteert u de auto, dan krijgt u in Nederland het deel van de BPM terug dat nog in de waarde zit: de rest-BPM. Hoeveel dat is, hangt af van de oorspronkelijke BPM en de leeftijd van de auto. Na drie jaar krijgt u ongeveer 46% terug, na vijf jaar ongeveer 35%. Met de [BPM-calculator](/bpm-calculator) ziet u het bedrag voor uw kenteken.
 
 ## Rekenvoorbeeld 1: een compacte hybride van drie jaar
 
@@ -66,12 +67,12 @@ Een kleine hybride met een lage uitstoot. U regelt veel zelf en kiest het Basisp
 
 | | Bedrag |
 |---|---|
-| Vaste kosten in Spanje | € 646,50 |
+| Vaste kosten in Spanje | € 681,12 |
 | Basispakket | € 395 |
 | IEDMT | € 0 |
-| **Totale kosten** | **€ 1.041,50** |
-| BPM-teruggave (ca. 48%) | − € 720 |
-| **Per saldo kost het u** | **ca. € 321,50** |
+| **Totale kosten** | **€ 1.076,12** |
+| BPM-teruggave (ca. 46%) | − € 690 |
+| **Per saldo kost het u** | **ca. € 386,12** |
 
 Bij een zuinige auto is de BPM-teruggave klein, maar u betaalt ook geen registratiebelasting. Het traject kost u dan per saldo een paar honderd euro.
 
@@ -86,12 +87,12 @@ Een gangbare gezinsauto. U wilt het niet zelf regelen en kiest Compleet.
 
 | | Zonder vrijstelling | Met vrijstelling bij verhuizing |
 |---|---|---|
-| Vaste kosten in Spanje | € 646,50 | € 646,50 |
+| Vaste kosten in Spanje | € 681,12 | € 681,12 |
 | Pakket Compleet | € 895 | € 895 |
 | IEDMT (4,75% van € 16.000) | € 760 | € 0 |
-| **Totale kosten** | **€ 2.301,50** | **€ 1.541,50** |
-| BPM-teruggave (ca. 30%) | − € 1.800 | − € 1.800 |
-| **Saldo** | **kost u ca. € 501,50** | **u houdt ca. € 258,50 over** |
+| **Totale kosten** | **€ 2.336,12** | **€ 1.576,12** |
+| BPM-teruggave (ca. 35%) | − € 2.100 | − € 2.100 |
+| **Saldo** | **kost u ca. € 236,12** | **u houdt ca. € 523,88 over** |
 
 Hier ziet u wat de vrijstelling bij verhuizing doet. Komt u ervoor in aanmerking, dan betaalt de BPM-teruggave het hele traject.
 
@@ -106,12 +107,12 @@ Een jonge, zware auto met veel BPM. U kiest Compleet Plus, waarbij wij ook het t
 
 | | Zonder vrijstelling | Met vrijstelling bij verhuizing |
 |---|---|---|
-| Vaste kosten in Spanje | € 646,50 | € 646,50 |
+| Vaste kosten in Spanje | € 681,12 | € 681,12 |
 | Pakket Compleet Plus | € 1.495 | € 1.495 |
 | IEDMT (14,75% van € 40.000) | € 5.900 | € 0 |
-| **Totale kosten** | **€ 8.041,50** | **€ 2.141,50** |
-| BPM-teruggave (ca. 58%) | − € 11.600 | − € 11.600 |
-| **Saldo** | **u houdt ca. € 3.558,50 over** | **u houdt ca. € 9.458,50 over** |
+| **Totale kosten** | **€ 8.076,12** | **€ 2.176,12** |
+| BPM-teruggave (ca. 53%) | − € 10.600 | − € 10.600 |
+| **Saldo** | **u houdt ca. € 2.523,88 over** | **u houdt ca. € 8.423,88 over** |
 
 Bij een jonge auto met veel BPM is de teruggave zo hoog dat u er zelfs zonder vrijstelling geld aan overhoudt. Wacht hier niet te lang mee: elke maand schrijft de BPM verder af.
 

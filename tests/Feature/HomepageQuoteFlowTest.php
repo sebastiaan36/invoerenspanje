@@ -57,7 +57,8 @@ class HomepageQuoteFlowTest extends TestCase
 
         $this->assertSame('Honorarios gestoría (Spaans administratiekantoor)', $labels['honorarios']);
         $this->assertSame('Tijdelijke kentekenplaten (optioneel)', $labels['matriculas_temporales']);
-        $this->assertSame('Spaanse kentekenplaten', $labels['placas_definitivas']);
+        // Definitive plates are included in the gestoría fee, not a separate cost.
+        $this->assertFalse($labels->has('placas_definitivas'));
         $this->assertFalse($labels->contains(fn (string $label) => str_contains($label, '(opt.)')));
     }
 }
