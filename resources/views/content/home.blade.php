@@ -28,7 +28,8 @@
     geldt voor residenten, overwinteraars en niet-residenten.
 </p>
 <p>
-    Ook bij een leaseauto gelden aparte regels rondom toestemming van de leasemaatschappij. Twijfelt u of uw
+    Ook bij <a href="/blog/leaseauto-of-gefinancierde-auto-meenemen-naar-spanje">een leaseauto of gefinancierde auto</a>
+    gelden aparte regels rondom toestemming van de leasemaatschappij. Twijfelt u of uw
     situatie hieronder valt? <a href="/contact">Neem contact op</a> voor een vrijblijvend adviesgesprek.
 </p>
 
@@ -60,7 +61,8 @@
     De totale kosten bestaan uit vaste en variabele onderdelen. De <strong>vaste kosten</strong> zijn onder meer de
     leges bij de DGT, de nummerplaten, de gestoría en de ITV-keuring, en zonder COC de Ficha Técnica. De variabele
     kosten zijn de registratiebelasting (IEDMT), die afhangt van de CO₂-uitstoot: auto's tot 120&nbsp;g/km betalen
-    niets, daarboven loopt het tarief op van 4,75% tot 14,75% van de waarde.
+    niets, daarboven loopt het tarief op van 4,75% tot 14,75% van de waarde. Drie uitgewerkte voorbeelden vindt u in
+    ons artikel over <a href="/blog/kosten-auto-invoeren-spanje-rekenvoorbeelden">de kosten van auto invoeren in Spanje</a>.
 </p>
 <dl class="not-prose mt-6 grid gap-px overflow-hidden rounded-xl border border-border bg-border sm:grid-cols-3">
     <div class="bg-card p-5">

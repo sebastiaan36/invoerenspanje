@@ -31,11 +31,11 @@ Er is geen eenvoudige teller die op een vast moment omslaat. Een aantal momenten
 - **Fiscale residentie.** Voor de Spaanse inkomstenbelasting bent u resident als u meer dan 183 dagen per kalenderjaar in Spanje verblijft, of als uw belangrijkste economische belangen in Spanje liggen. Zie de [Agencia Tributaria](https://sede.agenciatributaria.gob.es/Sede/no-residentes/residencia-personas-fisicas-juridicas/persona-fisica-residente-espana.html).
 - **Normale verblijfplaats volgens de EU.** De EU gaat uit van de plek waar u gewoonlijk woont, werkt of familie heeft. Dat is de plek waar u meer dan 185 dagen per kalenderjaar verblijft. Zie [Your Europe](https://europa.eu/youreurope/citizens/vehicles/registration/registration-abroad/index_nl.htm).
 
-Deze regels hebben elk een eigen doel. Ze vallen niet altijd op dezelfde dag samen. Heeft u zich ingeschreven als resident of op het padrón, dan is de kans groot dat u voor de auto ook als resident wordt gezien. Twijfelt u over uw situatie? Leg die dan voor aan de DGT of een Spaanse adviseur.
+Deze regels hebben elk een eigen doel. Ze vallen niet altijd op dezelfde dag samen. Heeft u zich ingeschreven als resident of op het padrón, dan is de kans groot dat u voor de auto ook als resident wordt gezien. Twijfelt u over uw situatie? Leg die dan voor aan de DGT of een Spaanse adviseur. Welke documenten bij een verhuizing horen, zoals het padrón en het inschrijvingsbewijs als EU-burger, leest u in ons artikel over [de verhuisvrijstelling in Spanje](/blog/verhuisvrijstelling-spanje-inboedel-verhuisgoed-auto).
 
 ## Wat geldt voor wie in Spanje gaat wonen?
 
-Wie in Spanje gaat wonen, schrijft de auto in. Volgens [administracion.gob.es](https://administracion.gob.es/pag_Home/Tu-espacio-europeo/derechos-obligaciones/ciudadanos/vehiculos/traslado/matriculacion.html) heeft u daarvoor een maand vanaf het moment dat u resident bent. Lukt dat niet op tijd, dan kunt u bij de DGT een tijdelijke inschrijving aanvragen.
+Wie in Spanje gaat wonen, schrijft de auto in. Volgens [administracion.gob.es](https://administracion.gob.es/pag_Home/Tu-espacio-europeo/derechos-obligaciones/ciudadanos/vehiculos/traslado/matriculacion.html) heeft u daarvoor een maand vanaf het moment dat u resident bent. Lukt dat niet op tijd, dan kunt u bij de DGT een tijdelijke inschrijving aanvragen. Rijdt u een leaseauto of een auto die nog niet is afbetaald? Lees dan eerst [wat er geldt bij lease en financiering](/blog/leaseauto-of-gefinancierde-auto-meenemen-naar-spanje).
 
 U krijgt dan groene tijdelijke kentekenplaten, de *matrículas temporales*. Volgens de DGT mag u daarmee twee maanden rijden, met mogelijkheid tot verlenging. De auto moet wel verzekerd zijn. Bij ons kosten deze platen € 181,50. Ze zijn niet verplicht, maar wel nodig om met een geëxporteerde auto naar de ITV-keuring te rijden.
 
@@ -97,7 +97,7 @@ Kortom: wie in Spanje gaat wonen, kan de auto op termijn niet aan beide kanten "
 
 ### Vergeet de BPM-teruggave niet
 
-Er zit ook een voordeel aan. Wordt uw auto definitief in Spanje ingeschreven, dan krijgt u vaak een deel van de BPM terug. Wel moet de Spaanse inschrijving binnen 13 weken na de exportmelding rond zijn. Met de [BPM-calculator](/bpm-calculator) ziet u een indicatie voor uw kenteken.
+Er zit ook een voordeel aan. Wordt uw auto definitief in Spanje ingeschreven, dan krijgt u vaak [een deel van de BPM terug](/blog/bpm-teruggave-auto-importeren-spanje). Wel moet de Spaanse inschrijving binnen 13 weken na de exportmelding rond zijn. Met de [BPM-calculator](/bpm-calculator) ziet u een indicatie voor uw kenteken.
 
 ## Wat kunt u nu het beste doen?
 

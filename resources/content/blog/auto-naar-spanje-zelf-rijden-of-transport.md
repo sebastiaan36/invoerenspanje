@@ -52,7 +52,7 @@ De gebruikelijke route loopt via België en Frankrijk naar Spanje. Naar de Costa
 Een paar aandachtspunten:
 
 - **Tol.** Op veel Franse en een deel van de Spaanse snelwegen betaalt u tol. Houd een betaalkaart bij de hand.
-- **Milieuzones.** Sommige Franse steden hebben een milieuzone waarvoor een Crit'Air-vignet nodig is. Kijk op de [officiële Crit'Air-site](https://www.certificat-air.gouv.fr/) of plan uw route om de stadscentra heen. Ook Spaanse steden hebben steeds vaker milieuzones.
+- **Milieuzones.** Sommige Franse steden hebben een milieuzone waarvoor een Crit'Air-vignet nodig is. Kijk op de [officiële Crit'Air-site](https://www.certificat-air.gouv.fr/) of plan uw route om de stadscentra heen. Ook Spaanse steden hebben steeds vaker milieuzones; zie bijvoorbeeld [de milieuzone van Málaga](/blog/milieuzone-zbe-malaga-regels-auto).
 - **Rust.** Plan pauzes en overnachtingen. Een lange rit in één keer is voor niemand verstandig.
 
 ### Wat neemt u mee in de auto?
@@ -69,7 +69,7 @@ Leg alle papieren bij elkaar in één map. Raak niets kwijt, want u heeft het me
 
 ### Aangekomen in Spanje
 
-Het exportkenteken is geen Spaans kenteken. Om in Spanje legaal te blijven rijden tot de definitieve platen er zijn, zijn tijdelijke groene platen nodig: de matrículas temporales (€ 181,50). Die zijn ook nodig om met de auto naar de ITV-keuring te rijden. Over die keuring leest u meer in ons artikel over [de ITV-keuring bij import](/blog/itv-keuring-auto-import-spanje).
+Het exportkenteken is geen Spaans kenteken. Om in Spanje legaal te blijven rijden tot de definitieve platen er zijn, zijn tijdelijke groene platen nodig: de matrículas temporales (€ 181,50). Die zijn ook nodig om met de auto naar de ITV-keuring te rijden. Wat u daarna krijgt, leest u in ons artikel over [het Spaanse kentekenbewijs en de kentekenplaten](/blog/spaans-kentekenbewijs-en-kentekenplaten). Over die keuring leest u meer in ons artikel over [de ITV-keuring bij import](/blog/itv-keuring-auto-import-spanje).
 
 Stem dus af wanneer u aankomt en wanneer de tijdelijke platen klaar zijn. Zo staat de auto niet dagenlang stil.
 
@@ -109,7 +109,7 @@ Een transporteur rijdt meestal niet speciaal voor één auto. De auto gaat mee m
 
 ### Wat kost autotransport?
 
-Wij noemen hier bewust geen bedragen. De prijs hangt af van de ophaallocatie, de bestemming, open of gesloten transport en de planning. Prijzen op internet zijn vaak verouderd of gelden alleen onder voorwaarden. Vraag daarom altijd een offerte op maat. In ons Compleet Plus-pakket regelen wij het transport via een van onze partners. U hoort de transportkosten vooraf.
+Wij noemen hier bewust geen bedragen. De prijs hangt af van de ophaallocatie, de bestemming, open of gesloten transport en de planning. Prijzen op internet zijn vaak verouderd of gelden alleen onder voorwaarden. Vraag daarom altijd een offerte op maat. In ons Compleet Plus-pakket [regelen wij het transport](/diensten) via een van onze partners. U hoort de transportkosten vooraf.
 
 ## Zelf rijden of transport: wat past bij u?
 

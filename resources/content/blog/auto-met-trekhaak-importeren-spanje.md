@@ -20,7 +20,7 @@ Heeft uw auto een trekhaak en neemt u hem mee naar Spanje? Dan is het slim om da
 
 ## Waarom een trekhaak in Spanje extra aandacht vraagt
 
-Bij de ITV-keuring bij import vergelijkt het station uw auto met de fabrieksgegevens. Die gegevens komen meestal uit het COC-document (Certificaat van Overeenstemming). Alles wat afwijkt van die gegevens, valt op. Een trekhaak is daar een bekend voorbeeld van.
+Bij de ITV-keuring bij import vergelijkt het station uw auto met de fabrieksgegevens. Die gegevens komen meestal uit het COC-document (Certificaat van Overeenstemming). Alles wat afwijkt van die gegevens, valt op. Een trekhaak is daar een bekend voorbeeld van, net als [achteraf geplakte ruitfolie op getinte ramen](/blog/getinte-ramen-ruitfolie-auto-spanje-itv).
 
 Het Spaanse ministerie van Industrie heeft regels voor wijzigingen aan auto's vastgelegd in het *Manual de Reformas de Vehículos*. Het monteren van een trekhaak valt daaronder. Een trekhaak die niet bij de auto geregistreerd is, telt dus als een niet-goedgekeurde wijziging. Dat kan leiden tot afkeur. Wat er verder bij de keuring gebeurt, leest u in ons artikel over [de ITV-keuring bij import](/blog/itv-keuring-auto-import-spanje).
 
@@ -100,7 +100,7 @@ Het ITV-station controleert bij een wijziging ook de verlichting en signalering 
 - **Geen papieren van de montage.** Zonder montagebewijs en verklaring is een later gemonteerde trekhaak lastig goed te keuren.
 - **Een onleesbaar typeplaatje.** Zonder leesbaar E-nummer kan het station de goedkeuring niet controleren.
 - **Niet letten op het trekgewicht.** Het trekgewicht kan in Spanje lager uitvallen dan u gewend bent.
-- **Een kogel die de kentekenplaat bedekt.** Dat kan een boete opleveren, ook na de inschrijving.
+- **Een kogel die de kentekenplaat bedekt.** Dat kan een boete opleveren, ook na de inschrijving. Na de invoer moet de auto bovendien op vaste momenten naar [de periodieke ITV-keuring](/blog/periodieke-itv-keuring-spanje).
 
 ## Wat als de auto wordt afgekeurd bij de ITV-keuring?
 
@@ -119,7 +119,7 @@ Moet een later gemonteerde trekhaak als wijziging worden goedgekeurd? Dan komen 
 
 ## Hulp bij uw auto met trekhaak
 
-Wij regelen de export in Nederland en de inschrijving in Spanje. Wij kijken vooraf met u naar het COC en de trekhaak, zodat u niet voor verrassingen staat bij de ITV. In het Basispakket (€ 395) levert u zelf de documenten aan. In Compleet (€ 895) en Compleet Plus (€ 1.495) nemen wij u meer werk uit handen, zoals het plannen van de ITV-afspraak.
+Wij regelen [de export in Nederland en de inschrijving in Spanje](/diensten). Wij kijken vooraf met u naar het COC en de trekhaak, zodat u niet voor verrassingen staat bij de ITV. In het Basispakket (€ 395) levert u zelf de documenten aan. In Compleet (€ 895) en Compleet Plus (€ 1.495) nemen wij u meer werk uit handen, zoals het plannen van de ITV-afspraak. De verschillen tussen de pakketten ziet u op de pagina [tarieven](/tarieven).
 
 Wilt u weten wat dit voor uw auto betekent? [Doe de kostencheck of vraag een vrijblijvende offerte aan](/#offerte).
 

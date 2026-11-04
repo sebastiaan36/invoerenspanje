@@ -7,6 +7,7 @@ namespace App\Http\Controllers\Blog;
 use App\Http\Controllers\Controller;
 use App\Models\Post;
 use App\Services\Blog\BlogHtmlSanitizer;
+use App\Services\Blog\UnpublishedBlogLinkFilter;
 use App\Services\HeroImageOptimizer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -18,6 +19,7 @@ final class BlogController extends Controller
     public function __construct(
         private readonly BlogHtmlSanitizer $sanitizer,
         private readonly HeroImageOptimizer $heroImages,
+        private readonly UnpublishedBlogLinkFilter $unpublishedLinks,
     ) {}
 
     public function index(Request $request): Response
@@ -101,12 +103,12 @@ final class BlogController extends Controller
         $content ??= '';
 
         if (! preg_match('/<(p|h[1-6]|ul|ol|li|div|br|table|blockquote|figure|img|a|section|article)\b/i', $content)) {
-            return Str::markdown($content, [
+            return $this->unpublishedLinks->filter(Str::markdown($content, [
                 'html_input' => 'escape',
                 'allow_unsafe_links' => false,
-            ]);
+            ]));
         }
 
-        return $this->sanitizer->sanitize($content);
+        return $this->unpublishedLinks->filter($this->sanitizer->sanitize($content));
     }
 }

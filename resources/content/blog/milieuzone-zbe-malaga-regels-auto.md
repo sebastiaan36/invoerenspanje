@@ -112,7 +112,7 @@ Twijfelt u welke auto u meeneemt? Deze vuistregels helpen:
 - **Diesel van 2006 tot 2015 of benzine van 2001 tot 2005.** Label B. Nu geen beperking, maar dit label liep als eerste risico. Rijdt u vaak naar het centrum? Weeg dan af of u deze auto meeneemt.
 - **Oudere auto zonder label.** Hiervoor waren de regels het strengst, en ook een nieuwe regeling zal deze auto's waarschijnlijk weren. Moet u regelmatig in het centrum zijn? Dan raden wij meenemen af.
 
-Kijk ook naar de kosten. Een schonere auto betaalt vaak minder registratiebelasting. De vaste kosten van de invoer zijn voor elke auto gelijk. Een overzicht staat op onze pagina [tarieven](/tarieven).
+Kijk ook naar de kosten. Een schonere auto betaalt vaak minder [registratiebelasting](/blog/registratiebelasting-iedmt-spanje-vrijstelling-verhuizing). De vaste kosten van de invoer zijn voor elke auto gelijk. Een overzicht staat op onze pagina [tarieven](/tarieven).
 
 ## Andere milieuzones aan de Costa del Sol
 
@@ -126,14 +126,14 @@ Woont u elders, zoals in Marbella, Fuengirola of Benalmádena? Vraag de regels n
 ## Aandachtspunten
 
 - **De regels veranderen.** Kijk vóór een rit naar het centrum op [movilidad.malaga.eu](https://movilidad.malaga.eu/es/servicios/zona-bajas-emisiones/).
-- **Controleer uw label na de Spaanse inschrijving** op de [website van de DGT](https://sede.dgt.gob.es/es/vehiculos/informacion-de-vehiculos/distintivo-ambiental/).
+- **Controleer uw label na de Spaanse inschrijving** op de [website van de DGT](https://sede.dgt.gob.es/es/vehiculos/informacion-de-vehiculos/distintivo-ambiental/). Hoe dat werkt, leest u in ons artikel over [een Spaans kenteken opzoeken](/blog/spaans-kenteken-opzoeken-auto-checken).
 - **De sticker is in Málaga niet nodig**, maar in andere steden misschien wel. Hij kost € 5 bij een postkantoor of *gestoría* (administratiekantoor).
 - **Oude boete betaald?** Vraag de terugbetaling aan bij Gestrisam.
 - **Kijk naar uw rijpatroon.** Komt u zelden in het centrum van Málaga? Dan weegt het label minder zwaar.
 
 ## Hulp bij uw keuze en de invoer
 
-Maikel Mobility regelt de invoer van uw Nederlandse auto: de export in Nederland, de ITV-keuring en het Spaanse kenteken. Het hele stappenplan staat in onze [gids over auto invoeren in Spanje](/auto-invoeren-spanje).
+Maikel Mobility [regelt de invoer van uw Nederlandse auto](/diensten): de export in Nederland, de ITV-keuring en het Spaanse kenteken. Het hele stappenplan staat in onze [gids over auto invoeren in Spanje](/auto-invoeren-spanje).
 
 Wilt u weten wat de invoer van uw auto kost? Vul uw Nederlandse kenteken in bij de [kostencheck](/#offerte). U ziet direct een indicatie van de registratiebelasting, de kosten in Spanje en de BPM-teruggave. Daarna kunt u vrijblijvend een offerte aanvragen.
 

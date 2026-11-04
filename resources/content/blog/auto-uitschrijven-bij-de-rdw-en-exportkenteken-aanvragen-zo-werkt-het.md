@@ -29,7 +29,7 @@ Na de exportmelding mag u nog maximaal 14 dagen met de auto in Nederland rijden.
 
 Het is geen nieuw nummer. U houdt hetzelfde kenteken, maar op andere platen. Welke platen dat precies moeten zijn, leest u op de website van de [RDW](https://www.rdw.nl).
 
-Het exportkenteken is niet hetzelfde als een Spaans kenteken. Het definitieve Spaanse kenteken krijgt u pas na de inschrijving bij de DGT, de Spaanse tegenhanger van de RDW.
+Het exportkenteken is niet hetzelfde als een Spaans kenteken. Het [definitieve Spaanse kenteken](/blog/spaans-kentekenbewijs-en-kentekenplaten) krijgt u pas na de inschrijving bij de DGT, de Spaanse tegenhanger van de RDW.
 
 ## Eerst de planning, dan de exportmelding
 
@@ -45,7 +45,7 @@ Zorg daarom dat u vóór de exportmelding weet wanneer u [zelf rijdt of de auto 
 ## Uw auto afmelden voor export: stap voor stap
 
 1. **Kies waar u de auto afmeldt.** De exportmelding doet u bij de RDW of via een bedrijf dat daarvoor door de RDW is erkend. Kijk op [rdw.nl](https://www.rdw.nl) waar en hoe dat voor u kan.
-2. **Neem de juiste documenten mee.** U heeft uw kentekenbewijs en een geldig identiteitsbewijs nodig. Rijdt u in een geleaste of gefinancierde auto? Dan heeft u schriftelijke toestemming nodig van de leasemaatschappij of financier.
+2. **Neem de juiste documenten mee.** U heeft uw kentekenbewijs en een geldig identiteitsbewijs nodig. Rijdt u in een geleaste of gefinancierde auto? Dan heeft u schriftelijke toestemming nodig van de leasemaatschappij of financier. Lees meer over [een leaseauto of gefinancierde auto meenemen naar Spanje](/blog/leaseauto-of-gefinancierde-auto-meenemen-naar-spanje).
 3. **De auto wordt afgemeld.** De auto krijgt de status export en verdwijnt uit het Nederlandse kentekenregister.
 4. **Bewaar alle papieren die u terugkrijgt.** U ontvangt onder meer het uitschrijfbewijs. Dat document heeft u nodig voor de inschrijving in Spanje en voor de BPM-teruggave. Raak het niet kwijt.
 

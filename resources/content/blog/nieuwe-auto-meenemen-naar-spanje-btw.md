@@ -94,10 +94,10 @@ Ook de datum van verhuizing zelf is van belang. Wanneer u in Spanje woont, moet 
 Koopt u bewust in Nederland? Denk dan vóór de aankoop na over deze vragen:
 
 1. **Geldt de auto bij de overbrenging nog als nieuw?** Kijk naar de kilometerstand en de datum van eerste ingebruikname.
-2. **Rekent de dealer 0% of 21% Nederlandse btw?** Vraag dit vooraf en leg het vast op de factuur.
+2. **Rekent de dealer 0% of 21% Nederlandse btw?** Vraag dit vooraf en leg het vast op de factuur. Koopt u de auto met financiering of via lease, lees dan ook [wat er geldt voor een leaseauto of gefinancierde auto](/blog/leaseauto-of-gefinancierde-auto-meenemen-naar-spanje).
 3. **Komt u in aanmerking voor de IEDMT-vrijstelling?** Tel de maanden tussen aankoop en verhuizing.
 4. **Wat is de CO₂-uitstoot?** Die bepaalt het IEDMT-tarief als er geen vrijstelling is.
-5. **Hoe gaat de auto naar Spanje?** Zelf rijden op exportkenteken of laten vervoeren. De auto wordt daarvoor bij de RDW afgemeld; hoe dat werkt, leest u in ons artikel over [de auto uitschrijven bij de RDW](/blog/auto-uitschrijven-bij-de-rdw-en-exportkenteken-aanvragen-zo-werkt-het).
+5. **Hoe gaat de auto naar Spanje?** [Zelf rijden op exportkenteken of laten vervoeren](/blog/auto-naar-spanje-zelf-rijden-of-transport). De auto wordt daarvoor bij de RDW afgemeld; hoe dat werkt, leest u in ons artikel over [de auto uitschrijven bij de RDW](/blog/auto-uitschrijven-bij-de-rdw-en-exportkenteken-aanvragen-zo-werkt-het).
 
 Wilt u hier vooraf over sparren? In ons pakket Compleet Plus zit aankoopadvies voor een auto in Nederland: een belafspraak van 30 minuten. Daarnaast exporteren wij de auto via een van onze partners en regelen wij het transport. De transportkosten komen daar apart bij. Op de [tarievenpagina](/tarieven) ziet u wat elk pakket bevat. Alle stappen na de aankoop staan in onze [complete gids over auto invoeren in Spanje](/auto-invoeren-spanje).
 

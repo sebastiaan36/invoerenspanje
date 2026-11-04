@@ -43,7 +43,7 @@ U hoeft niet tot de laatste dag te wachten. Laat u de auto keuren in de 30 dagen
 
 Veel auto's die Nederlanders naar Spanje halen, zijn ouder dan 4 jaar. Na de invoerkeuring loopt de gewone cyclus dus meestal meteen door. Bij een auto van 6 jaar is dat elke 2 jaar, bij een auto van 11 jaar elk jaar.
 
-Hoe de eerste datum precies wordt berekend, hangt af van de gegevens van uw auto. Reken daarom niet zelf. Kijk op uw Spaanse keuringspapieren of vraag het na bij het station. Zet de datum direct in uw agenda.
+Hoe de eerste datum precies wordt berekend, hangt af van de gegevens van uw auto. Reken daarom niet zelf. Kijk op uw Spaanse keuringspapieren of vraag het na bij het station. Zet de datum direct in uw agenda. De ITV-historie van een auto staat ook in het voertuigrapport van de DGT; zie [een Spaans kenteken opzoeken](/blog/spaans-kenteken-opzoeken-auto-checken).
 
 Wanneer uw auto op een Spaans kenteken moet, leest u in ons artikel [wanneer moet uw auto op een Spaans kenteken](/blog/wanneer-auto-op-spaans-kenteken-verplicht).
 
@@ -54,7 +54,7 @@ In Andalucía worden de keuringen uitgevoerd door VEIASA. Dat is een bedrijf van
 U maakt de afspraak online via [itvcita.com](https://www.itvcita.com), de afsprakensite van VEIASA. Zo gaat het:
 
 1. Kies het ITV-station dat u het beste uitkomt.
-2. Vul de gegevens van uw auto in. Houd het Spaanse kentekenbewijs (*permiso de circulación*) bij de hand.
+2. Vul de gegevens van uw auto in. Houd het [Spaanse kentekenbewijs](/blog/spaans-kentekenbewijs-en-kentekenplaten) (*permiso de circulación*) bij de hand.
 3. Kies een datum en tijd.
 4. Bevestig de afspraak. Het systeem doet eerst een voorstel. Pas na uw bevestiging staat de afspraak vast.
 
@@ -97,7 +97,7 @@ De periodieke ITV lijkt sterk op de Nederlandse APK. De keurmeester kijkt onder 
 - de stuurinrichting en de ophanging;
 - de verlichting en de signalering;
 - de banden en de wielen;
-- de carrosserie en de ruiten;
+- de carrosserie en de ruiten (let op bij [getinte ramen en ruitfolie](/blog/getinte-ramen-ruitfolie-auto-spanje-itv));
 - de uitlaatgassen en het geluid.
 
 Laat de auto vooraf even nakijken door uw garage. Een kapotte lamp of een versleten band is snel vervangen. Bij afkeuring kost het u een extra rit.

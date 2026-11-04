@@ -32,7 +32,7 @@ Deze kosten heeft u bij elke invoer, ongeacht de auto:
 
 De bedragen voor de gestoría, de tijdelijke platen en het technisch rapport zijn inclusief 21% Spaanse btw (IVA).
 
-De tijdelijke platen zijn niet verplicht, maar wel nodig om met de geëxporteerde auto naar de ITV te rijden. In de praktijk heeft vrijwel iedereen ze nodig. De ITV-keuring betaalt u zelf aan de balie van het station.
+De tijdelijke platen zijn niet verplicht, maar wel nodig om met de geëxporteerde auto naar de ITV te rijden. In de praktijk heeft vrijwel iedereen ze nodig. De [ITV-keuring bij import](/blog/itv-keuring-auto-import-spanje) betaalt u zelf aan de balie van het station.
 
 Daarbij komt de prijs voor onze begeleiding. Die is vast: € 395 voor Basis, € 895 voor Compleet en € 1.495 voor Compleet Plus. Wat elk pakket bevat, ziet u op de pagina [tarieven](/tarieven).
 
@@ -55,7 +55,7 @@ Verhuist u uw hoofdverblijf naar Spanje en had u de auto al minimaal zes maanden
 
 ### De BPM-teruggave
 
-Exporteert u de auto, dan krijgt u in Nederland het deel van de BPM terug dat nog in de waarde zit: de rest-BPM. Hoeveel dat is, hangt af van de oorspronkelijke BPM en de leeftijd van de auto. Na drie jaar krijgt u ongeveer 46% terug, na vijf jaar ongeveer 35%. Met de [BPM-calculator](/bpm-calculator) ziet u het bedrag voor uw kenteken.
+Exporteert u de auto, dan krijgt u in Nederland het deel van de BPM terug dat nog in de waarde zit: de rest-BPM. Hoeveel dat is, hangt af van de oorspronkelijke BPM en de leeftijd van de auto. Na drie jaar krijgt u ongeveer 46% terug, na vijf jaar ongeveer 35%. Met de [BPM-calculator](/bpm-calculator) ziet u het bedrag voor uw kenteken. De voorwaarden en de termijn leest u in ons artikel over [BPM-teruggave bij export naar Spanje](/blog/bpm-teruggave-auto-importeren-spanje).
 
 ## Rekenvoorbeeld 1: een compacte hybride van drie jaar
 
@@ -74,7 +74,7 @@ Een kleine hybride met een lage uitstoot. U regelt veel zelf en kiest het Basisp
 | BPM-teruggave (ca. 46%) | − € 690 |
 | **Per saldo kost het u** | **ca. € 386,12** |
 
-Bij een zuinige auto is de BPM-teruggave klein, maar u betaalt ook geen registratiebelasting. Het traject kost u dan per saldo een paar honderd euro.
+Bij een zuinige auto is de BPM-teruggave klein, maar u betaalt ook geen registratiebelasting. Het traject kost u dan per saldo een paar honderd euro. Meer over [het belastingvoordeel voor elektrische auto's en hybrides](/blog/belastingvrijstelling-elektrische-auto-hybride-spanje) leest u in een apart artikel.
 
 ## Rekenvoorbeeld 2: een middenklasser op benzine van vijf jaar
 
@@ -120,7 +120,7 @@ Bij een jonge auto met veel BPM is de teruggave zo hoog dat u er zelfs zonder vr
 
 - **De CO₂-uitstoot bepaalt de Spaanse kant.** Onder 120 g/km betaalt u geen IEDMT. Daarboven loopt het snel op.
 - **De BPM bepaalt de Nederlandse kant.** Hoe jonger de auto en hoe hoger de oorspronkelijke BPM, hoe meer u terugkrijgt.
-- **De vrijstelling bij verhuizing kan duizenden euro's schelen.** Check vooraf of u eraan voldoet.
+- **De vrijstelling bij verhuizing kan duizenden euro's schelen.** Check vooraf of u eraan voldoet; zie ook ons artikel over [de verhuisvrijstelling voor inboedel en auto](/blog/verhuisvrijstelling-spanje-inboedel-verhuisgoed-auto).
 - **Timing telt.** De auto moet binnen 13 weken na de exportmelding in Spanje zijn ingeschreven, anders vervalt de BPM-teruggave.
 
 Komen er nog andere kosten bij? Denk aan het transport als u niet zelf rijdt, een eventuele reparatie na de ITV en uw Spaanse verzekering. Die verschillen per situatie en staan daarom niet in deze voorbeelden. Meer over het transport leest u in ons artikel [zelf rijden of laten vervoeren](/blog/auto-naar-spanje-zelf-rijden-of-transport).

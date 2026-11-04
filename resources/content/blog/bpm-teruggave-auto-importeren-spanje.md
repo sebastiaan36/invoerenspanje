@@ -28,7 +28,7 @@ Een auto wordt elk jaar minder waard. Daarmee daalt ook het deel van de BPM dat 
 
 ## Krijgt u BPM terug als u uw auto naar Spanje exporteert?
 
-In de meeste gevallen wel. De voorwaarde is dat de auto Nederland definitief verlaat en in een ander EU-land wordt ingeschreven. Spanje is een EU-land. Komt uw auto op een Spaans kenteken, dan voldoet u aan dat deel van de regels.
+In de meeste gevallen wel. De voorwaarde is dat de auto Nederland definitief verlaat en in een ander EU-land wordt ingeschreven. Spanje is een EU-land. Komt uw auto op een Spaans kenteken, dan voldoet u aan dat deel van de regels. Rijdt u een leaseauto of een gefinancierde auto? Lees dan [wie bij lease of financiering de BPM terugkrijgt](/blog/leaseauto-of-gefinancierde-auto-meenemen-naar-spanje).
 
 Goed om te weten: de BPM-teruggave staat los van de Spaanse registratiebelasting, de IEDMT (*Impuesto Especial sobre Determinados Medios de Transporte*). De BPM krijgt u terug in Nederland. De IEDMT betaalt u eventueel in Spanje, afhankelijk van de CO₂-uitstoot. Het zijn twee aparte trajecten in twee landen. Hoe de IEDMT werkt en wanneer u vrijstelling krijgt, leest u in ons artikel over [de registratiebelasting en de vrijstelling bij verhuizing](/blog/registratiebelasting-iedmt-spanje-vrijstelling-verhuizing). Kijk dus niet alleen naar de Spaanse kosten: de teruggave in Nederland verlaagt uw totale kosten.
 
@@ -46,7 +46,7 @@ De laatste voorwaarde wordt vaak onderschat. De Spaanse inschrijving kan langer 
 
 ### En elektrische auto's?
 
-Elektrische auto's betaalden tot 2025 geen BPM. Voor die auto's valt er bij export dus niets terug te krijgen. Vanaf 2025 betalen nieuwe elektrische auto's wel BPM. Voor die auto's kan er bij export wel een teruggave zijn.
+Elektrische auto's betaalden tot 2025 geen BPM. Voor die auto's valt er bij export dus niets terug te krijgen. Vanaf 2025 betalen nieuwe elektrische auto's wel BPM. Voor die auto's kan er bij export wel een teruggave zijn. Wat er in Spanje geldt, leest u in ons artikel over [elektrische auto's en hybrides naar Spanje](/blog/belastingvrijstelling-elektrische-auto-hybride-spanje).
 
 ## Hoeveel BPM krijgt u terug?
 
@@ -104,7 +104,7 @@ In de praktijk gaat het vaak op dezelfde punten mis:
 - **De Spaanse inschrijving duurt te lang.** Is de auto niet binnen 13 weken na de exportmelding in Spanje ingeschreven, dan verliest u uw recht op teruggave.
 - **De export wordt uitgesteld.** Elke maand wachten kost geld, omdat de afschrijving doorloopt.
 - **Er ontbreekt een document.** U heeft zowel Nederlandse als Spaanse papieren nodig. Eén ontbrekend stuk kan het hele proces vertragen.
-- **Alleen naar de Spaanse kosten kijken.** Wie de teruggave vergeet, ziet een te hoge prijs voor het hele traject.
+- **Alleen naar de Spaanse kosten kijken.** Wie de teruggave vergeet, ziet een te hoge prijs voor het hele traject. Hoe dat uitpakt, ziet u in onze [rekenvoorbeelden van de totale kosten](/blog/kosten-auto-invoeren-spanje-rekenvoorbeelden).
 
 ## Zelf regelen of uitbesteden?
 

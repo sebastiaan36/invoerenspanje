@@ -111,7 +111,7 @@ Voor de vrijstelling van de auto moet u laten zien dat u echt verhuist. Deze doc
 **Rond de verhuizing**
 
 - Schrijf u uit bij uw Nederlandse gemeente.
-- Laat de auto uitschrijven voor export. Vanaf dat moment loopt de termijn van 13 weken voor de BPM-teruggave.
+- Laat de auto [uitschrijven voor export](/blog/auto-uitschrijven-bij-de-rdw-en-exportkenteken-aanvragen-zo-werkt-het). Vanaf dat moment loopt de termijn van 13 weken voor de BPM-teruggave.
 
 **Direct na aankomst in Spanje**
 
@@ -135,7 +135,7 @@ Voor de vrijstelling van de auto moet u laten zien dat u echt verhuist. Deze doc
 
 ## Hulp bij uw verhuizing met de auto
 
-Uw inboedel regelt u met een verhuisbedrijf, de auto regelen wij. Maikel Mobility verzorgt beide kanten: de export en de BPM-teruggave in Nederland, en de vrijstelling, ITV en inschrijving in Spanje. Wij kijken vooraf of u in aanmerking komt voor vrijstelling. Het hele traject staat in onze [gids over auto invoeren in Spanje](/auto-invoeren-spanje).
+Uw inboedel regelt u met een verhuisbedrijf, de auto regelen wij. Maikel Mobility [verzorgt beide kanten](/diensten): de export en de BPM-teruggave in Nederland, en de vrijstelling, ITV en inschrijving in Spanje. Wij kijken vooraf of u in aanmerking komt voor vrijstelling. Antwoorden op andere vragen over de invoer vindt u bij de [veelgestelde vragen](/veelgestelde-vragen). Het hele traject staat in onze [gids over auto invoeren in Spanje](/auto-invoeren-spanje).
 
 Wilt u weten wat dit voor uw auto betekent? Doe de [kostencheck en vraag een vrijblijvende offerte aan](/#offerte).
 
