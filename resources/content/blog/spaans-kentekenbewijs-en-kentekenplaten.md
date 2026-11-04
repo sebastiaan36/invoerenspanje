@@ -37,7 +37,7 @@ Via de officiële app *miDGT* van de DGT kunt u de gegevens van uw auto en uw ri
 
 ## De tarjeta ITV: het technische document
 
-Naast het kentekenbewijs heeft elke Spaanse auto een technisch document: de *tarjeta de inspección técnica*, kortweg *tarjeta ITV* of *ficha técnica*. Daarop staan de technische gegevens van de auto, zoals afmetingen, gewicht, vermogen en de toegestane banden. Ook de keuringen worden erop bijgehouden.
+Naast het kentekenbewijs heeft elke Spaanse auto een technisch document: de *tarjeta de inspección técnica*, kortweg *tarjeta ITV* of *ficha técnica*. Daarop staan de technische gegevens van de auto, zoals afmetingen, gewicht, vermogen en de toegestane banden. Ook de keuringen worden erop bijgehouden. Een trekhaak moet er bijvoorbeeld op vermeld staan; zie [een auto met trekhaak importeren](/blog/auto-met-trekhaak-importeren-spanje).
 
 In Nederland bestaat zo'n apart document niet. De RDW houdt die gegevens centraal bij. In Spanje hoort u de tarjeta ITV bij de auto te hebben. Raakt u hem kwijt, dan vraagt u een duplicaat aan bij een ITV-station.
 
@@ -51,7 +51,7 @@ Sinds 2000 heeft Spanje één landelijk systeem voor kentekens. Een kenteken bes
 - drie medeklinkers, zonder de Ñ en de Q;
 - links de blauwe EU-strook met de letter E.
 
-De nummers worden op volgorde uitgegeven. Aan de letters kunt u dus ongeveer zien wanneer een auto in Spanje is ingeschreven. Een ingevoerde auto van vijf jaar oud krijgt daarom een nieuw nummer en ziet er op het oog jong uit. Op de platen staat geen provincie meer, zoals vroeger.
+De nummers worden op volgorde uitgegeven. Aan de letters kunt u dus ongeveer zien wanneer een auto in Spanje is ingeschreven. Wat u verder over een Spaanse auto kunt opvragen, leest u in ons artikel over [een Spaans kenteken opzoeken](/blog/spaans-kenteken-opzoeken-auto-checken). Een ingevoerde auto van vijf jaar oud krijgt daarom een nieuw nummer en ziet er op het oog jong uit. Op de platen staat geen provincie meer, zoals vroeger.
 
 De platen laat u maken bij een erkende plaatmaker, op vertoon van het kentekenbewijs. Ze kosten rond de € 35. Laat u de inschrijving via ons lopen, dan zitten de platen in de kosten van de gestoría. Een voor- en een achterplaat zijn verplicht.
 
@@ -63,7 +63,7 @@ Hoe u de auto in Nederland afmeldt en met het exportkenteken naar Spanje rijdt, 
 
 ## De milieusticker van de DGT
 
-Steeds meer Spaanse steden hebben een milieuzone, de *zona de bajas emisiones* (ZBE). Ook Málaga heeft er een. Welke auto's er in mogen, hangt af van de milieusticker, het *distintivo ambiental*. De DGT deelt elke auto in een klasse in:
+Steeds meer Spaanse steden hebben een milieuzone, de *zona de bajas emisiones* (ZBE). Ook Málaga voerde er een in, al zijn de regels daar sinds een uitspraak van de rechter in 2026 in beweging; lees meer over [de milieuzone van Málaga](/blog/milieuzone-zbe-malaga-regels-auto). Welke auto's er in mogen, hangt af van de milieusticker, het *distintivo ambiental*. De DGT deelt elke auto in een klasse in:
 
 | Sticker | Voor welke auto's? |
 |---|---|
@@ -94,7 +94,7 @@ Het Spaanse kentekenbewijs heeft u ook nodig voor de [BPM-teruggave](/blog/bpm-t
 
 ## Hulp bij uw Spaanse kenteken
 
-Wij regelen het traject van RDW tot Spaans kentekenbewijs, in uw eigen taal. In het Basispakket (€ 395) levert u de documenten aan en verwerken wij de aanvraag bij de DGT. In Compleet (€ 895) en Compleet Plus (€ 1.495) nemen wij u meer werk uit handen. De verschillen ziet u op de pagina [tarieven](/tarieven).
+Wij [regelen het traject](/diensten) van RDW tot Spaans kentekenbewijs, in uw eigen taal. In het Basispakket (€ 395) levert u de documenten aan en verwerken wij de aanvraag bij de DGT. In Compleet (€ 895) en Compleet Plus (€ 1.495) nemen wij u meer werk uit handen. De verschillen ziet u op de pagina [tarieven](/tarieven).
 
 Wilt u weten wat dit voor uw auto betekent? [Vraag een vrijblijvende offerte aan](/#offerte).
 

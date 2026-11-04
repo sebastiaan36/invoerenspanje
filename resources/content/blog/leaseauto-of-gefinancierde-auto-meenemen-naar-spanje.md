@@ -33,7 +33,7 @@ Meenemen naar Spanje is in deze vorm meestal niet mogelijk:
 - Een Spaans kenteken kan alleen op naam van de eigenaar. De leasemaatschappij gaat de auto niet in Spanje op eigen naam inschrijven.
 - Woont u in Spanje en blijft u met de Nederlandse leaseauto rijden, dan rijdt u op een buitenlands kenteken terwijl u resident bent. Dat mag in Spanje in de regel niet. Lees meer in ons artikel over [wanneer uw auto op een Spaans kenteken moet](/blog/wanneer-auto-op-spaans-kenteken-verplicht).
 
-U heeft dan grofweg drie keuzes. U beëindigt het contract en laat de auto achter, vaak met een vergoeding voor vroegtijdig stoppen. U vraagt of u de auto mag afkopen, zodat hij uw eigendom wordt. Of u laat de auto achter en koopt in Spanje of Nederland een auto om mee te nemen.
+U heeft dan grofweg drie keuzes. U beëindigt het contract en laat de auto achter, vaak met een vergoeding voor vroegtijdig stoppen. U vraagt of u de auto mag afkopen, zodat hij uw eigendom wordt. Of u laat de auto achter en koopt in Spanje of Nederland een auto om mee te nemen. Koopt u daarvoor een (bijna) nieuwe auto, lees dan eerst [hoe het zit met de btw op een nieuwe auto](/blog/nieuwe-auto-meenemen-naar-spanje-btw).
 
 ## Financial lease en huurkoop
 
@@ -77,6 +77,6 @@ Alle stappen van de export tot het Spaanse kenteken staan in onze gids over [aut
 
 ## Hulp nodig?
 
-Twijfelt u of het meenemen van uw lease- of gefinancierde auto loont? Wij rekenen het voor u door: de afkoopprijs tegenover de BPM-teruggave en de kosten in Spanje. Vul uw Nederlandse kenteken in bij de [kostencheck en vraag een vrijblijvende offerte aan](/#offerte), en vermeld dat het om een lease- of gefinancierde auto gaat.
+Twijfelt u of het meenemen van uw lease- of gefinancierde auto loont? Wij [rekenen het voor u door](/diensten): de afkoopprijs tegenover de BPM-teruggave en [de kosten in Spanje](/blog/kosten-auto-invoeren-spanje-rekenvoorbeelden). Vul uw Nederlandse kenteken in bij de [kostencheck en vraag een vrijblijvende offerte aan](/#offerte), en vermeld dat het om een lease- of gefinancierde auto gaat.
 
 *Dit artikel is algemene informatie en geen juridisch of fiscaal advies. Wat mag, hangt af van uw contract en uw persoonlijke situatie. Vraag de voorwaarden na bij uw leasemaatschappij of financier, en controleer de actuele regels bij de RDW, de Belastingdienst en de Spaanse overheid.*

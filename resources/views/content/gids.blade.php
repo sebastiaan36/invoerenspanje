@@ -16,7 +16,7 @@
 @endphp
 
 <p>
-    Gaat u in Spanje wonen en wilt u uw Nederlandse auto meenemen? Dan moet de auto op een Spaans kenteken. In deze
+    Gaat u in Spanje wonen en wilt u uw Nederlandse auto meenemen? Dan <a href="/blog/wanneer-auto-op-spaans-kenteken-verplicht">moet de auto op een Spaans kenteken</a>. In deze
     gids leest u welke stappen er zijn, welke documenten u nodig heeft en wat het kost. Met de
     <a href="/#offerte">kostencheck</a> ziet u direct wat het voor uw eigen auto netto kost.
 </p>
@@ -34,8 +34,10 @@
 
 <h2>Stap 1: de auto exporteren uit Nederland</h2>
 <p>
-    De auto wordt bij de RDW afgemeld met de status export. U krijgt een exportkenteken dat 14 dagen geldig is,
-    zodat u naar Spanje kunt rijden. Met de exportdocumenten vraagt u bij de Belastingdienst de rest-BPM terug.
+    De auto wordt <a href="/blog/auto-uitschrijven-bij-de-rdw-en-exportkenteken-aanvragen-zo-werkt-het">bij de RDW afgemeld</a> met de status export. U krijgt een exportkenteken dat 14 dagen geldig is,
+    zodat u naar Spanje kunt rijden; u kunt de auto ook laten vervoeren. Lees de afwegingen in
+    <a href="/blog/auto-naar-spanje-zelf-rijden-of-transport">zelf rijden of laten vervoeren</a>. Met de exportdocumenten
+    vraagt u bij de Belastingdienst <a href="/blog/bpm-teruggave-auto-importeren-spanje">de rest-BPM terug</a>.
     Hoeveel dat is, hangt af van de oorspronkelijke BPM en de leeftijd van de auto: een auto van vijf jaar met
     € 6.000 oorspronkelijke BPM levert ongeveer € 2.100 op. Bereken het voor uw auto met de
     <a href="/bpm-calculator">BPM-calculator</a>.
@@ -61,13 +63,17 @@
 <p>
     Met tijdelijke kentekenplaten (matrículas temporales, {{ $euro($fixedCosts['matriculas_temporales']['amount_eur']) }})
     rijdt u legaal naar de keuring. Die zijn niet verplicht, maar wel nodig om met een geëxporteerde auto naar de ITV
-    te rijden en te blijven rijden tot de definitieve platen er zijn. De ITV-keuring is de Spaanse APK; die betaalt u
-    zelf aan de balie van het keuringsstation, ongeveer € 150 tot € 160.
+    te rijden en te blijven rijden tot de definitieve platen er zijn. De <a href="/blog/itv-keuring-auto-import-spanje">ITV-keuring
+    bij import</a> is de Spaanse APK; die betaalt u zelf aan de balie van het keuringsstation, ongeveer € 150 tot € 160.
+    Let vooral op aanpassingen die niet bij de auto geregistreerd zijn, zoals
+    <a href="/blog/auto-met-trekhaak-importeren-spanje">een later gemonteerde trekhaak</a> of
+    <a href="/blog/getinte-ramen-ruitfolie-auto-spanje-itv">getinte ramen met ruitfolie</a>.
 </p>
 
 <h2>Stap 4: registratiebelasting (IEDMT) of vrijstelling</h2>
 <p>
-    De Impuesto Especial sobre Determinados Medios de Transporte (IEDMT) is de Spaanse registratiebelasting. Het
+    De Impuesto Especial sobre Determinados Medios de Transporte (IEDMT) is de
+    <a href="/blog/registratiebelasting-iedmt-spanje-vrijstelling-verhuizing">Spaanse registratiebelasting</a>. Het
     tarief hangt af van de CO₂-uitstoot en wordt berekend over de geschatte waarde van de auto:
 </p>
 <table>
@@ -96,14 +102,23 @@
 <p>
     <strong>Verhuist u uw hoofdverblijf naar Spanje, dan kunt u onder voorwaarden vrijstelling van de IEDMT
     aanvragen.</strong> De auto moet dan onder meer al minimaal zes maanden op uw naam staan. Wij controleren of u in
-    aanmerking komt en vragen de vrijstelling voor u aan.
+    aanmerking komt en vragen de vrijstelling voor u aan. Wat de verhuizing betekent voor uw auto én uw inboedel,
+    leest u in ons artikel over <a href="/blog/verhuisvrijstelling-spanje-inboedel-verhuisgoed-auto">de verhuisvrijstelling in Spanje</a>.
+    Rijdt u elektrisch of hybride? Lees dan meer over
+    <a href="/blog/belastingvrijstelling-elektrische-auto-hybride-spanje">het belastingvoordeel voor elektrische auto's en hybrides</a>.
 </p>
 
 <h2>Stap 5: inschrijving bij de DGT en Spaanse kentekenplaten</h2>
 <p>
     Na de keuring dient de gestoría (het Spaanse administratiekantoor) de aanvraag in bij de DGT, de Spaanse
-    tegenhanger van de RDW. U ontvangt een Spaans kentekenbewijs en de definitieve Spaanse kentekenplaten. Daarmee is
-    de auto officieel Spaans.
+    tegenhanger van de RDW. U ontvangt <a href="/blog/spaans-kentekenbewijs-en-kentekenplaten">een Spaans kentekenbewijs en de
+    definitieve Spaanse kentekenplaten</a>. Daarmee is de auto officieel Spaans.
+</p>
+<p>
+    Daarna rijdt u als iedere Spaanse automobilist: de auto moet op vaste momenten naar de
+    <a href="/blog/periodieke-itv-keuring-spanje">periodieke ITV-keuring</a>, en steeds meer steden regelen met het
+    milieulabel van de DGT wie hun centrum in mag. Lees bijvoorbeeld over
+    <a href="/blog/milieuzone-zbe-malaga-regels-auto">de milieuzone van Málaga</a>.
 </p>
 
 <h2>Wat kost auto invoeren in Spanje?</h2>
@@ -123,8 +138,9 @@
     <strong>Rekenvoorbeeld.</strong> Een auto met COC, uitstoot onder de 120 g/km en tijdelijke kentekenplaten: de
     Spaanse kosten zijn dan {{ $euro($exampleSpanish) }}. Met het pakket {{ $compleet['name'] }}
     ({{ $euro($compleet['price_eur']) }}) betaalt u in totaal {{ $euro($exampleSpanish + $compleet['price_eur']) }}.
-    Daar staat de BPM-teruggave uit Nederland tegenover. Wat dat voor uw auto netto betekent, ziet u met de
-    <a href="/#offerte">kostencheck</a>.
+    Daar staat de BPM-teruggave uit Nederland tegenover. Meer uitgewerkte voorbeelden vindt u in onze
+    <a href="/blog/kosten-auto-invoeren-spanje-rekenvoorbeelden">drie rekenvoorbeelden</a>. Wat het voor uw auto netto
+    betekent, ziet u met de <a href="/#offerte">kostencheck</a>.
 </p>
 
 <h2>Zelf doen of uitbesteden?</h2>

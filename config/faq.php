@@ -17,6 +17,9 @@ return [
             'id' => 'tijdelijk-nederlands-kenteken',
             'question' => 'Kan ik mijn auto ook tijdelijk op Nederlands kenteken in Spanje houden?',
             'answer' => 'Als toerist of bij kort verblijf is dat toegestaan. Zodra u fiscaal resident bent in Spanje (meer dan 183 dagen per jaar), bent u verplicht de auto in te schrijven. Tijdelijk rijden op een buitenlands kenteken als resident is niet toegestaan en kan leiden tot hoge boetes en inbeslagname van het voertuig.',
+            'links' => [
+                ['label' => 'Wanneer moet uw auto op Spaans kenteken?', 'href' => '/blog/wanneer-auto-op-spaans-kenteken-verplicht'],
+            ],
         ],
         [
             'id' => 'leaseauto',
@@ -24,6 +27,7 @@ return [
             'answer' => 'In dat geval heeft u schriftelijke toestemming nodig van de leasemaatschappij om de auto naar het buitenland te brengen en in te schrijven. Veel leasemaatschappijen werken hier aan mee, maar de voorwaarden variëren. Wij adviseren u graag over de juiste aanpak voor uw specifieke situatie.',
             'links' => [
                 ['label' => 'Neem contact op', 'href' => '/contact'],
+                ['label' => 'Lees meer over een leaseauto meenemen', 'href' => '/blog/leaseauto-of-gefinancierde-auto-meenemen-naar-spanje'],
             ],
         ],
         [
@@ -46,6 +50,9 @@ return [
             'id' => 'itv-inbegrepen',
             'question' => 'Is de ITV-keuring bij de prijs inbegrepen?',
             'answer' => 'Nee. De ITV-keuring betaalt u zelf aan de balie van het keuringsstation, circa € 150 tot € 160 afhankelijk van het station. Bij Compleet en Compleet Plus plannen wij de afspraak voor u, maar de keuring zelf is voor uw eigen rekening.',
+            'links' => [
+                ['label' => 'Lees meer over de ITV-keuring bij import', 'href' => '/blog/itv-keuring-auto-import-spanje'],
+            ],
         ],
         [
             'id' => 'ficha-tecnica',
@@ -56,6 +63,9 @@ return [
             'id' => 'matriculas-temporales',
             'question' => 'Wat zijn matrículas temporales?',
             'answer' => 'Dit zijn tijdelijke groene kentekenplaten. Ze zijn niet verplicht, maar wel nodig om met een geëxporteerde auto naar de ITV te rijden en legaal te blijven rijden tot de definitieve platen er zijn. Kosten: € 181,50.',
+            'links' => [
+                ['label' => 'Over het Spaanse kentekenbewijs en de platen', 'href' => '/blog/spaans-kentekenbewijs-en-kentekenplaten'],
+            ],
         ],
         [
             'id' => 'transportkosten',
@@ -63,6 +73,7 @@ return [
             'answer' => 'Bij Compleet Plus regelen wij het transport via een van onze partners. De transportkosten komen apart en hangen af van ophaallocatie en bestemming. Vraag een offerte aan via de calculator, dan nemen wij het transport mee.',
             'links' => [
                 ['label' => 'Bereken uw kosten en vraag een offerte aan', 'href' => '/#offerte'],
+                ['label' => 'Zelf rijden of laten vervoeren?', 'href' => '/blog/auto-naar-spanje-zelf-rijden-of-transport'],
             ],
         ],
         [
@@ -84,6 +95,9 @@ return [
                     'id' => 'wanneer-spaans-kenteken-verplicht',
                     'question' => 'Wanneer ben ik verplicht mijn auto op Spaans kenteken te zetten?',
                     'answer' => 'Zodra u fiscaal resident bent in Spanje — dat wil zeggen: u verblijft meer dan 183 dagen per jaar in Spanje — bent u verplicht uw auto in te schrijven bij de DGT, de Spaanse verkeersdienst (vergelijkbaar met de RDW). Rijdt u als resident langer dan 30 aaneengesloten dagen in Spanje op een buitenlands kenteken, dan kunt u worden beboet. De handhaving is de afgelopen jaren aanzienlijk strenger geworden.',
+                    'links' => [
+                        ['label' => 'Lees meer over resident, overwinteraar of niet-resident', 'href' => '/blog/wanneer-auto-op-spaans-kenteken-verplicht'],
+                    ],
                 ],
                 [
                     'id' => 'tijdelijk-rijden-als-toerist',
@@ -94,6 +108,10 @@ return [
                     'id' => 'exportkenteken-of-spaans-kenteken',
                     'question' => 'Wat is het verschil tussen een exportkenteken en een definitief Spaans kenteken?',
                     'answer' => 'Het exportkenteken is een tijdelijk Nederlands kenteken dat u ontvangt nadat u de auto heeft afgemeld bij de RDW. Het is maximaal 14 dagen geldig en bedoeld om de auto legaal naar Spanje te rijden. Het definitieve Spaanse kenteken ontvangt u na afronding van de Spaanse inschrijving bij de DGT.',
+                    'links' => [
+                        ['label' => 'Zo werkt het exportkenteken', 'href' => '/blog/auto-uitschrijven-bij-de-rdw-en-exportkenteken-aanvragen-zo-werkt-het'],
+                        ['label' => 'Over het Spaanse kentekenbewijs', 'href' => '/blog/spaans-kentekenbewijs-en-kentekenplaten'],
+                    ],
                 ],
                 [
                     'id' => 'doorlooptijd',
@@ -114,6 +132,7 @@ return [
                     'answer' => 'Ja. U koopt de auto in Nederland, de auto wordt bij de RDW afgemeld voor export en gaat op exportkenteken naar Spanje. In het Compleet- en Compleet Plus-pakket loopt de export via een van onze partners in Nederland. Bij Compleet Plus krijgt u ook aankoopadvies (een belafspraak van 30 minuten) en regelen wij het transport van de auto; de transportkosten komen daar apart bij.',
                     'links' => [
                         ['label' => 'Pakketten vergelijken', 'href' => '/tarieven'],
+                        ['label' => 'Nieuwe auto meenemen: let op de btw', 'href' => '/blog/nieuwe-auto-meenemen-naar-spanje-btw'],
                     ],
                 ],
             ],
@@ -128,6 +147,7 @@ return [
                     'answer' => 'BPM staat voor Belasting van personenauto\'s en motorrijwielen. Dit is een Nederlandse belasting die wordt betaald wanneer een auto voor het eerst in Nederland op kenteken komt. Exporteert u de auto naar een ander EU-land en wordt hij daar definitief ingeschreven, dan krijgt u het deel van die belasting terug dat nog in de waarde van de auto zit: de rest-BPM. Dat kan oplopen van een paar honderd tot enkele duizenden euro\'s, afhankelijk van de oorspronkelijke BPM en de leeftijd van de auto.',
                     'links' => [
                         ['label' => 'Bereken uw BPM-teruggave', 'href' => '/bpm-calculator'],
+                        ['label' => 'Lees meer over de BPM-teruggave', 'href' => '/blog/bpm-teruggave-auto-importeren-spanje'],
                     ],
                 ],
                 [
@@ -152,6 +172,9 @@ return [
                     'id' => 'termijn-bpm-teruggave',
                     'question' => 'Binnen welke termijn moet ik de BPM-teruggave aanvragen?',
                     'answer' => 'De Spaanse inschrijving moet plaatsvinden binnen 13 weken na de exportmelding bij de RDW. Daarna heeft u het Spaanse kentekenbewijs nodig als bewijs voor de aanvraag bij de Belastingdienst. De Belastingdienst heeft vervolgens 8 weken de tijd om op uw verzoek te reageren. Bent u te laat, dan verliest u uw recht op teruggave.',
+                    'links' => [
+                        ['label' => 'Meld de auto niet te vroeg af', 'href' => '/blog/auto-uitschrijven-bij-de-rdw-en-exportkenteken-aanvragen-zo-werkt-het'],
+                    ],
                 ],
                 [
                     'id' => 'bpm-elektrische-auto',
@@ -179,6 +202,9 @@ return [
                     'id' => 'wat-is-de-itv',
                     'question' => 'Wat is de ITV?',
                     'answer' => 'De ITV (Inspección Técnica de Vehículos) is de Spaanse APK. De auto wordt gekeurd op technische staat, uitstoot en veiligheid. Zonder goedgekeurde ITV kunt u de auto niet op een Spaans kenteken inschrijven.',
+                    'links' => [
+                        ['label' => 'Lees meer over de ITV-keuring bij import', 'href' => '/blog/itv-keuring-auto-import-spanje'],
+                    ],
                 ],
                 [
                     'id' => 'itv-controle',
@@ -194,6 +220,9 @@ return [
                     'id' => 'itv-geldigheid',
                     'question' => 'Hoe lang is de ITV-goedkeuring geldig voor een importauto?',
                     'answer' => 'De keuring bij invoer is een eenmalige goedkeuring. Daarna volgt de gewone ITV-cyclus op basis van de leeftijd van de auto: auto\'s tot 4 jaar hoeven niet gekeurd, van 4 tot 10 jaar elke 2 jaar, ouder dan 10 jaar elk jaar.',
+                    'links' => [
+                        ['label' => 'Lees meer over de periodieke ITV', 'href' => '/blog/periodieke-itv-keuring-spanje'],
+                    ],
                 ],
                 [
                     'id' => 'koplampen',
@@ -210,6 +239,9 @@ return [
                     'id' => 'wat-is-iedmt',
                     'question' => 'Wat is de IEDMT?',
                     'answer' => 'De IEDMT (Impuesto Especial sobre Determinados Medios de Transporte), ook wel impuesto de matriculación genoemd, is de Spaanse registratiebelasting die u betaalt wanneer een auto in Spanje op kenteken komt. Het tarief hangt af van de CO₂-uitstoot en loopt van 0% voor schone auto\'s tot 14,75% van de fiscale waarde voor auto\'s met een hoge uitstoot.',
+                    'links' => [
+                        ['label' => 'Lees meer over de IEDMT', 'href' => '/blog/registratiebelasting-iedmt-spanje-vrijstelling-verhuizing'],
+                    ],
                 ],
                 [
                     'id' => 'iedmt-berekening',
@@ -217,6 +249,7 @@ return [
                     'answer' => 'De grondslag is de fiscale waarde van de auto in Spanje, niet de aankoopprijs of de Nederlandse catalogusprijs. De Spaanse belastingdienst (Agencia Tributaria) hanteert eigen tabellen op basis van merk, model, bouwjaar en uitvoering. Het percentage hangt af van de officiële CO₂-uitstoot: 0% tot en met 120 g/km, 4,75% van 121 tot 159 g/km, 9,75% van 160 tot 199 g/km en 14,75% vanaf 200 g/km. Onze calculator geeft u een indicatie van de te verwachten IEDMT.',
                     'links' => [
                         ['label' => 'Bereken uw totale kosten', 'href' => '/#offerte'],
+                        ['label' => 'Drie rekenvoorbeelden', 'href' => '/blog/kosten-auto-invoeren-spanje-rekenvoorbeelden'],
                     ],
                 ],
                 [
@@ -238,6 +271,7 @@ return [
                     'answer' => 'Niet als u aan de voorwaarden voor vrijstelling voldoet. Verplaatst u uw hoofdverblijf naar Spanje en staat de auto al minimaal zes maanden op uw naam, dan kunt u vrijstelling van de IEDMT aanvragen. Dat moet binnen 60 dagen na uw inschrijving bij de gemeente (empadronamiento). De vaste kosten, zoals leges, kentekenplaten, de gestoría en de ITV-keuring, betaalt u wel. Houdt u alleen een tweede woning in Spanje en blijft uw hoofdverblijf in Nederland, dan geldt deze vrijstelling niet. In het Compleet-pakket vragen wij de vrijstelling voor u aan.',
                     'links' => [
                         ['label' => 'Bereken wat u terugkrijgt', 'href' => '/#offerte'],
+                        ['label' => 'De vrijstelling bij verhuizing uitgelegd', 'href' => '/blog/registratiebelasting-iedmt-spanje-vrijstelling-verhuizing'],
                     ],
                 ],
             ],
@@ -250,6 +284,9 @@ return [
                     'id' => 'documenten-export',
                     'question' => 'Welke documenten heb ik nodig voor de export uit Nederland?',
                     'answer' => 'Voor de exportmelding bij de RDW heeft u nodig: het Nederlandse kentekenbewijs (deel I en II), een geldig identiteitsbewijs en, bij een gefinancierde of geleaste auto, toestemming van de financier of leasemaatschappij. Na de exportmelding ontvangt u het exportkenteken en het uitschrijfbewijs.',
+                    'links' => [
+                        ['label' => 'Zo meldt u de auto af bij de RDW', 'href' => '/blog/auto-uitschrijven-bij-de-rdw-en-exportkenteken-aanvragen-zo-werkt-het'],
+                    ],
                 ],
                 [
                     'id' => 'documenten-spaanse-inschrijving',
@@ -265,6 +302,9 @@ return [
                     'id' => 'gefinancierd-of-lease',
                     'question' => 'Wat als mijn auto nog gefinancierd is of op naam van een leasemaatschappij staat?',
                     'answer' => 'Bij een gefinancierde auto heeft u schriftelijke toestemming van de financier nodig om de auto te exporteren. Bij een leaseauto geldt hetzelfde voor de leasemaatschappij. Veel partijen werken hieraan mee, maar de voorwaarden verschillen. Wij adviseren u over de juiste aanpak voor uw situatie.',
+                    'links' => [
+                        ['label' => 'Lees meer over lease en financiering', 'href' => '/blog/leaseauto-of-gefinancierde-auto-meenemen-naar-spanje'],
+                    ],
                 ],
                 [
                     'id' => 'auto-op-naam-van-bv',
@@ -287,6 +327,7 @@ return [
                     'links' => [
                         ['label' => 'Bereken wat u terugkrijgt', 'href' => '/#offerte'],
                         ['label' => 'Alle tarieven', 'href' => '/tarieven'],
+                        ['label' => 'Bekijk drie rekenvoorbeelden', 'href' => '/blog/kosten-auto-invoeren-spanje-rekenvoorbeelden'],
                     ],
                 ],
                 [
@@ -331,6 +372,9 @@ return [
                     'id' => 'verzekering',
                     'question' => 'Moet ik mijn verzekering aanpassen na de Spaanse inschrijving?',
                     'answer' => 'Ja. Zodra de auto op een Spaans kenteken staat, heeft u een Spaanse verzekering nodig. Uw Nederlandse verzekering vervalt automatisch. Regel tijdig een Spaanse WA-verzekering, of een uitgebreidere dekking, zodat er geen gat in uw dekking ontstaat. In het Compleet-pakket verwijzen wij u door naar een aangesloten verzekeraar.',
+                    'links' => [
+                        ['label' => 'Lees meer over verzekeren in Spanje', 'href' => '/blog/auto-verzekeren-spanje-na-import'],
+                    ],
                 ],
                 [
                     'id' => 'rijbewijs',

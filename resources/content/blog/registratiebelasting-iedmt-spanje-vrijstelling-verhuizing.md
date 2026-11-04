@@ -36,7 +36,7 @@ Het tarief hangt af van de officiële CO₂-uitstoot van uw auto. Die staat op h
 | 160 tot en met 199 g/km | 9,75% |
 | 200 g/km of meer | 14,75% |
 
-Een volledig elektrische auto valt in de schijf van 0%. Kan de CO₂-uitstoot niet worden aangetoond, dan geldt volgens de wet het hoogste tarief.
+Een volledig elektrische auto valt in de schijf van 0%. Meer daarover leest u in ons artikel over [het belastingvoordeel voor elektrische auto's en hybrides](/blog/belastingvrijstelling-elektrische-auto-hybride-spanje). Kan de CO₂-uitstoot niet worden aangetoond, dan geldt volgens de wet het hoogste tarief.
 
 Dit zijn de landelijke tarieven. Spaanse regio's mogen eigen tarieven vaststellen. Doen zij dat niet, dan gelden de bovenstaande percentages. Aan de Costa del Sol, in Andalucía, rekenen wij met deze landelijke tarieven. Controleer bij twijfel de actuele tarieven bij de [Agencia Tributaria](https://sede.agenciatributaria.gob.es/Sede/vehiculos-embarcaciones/primera-matriculacion-medios-transporte.html).
 
@@ -52,7 +52,7 @@ Bij een nieuwe auto gelden andere regels. Dan is de grondslag de aankoopprijs zo
 
 ## Vrijstelling bij verhuizing van uw hoofdverblijf
 
-Verhuist u definitief naar Spanje en neemt u uw eigen auto mee? Dan kunt u vrijstelling van de IEDMT krijgen. In het Spaans heet dit de exención por *traslado de residencia*. De regels staan in [artikel 66, lid 1, letter n van Ley 38/1992](https://www.boe.es/buscar/act.php?id=BOE-A-1992-28741#a66).
+Verhuist u definitief naar Spanje en neemt u uw eigen auto mee? Dan kunt u vrijstelling van de IEDMT krijgen. In het Spaans heet dit de exención por *traslado de residencia*. Wat een verhuizing betekent voor uw inboedel, leest u in ons artikel over [de verhuisvrijstelling in Spanje](/blog/verhuisvrijstelling-spanje-inboedel-verhuisgoed-auto). De regels staan in [artikel 66, lid 1, letter n van Ley 38/1992](https://www.boe.es/buscar/act.php?id=BOE-A-1992-28741#a66).
 
 ### De voorwaarden
 
@@ -113,7 +113,7 @@ Een paar situaties waarin dit vaak voorkomt:
 - U woonde de laatste twaalf maanden al (deels) in Spanje.
 - U verkoopt de auto binnen een jaar na inschrijving. Dan moet u alsnog betalen.
 
-Heeft uw auto een uitstoot van 120 g/km of minder? Dan is het tarief 0% en speelt de vrijstelling geen rol voor de belasting zelf. Ook dan doet u wel aangifte voordat de auto op kenteken komt.
+Heeft uw auto een uitstoot van 120 g/km of minder? Dan is het tarief 0% en speelt de vrijstelling geen rol voor de belasting zelf. Ook dan doet u wel aangifte voordat de auto op kenteken komt. Meer korte antwoorden over de IEDMT vindt u bij de [veelgestelde vragen](/veelgestelde-vragen).
 
 ## Wat de vrijstelling niet dekt
 

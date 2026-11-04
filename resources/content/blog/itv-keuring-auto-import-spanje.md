@@ -81,8 +81,8 @@ Bij geïmporteerde auto's gaat het hier vaak mis. Het station kijkt of de auto o
 
 Denk aan aanpassingen zoals:
 
-- een trekhaak;
-- getinte ramen;
+- een [trekhaak](/blog/auto-met-trekhaak-importeren-spanje);
+- [getinte ramen of ruitfolie](/blog/getinte-ramen-ruitfolie-auto-spanje-itv);
 - een bullbar of spoiler;
 - een aangepaste uitlaat.
 

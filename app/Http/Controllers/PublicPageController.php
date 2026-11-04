@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use App\Models\Review;
+use App\Services\Blog\UnpublishedBlogLinkFilter;
 use App\Services\HeroImageOptimizer;
 use App\Services\Packages\ServicePackage;
 use App\Services\Packages\ServicePackages;
@@ -25,10 +26,10 @@ final class PublicPageController extends Controller
         return Inertia::render('Welcome', [
             'canRegister' => Features::enabled(Features::registration()),
             'faqItems' => config('faq.home'),
-            'contentHtml' => view('content.home', [
+            'contentHtml' => app(UnpublishedBlogLinkFilter::class)->filter(view('content.home', [
                 'lowestPackagePrice' => min(array_map(fn (ServicePackage $p): int => $p->priceEur, ServicePackages::all())),
                 'fixedCostsTotal' => array_sum(array_column(SpainFixedCosts::fromConfig(), 'amount_eur')),
-            ])->render(),
+            ])->render()),
             'reviews' => $this->reviews(),
             'recentPosts' => Post::published()
                 ->whereNotNull('hero_image_path')
@@ -76,7 +77,7 @@ final class PublicPageController extends Controller
     public function bpmCalculator(): Response
     {
         return Inertia::render('BpmCalculator', [
-            'contentHtml' => view('content.bpm-calculator')->render(),
+            'contentHtml' => app(UnpublishedBlogLinkFilter::class)->filter(view('content.bpm-calculator')->render()),
         ]);
     }
 
@@ -90,7 +91,7 @@ final class PublicPageController extends Controller
     public function gids(): Response
     {
         return Inertia::render('Gids', [
-            'contentHtml' => view('content.gids')->render(),
+            'contentHtml' => app(UnpublishedBlogLinkFilter::class)->filter(view('content.gids')->render()),
             'faqItems' => config('faq.home'),
             'updatedLabel' => 'Bijgewerkt: '.config('seo.routes.gids.updated_label'),
         ]);

@@ -58,7 +58,7 @@ U kunt het rapport op vier manieren aanvragen:
 
 ### De milieusticker op kenteken
 
-Eén ding kunt u wél zonder inloggen opzoeken: de milieusticker (*distintivo ambiental*). Op de [site van de DGT](https://sede.dgt.gob.es/es/vehiculos/informacion-de-vehiculos/distintivo-ambiental/) vult u het kenteken in en ziet u direct welke sticker bij de auto hoort: 0, ECO, C, B of geen sticker. Dat is handig als u wilt weten of de auto straks de milieuzone (*zona de bajas emisiones*) van Málaga of een andere stad in mag. De opzoeking is gratis. De sticker zelf kost € 5.
+Eén ding kunt u wél zonder inloggen opzoeken: de milieusticker (*distintivo ambiental*). Op de [site van de DGT](https://sede.dgt.gob.es/es/vehiculos/informacion-de-vehiculos/distintivo-ambiental/) vult u het kenteken in en ziet u direct welke sticker bij de auto hoort: 0, ECO, C, B of geen sticker. Dat is handig als u wilt weten of de auto straks [de milieuzone (*zona de bajas emisiones*) van Málaga](/blog/milieuzone-zbe-malaga-regels-auto) of een andere stad in mag. De opzoeking is gratis. De sticker zelf kost € 5.
 
 ### De ITV-datum
 
@@ -106,7 +106,7 @@ Zorg ook dat u vanaf de eerste dag verzekerd bent. Hoe dat werkt, leest u in [uw
 
 ## Wilt u juist uw Nederlandse auto op een Spaans kenteken?
 
-Misschien zocht u op "kenteken check Spanje" omdat u uw eigen auto naar Spanje wilt halen. Dat is precies wat wij doen. Maikel Mobility regelt het invoeren van Nederlandse auto's in Spanje: van de export bij de RDW tot het Spaanse kentekenbewijs en de platen.
+Misschien zocht u op "kenteken check Spanje" omdat u uw eigen auto naar Spanje wilt halen. Dat is precies [wat wij doen](/diensten). Maikel Mobility regelt het invoeren van Nederlandse auto's in Spanje: van de export bij de RDW tot het Spaanse kentekenbewijs en de platen.
 
 Op [onze homepage](/#offerte) vult u uw Nederlandse kenteken in. U ziet dan direct wat het invoeren van uw auto ongeveer kost, inclusief de Spaanse registratiebelasting. Alle stappen, documenten en kosten op een rij leest u in onze gids over [auto invoeren in Spanje](/auto-invoeren-spanje). Wilt u eerst weten of het voor u verplicht is? Lees dan [wanneer uw auto op een Spaans kenteken moet](/blog/wanneer-auto-op-spaans-kenteken-verplicht).
 

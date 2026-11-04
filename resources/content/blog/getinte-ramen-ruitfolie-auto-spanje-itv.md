@@ -126,7 +126,7 @@ De ITV bij import kost ca. € 150–160, afhankelijk van het station. U betaalt
 
 Andere kosten bij de invoer zijn onder meer:
 
-- tijdelijke kentekenplaten (*matrículas temporales*): € 181,50;
+- tijdelijke kentekenplaten (*matrículas temporales*): € 181,50 (meer over [de Spaanse kentekenplaten en het kentekenbewijs](/blog/spaans-kentekenbewijs-en-kentekenplaten));
 - de gestoría, inclusief definitieve kentekenplaten: € 219,62;
 - een Ficha Técnica: € 102,85. Die vervalt als u een COC-document heeft.
 
@@ -136,7 +136,7 @@ Bij een controle op straat kan niet-reglementaire folie ook een boete opleveren.
 
 ## Hulp bij de ITV en uw getinte ramen
 
-Wij regelen de export in Nederland en de inschrijving in Spanje. Wij kijken vooraf met u naar punten die bij de ITV problemen kunnen geven. Getinte ramen horen daar ook bij. Afhankelijk van uw pakket plannen wij de ITV-afspraak of gaan wij namens u naar het station:
+Wij regelen [de export in Nederland en de inschrijving in Spanje](/diensten). Wij kijken vooraf met u naar punten die bij de ITV problemen kunnen geven. Getinte ramen horen daar ook bij, net als bijvoorbeeld [een trekhaak die later is gemonteerd](/blog/auto-met-trekhaak-importeren-spanje). Afhankelijk van [uw pakket](/tarieven) plannen wij de ITV-afspraak of gaan wij namens u naar het station:
 
 - **Basis (€ 395):** u maakt zelf de afspraak en gaat zelf naar de keuring.
 - **Compleet (€ 895):** wij maken de afspraak, u gaat zelf naar het station.

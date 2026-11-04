@@ -87,7 +87,7 @@ Met een Nederlands kenteken kunt u geen Spaanse sticker krijgen. Nederland heeft
 
 De sticker is niet verplicht. Maar steden mogen met het label de toegang regelen tot hun *zona de bajas emisiones* (ZBE), een milieuzone. Volgens [de Spaanse klimaatwet](https://www.boe.es/buscar/act.php?id=BOE-A-2021-8447#a14) moeten gemeenten met meer dan 50.000 inwoners zo'n zone invoeren. Zonder zichtbare sticker profiteert u niet van de voordelen, ook niet als uw auto er recht op heeft.
 
-Málaga heeft sinds november 2024 een milieuzone. Volgens de [gemeente Málaga](https://movilidad.malaga.eu/es/servicios/zona-bajas-emisiones/) mogen auto's met een B-label of zonder label daar op termijn alleen nog in als ze in Málaga zijn ingeschreven. De regels voor milieuzones zijn nog volop in beweging, ook in Málaga. Kijk daarom voor actuele informatie op de website van uw gemeente. Met een CERO- of ECO-label zit u in elk geval goed.
+Málaga heeft sinds november 2024 een milieuzone. Volgens de [gemeente Málaga](https://movilidad.malaga.eu/es/servicios/zona-bajas-emisiones/) mogen auto's met een B-label of zonder label daar op termijn alleen nog in als ze in Málaga zijn ingeschreven. De regels voor milieuzones zijn nog volop in beweging, ook in Málaga. Lees de actuele stand in ons artikel over [de milieuzone van Málaga](/blog/milieuzone-zbe-malaga-regels-auto). Kijk daarom voor actuele informatie op de website van uw gemeente. Met een CERO- of ECO-label zit u in elk geval goed.
 
 ## Korting op de wegenbelasting (IVTM)
 
@@ -108,7 +108,7 @@ Met de [BPM-calculator](/bpm-calculator) ziet u direct of er voor uw auto iets t
 - **Zorg voor de juiste CO₂-waarde.** Zonder aantoonbare waarde betaalt u 14,75%. Het CoC-document of de RDW-gegevens zijn voldoende.
 - **WLTP, niet NEDC.** Kijk naar de WLTP-waarde. Rond de grens van 120 g/km maakt dat uit.
 - **Aangifte blijft nodig.** Ook bij 0% doet u aangifte voordat de auto op Spaans kenteken komt.
-- **Vaste kosten blijven.** De [ITV-keuring](/blog/itv-keuring-auto-import-spanje), de leges van de DGT en de [kentekenplaten](/blog/spaans-kentekenbewijs-en-kentekenplaten) betaalt u altijd. Een overzicht staat op onze pagina [tarieven](/tarieven).
+- **Vaste kosten blijven.** De [ITV-keuring](/blog/itv-keuring-auto-import-spanje), de leges van de DGT en de kentekenplaten betaalt u altijd. Een overzicht staat op onze pagina [tarieven](/tarieven).
 - **Vraag de korting op wegenbelasting op tijd aan.** Die gaat meestal niet vanzelf.
 
 ## Hulp bij uw elektrische auto of hybride

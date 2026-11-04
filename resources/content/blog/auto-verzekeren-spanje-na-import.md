@@ -116,7 +116,7 @@ Iedere verzekeraar vraagt net iets anders. Houd in elk geval bij de hand:
 - uw paspoort of ID-kaart;
 - uw NIE-nummer (Spaans fiscaal identificatienummer);
 - uw adres in Spanje;
-- de kentekenpapieren van de auto, en later het Spaanse kentekenbewijs;
+- de kentekenpapieren van de auto, en later het [Spaanse kentekenbewijs](/blog/spaans-kentekenbewijs-en-kentekenplaten);
 - uw rijbewijs;
 - de verklaring van uw schadeverleden;
 - uw IBAN voor de betaling van de premie.
@@ -133,7 +133,7 @@ Bewijs van verzekering is ook nodig voor de Spaanse inschrijving zelf. Welke doc
 
 ## Hulp bij uw verzekering
 
-Wij regelen niet zelf uw verzekering. Wel helpen wij u op weg, afhankelijk van uw pakket:
+Wij regelen niet zelf uw verzekering, maar [begeleiden wel de invoer](/diensten). Wel helpen wij u op weg, afhankelijk van uw pakket:
 
 - **Basis:** u regelt de verzekering zelf.
 - **Compleet:** wij verwijzen u door naar een aangesloten verzekeraar.

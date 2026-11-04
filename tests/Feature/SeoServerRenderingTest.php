@@ -134,17 +134,24 @@ class SeoServerRenderingTest extends TestCase
 
     public function test_homepage_links_to_the_guide_and_supporting_articles(): void
     {
+        $slugs = [
+            'wanneer-auto-op-spaans-kenteken-verplicht',
+            'auto-uitschrijven-bij-de-rdw-en-exportkenteken-aanvragen-zo-werkt-het',
+            'itv-keuring-auto-import-spanje',
+            'registratiebelasting-iedmt-spanje-vrijstelling-verhuizing',
+        ];
+        // Links to posts that are not published are rendered as plain text.
+        $author = User::factory()->create();
+        foreach ($slugs as $slug) {
+            Post::create(['title' => $slug, 'slug' => $slug, 'content_html' => '<p>x</p>', 'status' => Post::STATUS_PUBLISHED, 'published_at' => now()->subDay(), 'author_id' => $author->id]);
+        }
+
         $app = $this->appHtml($this->get(route('home'))->getContent());
 
         $this->assertStringContainsString('<a href="/auto-invoeren-spanje">auto invoeren in Spanje</a>', $app);
 
-        foreach ([
-            '/blog/wanneer-auto-op-spaans-kenteken-verplicht',
-            '/blog/auto-uitschrijven-bij-de-rdw-en-exportkenteken-aanvragen-zo-werkt-het',
-            '/blog/itv-keuring-auto-import-spanje',
-            '/blog/registratiebelasting-iedmt-spanje-vrijstelling-verhuizing',
-        ] as $href) {
-            $this->assertStringContainsString('href="'.$href.'"', $app);
+        foreach ($slugs as $slug) {
+            $this->assertStringContainsString('href="/blog/'.$slug.'"', $app);
         }
     }
 
