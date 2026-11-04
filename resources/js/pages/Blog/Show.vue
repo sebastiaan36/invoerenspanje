@@ -146,7 +146,7 @@ function formatDate(iso: string | null): string {
             <!-- Body -->
             <div class="container mx-auto max-w-3xl px-4 py-12 md:py-16">
                 <div
-                    class="prose prose-lg max-w-[68ch] prose-headings:font-display prose-headings:font-semibold prose-headings:text-foreground prose-h2:mt-12 prose-h3:mt-8 prose-p:text-foreground prose-a:font-medium prose-a:text-primary prose-a:underline prose-a:underline-offset-4 hover:prose-a:text-primary/80 prose-blockquote:border-l-2 prose-blockquote:border-border prose-blockquote:font-normal prose-blockquote:text-foreground prose-strong:text-foreground prose-code:text-primary prose-li:text-foreground prose-li:marker:text-muted-foreground"
+                    class="prose prose-lg max-w-[68ch] prose-headings:font-display prose-headings:font-semibold prose-headings:text-foreground prose-h2:mt-12 prose-h3:mt-8 prose-p:text-foreground prose-a:font-medium prose-a:text-primary prose-a:underline prose-a:underline-offset-4 hover:prose-a:text-primary/80 prose-blockquote:border-l-2 prose-blockquote:border-border prose-blockquote:font-normal prose-blockquote:text-foreground prose-strong:text-foreground prose-code:text-primary prose-li:text-foreground prose-li:marker:text-muted-foreground prose-img:rounded-xl prose-img:border prose-img:border-border"
                     v-html="post.content_html"
                 />
             </div>
