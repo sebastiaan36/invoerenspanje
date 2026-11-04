@@ -276,9 +276,9 @@ const addOns = [
                         Weten wat het u kost?
                     </h2>
                     <p class="mx-auto mt-4 max-w-lg text-muted-foreground">
-                        Vul uw kenteken in en zie direct de BPM-teruggave en de
-                        kosten in Spanje. Daarna vraagt u met één formulier een
-                        offerte aan.
+                        Vul uw Nederlandse kenteken in en zie direct de
+                        BPM-teruggave en de kosten in Spanje. Daarna vraagt u
+                        met één formulier een offerte aan.
                     </p>
                     <Link
                         :href="quoteHref"

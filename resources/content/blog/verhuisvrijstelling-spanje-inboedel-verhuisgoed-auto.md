@@ -137,6 +137,6 @@ Voor de vrijstelling van de auto moet u laten zien dat u echt verhuist. Deze doc
 
 Uw inboedel regelt u met een verhuisbedrijf, de auto regelen wij. Maikel Mobility verzorgt beide kanten: de export en de BPM-teruggave in Nederland, en de vrijstelling, ITV en inschrijving in Spanje. Wij kijken vooraf of u in aanmerking komt voor vrijstelling. Het hele traject staat in onze [gids over auto invoeren in Spanje](/auto-invoeren-spanje).
 
-Wilt u weten wat dit voor uw auto betekent? Doe de [kentekencheck en vraag een vrijblijvende offerte aan](/#offerte).
+Wilt u weten wat dit voor uw auto betekent? Doe de [kostencheck en vraag een vrijblijvende offerte aan](/#offerte).
 
 *Dit artikel is algemene informatie en geen juridisch of fiscaal advies. De regels kunnen wijzigen en de Spaanse belastingdienst beoordeelt elk dossier apart. Controleer de actuele voorwaarden bij de [Agencia Tributaria](https://sede.agenciatributaria.gob.es/Sede/vehiculos-embarcaciones/primera-matriculacion-medios-transporte.html), de DGT en de Nederlandse Douane.*

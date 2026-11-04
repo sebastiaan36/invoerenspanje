@@ -77,6 +77,6 @@ Alle stappen van de export tot het Spaanse kenteken staan in onze gids over [aut
 
 ## Hulp nodig?
 
-Twijfelt u of het meenemen van uw lease- of gefinancierde auto loont? Wij rekenen het voor u door: de afkoopprijs tegenover de BPM-teruggave en de kosten in Spanje. Vul uw kenteken in bij de [kentekencheck en vraag een vrijblijvende offerte aan](/#offerte), en vermeld dat het om een lease- of gefinancierde auto gaat.
+Twijfelt u of het meenemen van uw lease- of gefinancierde auto loont? Wij rekenen het voor u door: de afkoopprijs tegenover de BPM-teruggave en de kosten in Spanje. Vul uw Nederlandse kenteken in bij de [kostencheck en vraag een vrijblijvende offerte aan](/#offerte), en vermeld dat het om een lease- of gefinancierde auto gaat.
 
 *Dit artikel is algemene informatie en geen juridisch of fiscaal advies. Wat mag, hangt af van uw contract en uw persoonlijke situatie. Vraag de voorwaarden na bij uw leasemaatschappij of financier, en controleer de actuele regels bij de RDW, de Belastingdienst en de Spaanse overheid.*

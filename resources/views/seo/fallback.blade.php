@@ -77,7 +77,7 @@
         <main class="flex-1">
             <section class="relative overflow-hidden bg-background">
                 <div class="container mx-auto max-w-6xl px-4 py-16 text-center md:py-24">
-                    <h1 class="font-display text-4xl leading-tight font-semibold text-balance text-foreground md:text-6xl">{!! str_replace('Spaans kenteken', '<span class="text-accent">Spaans kenteken</span>', e($meta['h1'] ?? config('seo.default.title'))) !!}</h1>
+                    <h1 class="font-display text-4xl leading-tight font-semibold text-balance text-foreground md:text-6xl">{!! str_replace('invoeren in Spanje', '<span class="text-accent">invoeren in Spanje</span>', e($meta['h1'] ?? config('seo.default.title'))) !!}</h1>
                     <p class="mx-auto mt-5 max-w-2xl text-lg text-pretty text-muted-foreground">{{ $meta['intro'] ?? '' }}</p>
                     <div class="mt-6 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm text-muted-foreground">
                         @foreach (['Vaste prijs vooraf', 'Nederlandstalige begeleiding', 'BPM-teruggave inbegrepen'] as $usp)

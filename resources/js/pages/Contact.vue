@@ -87,7 +87,7 @@ function submit(): void {
                     href="/#offerte"
                     class="mt-4 inline-flex min-h-11 items-center gap-1.5 rounded-md px-1 font-medium text-accent underline-offset-4 hover:underline focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:outline-none"
                 >
-                    Direct weten wat het kost? Vul uw kenteken in
+                    Direct weten wat het kost? Vul uw Nederlandse kenteken in
                     <ArrowRight class="size-4" />
                 </Link>
             </div>
