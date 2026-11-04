@@ -4,13 +4,13 @@
     come from config so the guide never drifts from the calculator.
 --}}
 @php
-    $fixedCosts = collect(config('spain_import.fixed_costs'))->keyBy('key');
+    $fixedCosts = collect(\App\Services\SpainImport\SpainFixedCosts::fromConfig())->keyBy('key');
     $brackets = config('spain_import.autonomias.costa_del_sol.iedmt_brackets');
     $packages = config('packages.list');
     $euro = fn (float $amount): string => '€ '.number_format($amount, fmod($amount, 1) ? 2 : 0, ',', '.');
 
     // Worked example: a car with a COC (no Ficha Técnica), temporary plates, below 120 g/km.
-    $exampleKeys = ['tasas', 'placas_definitivas', 'honorarios', 'matriculas_temporales', 'itv_keuring'];
+    $exampleKeys = ['tasas', 'honorarios', 'matriculas_temporales', 'itv_keuring'];
     $exampleSpanish = $fixedCosts->only($exampleKeys)->sum('amount_eur');
     $compleet = collect($packages)->firstWhere('slug', 'compleet');
 @endphp
@@ -37,7 +37,7 @@
     De auto wordt bij de RDW afgemeld met de status export. U krijgt een exportkenteken dat 14 dagen geldig is,
     zodat u naar Spanje kunt rijden. Met de exportdocumenten vraagt u bij de Belastingdienst de rest-BPM terug.
     Hoeveel dat is, hangt af van de oorspronkelijke BPM en de leeftijd van de auto: een auto van vijf jaar met
-    € 6.000 oorspronkelijke BPM levert ongeveer € 1.800 op. Bereken het voor uw auto met de
+    € 6.000 oorspronkelijke BPM levert ongeveer € 2.100 op. Bereken het voor uw auto met de
     <a href="/bpm-calculator">BPM-calculator</a>.
 </p>
 <p>

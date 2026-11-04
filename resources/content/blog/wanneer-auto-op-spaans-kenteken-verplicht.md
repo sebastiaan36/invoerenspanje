@@ -3,7 +3,7 @@ title: "Wanneer moet uw auto op een Spaans kenteken? Resident, overwinteraar of 
 excerpt: "Resident? Dan heeft u een maand. Overwinteraar? Maximaal zes maanden per jaar op Nederlands kenteken. Plus: wat geldt als niet-resident en welke boetes u riskeert."
 author: Sebastiaan
 published_at: 2026-09-09 10:00
-updated_at: 2026-10-29
+updated_at: 2026-11-04
 status: published
 hero_image: images/wanneer-auto-op-spaans-kenteken-verplicht.webp
 ---
@@ -37,7 +37,7 @@ Deze regels hebben elk een eigen doel. Ze vallen niet altijd op dezelfde dag sam
 
 Wie in Spanje gaat wonen, schrijft de auto in. Volgens [administracion.gob.es](https://administracion.gob.es/pag_Home/Tu-espacio-europeo/derechos-obligaciones/ciudadanos/vehiculos/traslado/matriculacion.html) heeft u daarvoor een maand vanaf het moment dat u resident bent. Lukt dat niet op tijd, dan kunt u bij de DGT een tijdelijke inschrijving aanvragen.
 
-U krijgt dan groene tijdelijke kentekenplaten, de *matrículas temporales*. Volgens de DGT mag u daarmee twee maanden rijden, met mogelijkheid tot verlenging. De auto moet wel verzekerd zijn. Bij ons kosten deze platen € 150. Ze zijn niet verplicht, maar wel nodig om met een geëxporteerde auto naar de ITV-keuring te rijden.
+U krijgt dan groene tijdelijke kentekenplaten, de *matrículas temporales*. Volgens de DGT mag u daarmee twee maanden rijden, met mogelijkheid tot verlenging. De auto moet wel verzekerd zijn. Bij ons kosten deze platen € 181,50. Ze zijn niet verplicht, maar wel nodig om met een geëxporteerde auto naar de ITV-keuring te rijden.
 
 Er is ook goed nieuws voor wie verhuist. Verhuist u uw hoofdverblijf naar Spanje en had u de auto al vóór de verhuizing, dan is onder voorwaarden vrijstelling van de Spaanse registratiebelasting mogelijk. Een van de voorwaarden is dat u de auto minimaal zes maanden in uw oude woonplaats heeft gebruikt. Meer hierover leest u in ons artikel over [de registratiebelasting (IEDMT) en de vrijstelling bij verhuizing](/blog/registratiebelasting-iedmt-spanje-vrijstelling-verhuizing).
 

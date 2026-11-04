@@ -14,7 +14,27 @@ final readonly class FuelData
         public ?int $co2WltpGecombineerd,
         public ?int $co2WltpGewogen,
         public ?string $emissiecodeOmschrijving,
+        public ?int $nettoMaximumVermogenKw = null,
+        public ?int $nettoMaxVermogenElektrischKw = null,
+        public ?string $klasseHybrideElektrischVoertuig = null,
     ) {}
+
+    /**
+     * Non plug-in hybrid (NOVC-HEV): full or mild hybrid without a charging plug.
+     */
+    public function isNonPluginHybrid(): bool
+    {
+        return strtoupper((string) $this->klasseHybrideElektrischVoertuig) === 'NOVC-HEV';
+    }
+
+    /**
+     * Engine power in kW: the combustion engine's net power, or the electric
+     * motor's net power for a fully electric vehicle.
+     */
+    public function powerKw(): ?int
+    {
+        return $this->nettoMaximumVermogenKw ?? $this->nettoMaxVermogenElektrischKw;
+    }
 
     /**
      * @param  array<string, mixed>  $row
@@ -29,7 +49,22 @@ final readonly class FuelData
             co2WltpGecombineerd: self::int($row['emissie_co2_gecombineerd_wltp'] ?? null),
             co2WltpGewogen: self::int($row['emissie_co2_gewogen_gecombineerd_wltp'] ?? null),
             emissiecodeOmschrijving: self::str($row['emissiecode_omschrijving'] ?? null),
+            nettoMaximumVermogenKw: self::roundedInt($row['nettomaximumvermogen'] ?? null),
+            nettoMaxVermogenElektrischKw: self::roundedInt($row['netto_max_vermogen_elektrisch'] ?? null),
+            klasseHybrideElektrischVoertuig: self::str($row['klasse_hybride_elektrisch_voertuig'] ?? null),
         );
+    }
+
+    /**
+     * RDW serves power as a decimal string ("110.00").
+     */
+    private static function roundedInt(mixed $value): ?int
+    {
+        if ($value === null || $value === '' || ! is_numeric($value)) {
+            return null;
+        }
+
+        return (int) round((float) $value);
     }
 
     private static function str(mixed $value): ?string

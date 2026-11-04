@@ -14,6 +14,7 @@ final class BpmCalculator
     /**
      * @param  array{
      *     eligibility_cutoff_date: string,
+     *     minimum_refund_eur: int|float,
      *     depreciation_table: list<array{
      *         max_months: int,
      *         base_months: int,
@@ -47,7 +48,7 @@ final class BpmCalculator
 
         if ($input->datumEersteToelating->lt($cutoff)) {
             return BpmResult::notEligible(
-                "Datum eerste toelating ligt vóór {$cutoff->format('d-m-Y')}; BPM-teruggave is dan niet mogelijk.",
+                "Datum eerste toelating ligt vóór {$cutoff->format('d-m-Y')}; BPM-teruggave is dan niet mogelijk",
             );
         }
 
@@ -67,13 +68,44 @@ final class BpmCalculator
         $months = $this->calculateAgeInMonths($input->datumEersteToelating, $exportDate);
         $afschrijving = $this->getDepreciationPercentage($months);
 
-        $restBpm = $brutoBpm * (100 - $afschrijving) / 100;
+        // De vermindering wordt op hele euro's naar beneden afgerond (in het
+        // voordeel van de aanvrager), zoals de Belastingdienst/VWE rekenen.
+        $vermindering = floor(round($brutoBpm * $afschrijving / 100, 4));
+        $restBpm = $brutoBpm - $vermindering;
+
+        if ($input->isImported()) {
+            $notes[] = 'Deze auto is als gebruikte auto geïmporteerd. De teruggaaf hangt af van de BPM die bij '
+                .'import werkelijk is betaald; die is meestal lager dan de bruto BPM. Deze indicatie gaat uit '
+                .'van de bruto BPM en kan daardoor afwijken — wij controleren het exacte bedrag in de offerte.';
+        }
+
+        $restBpm = round(max(0.0, $restBpm), 2);
+        $minimumRefund = (float) $this->config['minimum_refund_eur'];
+
+        if ($restBpm < $minimumRefund) {
+            $reason = $brutoBpm <= 0
+                ? 'Voor deze auto is geen BPM betaald, dus er valt bij export niets terug te vragen'
+                : sprintf(
+                    'De berekende rest-BPM (€ %s) is lager dan € %s. Een teruggaaf onder € %2$s keert de Belastingdienst niet uit',
+                    number_format($restBpm, 0, ',', '.'),
+                    number_format($minimumRefund, 0, ',', '.'),
+                );
+
+            return BpmResult::belowMinimum(
+                reason: $reason,
+                brutoBpm: round($brutoBpm, 2),
+                afschrijvingPercentage: round($afschrijving, 3),
+                ageMonths: $months,
+                calculatedRestBpm: $restBpm,
+                notes: $notes,
+            );
+        }
 
         return BpmResult::eligible(
             brutoBpm: round($brutoBpm, 2),
             afschrijvingPercentage: round($afschrijving, 3),
             ageMonths: $months,
-            restBpm: round(max(0.0, $restBpm), 2),
+            restBpm: $restBpm,
             notes: $notes,
         );
     }
@@ -265,10 +297,9 @@ final class BpmCalculator
     }
 
     /**
-     * Whole months between first admission and export. Belastingdienst-regel:
-     * einde-maand-tot-einde-maand telt als hele maand (31 jan → 29 feb = 1).
-     * Carbon's diffInMonths returns a fractional 0,93 there, so count the
-     * months that fit without overflowing into the next month instead.
+     * Months "geheel of gedeeltelijk verstreken" since first admission
+     * (art. 8d UR BPM 1992): every begun month counts. Whole months follow the
+     * end-of-month rule (31 jan → 29 feb = 1); any remaining day starts a new month.
      */
     private function calculateAgeInMonths(CarbonImmutable $start, CarbonImmutable $end): int
     {
@@ -285,6 +316,10 @@ final class BpmCalculator
             $months--;
         }
 
+        if ($start->addMonthsNoOverflow($months)->lt($end)) {
+            $months++;
+        }
+
         return $months;
     }
 
@@ -294,11 +329,11 @@ final class BpmCalculator
             if ($months <= $tier['max_months']) {
                 $extraMonths = max(0, $months - $tier['base_months']);
 
-                return (float) $tier['base_percentage'] + ($extraMonths * (float) $tier['per_month']);
+                return min(100.0, (float) $tier['base_percentage'] + ($extraMonths * (float) $tier['per_month']));
             }
         }
 
-        return 100.0; // Buiten de tabel: 25+ jaar, geen restwaarde.
+        return 100.0;
     }
 
     private function isDiesel(string $brandstof): bool

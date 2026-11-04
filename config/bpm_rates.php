@@ -51,25 +51,38 @@ return [
     'eligibility_cutoff_date' => '2006-10-16',
 
     /*
-     * Forfaitaire afschrijvingstabel (Uitvoeringsregeling BPM 1992).
-     * Per tier: gevonden wanneer maanden <= max_months.
-     * Resultaat: base_percentage + (months - base_months) * per_month.
+     * De Belastingdienst keert een teruggaaf van minder dan dit bedrag niet uit.
+     */
+    'minimum_refund_eur' => 50,
+
+    /*
+     * Forfaitaire afschrijvingstabel, art. 8d Uitvoeringsregeling BPM 1992,
+     * geldig sinds 1 juli 2023 (Stcrt. 2022, 33377). Vervangt de tabel uit 2012.
+     *
+     * "months" = het aantal maanden dat GEHEEL OF GEDEELTELIJK is verstreken
+     * sinds de datum eerste toelating (een begonnen maand telt mee).
+     * Per tier: gevonden wanneer months <= max_months.
+     * Resultaat: base_percentage + (months - base_months) * per_month, max 100%.
+     *
+     * De basispercentages per schijf zijn de afgeronde percentages zoals de
+     * Belastingdienst (en o.a. VWE) ze publiceren (62/67/72/75/78/81).
+     * Geverifieerd tegen de VWE-calculator (november 2026).
      */
     'depreciation_table' => [
-        ['max_months' => 1,   'base_months' => 0,   'base_percentage' => 0,    'per_month' => 0],
-        ['max_months' => 3,   'base_months' => 1,   'base_percentage' => 0,    'per_month' => 6],
-        ['max_months' => 5,   'base_months' => 3,   'base_percentage' => 12,   'per_month' => 3],
-        ['max_months' => 9,   'base_months' => 5,   'base_percentage' => 18,   'per_month' => 1.5],
-        ['max_months' => 18,  'base_months' => 9,   'base_percentage' => 28,   'per_month' => 1.0],
-        ['max_months' => 30,  'base_months' => 18,  'base_percentage' => 37,   'per_month' => 0.833],
-        ['max_months' => 42,  'base_months' => 30,  'base_percentage' => 47,   'per_month' => 0.833],
-        ['max_months' => 54,  'base_months' => 42,  'base_percentage' => 57,   'per_month' => 0.75],
-        ['max_months' => 66,  'base_months' => 54,  'base_percentage' => 66,   'per_month' => 0.583],
-        ['max_months' => 78,  'base_months' => 66,  'base_percentage' => 73,   'per_month' => 0.5],
-        ['max_months' => 90,  'base_months' => 78,  'base_percentage' => 79,   'per_month' => 0.417],
-        ['max_months' => 102, 'base_months' => 90,  'base_percentage' => 84,   'per_month' => 0.333],
-        ['max_months' => 114, 'base_months' => 102, 'base_percentage' => 88,   'per_month' => 0.333],
-        ['max_months' => 300, 'base_months' => 114, 'base_percentage' => 92,   'per_month' => 0.043],
+        ['max_months' => 1,    'base_months' => 0,   'base_percentage' => 0,  'per_month' => 12],
+        ['max_months' => 3,    'base_months' => 1,   'base_percentage' => 12, 'per_month' => 4],
+        ['max_months' => 5,    'base_months' => 3,   'base_percentage' => 20, 'per_month' => 3.5],
+        ['max_months' => 9,    'base_months' => 5,   'base_percentage' => 27, 'per_month' => 1.5],
+        ['max_months' => 18,   'base_months' => 9,   'base_percentage' => 33, 'per_month' => 1],
+        ['max_months' => 30,   'base_months' => 18,  'base_percentage' => 42, 'per_month' => 0.75],
+        ['max_months' => 42,   'base_months' => 30,  'base_percentage' => 51, 'per_month' => 0.5],
+        ['max_months' => 54,   'base_months' => 42,  'base_percentage' => 57, 'per_month' => 0.42],
+        ['max_months' => 66,   'base_months' => 54,  'base_percentage' => 62, 'per_month' => 0.42],
+        ['max_months' => 78,   'base_months' => 66,  'base_percentage' => 67, 'per_month' => 0.42],
+        ['max_months' => 90,   'base_months' => 78,  'base_percentage' => 72, 'per_month' => 0.25],
+        ['max_months' => 102,  'base_months' => 90,  'base_percentage' => 75, 'per_month' => 0.25],
+        ['max_months' => 114,  'base_months' => 102, 'base_percentage' => 78, 'per_month' => 0.25],
+        ['max_months' => 9999, 'base_months' => 114, 'base_percentage' => 81, 'per_month' => 0.19],
     ],
 
     /*

@@ -3,7 +3,7 @@ title: "BPM-teruggave bij export van uw auto naar Spanje"
 excerpt: "Neemt u uw auto mee naar Spanje? Dan krijgt u vaak een deel van de BPM terug. Lees de voorwaarden, de termijn van 13 weken en een rekenvoorbeeld."
 author: Sebastiaan
 published_at: 2026-05-23 16:40
-updated_at: 2026-10-25
+updated_at: 2026-11-04
 status: published
 hero_image: images/bpm-teruggave-auto-importeren-spanje.webp
 ---
@@ -14,9 +14,10 @@ Neemt u uw Nederlandse auto mee naar Spanje, dan denkt u waarschijnlijk eerst aa
 
 - Wordt uw auto definitief in Spanje ingeschreven, dan krijgt u het deel van de BPM terug dat nog in de waarde van de auto zit: de **rest-BPM**.
 - Hoeveel dat is, hangt af van de oorspronkelijke BPM en de leeftijd van de auto in maanden.
-- Voorbeeld: € 6.000 oorspronkelijke BPM en een auto van precies vijf jaar oud. Dan is ca. 70% afgeschreven en krijgt u ca. € 1.800 terug.
+- Voorbeeld: € 6.000 oorspronkelijke BPM en een auto van precies vijf jaar oud. Dan is ca. 65% afgeschreven en krijgt u ca. € 2.100 terug.
 - De auto moet op of na 16 oktober 2006 zijn eerste Nederlandse kenteken hebben gekregen en mag geen schadevoertuig zijn.
 - De auto moet binnen 13 weken na de exportmelding in Spanje zijn ingeschreven.
+- Komt de rest-BPM uit onder € 50, dan keert de Belastingdienst niets uit.
 - Met onze [BPM-calculator](/bpm-calculator) ziet u direct een indicatie voor uw eigen kenteken.
 
 ## Wat is BPM?
@@ -39,6 +40,7 @@ Niet elke auto komt in aanmerking. U moet aan al deze voorwaarden voldoen:
 - **De auto staat bij de RDW niet geregistreerd als schadevoertuig.** Voor een auto met schadestatus wordt geen rest-BPM uitgekeerd.
 - **De auto is bij de RDW afgemeld voor export.** Dat is de officiële uitschrijving uit het Nederlandse kentekenregister.
 - **De auto wordt binnen 13 weken na de exportmelding in Spanje ingeschreven.** Tijdelijk naar Spanje rijden is niet genoeg. De auto moet echt op een Spaans kenteken komen.
+- **De teruggave is minimaal € 50.** Komt de rest-BPM lager uit, bijvoorbeeld bij een oude auto of een auto met weinig BPM, dan keert de Belastingdienst niets uit.
 
 De laatste voorwaarde wordt vaak onderschat. De Spaanse inschrijving kan langer duren dan u verwacht. Daarom is het verstandig om [de exportmelding](/blog/auto-uitschrijven-bij-de-rdw-en-exportkenteken-aanvragen-zo-werkt-het) en de Spaanse inschrijving goed op elkaar af te stemmen. Controleer de actuele voorwaarden altijd bij de [Belastingdienst](https://www.belastingdienst.nl/wps/wcm/connect/nl/bpm/content/teruggaaf-bpm-export-gebruikt-motorrijtuig).
 
@@ -61,12 +63,12 @@ Stel: bij de eerste registratie is € 6.000 BPM betaald. In de tabel hieronder
 
 | Leeftijd auto bij export | Afgeschreven (ca.) | Teruggave (ca.) |
 | --- | --- | --- |
-| 1 jaar | 31% | € 4.140 |
-| 3 jaar | 52% | € 2.880 |
-| 5 jaar | 70% | € 1.800 |
-| 8 jaar | 86% | € 840 |
+| 1 jaar | 36% | € 3.840 |
+| 3 jaar | 54% | € 2.760 |
+| 5 jaar | 65% | € 2.100 |
+| 8 jaar | 77% | € 1.380 |
 
-U ziet het: bij een jonge auto gaat het om een flink bedrag. Bij een auto van vijf jaar oud krijgt u in dit voorbeeld nog ca. € 1.800 terug. Neemt u een bijna nieuwe auto mee, let dan ook op de btw: zie [een nieuwe auto meenemen naar Spanje](/blog/nieuwe-auto-meenemen-naar-spanje-btw).
+U ziet het: bij een jonge auto gaat het om een flink bedrag. Bij een auto van vijf jaar oud krijgt u in dit voorbeeld nog ca. € 2.100 terug. Neemt u een bijna nieuwe auto mee, let dan ook op de btw: zie [een nieuwe auto meenemen naar Spanje](/blog/nieuwe-auto-meenemen-naar-spanje-btw).
 
 ### Elke maand telt
 

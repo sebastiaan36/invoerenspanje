@@ -67,6 +67,7 @@
         "deploy": [
             "@php artisan migrate --force",
             "@php artisan blog:sync",
+            "@php artisan hacienda:sync",
             "@php artisan blog:optimize-images",
             "@php artisan optimize"
         ],

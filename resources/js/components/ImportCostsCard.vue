@@ -67,15 +67,45 @@ function formatEuro(value: number): string {
                     <span v-else>{{ formatEuro(importCosts.iedmt_eur) }}</span>
                 </dd>
             </div>
-            <div
-                v-if="importCosts.estimated_market_value_eur > 0"
-                class="flex items-baseline justify-between gap-3 text-muted-foreground"
+            <template
+                v-if="
+                    !importCosts.iedmt_exempt &&
+                    importCosts.iedmt_rate_pct > 0 &&
+                    importCosts.new_value_eur > 0
+                "
             >
-                <dt>Geschatte marktwaarde</dt>
-                <dd class="tabular-nums">
-                    {{ formatEuro(importCosts.estimated_market_value_eur) }}
-                </dd>
-            </div>
+                <div
+                    class="flex items-baseline justify-between gap-3 text-muted-foreground"
+                >
+                    <dt>
+                        {{
+                            importCosts.value_source === 'hacienda'
+                                ? 'Nieuwwaarde volgens Hacienda'
+                                : 'Catalogusprijs nieuw'
+                        }}
+                        <span
+                            v-if="importCosts.hacienda_model"
+                            class="block text-xs"
+                        >
+                            {{ importCosts.hacienda_model }}
+                        </span>
+                    </dt>
+                    <dd class="tabular-nums">
+                        {{ formatEuro(importCosts.new_value_eur) }}
+                    </dd>
+                </div>
+                <div
+                    class="flex items-baseline justify-between gap-3 text-muted-foreground"
+                >
+                    <dt>
+                        Marktwaarde ({{ importCosts.retention_pct }}% na
+                        afschrijving)
+                    </dt>
+                    <dd class="tabular-nums">
+                        {{ formatEuro(importCosts.estimated_market_value_eur) }}
+                    </dd>
+                </div>
+            </template>
 
             <div class="my-2 border-t border-border"></div>
 

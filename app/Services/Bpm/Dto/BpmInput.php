@@ -16,7 +16,19 @@ final readonly class BpmInput
         public bool $isPlugin = false,
         public ?string $voertuigsoort = null,
         public ?int $historischBrutoBpm = null,
+        public ?CarbonImmutable $datumEersteTenaamstellingNl = null,
     ) {}
+
+    /**
+     * A used import: first registered abroad, more than a month before its
+     * first Dutch registration. The BPM actually paid is then usually lower
+     * than the bruto BPM, which the RDW open data does not expose.
+     */
+    public function isImported(): bool
+    {
+        return $this->datumEersteTenaamstellingNl !== null
+            && $this->datumEersteTenaamstellingNl->gt($this->datumEersteToelating->addMonthNoOverflow());
+    }
 
     /**
      * Build a BpmInput from a successful RDW lookup.
@@ -58,6 +70,7 @@ final readonly class BpmInput
             isPlugin: $result->isPluginHybrid,
             voertuigsoort: $vehicle->voertuigsoort,
             historischBrutoBpm: $vehicle->brutoBpm,
+            datumEersteTenaamstellingNl: $vehicle->datumEersteTenaamstellingNl,
         );
     }
 }

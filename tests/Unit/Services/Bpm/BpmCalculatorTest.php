@@ -16,7 +16,8 @@ final class BpmCalculatorTest extends TestCase
      * Officiële Belastingdienst-tarieven 2019: een benzine personenauto met
      * 130 g/km CO2 heeft een bruto BPM van € 360 + 71×€2 + 24×€60 + 35×€131 = € 6.527.
      * Eerste toelating 15 april 2019, geëxporteerd 15 april 2026 (84 maanden,
-     * afschrijving 81,5%).
+     * afschrijving 72% + 6 × 0,25% = 73,5% volgens de tabel van 1 juli 2023).
+     * Vermindering 6527 × 73,5% = 4797,35 → naar beneden afgerond € 4.797; rest € 1.730.
      */
     public function test_it_calculates_rest_bpm_for_a_seven_year_old_petrol_passenger_car(): void
     {
@@ -32,8 +33,8 @@ final class BpmCalculatorTest extends TestCase
 
         $this->assertTrue($result->isEligible);
         $this->assertEqualsWithDelta(6527, $result->brutoBpm, 1);
-        $this->assertEqualsWithDelta(81.5, $result->afschrijvingPercentage, 0.1);
-        $this->assertEqualsWithDelta(1207, $result->restBpm, 2);
+        $this->assertEqualsWithDelta(73.5, $result->afschrijvingPercentage, 0.001);
+        $this->assertSame(1730.0, $result->restBpm);
         $this->assertSame(84, $result->ageMonths);
         $this->assertSame('forfaitair', $result->method);
         $this->assertEmpty($result->notes);
@@ -55,13 +56,13 @@ final class BpmCalculatorTest extends TestCase
             historischBrutoBpm: 3562,
         );
 
-        $result = $calculator->calculateRestBpm($input, CarbonImmutable::create(2026, 4, 4));
+        $result = $calculator->calculateRestBpm($input, CarbonImmutable::create(2020, 4, 4));
 
         $this->assertTrue($result->isEligible);
         $this->assertSame(3562.0, $result->brutoBpm);
         $this->assertEmpty($result->notes); // exact figure → no rough-indication warning
-        // 228 months → 96,902% afschrijving → rest ≈ 3562 × 0,03098 = € 110,35.
-        $this->assertEqualsWithDelta(110.35, $result->restBpm, 0.5);
+        // 156 months → 81% + 42 × 0,19% = 88,98% → vermindering € 3.169 → rest € 393.
+        $this->assertSame(393.0, $result->restBpm);
     }
 
     public function test_a_zero_rdw_bruto_bpm_is_respected(): void
@@ -80,6 +81,56 @@ final class BpmCalculatorTest extends TestCase
         // RDW says € 0 bruto (e.g. exempt) → no teruggave, not a CO2 fallback.
         $this->assertSame(0.0, $result->brutoBpm);
         $this->assertSame(0.0, $result->restBpm);
+    }
+
+    public function test_a_refund_below_50_euro_is_not_paid_out(): void
+    {
+        $input = new BpmInput(
+            datumEersteToelating: CarbonImmutable::create(2010, 1, 1),
+            co2: 130,
+            brandstof: 'Benzine',
+            historischBrutoBpm: 1350,
+        );
+
+        // 195 (begonnen) maanden → 96,39% afgeschreven → vermindering € 1.301 → rest € 49.
+        $result = $this->makeCalculator()->calculateRestBpm($input, CarbonImmutable::create(2026, 4, 1));
+
+        $this->assertFalse($result->isEligible);
+        $this->assertSame(0.0, $result->restBpm);
+        $this->assertSame(49.0, $result->calculatedRestBpm);
+        $this->assertSame(1350.0, $result->brutoBpm);
+        $this->assertStringContainsString('lager dan € 50', (string) $result->ineligibleReason);
+    }
+
+    public function test_a_refund_of_exactly_50_euro_is_paid_out(): void
+    {
+        $input = new BpmInput(
+            datumEersteToelating: CarbonImmutable::create(2010, 1, 1),
+            co2: 130,
+            brandstof: 'Benzine',
+            historischBrutoBpm: 1360,
+        );
+
+        // 96,39% van € 1.360 = € 1.310,90 → vermindering € 1.310 → rest € 50.
+        $result = $this->makeCalculator()->calculateRestBpm($input, CarbonImmutable::create(2026, 4, 1));
+
+        $this->assertTrue($result->isEligible);
+        $this->assertSame(50.0, $result->restBpm);
+    }
+
+    public function test_a_car_without_bpm_gets_a_clear_reason(): void
+    {
+        $input = new BpmInput(
+            datumEersteToelating: CarbonImmutable::create(2019, 4, 15),
+            co2: 130,
+            brandstof: 'Benzine',
+            historischBrutoBpm: 0,
+        );
+
+        $result = $this->makeCalculator()->calculateRestBpm($input, CarbonImmutable::create(2026, 4, 15));
+
+        $this->assertFalse($result->isEligible);
+        $this->assertStringContainsString('geen BPM betaald', (string) $result->ineligibleReason);
     }
 
     public function test_it_refuses_refund_for_a_car_registered_before_16_october_2006(): void
@@ -109,10 +160,11 @@ final class BpmCalculatorTest extends TestCase
             brandstof: 'Benzine',
         );
 
-        // No pre-2013 tariffs configured — fallback applies, but still eligible.
+        // No pre-2013 tariffs configured — fallback applies; the car is not refused for its age.
         $result = $calculator->calculateRestBpm($input, CarbonImmutable::create(2025, 1, 1));
 
-        $this->assertTrue($result->isEligible);
+        $this->assertGreaterThan(0.0, $result->brutoBpm);
+        $this->assertStringNotContainsString('vóór 16-10-2006', (string) $result->ineligibleReason);
     }
 
     /**
@@ -133,7 +185,6 @@ final class BpmCalculatorTest extends TestCase
 
         $result = $calculator->calculateRestBpm($input, CarbonImmutable::create(2026, 4, 1));
 
-        $this->assertTrue($result->isEligible);
         $this->assertEqualsWithDelta(7845, $result->brutoBpm, 1);
         $this->assertNotEmpty($result->notes);
         $this->assertStringContainsString('vóór 2013', $result->notes[0]);
@@ -318,15 +369,19 @@ final class BpmCalculatorTest extends TestCase
     {
         $calculator = $this->makeCalculator();
 
-        // 84 months → 79% + (84-78)*0.417 = 81.502%
+        // 84 months → 72% + (84-78) × 0,25% = 73,5%
         $input84 = new BpmInput(CarbonImmutable::create(2019, 4, 15), 130, 'Benzine');
         $result84 = $calculator->calculateRestBpm($input84, CarbonImmutable::create(2026, 4, 15));
-        $this->assertEqualsWithDelta(81.5, $result84->afschrijvingPercentage, 0.1);
+        $this->assertEqualsWithDelta(73.5, $result84->afschrijvingPercentage, 0.001);
 
-        // 1 month → 0%
-        $input1 = new BpmInput(CarbonImmutable::create(2024, 12, 1), 130, 'Benzine');
-        $result1 = $calculator->calculateRestBpm($input1, CarbonImmutable::create(2025, 1, 1));
-        $this->assertSame(0.0, $result1->afschrijvingPercentage);
+        // Exported on the day of first admission → 0%
+        $input0 = new BpmInput(CarbonImmutable::create(2024, 12, 1), 130, 'Benzine');
+        $result0 = $calculator->calculateRestBpm($input0, CarbonImmutable::create(2024, 12, 1));
+        $this->assertSame(0.0, $result0->afschrijvingPercentage);
+
+        // First (begun) month → 12%
+        $result1 = $calculator->calculateRestBpm($input0, CarbonImmutable::create(2024, 12, 2));
+        $this->assertSame(12.0, $result1->afschrijvingPercentage);
 
         // 25+ years → 100% (no rest-BPM)
         $inputOld = new BpmInput(CarbonImmutable::create(2007, 1, 1), 130, 'Benzine');
@@ -336,8 +391,8 @@ final class BpmCalculatorTest extends TestCase
     }
 
     /**
-     * Belastingdienst: a partial month doesn't count, but end-of-month to
-     * end-of-month is a whole month even when the later month is shorter.
+     * Art. 8d UR BPM: every month that has passed "geheel of gedeeltelijk"
+     * counts. Whole months follow the end-of-month rule (31 jan → 29 feb = 1).
      */
     #[DataProvider('monthBoundaries')]
     public function test_age_in_months_follows_the_end_of_month_rule(string $firstAdmission, string $export, int $expectedMonths): void
@@ -360,15 +415,91 @@ final class BpmCalculatorTest extends TestCase
     {
         return [
             'same day next month' => ['2020-01-15', '2020-02-15', 1],
-            'one day short of a month' => ['2020-01-15', '2020-02-14', 0],
+            'one day into the first month' => ['2020-01-15', '2020-01-16', 1],
+            'one day short of a month' => ['2020-01-15', '2020-02-14', 1],
+            'one day into the second month' => ['2020-01-15', '2020-02-16', 2],
             'end of month into leap February' => ['2020-01-31', '2020-02-29', 1],
-            'one day before end of leap February' => ['2020-01-31', '2020-02-28', 0],
+            'one day before end of leap February' => ['2020-01-31', '2020-02-28', 1],
             'end of March to end of April' => ['2020-03-31', '2020-04-30', 1],
-            'one day short of two months' => ['2020-01-31', '2020-03-30', 1],
+            'one day short of two months' => ['2020-01-31', '2020-03-30', 2],
             'seven years' => ['2019-04-15', '2026-04-15', 84],
-            'seven years minus a day' => ['2019-04-15', '2026-04-14', 83],
+            'seven years minus a day' => ['2019-04-15', '2026-04-14', 84],
+            'seven years plus a day' => ['2019-04-15', '2026-04-16', 85],
             'export before admission' => ['2026-04-15', '2026-04-01', 0],
         ];
+    }
+
+    /**
+     * Reference amounts from the VWE "BPM calculator teruggaaf bij export"
+     * (diensten.vwe.nl), export date 4 November 2026, for cars that were new in
+     * the Netherlands (first admission = first Dutch registration, so the BPM
+     * paid equals the RDW bruto BPM).
+     */
+    #[DataProvider('vweReferenceCases')]
+    public function test_rest_bpm_matches_the_vwe_export_calculator(string $firstAdmission, int $brutoBpm, float $expectedRest): void
+    {
+        $input = new BpmInput(
+            datumEersteToelating: CarbonImmutable::parse($firstAdmission),
+            co2: 130,
+            brandstof: 'Benzine',
+            historischBrutoBpm: $brutoBpm,
+            datumEersteTenaamstellingNl: CarbonImmutable::parse($firstAdmission),
+        );
+
+        $result = $this->makeCalculator()->calculateRestBpm($input, CarbonImmutable::create(2026, 11, 4));
+
+        $this->assertSame($expectedRest, $result->restBpm);
+        $this->assertEmpty($result->notes);
+    }
+
+    /**
+     * @return array<string, array{string, int, float}>
+     */
+    public static function vweReferenceCases(): array
+    {
+        return [
+            'JZP41F 9 months' => ['2026-03-02', 3089, 2070.0],
+            'JHN92D 13 months' => ['2025-10-15', 4293, 2705.0],
+            'HLG63L 19 months' => ['2025-04-15', 91843, 52581.0],
+            'S798LJ 45 months' => ['2023-03-01', 5027, 2099.0],
+            'P595FJ 57 months' => ['2022-03-01', 10813, 3973.0],
+            'K042ST 69 months' => ['2021-03-01', 3410, 1083.0],
+            'XN620D 93 months' => ['2019-03-01', 4038, 980.0],
+            'NK947N 117 months' => ['2017-03-01', 2023, 373.0],
+            '7ZNJ76 141 months' => ['2015-03-01', 4334, 602.0],
+            '06TJN1 177 months' => ['2012-03-01', 4408, 310.0],
+            '08LLL8 198 months' => ['2010-06-01', 7117, 217.0],
+        ];
+    }
+
+    public function test_a_used_import_gets_a_note_about_the_bpm_actually_paid(): void
+    {
+        $input = new BpmInput(
+            datumEersteToelating: CarbonImmutable::create(2021, 5, 10),
+            co2: 130,
+            brandstof: 'Benzine',
+            historischBrutoBpm: 4907,
+            datumEersteTenaamstellingNl: CarbonImmutable::create(2021, 11, 12),
+        );
+
+        $result = $this->makeCalculator()->calculateRestBpm($input, CarbonImmutable::create(2026, 11, 4));
+
+        $this->assertTrue($input->isImported());
+        $this->assertCount(1, $result->notes);
+        $this->assertStringContainsString('geïmporteerd', $result->notes[0]);
+    }
+
+    public function test_a_car_registered_in_nl_within_a_month_is_not_an_import(): void
+    {
+        $input = new BpmInput(
+            datumEersteToelating: CarbonImmutable::create(2024, 3, 1),
+            co2: 130,
+            brandstof: 'Benzine',
+            historischBrutoBpm: 2792,
+            datumEersteTenaamstellingNl: CarbonImmutable::create(2024, 3, 20),
+        );
+
+        $this->assertFalse($input->isImported());
     }
 
     private function makeCalculator(): BpmCalculator

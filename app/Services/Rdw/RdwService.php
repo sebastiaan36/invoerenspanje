@@ -93,12 +93,23 @@ final class RdwService
     }
 
     /**
-     * A plug-in hybrid registers both a combustion fuel and Elektriciteit.
+     * A plug-in hybrid is classed OVC-HEV by the RDW. Ordinary (mild/full)
+     * hybrids are NOVC-HEV and also list an Elektriciteit row, so the fuel
+     * rows alone are only used when the hybrid class is missing.
      *
      * @param  list<FuelData>  $fuels
      */
     private function isPluginHybrid(array $fuels): bool
     {
+        $classes = array_filter(array_map(
+            fn (FuelData $fuel): string => strtoupper((string) $fuel->klasseHybrideElektrischVoertuig),
+            $fuels,
+        ));
+
+        if ($classes !== []) {
+            return in_array('OVC-HEV', $classes, true);
+        }
+
         $hasElectric = false;
         $hasCombustion = false;
 

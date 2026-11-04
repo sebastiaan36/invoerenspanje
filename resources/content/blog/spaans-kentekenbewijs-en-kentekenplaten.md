@@ -3,7 +3,7 @@ title: "Het Spaanse kentekenbewijs en de kentekenplaten: zo ziet het eruit"
 excerpt: "Wat is het permiso de circulación, wat staat er op de Spaanse kentekenplaat en welke papieren horen in uw auto? Alles wat u krijgt als uw auto op Spaans kenteken staat."
 author: Sebastiaan
 published_at: 2026-10-29 10:00
-updated_at: 2026-10-29
+updated_at: 2026-11-04
 status: published
 hero_image: images/spaans-kentekenbewijs-en-kentekenplaten.webp
 ---
@@ -41,7 +41,7 @@ Naast het kentekenbewijs heeft elke Spaanse auto een technisch document: de *tar
 
 In Nederland bestaat zo'n apart document niet. De RDW houdt die gegevens centraal bij. In Spanje hoort u de tarjeta ITV bij de auto te hebben. Raakt u hem kwijt, dan vraagt u een duplicaat aan bij een ITV-station.
 
-Bij de invoer speelt het COC-document hierbij een grote rol. Het ITV-station neemt de fabrieksgegevens over uit het COC. Heeft u geen COC, dan is een apart technisch rapport nodig. Dat kost € 85 extra. Meer daarover leest u in ons artikel over [de ITV-keuring bij import](/blog/itv-keuring-auto-import-spanje).
+Bij de invoer speelt het COC-document hierbij een grote rol. Het ITV-station neemt de fabrieksgegevens over uit het COC. Heeft u geen COC, dan is een apart technisch rapport nodig. Dat kost € 102,85 extra. Meer daarover leest u in ons artikel over [de ITV-keuring bij import](/blog/itv-keuring-auto-import-spanje).
 
 ## De Spaanse kentekenplaat
 
@@ -53,11 +53,11 @@ Sinds 2000 heeft Spanje één landelijk systeem voor kentekens. Een kenteken bes
 
 De nummers worden op volgorde uitgegeven. Aan de letters kunt u dus ongeveer zien wanneer een auto in Spanje is ingeschreven. Een ingevoerde auto van vijf jaar oud krijgt daarom een nieuw nummer en ziet er op het oog jong uit. Op de platen staat geen provincie meer, zoals vroeger.
 
-De platen laat u maken bij een erkende plaatmaker, op vertoon van het kentekenbewijs. Ze kosten rond de € 35. Een voor- en een achterplaat zijn verplicht.
+De platen laat u maken bij een erkende plaatmaker, op vertoon van het kentekenbewijs. Ze kosten rond de € 35. Laat u de inschrijving via ons lopen, dan zitten de platen in de kosten van de gestoría. Een voor- en een achterplaat zijn verplicht.
 
 ### Groene tijdelijke platen
 
-Tussen de export in Nederland en de definitieve Spaanse inschrijving zit een periode waarin de auto nergens op kenteken staat. In die tijd rijdt u met groene tijdelijke platen: de *matrículas temporales*. Daarmee rijdt u legaal naar de ITV-keuring en blijft u rijden tot de definitieve platen er zijn. Bij ons kosten ze € 150.
+Tussen de export in Nederland en de definitieve Spaanse inschrijving zit een periode waarin de auto nergens op kenteken staat. In die tijd rijdt u met groene tijdelijke platen: de *matrículas temporales*. Daarmee rijdt u legaal naar de ITV-keuring en blijft u rijden tot de definitieve platen er zijn. Bij ons kosten ze € 181,50.
 
 Hoe u de auto in Nederland afmeldt en met het exportkenteken naar Spanje rijdt, leest u in ons artikel over [de auto uitschrijven bij de RDW](/blog/auto-uitschrijven-bij-de-rdw-en-exportkenteken-aanvragen-zo-werkt-het).
 

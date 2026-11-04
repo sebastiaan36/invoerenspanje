@@ -18,11 +18,13 @@ final class SpainImportCalculator
      *         label: string,
      *         iedmt_brackets: list<array{co2_max_g_per_km: int|null, rate_pct: float|int}>,
      *     }>,
-     *     fixed_costs: list<array{key: string, label: string, amount_eur: float|int}>,
-     *     market_value_depreciation_table: list<array{int, int, float|int}>,
+     *     fixed_costs: list<array{key: string, label: string, amount_eur?: float|int, amount_excl_vat_eur?: float|int, vat_pct?: float|int}>,
+     *     hacienda: array{table_year: int, apply_foreign_registration_correction: bool},
+     *     hacienda_retention_pct_by_full_years: list<int>,
+     *     iva_rate_history: list<array{0: string, 1: float|int}>,
      *     exemptions: array{residency_change: array{reason: string}},
      *     static_notes: list<string>,
-     *     notes: array{commercial_vehicle: string},
+     *     notes: array{commercial_vehicle: string, unknown_co2: string, catalogue_price_fallback: string},
      * }  $config
      */
     public function __construct(
@@ -36,15 +38,19 @@ final class SpainImportCalculator
         $autonomiaConfig = $this->config['autonomias'][$input->autonomia]
             ?? throw new InvalidArgumentException("Onbekende autonome regio: {$input->autonomia}");
 
-        $marketValue = $this->estimateMarketValue($input, $importDate);
-        $rate = $this->iedmtRate($autonomiaConfig['iedmt_brackets'], $input->co2);
+        [$newValue, $valueSource] = $this->newValue($input);
+        $retentionPct = $this->retentionPct($input->datumEersteToelating, $importDate);
+        $marketValue = $newValue * $retentionPct / 100;
+
+        $rate = $this->iedmtRate($autonomiaConfig['iedmt_brackets'], $input);
+        $taxableValue = $marketValue / $this->foreignRegistrationDivisor($input->datumEersteToelating, $rate);
 
         $exempt = $input->residencyChange;
         $exemptReason = $exempt
             ? $this->config['exemptions']['residency_change']['reason']
             : null;
 
-        $iedmt = $exempt ? 0.0 : round($marketValue * ($rate / 100), 2);
+        $iedmt = $exempt ? 0.0 : round($taxableValue * ($rate / 100), 2);
 
         $fixedCosts = $this->fixedCosts();
         $fixedCostsTotal = array_sum(array_map(fn (FixedCostItem $c) => $c->amountEur, $fixedCosts));
@@ -52,6 +58,12 @@ final class SpainImportCalculator
         $notes = $this->config['static_notes'] ?? [];
         if ($this->isCommercialVehicle($input->voertuigsoort)) {
             $notes[] = $this->config['notes']['commercial_vehicle'];
+        }
+        if (! $exempt && $input->co2 === null && ! $input->isZeroEmission) {
+            $notes[] = $this->config['notes']['unknown_co2'];
+        }
+        if (! $exempt && $rate > 0 && $valueSource === SpainImportResult::VALUE_SOURCE_CATALOGUE_PRICE) {
+            $notes[] = $this->config['notes']['catalogue_price_fallback'];
         }
 
         return new SpainImportResult(
@@ -65,37 +77,88 @@ final class SpainImportCalculator
             totalEur: round($iedmt + $fixedCostsTotal, 2),
             autonomia: $input->autonomia,
             notes: $notes,
+            valueSource: $valueSource,
+            newValueEur: (float) $newValue,
+            haciendaModel: $input->hacienda?->description(),
+            haciendaConfidence: $input->hacienda?->confidence,
+            retentionPct: $retentionPct,
+            taxableValueEur: round($taxableValue, 2),
         );
     }
 
-    private function estimateMarketValue(SpainImportInput $input, CarbonImmutable $importDate): float
+    /**
+     * Step 1: the Hacienda table value, else the Dutch catalogue price when new.
+     *
+     * @return array{0: int, 1: string}
+     */
+    private function newValue(SpainImportInput $input): array
     {
-        if ($input->catalogusprijsEur === null || $input->catalogusprijsEur <= 0) {
-            return 0.0;
+        if ($input->hacienda !== null && $input->hacienda->newValueEur > 0) {
+            return [$input->hacienda->newValueEur, SpainImportResult::VALUE_SOURCE_HACIENDA];
         }
 
-        $ageYears = (int) floor($input->datumEersteToelating->diffInYears($importDate));
-        $depreciationPct = $this->depreciationPct($ageYears);
-
-        return $input->catalogusprijsEur * (1 - $depreciationPct / 100);
-    }
-
-    private function depreciationPct(int $ageYears): float
-    {
-        foreach ($this->config['market_value_depreciation_table'] as [$min, $max, $pct]) {
-            if ($ageYears >= $min && $ageYears < $max) {
-                return (float) $pct;
-            }
+        if ($input->catalogusprijsEur !== null && $input->catalogusprijsEur > 0) {
+            return [$input->catalogusprijsEur, SpainImportResult::VALUE_SOURCE_CATALOGUE_PRICE];
         }
 
-        return 90.0;
+        return [0, SpainImportResult::VALUE_SOURCE_NONE];
     }
 
     /**
+     * Step 2 (Anexo IV): the share of the new value left after the full years of use.
+     * The percentage changes on the anniversary of the first registration.
+     */
+    private function retentionPct(CarbonImmutable $firstRegistration, CarbonImmutable $importDate): int
+    {
+        $table = $this->config['hacienda_retention_pct_by_full_years'];
+        $fullYears = max(0, (int) floor($firstRegistration->diffInYears($importDate)));
+
+        return (int) $table[min($fullYears, count($table) - 1)];
+    }
+
+    /**
+     * Step 3 (art. 5, regel 2): strip the indirect taxes still hidden in the
+     * market value of a car previously registered abroad.
+     */
+    private function foreignRegistrationDivisor(CarbonImmutable $firstRegistration, float $iedmtRatePct): float
+    {
+        if (! ($this->config['hacienda']['apply_foreign_registration_correction'] ?? false)) {
+            return 1.0;
+        }
+
+        return 1 + $this->ivaRatePct($firstRegistration) / 100 + $iedmtRatePct / 100;
+    }
+
+    private function ivaRatePct(CarbonImmutable $firstRegistration): float
+    {
+        $rate = 21.0;
+
+        foreach ($this->config['iva_rate_history'] as [$from, $pct]) {
+            if ($firstRegistration->greaterThanOrEqualTo(CarbonImmutable::parse($from))) {
+                $rate = (float) $pct;
+            }
+        }
+
+        return $rate;
+    }
+
+    /**
+     * Step 4: electric and hydrogen cars pay 0%; without a known CO2 value
+     * Hacienda applies the highest bracket.
+     *
      * @param  list<array{co2_max_g_per_km: int|null, rate_pct: float|int}>  $brackets
      */
-    private function iedmtRate(array $brackets, int $co2): float
+    private function iedmtRate(array $brackets, SpainImportInput $input): float
     {
+        if ($input->isZeroEmission) {
+            return 0.0;
+        }
+
+        $co2 = $input->co2;
+        if ($co2 === null) {
+            return (float) end($brackets)['rate_pct'];
+        }
+
         foreach ($brackets as $bracket) {
             $max = $bracket['co2_max_g_per_km'];
             if ($max === null || $co2 <= $max) {
@@ -113,8 +176,8 @@ final class SpainImportCalculator
     private function fixedCosts(): array
     {
         return array_map(
-            fn (array $c) => new FixedCostItem($c['key'], $c['label'], (float) $c['amount_eur']),
-            $this->config['fixed_costs'],
+            fn (array $c) => new FixedCostItem($c['key'], $c['label'], $c['amount_eur']),
+            SpainFixedCosts::resolve($this->config['fixed_costs']),
         );
     }
 
