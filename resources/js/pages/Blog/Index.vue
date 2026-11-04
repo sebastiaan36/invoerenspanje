@@ -117,8 +117,8 @@ function formatDate(iso: string | null): string {
                         href="/veelgestelde-vragen"
                         class="font-medium text-primary underline underline-offset-4 hover:text-primary/80"
                         >veelgestelde vragen</Link
-                    >. Wilt u direct weten wat het u kost? Vul uw kenteken in
-                    voor een indicatie.
+                    >. Wilt u direct weten wat het u kost? Vul uw Nederlandse
+                    kenteken in voor een indicatie.
                 </p>
             </div>
 
@@ -290,8 +290,8 @@ function formatDate(iso: string | null): string {
                         Weten wat het voor uw auto betekent?
                     </h2>
                     <p class="mt-4 text-lg text-muted-foreground">
-                        Vul uw kenteken in en zie direct wat u aan BPM
-                        terugkrijgt en wat de inschrijving in Spanje kost.
+                        Vul uw Nederlandse kenteken in en zie direct wat u aan
+                        BPM terugkrijgt en wat de inschrijving in Spanje kost.
                     </p>
                     <Link
                         :href="offerteHref"

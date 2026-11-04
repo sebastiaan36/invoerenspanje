@@ -93,4 +93,4 @@ Bekijk wat elk pakket bevat op de [tarievenpagina](/tarieven), of lees meer over
 
 ## Weten wat het voor uw auto betekent?
 
-Vul uw kenteken in en zie direct een indicatie van de BPM-teruggave en de kosten in Spanje. [Vraag een vrijblijvende offerte aan](/#offerte).
+Vul uw Nederlandse kenteken in en zie direct een indicatie van de BPM-teruggave en de kosten in Spanje. [Vraag een vrijblijvende offerte aan](/#offerte).

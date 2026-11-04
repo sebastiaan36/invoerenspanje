@@ -32,7 +32,7 @@
     situatie hieronder valt? <a href="/contact">Neem contact op</a> voor een vrijblijvend adviesgesprek.
 </p>
 
-<h2>De stappen van het importproces op een rij</h2>
+<h2>Auto importeren in Spanje: de stappen op een rij</h2>
 <p>
     Het invoeren van een auto in Spanje bestaat uit twee trajecten: één in Nederland en één in Spanje. Beide moeten
     goed op elkaar zijn afgestemd, want de timing bepaalt mede of u recht houdt op BPM-teruggave.
@@ -80,7 +80,7 @@
     </div>
 </dl>
 <p>
-    Met de kentekencheck bovenaan deze pagina ziet u direct wat het hele traject voor uw auto netto kost, met de
+    Met de kostencheck bovenaan deze pagina ziet u direct wat het hele traject voor uw auto netto kost, met de
     BPM-teruggave al verrekend. Wilt u alleen de BPM weten? Gebruik dan de <a href="/bpm-calculator">BPM-calculator</a>.
     Alle pakketten en kosten staan op de <a href="/tarieven">tarievenpagina</a>.
 </p>

@@ -18,7 +18,7 @@
 <p>
     Gaat u in Spanje wonen en wilt u uw Nederlandse auto meenemen? Dan moet de auto op een Spaans kenteken. In deze
     gids leest u welke stappen er zijn, welke documenten u nodig heeft en wat het kost. Met de
-    <a href="/#offerte">kentekencheck</a> ziet u direct wat het voor uw eigen auto netto kost.
+    <a href="/#offerte">kostencheck</a> ziet u direct wat het voor uw eigen auto netto kost.
 </p>
 
 <h2>In het kort</h2>
@@ -124,7 +124,7 @@
     Spaanse kosten zijn dan {{ $euro($exampleSpanish) }}. Met het pakket {{ $compleet['name'] }}
     ({{ $euro($compleet['price_eur']) }}) betaalt u in totaal {{ $euro($exampleSpanish + $compleet['price_eur']) }}.
     Daar staat de BPM-teruggave uit Nederland tegenover. Wat dat voor uw auto netto betekent, ziet u met de
-    <a href="/#offerte">kentekencheck</a>.
+    <a href="/#offerte">kostencheck</a>.
 </p>
 
 <h2>Zelf doen of uitbesteden?</h2>

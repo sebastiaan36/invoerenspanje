@@ -64,7 +64,7 @@ De bedragen hieronder zijn voorbeelden. De echte tabelwaarde van uw auto kan and
 
 U ziet: een paar gram CO₂ maakt het verschil tussen niets en een paar honderd euro.
 
-Wilt u weten wat het voor uw eigen auto is? Onze [kentekencheck](/#offerte) zoekt de CO₂-waarde op bij de RDW, koppelt die aan de Hacienda-tabel en rekent de IEDMT per kenteken uit. Meer voorbeelden van het hele traject vindt u in [de kosten van auto invoeren in Spanje](/blog/kosten-auto-invoeren-spanje-rekenvoorbeelden).
+Wilt u weten wat het voor uw eigen auto is? Onze [kostencheck](/#offerte) zoekt de CO₂-waarde op bij de RDW, koppelt die aan de Hacienda-tabel en rekent de IEDMT per kenteken uit. Meer voorbeelden van het hele traject vindt u in [de kosten van auto invoeren in Spanje](/blog/kosten-auto-invoeren-spanje-rekenvoorbeelden).
 
 ## De milieusticker van de DGT
 
@@ -115,6 +115,6 @@ Met de [BPM-calculator](/bpm-calculator) ziet u direct of er voor uw auto iets t
 
 Maikel Mobility regelt het hele traject: de export in Nederland, de BPM-teruggave, de ITV-keuring en de inschrijving in Spanje. Wij controleren vooraf de CO₂-waarde, zodat u weet welk tarief geldt. Het volledige stappenplan staat in onze [gids over auto invoeren in Spanje](/auto-invoeren-spanje).
 
-Wilt u weten wat het voor uw auto betekent? Vul uw kenteken in bij de [kentekencheck](/#offerte). U ziet direct een indicatie van de IEDMT, de kosten in Spanje en de BPM-teruggave. Daarna kunt u vrijblijvend een offerte aanvragen.
+Wilt u weten wat het voor uw auto betekent? Vul uw Nederlandse kenteken in bij de [kostencheck](/#offerte). U ziet direct een indicatie van de IEDMT, de kosten in Spanje en de BPM-teruggave. Daarna kunt u vrijblijvend een offerte aanvragen.
 
 *Dit artikel is algemene informatie. Regels en tarieven kunnen wijzigen, en gemeenten passen hun belastingen en milieuzones regelmatig aan. Raadpleeg voor de actuele voorwaarden de [Agencia Tributaria](https://sede.agenciatributaria.gob.es/Sede/vehiculos-embarcaciones/primera-matriculacion-medios-transporte.html), de [DGT](https://www.dgt.es/nuestros-servicios/tu-vehiculo/tus-vehiculos/distintivo-ambiental/) en uw eigen gemeente.*

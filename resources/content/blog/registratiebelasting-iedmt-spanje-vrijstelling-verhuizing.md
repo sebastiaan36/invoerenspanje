@@ -123,6 +123,6 @@ De vrijstelling geldt alleen voor de IEDMT. De vaste kosten betaalt u altijd, oo
 
 Wij kijken vooraf of u in aanmerking komt voor vrijstelling. Komt u in aanmerking, dan verzorgen wij de aanvraag. Anders berekenen wij welke IEDMT u kunt verwachten. Het hele traject, van export in Nederland tot Spaans kenteken, staat in onze [gids over auto invoeren in Spanje](/auto-invoeren-spanje).
 
-Wilt u weten wat dit voor uw auto betekent? Vul uw kenteken in bij de [kentekencheck](/#offerte). U ziet direct een indicatie van de kosten in Spanje en de BPM-teruggave. Daarna kunt u vrijblijvend een offerte aanvragen.
+Wilt u weten wat dit voor uw auto betekent? Vul uw Nederlandse kenteken in bij de [kostencheck](/#offerte). U ziet direct een indicatie van de kosten in Spanje en de BPM-teruggave. Daarna kunt u vrijblijvend een offerte aanvragen.
 
 *Dit artikel is algemene informatie. De regels en tarieven kunnen wijzigen en de belastingdienst beoordeelt elk dossier apart. Raadpleeg voor de actuele voorwaarden altijd de [Agencia Tributaria](https://sede.agenciatributaria.gob.es/Sede/vehiculos-embarcaciones/primera-matriculacion-medios-transporte.html).*

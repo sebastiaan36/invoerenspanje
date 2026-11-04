@@ -131,4 +131,4 @@ In het **Basis-pakket** (€ 395) en het **Compleet-pakket** (€ 895) zorgt u
 
 ## Uw auto naar Spanje laten brengen?
 
-Vul uw kenteken in en zie direct een indicatie van de BPM-teruggave en de kosten in Spanje. Geef in uw aanvraag aan of u zelf rijdt of transport wilt. [Vraag een vrijblijvende offerte aan](/#offerte).
+Vul uw Nederlandse kenteken in en zie direct een indicatie van de BPM-teruggave en de kosten in Spanje. Geef in uw aanvraag aan of u zelf rijdt of transport wilt. [Vraag een vrijblijvende offerte aan](/#offerte).

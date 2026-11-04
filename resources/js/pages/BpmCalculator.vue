@@ -21,10 +21,10 @@ withDefaults(defineProps<{ contentHtml?: string }>(), { contentHtml: '' });
                 <p
                     class="mx-auto mt-5 max-w-2xl text-lg text-pretty text-muted-foreground"
                 >
-                    Voer uw kenteken in en zie gratis hoeveel BPM u ongeveer
-                    terugkrijgt bij export naar Spanje. Wij rekenen met de BPM
-                    die de RDW voor uw auto heeft geregistreerd en de vaste
-                    afschrijvingstabel van de Belastingdienst.
+                    Voer uw Nederlandse kenteken in en zie gratis hoeveel BPM u
+                    ongeveer terugkrijgt bij export naar Spanje. Wij rekenen met
+                    de BPM die de RDW voor uw auto heeft geregistreerd en de
+                    vaste afschrijvingstabel van de Belastingdienst.
                 </p>
 
                 <div class="mx-auto mt-10 max-w-3xl text-left">

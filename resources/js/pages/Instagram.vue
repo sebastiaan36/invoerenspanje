@@ -89,8 +89,8 @@ const secondaryLinks = [
                     Bereken direct uw prijs
                 </a>
                 <p class="-mt-1 text-center text-sm text-muted-foreground">
-                    Vul uw kenteken in en zie de netto kosten, gratis en
-                    vrijblijvend.
+                    Vul uw Nederlandse kenteken in en zie de netto kosten,
+                    gratis en vrijblijvend.
                 </p>
 
                 <a
@@ -114,7 +114,11 @@ const secondaryLinks = [
                 </a>
             </nav>
 
-            <section v-if="posts.length" class="mt-10" aria-labelledby="lees-meer">
+            <section
+                v-if="posts.length"
+                class="mt-10"
+                aria-labelledby="lees-meer"
+            >
                 <h2
                     id="lees-meer"
                     class="font-display text-lg font-semibold text-foreground"

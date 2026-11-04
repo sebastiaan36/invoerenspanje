@@ -83,17 +83,18 @@ const lanes = [
                 <h1
                     class="font-display text-4xl leading-tight font-semibold text-balance text-foreground md:text-6xl"
                 >
-                    Uw auto op
-                    <span class="text-accent">Spaans kenteken</span>, zonder
+                    Uw auto
+                    <span class="text-accent">invoeren in Spanje</span>, zonder
                     gedoe.
                 </h1>
                 <p
                     class="mx-auto mt-5 max-w-2xl text-lg text-pretty text-muted-foreground"
                 >
                     Voor Nederlanders aan de Costa del Sol. Wij regelen het hele
-                    traject, van papierwerk tot ITV en BPM-teruggave. Vul uw
-                    kenteken in en zie direct wat het u netto kost, met de
-                    BPM-teruggave al verrekend.
+                    traject om uw auto in Spanje in te voeren, van papierwerk
+                    tot ITV en BPM-teruggave. Vul uw Nederlandse kenteken in en
+                    zie direct wat het u netto kost, met de BPM-teruggave al
+                    verrekend.
                 </p>
 
                 <div
@@ -278,8 +279,9 @@ const lanes = [
                     Wat kost het voor uw auto?
                 </h2>
                 <p class="mx-auto mt-4 max-w-xl text-lg text-muted-foreground">
-                    Vul uw kenteken in en zie binnen een paar seconden de netto
-                    kosten, met de BPM-teruggave al verrekend. Vrijblijvend.
+                    Vul uw Nederlandse kenteken in en zie binnen een paar
+                    seconden de netto kosten, met de BPM-teruggave al verrekend.
+                    Vrijblijvend.
                 </p>
                 <a
                     href="#kentekencheck"

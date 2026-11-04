@@ -103,6 +103,6 @@ Wilt u hier vooraf over sparren? In ons pakket Compleet Plus zit aankoopadvies v
 
 ## Wat betekent dit voor uw auto?
 
-Vul uw kenteken in bij de [kentekencheck](/#offerte). U ziet direct een indicatie van uw BPM-teruggave en de kosten in Spanje. Daarna vraagt u vrijblijvend een offerte aan. Vermeld daarbij dat het om een (bijna) nieuwe auto gaat, dan nemen wij de btw mee in ons advies.
+Vul uw Nederlandse kenteken in bij de [kostencheck](/#offerte). U ziet direct een indicatie van uw BPM-teruggave en de kosten in Spanje. Daarna vraagt u vrijblijvend een offerte aan. Vermeld daarbij dat het om een (bijna) nieuwe auto gaat, dan nemen wij de btw mee in ons advies.
 
 *Dit artikel is algemene informatie en geen fiscaal advies. De regels kunnen wijzigen. Controleer de actuele regels bij de [Belastingdienst](https://www.belastingdienst.nl/wps/wcm/connect/bldcontentnl/themaoverstijgend/programmas_en_formulieren/aangifte_omzetbelasting_intracommunautaire_levering_en_verwerving_van_nieuwe_en_bijna_nieuwe_vervoermiddelen) en de [Agencia Tributaria](https://sede.agenciatributaria.gob.es/Sede/todas-gestiones/impuestos-tasas/iva/modelo-309-iva-declaracion-liquidacion-periodica_/instrucciones-modelo-309.html).*

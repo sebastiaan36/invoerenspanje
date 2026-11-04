@@ -24,7 +24,7 @@ return [
     'twitter_card' => 'summary_large_image',
 
     'default' => [
-        'title' => 'Auto op Spaans kenteken — voor Nederlanders in Spanje',
+        'title' => 'Auto invoeren in Spanje? Wij regelen uw Spaans kenteken',
         'description' => 'Wij regelen het hele traject om je Nederlandse auto op Spaans kenteken te zetten — van papierwerk en BPM-teruggave tot de ITV. Voor Nederlanders aan de Costa del Sol.',
     ],
 
@@ -44,10 +44,10 @@ return [
 
     'routes' => [
         'home' => [
-            'title' => 'Auto op Spaans kenteken — voor Nederlanders in Spanje',
-            'description' => 'Wij regelen het hele traject om uw Nederlandse auto op Spaans kenteken te zetten, van papierwerk en BPM-teruggave tot de ITV. Voor Nederlanders aan de Costa del Sol.',
-            'h1' => 'Uw auto op Spaans kenteken, zonder gedoe.',
-            'intro' => 'Voor Nederlanders aan de Costa del Sol. Wij regelen het hele traject, van papierwerk tot ITV en BPM-teruggave. Vul uw kenteken in en zie direct wat het u netto kost, met de BPM-teruggave al verrekend.',
+            'title' => 'Auto invoeren in Spanje? Wij regelen uw Spaans kenteken',
+            'description' => 'Uw Nederlandse auto invoeren in Spanje? Wij regelen export, BPM-teruggave, ITV en het Spaanse kenteken. Bereken direct uw kosten met uw Nederlandse kenteken.',
+            'h1' => 'Uw auto invoeren in Spanje, zonder gedoe.',
+            'intro' => 'Voor Nederlanders aan de Costa del Sol. Wij regelen het hele traject om uw auto in Spanje in te voeren, van papierwerk tot ITV en BPM-teruggave. Vul uw Nederlandse kenteken in en zie direct wat het u netto kost, met de BPM-teruggave al verrekend.',
             'updated' => '2026-10-25',
         ],
 
@@ -100,9 +100,9 @@ return [
 
         'bpm-calculator' => [
             'title' => 'Rest-BPM berekenen bij export — gratis BPM-teruggave calculator',
-            'description' => 'Bereken gratis uw rest-BPM bij export. Voer uw kenteken in en zie direct hoeveel BPM u terugkrijgt, met de afschrijvingstabel van de Belastingdienst.',
+            'description' => 'Bereken gratis uw rest-BPM bij export. Voer uw Nederlandse kenteken in en zie direct hoeveel BPM u terugkrijgt, met de afschrijvingstabel van de Belastingdienst.',
             'h1' => 'Bereken uw rest-BPM bij export',
-            'intro' => 'Voer uw kenteken in en zie gratis hoeveel BPM u ongeveer terugkrijgt bij export naar Spanje. Wij rekenen met de BPM die de RDW voor uw auto heeft geregistreerd en de vaste afschrijvingstabel van de Belastingdienst.',
+            'intro' => 'Voer uw Nederlandse kenteken in en zie gratis hoeveel BPM u ongeveer terugkrijgt bij export naar Spanje. Wij rekenen met de BPM die de RDW voor uw auto heeft geregistreerd en de vaste afschrijvingstabel van de Belastingdienst.',
             'updated' => '2026-10-29',
         ],
 

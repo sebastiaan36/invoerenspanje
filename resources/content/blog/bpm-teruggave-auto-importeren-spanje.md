@@ -116,6 +116,6 @@ Heeft u nog andere vragen, bijvoorbeeld over een auto die al is uitgeschreven? K
 
 ## Wat levert het voor uw auto op?
 
-Vul uw kenteken in bij de [kentekencheck](/#offerte). U ziet direct een indicatie van uw BPM-teruggave en de kosten in Spanje. Daarna kunt u vrijblijvend een offerte aanvragen.
+Vul uw Nederlandse kenteken in bij de [kostencheck](/#offerte). U ziet direct een indicatie van uw BPM-teruggave en de kosten in Spanje. Daarna kunt u vrijblijvend een offerte aanvragen.
 
 *Dit artikel is algemene informatie. De regels kunnen wijzigen. Raadpleeg voor de actuele voorwaarden en formulieren altijd de [Belastingdienst](https://www.belastingdienst.nl/wps/wcm/connect/nl/bpm/content/teruggaaf-bpm-export-gebruikt-motorrijtuig).*

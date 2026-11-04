@@ -15,7 +15,7 @@ hero_image: images/kosten-auto-invoeren-spanje-rekenvoorbeelden.webp
 - De registratiebelasting (IEDMT) hangt af van de CO₂-uitstoot. Tot 120 g/km betaalt u niets, daarboven 4,75% tot 14,75% van de waarde.
 - Verhuist u uw hoofdverblijf naar Spanje, dan is onder voorwaarden vrijstelling van de IEDMT mogelijk.
 - Daar staat de BPM-teruggave tegenover. Bij een jonge auto met veel BPM is die vaak hoger dan alle kosten samen.
-- Met de kentekencheck op onze homepage ziet u deze berekening voor uw eigen auto.
+- Met de kostencheck op onze homepage ziet u deze berekening voor uw eigen auto.
 
 ## De kosten die altijd terugkomen
 
@@ -127,7 +127,7 @@ Komen er nog andere kosten bij? Denk aan het transport als u niet zelf rijdt, ee
 
 ## Wat kost het voor uw auto?
 
-De voorbeelden hierboven zijn indicaties. Voor uw eigen auto rekenen wij met de gegevens van de RDW: de werkelijke BPM, de leeftijd en de CO₂-uitstoot. Vul uw kenteken in bij de [kentekencheck en vraag een vrijblijvende offerte aan](/#offerte). U ziet dan direct de kosten in Spanje met de BPM-teruggave al verrekend.
+De voorbeelden hierboven zijn indicaties. Voor uw eigen auto rekenen wij met de gegevens van de RDW: de werkelijke BPM, de leeftijd en de CO₂-uitstoot. Vul uw Nederlandse kenteken in bij de [kostencheck en vraag een vrijblijvende offerte aan](/#offerte). U ziet dan direct de kosten in Spanje met de BPM-teruggave al verrekend.
 
 Wilt u eerst alle stappen van het traject zien? Lees dan onze gids over [auto invoeren in Spanje](/auto-invoeren-spanje).
 

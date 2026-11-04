@@ -139,6 +139,6 @@ Wij regelen niet zelf uw verzekering. Wel helpen wij u op weg, afhankelijk van u
 - **Compleet:** wij verwijzen u door naar een aangesloten verzekeraar.
 - **Compleet Plus:** wij verwijzen u door, kijken mee met uw verzekering en geven u tips.
 
-De verschillen tussen de pakketten ziet u op de pagina [tarieven](/tarieven). Wilt u weten wat de invoer voor uw auto kost en wat u aan BPM terugkrijgt? Vul uw kenteken in voor een kentekencheck en [vraag een vrijblijvende offerte aan](/#offerte).
+De verschillen tussen de pakketten ziet u op de pagina [tarieven](/tarieven). Wilt u weten wat de invoer voor uw auto kost en wat u aan BPM terugkrijgt? Vul uw Nederlandse kenteken in voor een kostencheck en [vraag een vrijblijvende offerte aan](/#offerte).
 
 *Dit artikel is algemene informatie en geen verzekeringsadvies. Voorwaarden en dekkingen verschillen per verzekeraar en kunnen wijzigen. Controleer de actuele regels en uw polisvoorwaarden bij uw verzekeraar.*

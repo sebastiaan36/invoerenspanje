@@ -112,6 +112,6 @@ Een overzicht van alle stappen vindt u in onze [complete gids over auto invoeren
 
 Wij regelen beide kanten van het traject: de export en de BPM-teruggave in Nederland, en de inschrijving en ITV in Spanje. U kiest zelf hoeveel u uit handen geeft. Ons Basispakket kost € 395, Compleet € 895 en Compleet Plus € 1.495. De verschillen ziet u op de pagina [tarieven](/tarieven).
 
-Wilt u weten wat dit voor uw auto betekent? Doe de [kentekencheck en vraag een vrijblijvende offerte aan](/#offerte).
+Wilt u weten wat dit voor uw auto betekent? Doe de [kostencheck en vraag een vrijblijvende offerte aan](/#offerte).
 
 *Dit artikel is algemene informatie en geen juridisch of fiscaal advies. De regels voor residentie, termijnen en handhaving kunnen wijzigen en hangen af van uw persoonlijke situatie. Controleer de actuele regels bij de DGT, de Spaanse overheid en de RDW.*

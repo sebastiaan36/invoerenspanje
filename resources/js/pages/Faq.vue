@@ -83,8 +83,9 @@ defineProps<{
                         Staat uw vraag er niet bij?
                     </h2>
                     <p class="mt-4 text-lg text-pretty text-muted-foreground">
-                        Voer uw kenteken in en zie direct wat u terugkrijgt en
-                        wat het kost. Of stel uw vraag rechtstreeks aan ons.
+                        Voer uw Nederlandse kenteken in en zie direct wat u
+                        terugkrijgt en wat het kost. Of stel uw vraag
+                        rechtstreeks aan ons.
                     </p>
                     <Link
                         href="/#offerte"

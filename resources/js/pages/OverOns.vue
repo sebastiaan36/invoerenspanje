@@ -197,8 +197,9 @@ const values = [
                         Kennismaken?
                     </h2>
                     <p class="mx-auto mt-4 max-w-lg text-muted-foreground">
-                        Vul uw kenteken in voor een directe berekening, of neem
-                        contact op voor een vrijblijvend gesprek.
+                        Vul uw Nederlandse kenteken in voor een directe
+                        berekening, of neem contact op voor een vrijblijvend
+                        gesprek.
                     </p>
                     <div class="mt-6 flex justify-center">
                         <Link

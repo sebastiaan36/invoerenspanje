@@ -227,8 +227,8 @@ function formatDate(iso: string | null): string {
                             Vragen over uw eigen situatie?
                         </h2>
                         <p class="mt-3 text-lg text-muted-foreground">
-                            Vul uw kenteken in en zie wat u aan BPM terugkrijgt
-                            en wat de inschrijving in Spanje kost.
+                            Vul uw Nederlandse kenteken in en zie wat u aan BPM
+                            terugkrijgt en wat de inschrijving in Spanje kost.
                         </p>
                         <Link
                             :href="offerteHref"

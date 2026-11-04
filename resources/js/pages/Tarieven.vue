@@ -503,8 +503,8 @@ const steps = [
                     Wat kost het voor uw auto?
                 </h2>
                 <p class="mx-auto mt-4 max-w-lg text-muted-foreground">
-                    Vul uw kenteken in en zie direct de totale kosten voor uw
-                    auto, met de BPM-teruggave en de Spaanse
+                    Vul uw Nederlandse kenteken in en zie direct de totale
+                    kosten voor uw auto, met de BPM-teruggave en de Spaanse
                     registratiebelasting al meegerekend.
                 </p>
                 <Link

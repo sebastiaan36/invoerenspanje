@@ -58,7 +58,7 @@ class SeoServerRenderingTest extends TestCase
     {
         $app = $this->appHtml($this->get(route('home'))->getContent());
 
-        $this->assertStringContainsString('De stappen van het importproces op een rij', $app);
+        $this->assertStringContainsString('Auto importeren in Spanje: de stappen op een rij', $app);
         $this->assertStringContainsString(e(config('faq.home.0.question')), $app);
     }
 
@@ -68,7 +68,7 @@ class SeoServerRenderingTest extends TestCase
 
         // Same classes as Welcome.vue, so the LCP paragraph paints from HTML.
         $this->assertStringContainsString('<p class="mx-auto mt-5 max-w-2xl text-lg text-pretty text-muted-foreground">'.e(config('seo.routes.home.intro')).'</p>', $app);
-        $this->assertStringContainsString('<span class="text-accent">Spaans kenteken</span>', $app);
+        $this->assertStringContainsString('<h1 class="font-display text-4xl leading-tight font-semibold text-balance text-foreground md:text-6xl">Uw auto <span class="text-accent">invoeren in Spanje</span>, zonder gedoe.</h1>', $app);
         $this->assertStringContainsString('class="container mx-auto flex h-16 items-center justify-between px-4"', $app);
     }
 

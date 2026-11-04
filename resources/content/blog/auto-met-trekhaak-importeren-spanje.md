@@ -121,6 +121,6 @@ Moet een later gemonteerde trekhaak als wijziging worden goedgekeurd? Dan komen 
 
 Wij regelen de export in Nederland en de inschrijving in Spanje. Wij kijken vooraf met u naar het COC en de trekhaak, zodat u niet voor verrassingen staat bij de ITV. In het Basispakket (€ 395) levert u zelf de documenten aan. In Compleet (€ 895) en Compleet Plus (€ 1.495) nemen wij u meer werk uit handen, zoals het plannen van de ITV-afspraak.
 
-Wilt u weten wat dit voor uw auto betekent? [Doe de kentekencheck of vraag een vrijblijvende offerte aan](/#offerte).
+Wilt u weten wat dit voor uw auto betekent? [Doe de kostencheck of vraag een vrijblijvende offerte aan](/#offerte).
 
 *Dit artikel is algemene informatie. De regels voor trekhaken kunnen per ITV-station verschillen en kunnen wijzigen. Vraag bij het ITV-station in uw regio naar de actuele eisen voor uw auto.*
