@@ -104,13 +104,21 @@ final class PublicPageController extends Controller
      */
     public function instagram(HeroImageOptimizer $heroImages): Response
     {
-        $posts = Post::published()
+        $newestPost = Post::published()->latest('published_at')->first();
+
+        $handPickedPosts = Post::published()
             ->whereIn('slug', self::INSTAGRAM_POSTS)
+            ->when($newestPost, fn ($query) => $query->whereKeyNot($newestPost->getKey()))
             ->get()
-            ->sortBy(fn (Post $post): int|false => array_search($post->slug, self::INSTAGRAM_POSTS, true))
+            ->sortBy(fn (Post $post): int|false => array_search($post->slug, self::INSTAGRAM_POSTS, true));
+
+        $posts = collect([$newestPost])
+            ->filter()
+            ->concat($handPickedPosts)
             ->map(fn (Post $post): array => [
                 'slug' => $post->slug,
                 'title' => trim($post->title),
+                'is_newest' => $post->is($newestPost),
                 'hero_image_url' => $post->hero_image_path ? asset('storage/'.$post->hero_image_path) : null,
                 'hero_image_srcset' => $post->hero_image_path ? $heroImages->srcset($post->hero_image_path) : null,
             ])
@@ -123,7 +131,8 @@ final class PublicPageController extends Controller
     }
 
     /**
-     * Articles on the Instagram page, most useful first.
+     * Articles on the Instagram page, most useful first. The newest
+     * published post is always shown above these.
      *
      * @var list<string>
      */
