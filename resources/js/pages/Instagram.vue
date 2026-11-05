@@ -11,6 +11,7 @@ import { WHATSAPP_URL } from '@/lib/contact';
 interface InstagramPost {
     slug: string;
     title: string;
+    is_newest: boolean;
     hero_image_url: string | null;
     hero_image_srcset: string | null;
 }
@@ -143,9 +144,19 @@ const secondaryLinks = [
                                 class="h-15 w-20 shrink-0 rounded-lg object-cover"
                             />
                             <span
-                                class="flex-1 text-sm leading-snug font-medium text-foreground"
+                                class="flex flex-1 flex-col items-start gap-1"
                             >
-                                {{ post.title }}
+                                <span
+                                    v-if="post.is_newest"
+                                    class="rounded-full bg-accent px-2 py-0.5 text-xs font-semibold text-accent-foreground"
+                                >
+                                    Nieuw
+                                </span>
+                                <span
+                                    class="text-sm leading-snug font-medium text-foreground"
+                                >
+                                    {{ post.title }}
+                                </span>
                             </span>
                         </a>
                     </li>
