@@ -80,7 +80,7 @@ De vrijstelling gaat alleen over de Spaanse registratiebelasting. Twee andere za
 | Gestoría (administratiekantoor), incl. definitieve kentekenplaten | € 219,62 |
 | Tijdelijke kentekenplaten (*matrículas temporales*) | € 181,50 |
 | ITV-keuring bij import | ca. € 150–160 |
-| *Ficha Técnica* (technisch rapport), vervalt als u een COC heeft | € 102,85 |
+| *Ficha Técnica* (technisch rapport), vervalt als u een COC heeft | € 103 |
 
 Daarbij komen de leges van de DGT, de Spaanse verkeersdienst. Een volledig overzicht staat in ons artikel met [rekenvoorbeelden van de kosten](/blog/kosten-auto-invoeren-spanje-rekenvoorbeelden).
 

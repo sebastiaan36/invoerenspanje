@@ -113,7 +113,7 @@ Een herkeuring kost tijd. Ook rijdt u in die periode met tijdelijke kentekenplat
 
 ## Wat kost het?
 
-De ITV-keuring bij import kost ca. € 150–160. Die betaalt u zelf aan het station. Heeft u geen COC, dan is een Ficha Técnica nodig: een technisch rapport van € 102,85.
+De ITV-keuring bij import kost ca. € 150–160. Die betaalt u zelf aan het station. Heeft u geen COC, dan is een Ficha Técnica nodig: een technisch rapport van € 103.
 
 Moet een later gemonteerde trekhaak als wijziging worden goedgekeurd? Dan komen er kosten bij voor de papieren en de keuring van de wijziging. Die bedragen verschillen per geval en per station. Vraag vooraf een prijs op. Een overzicht van alle andere kosten vindt u in onze [rekenvoorbeelden voor de kosten van auto invoeren in Spanje](/blog/kosten-auto-invoeren-spanje-rekenvoorbeelden).
 

@@ -78,17 +78,24 @@ const lanes = [
     <PublicLayout>
         <section class="relative overflow-hidden bg-background">
             <div
-                class="container mx-auto max-w-6xl px-4 py-16 text-center md:py-24"
+                class="container mx-auto max-w-6xl px-4 py-8 text-center sm:py-16 md:py-24"
             >
                 <h1
-                    class="font-display text-4xl leading-tight font-semibold text-balance text-foreground md:text-6xl"
+                    class="font-display text-3xl leading-tight font-semibold text-balance text-foreground sm:text-4xl md:text-6xl"
                 >
                     Uw auto
                     <span class="text-accent">invoeren in Spanje</span>, zonder
                     gedoe.
                 </h1>
+                <!-- Op mobiel een korte intro, zodat het kentekenveld direct in beeld staat. -->
                 <p
-                    class="mx-auto mt-5 max-w-2xl text-lg text-pretty text-muted-foreground"
+                    class="mx-auto mt-3 max-w-2xl text-lg text-pretty text-muted-foreground sm:hidden"
+                >
+                    Vul uw Nederlandse kenteken in en zie direct wat het u netto
+                    kost.
+                </p>
+                <p
+                    class="mx-auto mt-5 hidden max-w-2xl text-lg text-pretty text-muted-foreground sm:block"
                 >
                     Voor Nederlanders aan de Costa del Sol. Wij regelen het hele
                     traject om uw auto in Spanje in te voeren, van papierwerk
@@ -98,7 +105,7 @@ const lanes = [
                 </p>
 
                 <div
-                    class="mt-6 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm text-muted-foreground"
+                    class="mt-4 flex flex-wrap items-center justify-center gap-x-4 gap-y-1 text-sm text-muted-foreground sm:mt-6 sm:gap-x-6 sm:gap-y-2"
                 >
                     <span class="inline-flex items-center gap-2">
                         <Check class="size-4 stroke-[3] text-success" />
@@ -114,7 +121,10 @@ const lanes = [
                     </span>
                 </div>
 
-                <div id="kentekencheck" class="mt-10 scroll-mt-24 text-left">
+                <div
+                    id="kentekencheck"
+                    class="mt-6 scroll-mt-24 text-left sm:mt-10"
+                >
                     <KentekenLookup />
                 </div>
             </div>

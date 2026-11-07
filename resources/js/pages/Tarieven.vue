@@ -104,7 +104,7 @@ const steps = [
     {
         country: 'Spanje',
         title: 'Documenten en COC of Ficha Técnica',
-        body: 'Wij controleren uw documenten. Levert u een COC aan, dan is geen Ficha Técnica (technisch rapport) nodig. Zonder COC wordt die opgesteld voor € 102,85 extra.',
+        body: 'Wij controleren uw documenten. Levert u een COC aan, dan is geen Ficha Técnica (technisch rapport) nodig. Zonder COC wordt die opgesteld voor € 103 extra.',
     },
     {
         country: 'Spanje',

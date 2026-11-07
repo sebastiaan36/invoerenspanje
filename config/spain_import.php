@@ -69,7 +69,7 @@ return [
      */
     'fixed_costs' => [
         ['key' => 'tasas',                 'label' => 'Tasas DGT (registratieleges)',    'amount_eur' => 125],
-        ['key' => 'ficha_tecnica',         'label' => 'Ficha Técnica (technisch rapport)', 'amount_excl_vat_eur' => 85, 'vat_pct' => 21],
+        ['key' => 'ficha_tecnica',         'label' => 'Ficha Técnica (technisch rapport)', 'amount_eur' => 103], // eindbedrag incl. 21% IVA
         ['key' => 'honorarios',            'label' => 'Honorarios gestoría (Spaans administratiekantoor)', 'amount_excl_vat_eur' => 181.50, 'vat_pct' => 21],
         ['key' => 'matriculas_temporales', 'label' => 'Tijdelijke kentekenplaten (optioneel)', 'amount_excl_vat_eur' => 150, 'vat_pct' => 21],
         ['key' => 'itv_keuring',          'label' => 'ITV-keuring (ca. € 150–160)', 'amount_eur' => 155],

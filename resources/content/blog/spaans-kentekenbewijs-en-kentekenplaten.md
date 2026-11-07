@@ -41,7 +41,7 @@ Naast het kentekenbewijs heeft elke Spaanse auto een technisch document: de *tar
 
 In Nederland bestaat zo'n apart document niet. De RDW houdt die gegevens centraal bij. In Spanje hoort u de tarjeta ITV bij de auto te hebben. Raakt u hem kwijt, dan vraagt u een duplicaat aan bij een ITV-station.
 
-Bij de invoer speelt het COC-document hierbij een grote rol. Het ITV-station neemt de fabrieksgegevens over uit het COC. Heeft u geen COC, dan is een apart technisch rapport nodig. Dat kost € 102,85 extra. Meer daarover leest u in ons artikel over [de ITV-keuring bij import](/blog/itv-keuring-auto-import-spanje).
+Bij de invoer speelt het COC-document hierbij een grote rol. Het ITV-station neemt de fabrieksgegevens over uit het COC. Heeft u geen COC, dan is een apart technisch rapport nodig. Dat kost € 103 extra. Meer daarover leest u in ons artikel over [de ITV-keuring bij import](/blog/itv-keuring-auto-import-spanje).
 
 ## De Spaanse kentekenplaat
 

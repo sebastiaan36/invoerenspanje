@@ -57,7 +57,7 @@ return [
         [
             'id' => 'ficha-tecnica',
             'question' => 'Wat is de Ficha Técnica en wanneer heb ik die nodig?',
-            'answer' => 'De Ficha Técnica is het Spaanse technische rapport van uw auto. Levert u een COC-document (Certificaat van Overeenstemming) aan, dan is de Ficha Técnica niet nodig en bespaart u € 102,85. Zonder COC wordt de Ficha Técnica opgesteld; bij Compleet en Compleet Plus regelen wij dat, inclusief foto\'s op locatie.',
+            'answer' => 'De Ficha Técnica is het Spaanse technische rapport van uw auto. Levert u een COC-document (Certificaat van Overeenstemming) aan, dan is de Ficha Técnica niet nodig en bespaart u € 103. Zonder COC wordt de Ficha Técnica opgesteld; bij Compleet en Compleet Plus regelen wij dat, inclusief foto\'s op locatie.',
         ],
         [
             'id' => 'matriculas-temporales',
@@ -323,7 +323,7 @@ return [
                 [
                     'id' => 'totale-kosten',
                     'question' => 'Wat zijn de totale kosten voor het invoeren van mijn auto?',
-                    'answer' => 'De totale kosten bestaan uit drie delen. Ten eerste de vaste prijs van uw pakket: Basis €395, Compleet €895 of Compleet Plus €1.495. Ten tweede de vaste kosten in Spanje: leges van de DGT (€125), de gestoría, het Spaanse administratiekantoor, inclusief de definitieve kentekenplaten (€219,62), de ITV-keuring (ca. €150–160), de Ficha Técnica, een technisch rapport (€102,85, vervalt als u een COC-document aanlevert) en eventueel tijdelijke kentekenplaten (€181,50, optioneel). Ten derde de IEDMT, de Spaanse registratiebelasting, die afhangt van de CO₂-uitstoot en waarvoor bij verhuizing onder voorwaarden vrijstelling mogelijk is. De BPM-teruggave gaat daar weer vanaf.',
+                    'answer' => 'De totale kosten bestaan uit drie delen. Ten eerste de vaste prijs van uw pakket: Basis €395, Compleet €895 of Compleet Plus €1.495. Ten tweede de vaste kosten in Spanje: leges van de DGT (€125), de gestoría, het Spaanse administratiekantoor, inclusief de definitieve kentekenplaten (€219,62), de ITV-keuring (ca. €150–160), de Ficha Técnica, een technisch rapport (€103, vervalt als u een COC-document aanlevert) en eventueel tijdelijke kentekenplaten (€181,50, optioneel). Ten derde de IEDMT, de Spaanse registratiebelasting, die afhangt van de CO₂-uitstoot en waarvoor bij verhuizing onder voorwaarden vrijstelling mogelijk is. De BPM-teruggave gaat daar weer vanaf.',
                     'links' => [
                         ['label' => 'Bereken wat u terugkrijgt', 'href' => '/#offerte'],
                         ['label' => 'Alle tarieven', 'href' => '/tarieven'],
@@ -333,7 +333,7 @@ return [
                 [
                     'id' => 'basis-pakket',
                     'question' => 'Wat is inbegrepen in het Basis-pakket?',
-                    'answer' => 'Met Basis (€395) houdt u zelf de regie. U regelt zelf de export in Nederland, levert de gevraagde documenten en het COC-document aan (zonder COC kost de Ficha Técnica €102,85 extra) en regelt zelf de ITV-afspraak en de keuring. Wij verwerken de aanvraag bij de DGT en leveren de groene tijdelijke platen en daarna het officiële kenteken met de platen; die haalt u bij ons op. De Spaanse vaste kosten en de IEDMT zijn niet inbegrepen.',
+                    'answer' => 'Met Basis (€395) houdt u zelf de regie. U regelt zelf de export in Nederland, levert de gevraagde documenten en het COC-document aan (zonder COC kost de Ficha Técnica €103 extra) en regelt zelf de ITV-afspraak en de keuring. Wij verwerken de aanvraag bij de DGT en leveren de groene tijdelijke platen en daarna het officiële kenteken met de platen; die haalt u bij ons op. De Spaanse vaste kosten en de IEDMT zijn niet inbegrepen.',
                     'links' => [
                         ['label' => 'Pakketten vergelijken', 'href' => '/tarieven'],
                     ],

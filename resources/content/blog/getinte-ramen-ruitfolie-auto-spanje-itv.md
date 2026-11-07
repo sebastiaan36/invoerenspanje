@@ -128,7 +128,7 @@ Andere kosten bij de invoer zijn onder meer:
 
 - tijdelijke kentekenplaten (*matrículas temporales*): € 181,50 (meer over [de Spaanse kentekenplaten en het kentekenbewijs](/blog/spaans-kentekenbewijs-en-kentekenplaten));
 - de gestoría, inclusief definitieve kentekenplaten: € 219,62;
-- een Ficha Técnica: € 102,85. Die vervalt als u een COC-document heeft.
+- een Ficha Técnica: € 103. Die vervalt als u een COC-document heeft.
 
 Een volledig overzicht met voorbeelden vindt u in ons artikel over [de kosten van auto invoeren in Spanje](/blog/kosten-auto-invoeren-spanje-rekenvoorbeelden).
 
