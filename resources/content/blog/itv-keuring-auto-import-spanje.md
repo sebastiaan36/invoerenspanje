@@ -39,7 +39,7 @@ Bij een import is de ITV niet over te slaan. Elke auto die voor het eerst in Spa
 
 Bij deze eerste keuring vergelijkt het station de auto met de technische gegevens van de fabriek. Die gegevens staan op het COC-document (Certificaat van Overeenstemming). Heeft u een COC, dan kan het station die gegevens overnemen.
 
-Heeft u geen COC? Dan is een Ficha Técnica nodig: een technisch rapport van uw auto. Dat kost € 102,85 extra. Het loont dus om het COC-document vooraf op te vragen.
+Heeft u geen COC? Dan is een Ficha Técnica nodig: een technisch rapport van uw auto. Dat kost € 103 extra. Het loont dus om het COC-document vooraf op te vragen.
 
 ### De gewone periodieke ITV is iets anders
 
@@ -115,7 +115,7 @@ De keuring zelf kost ca. € 150–160. Het precieze bedrag verschilt per stati
 Daarnaast kunt u bij de keuring te maken krijgen met:
 
 - tijdelijke kentekenplaten (matrículas temporales): € 181,50;
-- een Ficha Técnica als u geen COC heeft: € 102,85.
+- een Ficha Técnica als u geen COC heeft: € 103.
 
 Dit zijn niet de enige kosten van de invoer. Ook de leges, de kentekenplaten, het administratiekantoor en mogelijk registratiebelasting komen erbij. Een volledig overzicht staat op onze pagina [tarieven](/tarieven).
 
@@ -129,7 +129,7 @@ Vergeet ook de Nederlandse kant niet. Na export kunt u een deel van de BPM terug
 
 ## Veelgemaakte fouten
 
-- **Zonder COC verschijnen.** Zonder COC is een Ficha Técnica nodig. Dat kost tijd en € 102,85 extra.
+- **Zonder COC verschijnen.** Zonder COC is een Ficha Técnica nodig. Dat kost tijd en € 103 extra.
 - **Aanpassingen niet laten registreren.** Een trekhaak of getinte ramen die niet bij de auto geregistreerd zijn, kunnen tot afkeuring leiden.
 - **Kleine gebreken onderschatten.** Een kapotte lamp of versleten band is snel verholpen, maar leidt bij de keuring wel tot problemen.
 - **Een onvolledig dossier.** Eén ontbrekend document kan betekenen dat u een nieuwe afspraak moet maken.

@@ -1,6 +1,13 @@
 <script setup lang="ts">
 import { Head, Link, usePage } from '@inertiajs/vue3';
-import { Mail, Menu, MessageCircle, Phone, X } from 'lucide-vue-next';
+import {
+    Mail,
+    Menu,
+    MessageCircle,
+    Phone,
+    UserRound,
+    X,
+} from 'lucide-vue-next';
 import { computed, onBeforeUnmount, onMounted, ref } from 'vue';
 import { scrollToQuote } from '@/composables/useScrollToQuote';
 import { EMAIL, PHONE, PHONE_DISPLAY, WHATSAPP_URL } from '@/lib/contact';
@@ -135,9 +142,11 @@ const showMobileQuickCta = computed(() => !isHome.value || !lookupInView.value);
                 <div class="flex items-center gap-1.5 sm:gap-3">
                     <Link
                         :href="login().url"
-                        class="hidden min-h-11 items-center text-sm font-medium text-foreground transition-colors hover:text-primary sm:inline-flex"
+                        class="hidden size-11 items-center justify-center rounded-full text-muted-foreground transition-colors hover:bg-secondary hover:text-primary focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:outline-none sm:inline-flex"
+                        aria-label="Inloggen"
+                        title="Inloggen"
                     >
-                        Inloggen
+                        <UserRound class="size-5" aria-hidden="true" />
                     </Link>
                     <component
                         :is="isHome ? 'a' : Link"
@@ -204,10 +213,12 @@ const showMobileQuickCta = computed(() => !isHome.value || !lookupInView.value);
                     <div class="mt-4 flex gap-3">
                         <Link
                             :href="login().url"
-                            class="flex-1 rounded-xl border border-border py-2.5 text-center text-sm font-medium text-foreground transition-colors hover:bg-secondary"
+                            class="inline-flex size-11 shrink-0 items-center justify-center rounded-xl border border-border text-muted-foreground transition-colors hover:bg-secondary hover:text-primary"
+                            aria-label="Inloggen"
+                            title="Inloggen"
                             @click="closeMenu"
                         >
-                            Inloggen
+                            <UserRound class="size-5" aria-hidden="true" />
                         </Link>
                         <component
                             :is="isHome ? 'a' : Link"

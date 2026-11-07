@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { Link } from '@inertiajs/vue3';
 import {
     Send,
     CheckCircle2,
@@ -347,10 +348,23 @@ async function submit() {
                 <div
                     class="flex flex-col items-stretch gap-3 sm:flex-row sm:items-center sm:justify-between"
                 >
-                    <p class="text-sm text-muted-foreground sm:max-w-xs">
-                        Vrijblijvend: u zit nergens aan vast tot u de offerte
-                        akkoord geeft.
-                    </p>
+                    <div
+                        class="space-y-1 text-sm text-muted-foreground sm:max-w-xs"
+                    >
+                        <p>
+                            Vrijblijvend: u zit nergens aan vast tot u de
+                            offerte akkoord geeft.
+                        </p>
+                        <p>
+                            Wij gebruiken uw gegevens alleen om uw offerte op te
+                            stellen en contact met u op te nemen. Lees onze
+                            <Link
+                                href="/privacy"
+                                class="font-medium text-primary underline underline-offset-4 hover:text-primary/80"
+                                >privacyverklaring</Link
+                            >.
+                        </p>
+                    </div>
                     <Button
                         type="submit"
                         size="lg"

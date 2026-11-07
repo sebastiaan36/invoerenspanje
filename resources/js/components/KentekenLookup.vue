@@ -5,7 +5,6 @@ import {
     AlertCircle,
     Info,
     AlertTriangle,
-    HelpCircle,
     Check,
     ChevronDown,
     MessageCircle,
@@ -23,12 +22,6 @@ import {
 import type { ServicePackage } from '@/components/PackageSelector.vue';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
-import {
-    Tooltip,
-    TooltipContent,
-    TooltipProvider,
-    TooltipTrigger,
-} from '@/components/ui/tooltip';
 import { trackEvent } from '@/lib/analytics';
 import { postJson } from '@/lib/api';
 import type { ApiError } from '@/lib/api';
@@ -445,6 +438,13 @@ const totalCostsHref = computed(
         `/?kenteken=${encodeURIComponent(result.value?.kenteken ?? '')}#resultaat`,
 );
 
+// Kiest de bezoeker "permanent", dan gaan we uit van de gebruikelijke situatie
+// (auto al 6 maanden op naam), zodat de vrijstelling meteen in het bedrag zit.
+// De voorwaarde staat zichtbaar bij het vinkje en kan worden uitgezet.
+watch(residencyChoice, (choice) => {
+    ownershipConfirmed.value = choice === 'permanent';
+});
+
 watch([kenteken, residencyChoice, ownershipConfirmed, autonomia], () =>
     scheduleRecalc(),
 );
@@ -640,6 +640,7 @@ onBeforeUnmount(() => {
                     >
                         <Checkbox
                             id="ownership-confirmed"
+                            aria-describedby="ownership-condition"
                             :model-value="ownershipConfirmed"
                             @update:model-value="
                                 (v) => (ownershipConfirmed = v === true)
@@ -649,32 +650,18 @@ onBeforeUnmount(() => {
                         <div class="flex-1">
                             <Label
                                 for="ownership-confirmed"
-                                class="flex items-center gap-1.5 font-medium text-foreground"
+                                class="font-medium text-foreground"
                             >
                                 De auto staat al meer dan 6 maanden op mijn naam
-                                <TooltipProvider :delay-duration="150">
-                                    <Tooltip>
-                                        <TooltipTrigger as-child>
-                                            <button
-                                                type="button"
-                                                class="-m-1 inline-flex size-8 items-center justify-center rounded-full text-muted-foreground transition-colors hover:bg-muted hover:text-foreground focus-visible:bg-muted focus-visible:text-foreground focus-visible:ring-2 focus-visible:ring-accent/50 focus-visible:outline-none"
-                                                aria-label="Meer informatie over de 6-maanden eigenaarsplicht"
-                                            >
-                                                <HelpCircle class="size-4" />
-                                            </button>
-                                        </TooltipTrigger>
-                                        <TooltipContent class="max-w-xs">
-                                            Dit is een wettelijke voorwaarde
-                                            voor de IEDMT-vrijstelling. Bewijs
-                                            (RDW-uittreksel) wordt later in het
-                                            traject opgevraagd.
-                                        </TooltipContent>
-                                    </Tooltip>
-                                </TooltipProvider>
                             </Label>
-                            <p class="mt-1 text-sm text-muted-foreground">
-                                Wij controleren dit later bij uw
-                                offerte-aanvraag.
+                            <p
+                                id="ownership-condition"
+                                class="mt-1 text-sm text-muted-foreground"
+                            >
+                                Dit is een wettelijke voorwaarde voor de
+                                vrijstelling van IEDMT. Het bewijs
+                                (RDW-uittreksel) vragen wij later op. Klopt dit
+                                niet? Zet dan het vinkje uit.
                             </p>
                         </div>
                     </div>

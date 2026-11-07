@@ -11,7 +11,7 @@ hero_image: images/kosten-auto-invoeren-spanje-rekenvoorbeelden.webp
 
 ## In het kort
 
-- De vaste kosten in Spanje liggen rond de € 680, met een COC-document. Zonder COC komt er € 102,85 bij.
+- De vaste kosten in Spanje liggen rond de € 680, met een COC-document. Zonder COC komt er € 103 bij.
 - De registratiebelasting (IEDMT) hangt af van de CO₂-uitstoot. Tot 120 g/km betaalt u niets, daarboven 4,75% tot 14,75% van de waarde.
 - Verhuist u uw hoofdverblijf naar Spanje, dan is onder voorwaarden vrijstelling van de IEDMT mogelijk.
 - Daar staat de BPM-teruggave tegenover. Bij een jonge auto met veel BPM is die vaak hoger dan alle kosten samen.
@@ -28,7 +28,7 @@ Deze kosten heeft u bij elke invoer, ongeacht de auto:
 | ITV-keuring bij import | ca. € 155 |
 | Tijdelijke groene platen (*matrículas temporales*) | € 181,50 |
 | **Totaal met COC-document** | **ca. € 681,12** |
-| Technisch rapport als u geen COC heeft | + € 102,85 |
+| Technisch rapport als u geen COC heeft | + € 103 |
 
 De bedragen voor de gestoría, de tijdelijke platen en het technisch rapport zijn inclusief 21% Spaanse btw (IVA).
 

@@ -16,7 +16,6 @@ final class SpainFixedCostsTest extends TestCase
     {
         $costs = collect(SpainFixedCosts::fromConfig())->pluck('amount_eur', 'key');
 
-        $this->assertSame(102.85, $costs['ficha_tecnica']);
         $this->assertSame(219.62, $costs['honorarios']);
         $this->assertSame(181.5, $costs['matriculas_temporales']);
     }
@@ -27,6 +26,7 @@ final class SpainFixedCostsTest extends TestCase
 
         $this->assertSame(125.0, $costs['tasas']);
         $this->assertSame(155.0, $costs['itv_keuring']);
+        $this->assertSame(103.0, $costs['ficha_tecnica']);
     }
 
     public function test_definitive_plates_are_not_a_separate_cost(): void
@@ -45,8 +45,8 @@ final class SpainFixedCostsTest extends TestCase
 
         $result = (new SpainImportCalculator(config('spain_import')))->calculate($input, CarbonImmutable::create(2026, 1, 1));
 
-        // 125 + 102,85 + 219,62 + 181,50 + 155 = 783,97 (IEDMT 0% onder 120 g/km).
-        $this->assertSame(783.97, $result->fixedCostsTotalEur);
-        $this->assertSame(783.97, $result->totalEur);
+        // 125 + 103 + 219,62 + 181,50 + 155 = 784,12 (IEDMT 0% onder 120 g/km).
+        $this->assertSame(784.12, $result->fixedCostsTotalEur);
+        $this->assertSame(784.12, $result->totalEur);
     }
 }
