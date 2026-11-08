@@ -20,8 +20,12 @@ final class LostLeadFeedbackMail extends Mailable
 {
     use Queueable, SerializesModels;
 
+    /**
+     * @param  string  $feedbackUrl  Persoonlijke link; wordt vooraf bepaald zodat de mail geen bijwerkingen heeft.
+     */
     public function __construct(
         public readonly Lead $lead,
+        public readonly string $feedbackUrl,
     ) {}
 
     public function envelope(): Envelope
@@ -45,7 +49,7 @@ final class LostLeadFeedbackMail extends Mailable
             with: [
                 'name' => $this->lead->name,
                 'kenteken' => $this->lead->kenteken,
-                'feedbackUrl' => $this->lead->feedbackUrl(),
+                'feedbackUrl' => $this->feedbackUrl,
                 'senderName' => config('services.lead_feedback.from_name'),
             ],
         );

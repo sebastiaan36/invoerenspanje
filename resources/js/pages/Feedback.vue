@@ -1,13 +1,15 @@
 <script setup lang="ts">
 import { useForm } from '@inertiajs/vue3';
-import { CheckCircle2, Loader2 } from 'lucide-vue-next';
+import { CheckCircle2, Clock, Loader2 } from 'lucide-vue-next';
 import { ref } from 'vue';
 import { store } from '@/actions/App/Http/Controllers/LeadFeedbackController';
+import { EMAIL } from '@/lib/contact';
 
 const props = defineProps<{
     token: string;
     firstName: string;
     submitted: boolean;
+    linkExpired: boolean;
 }>();
 
 // Voorbeelden van redenen; helpen de bezoeker op weg zonder antwoorden voor te kauwen.
@@ -45,7 +47,29 @@ function submit(): void {
             <div
                 class="mt-6 rounded-2xl border border-border bg-card p-6 shadow-sm sm:p-8"
             >
-                <div v-if="isSent" class="text-center" role="status">
+                <div v-if="props.linkExpired" class="text-center">
+                    <Clock
+                        class="mx-auto size-10 text-muted-foreground"
+                        aria-hidden="true"
+                    />
+                    <h1
+                        class="mt-4 font-display text-2xl font-semibold text-foreground"
+                    >
+                        Deze link is niet meer geldig
+                    </h1>
+                    <p class="mt-2 text-base text-pretty text-muted-foreground">
+                        Beste {{ props.firstName }}, deze feedbacklink is
+                        verlopen. Wilt u ons toch nog iets laten weten? Mail ons
+                        gerust op
+                        <a
+                            :href="`mailto:${EMAIL}`"
+                            class="font-medium text-primary underline underline-offset-4"
+                            >{{ EMAIL }}</a
+                        >.
+                    </p>
+                </div>
+
+                <div v-else-if="isSent" class="text-center" role="status">
                     <CheckCircle2
                         class="mx-auto size-10 text-success"
                         aria-hidden="true"

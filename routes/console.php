@@ -12,4 +12,10 @@ Artisan::command('inspire', function () {
 Schedule::command('leads:request-feedback')
     ->dailyAt('10:00')
     ->timezone('Europe/Madrid')
-    ->withoutOverlapping();
+    ->withoutOverlapping(30);
+
+// Verwijdert oude rijen van Prunable/MassPrunable modellen (o.a. kenteken_lookups met bezoekers-IP's na 90 dagen).
+Schedule::command('model:prune')
+    ->dailyAt('03:30')
+    ->timezone('Europe/Madrid')
+    ->withoutOverlapping(30);

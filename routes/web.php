@@ -19,7 +19,7 @@ Route::inertia('over-ons', 'OverOns')->name('over-ons');
 Route::inertia('contact', 'Contact', [
     'werkgebied' => config('werkgebied'),
 ])->name('contact');
-Route::post('contact', [ContactController::class, 'store'])->middleware('throttle:5,1')->name('contact.store');
+Route::post('contact', [ContactController::class, 'store'])->middleware('throttle:contact')->name('contact.store');
 Route::get('tarieven', [PublicPageController::class, 'tarieven'])->name('tarieven');
 Route::get('bpm-calculator', [PublicPageController::class, 'bpmCalculator'])->name('bpm-calculator');
 Route::get('veelgestelde-vragen', [PublicPageController::class, 'faq'])->name('faq');
@@ -28,10 +28,10 @@ Route::get('instagram', [PublicPageController::class, 'instagram'])->name('insta
 
 // Feedback van verloren leads via de unieke link uit de feedbackmail (noindex, niet in de sitemap).
 Route::get('feedback/{token}', [LeadFeedbackController::class, 'show'])
-    ->middleware('throttle:30,1')
+    ->middleware('throttle:feedback-view')
     ->name('feedback.show');
 Route::post('feedback/{token}', [LeadFeedbackController::class, 'store'])
-    ->middleware('throttle:5,1')
+    ->middleware('throttle:feedback-submit')
     ->name('feedback.store');
 
 Route::get('sitemap.xml', SitemapController::class)->name('sitemap');
@@ -40,11 +40,11 @@ Route::get('blog', [BlogController::class, 'index'])->name('blog.index');
 Route::get('blog/{slug}', [BlogController::class, 'show'])->name('blog.show');
 
 Route::post('api/lookup', LookupController::class)
-    ->middleware('throttle:20,1')
+    ->middleware('throttle:kenteken-lookup')
     ->name('api.lookup');
 
 Route::post('api/leads', [LeadController::class, 'store'])
-    ->middleware('throttle:5,1')
+    ->middleware('throttle:lead-submit')
     ->name('api.leads.store');
 
 Route::middleware(['auth', 'verified'])->group(function () {

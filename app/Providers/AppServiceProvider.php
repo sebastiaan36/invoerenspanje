@@ -10,11 +10,14 @@ use App\Services\Hacienda\HaciendaVehicleMatcher;
 use App\Services\Rdw\RdwService;
 use App\Services\SpainImport\SpainImportCalculator;
 use Carbon\CarbonImmutable;
+use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Contracts\Cache\Repository as CacheRepository;
 use Illuminate\Http\Client\Factory as HttpFactory;
+use Illuminate\Http\Request;
 use Illuminate\Log\LogManager;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Validation\Rules\Password;
 use Laravel\Fortify\Contracts\LoginResponse as LoginResponseContract;
@@ -72,6 +75,21 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->configureDefaults();
+        $this->configureRateLimiting();
+    }
+
+    /**
+     * Named limiters for the public routes. Each limiter keeps its own counter
+     * (prefixed with its name), unlike `throttle:X,1`, which shares one per-IP
+     * counter across every route that uses it.
+     */
+    protected function configureRateLimiting(): void
+    {
+        RateLimiter::for('contact', fn (Request $request): Limit => Limit::perMinute(5)->by($request->ip()));
+        RateLimiter::for('kenteken-lookup', fn (Request $request): Limit => Limit::perMinute(20)->by($request->ip()));
+        RateLimiter::for('lead-submit', fn (Request $request): Limit => Limit::perMinute(5)->by($request->ip()));
+        RateLimiter::for('feedback-view', fn (Request $request): Limit => Limit::perMinute(30)->by($request->ip().'|'.$request->route('token')));
+        RateLimiter::for('feedback-submit', fn (Request $request): Limit => Limit::perMinute(5)->by($request->ip().'|'.$request->route('token')));
     }
 
     /**
