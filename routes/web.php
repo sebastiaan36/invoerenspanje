@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\LeadController;
 use App\Http\Controllers\Api\LookupController;
 use App\Http\Controllers\Blog\BlogController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\CsrfCookieController;
 use App\Http\Controllers\LeadFeedbackController;
 use App\Http\Controllers\Portal\DocumentController;
 use App\Http\Controllers\Portal\MessageController;
@@ -38,6 +39,11 @@ Route::get('sitemap.xml', SitemapController::class)->name('sitemap');
 
 Route::get('blog', [BlogController::class, 'index'])->name('blog.index');
 Route::get('blog/{slug}', [BlogController::class, 'show'])->name('blog.show');
+
+// Re-issues the XSRF-TOKEN cookie after a 419, so the calculator can retry once.
+Route::get('csrf-cookie', CsrfCookieController::class)
+    ->middleware('throttle:30,1')
+    ->name('csrf.cookie');
 
 Route::post('api/lookup', LookupController::class)
     ->middleware('throttle:20,1')

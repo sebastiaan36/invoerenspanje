@@ -10,6 +10,8 @@ use App\Mail\LeadReceivedNotification;
 use App\Mail\QuoteRequestConfirmation;
 use App\Models\Lead;
 use App\Services\Leads\LeadTelegramAlert;
+use App\Services\Packages\ServicePackages;
+use App\Services\Quote\Dto\VehicleQuote;
 use App\Services\Quote\VehicleQuoteService;
 use App\Services\Rdw\RdwUnavailableException;
 use Illuminate\Http\JsonResponse;
@@ -30,27 +32,7 @@ final class LeadController extends Controller
     {
         $attributes = $request->toLeadAttributes();
 
-        // Re-quote server-side voor de snapshots — RDW is gecached, dus geen extra calls.
-        // Bij een RDW-storing slaan we de lead toch op; LeadConverter vult de
-        // snapshots later aan bij het aanmaken van het dossier.
-        try {
-            $quote = $this->quoteService->quote(
-                $attributes['kenteken'],
-                residencyChange: (bool) $attributes['residency_change'],
-                autonomia: (string) $attributes['autonomia'],
-            );
-
-            if ($quote->found()) {
-                $attributes['rdw_snapshot_json'] = $quote->rdwSnapshot();
-                $attributes['bpm_calculation_json'] = $quote->bpmSnapshot();
-                $attributes['import_calculation_json'] = $quote->importSnapshot();
-            }
-        } catch (RdwUnavailableException $e) {
-            Log::warning('Lead opgeslagen zonder RDW-snapshot: RDW niet bereikbaar.', [
-                'kenteken' => $attributes['kenteken'],
-                'exception' => $e->getMessage(),
-            ]);
-        }
+        $attributes = array_merge($attributes, $this->quoteAttributes($attributes));
 
         /** @var Lead $lead */
         $lead = Lead::create($attributes);
@@ -94,5 +76,82 @@ final class LeadController extends Controller
             'lead_id' => $lead->id,
             'reference' => sprintf('#%05d', $lead->id),
         ], 201);
+    }
+
+    /**
+     * Re-quote server-side for the snapshots and the price indications (RDW is
+     * cached, so no extra calls). Any failure — an RDW outage or a bug in a
+     * calculator — is reported and the lead is still saved without snapshots;
+     * LeadConverter backfills them when the dossier is created.
+     *
+     * @param  array<string, mixed>  $attributes
+     * @return array<string, mixed>
+     */
+    private function quoteAttributes(array $attributes): array
+    {
+        $empty = [
+            'bpm_teruggave_indicatie_eur' => null,
+            'import_kosten_indicatie_eur' => null,
+            'totaalprijs_indicatie_eur' => null,
+        ];
+
+        try {
+            $quote = $this->quoteService->quote(
+                $attributes['kenteken'],
+                residencyChange: (bool) $attributes['residency_change'],
+                autonomia: (string) $attributes['autonomia'],
+            );
+
+            if (! $quote->found()) {
+                return $empty;
+            }
+
+            return [
+                'rdw_snapshot_json' => $quote->rdwSnapshot(),
+                'bpm_calculation_json' => $quote->bpmSnapshot(),
+                'import_calculation_json' => $quote->importSnapshot(),
+                ...$this->priceIndications($quote, (string) $attributes['package_slug']),
+            ];
+        } catch (RdwUnavailableException $e) {
+            Log::warning('Lead opgeslagen zonder RDW-snapshot: RDW niet bereikbaar.', [
+                'kenteken' => $attributes['kenteken'],
+                'exception' => $e->getMessage(),
+            ]);
+        } catch (Throwable $e) {
+            report($e);
+            Log::error('Lead opgeslagen zonder snapshots: offerteberekening mislukt.', [
+                'kenteken' => $attributes['kenteken'],
+                'exception' => $e->getMessage(),
+            ]);
+        }
+
+        return $empty;
+    }
+
+    /**
+     * The figures the visitor saw, recomputed from the server-side quote so a
+     * tampered request cannot plant other amounts in the lead.
+     *
+     * @return array{bpm_teruggave_indicatie_eur: int|null, import_kosten_indicatie_eur: int|null, totaalprijs_indicatie_eur: int|null}
+     */
+    private function priceIndications(VehicleQuote $quote, string $packageSlug): array
+    {
+        $bpm = $quote->bpmSnapshot();
+        $import = $quote->importSnapshot();
+        $package = ServicePackages::findBySlug($packageSlug);
+
+        $importTotal = $import === null ? null : (int) round((float) $import['total_eur']);
+
+        return [
+            'bpm_teruggave_indicatie_eur' => match (true) {
+                $bpm === null => null,
+                $bpm['is_eligible'] === true => (int) round((float) $bpm['rest_bpm_eur']),
+                default => 0,
+            },
+            'import_kosten_indicatie_eur' => $importTotal,
+            'totaalprijs_indicatie_eur' => $importTotal === null || $package === null
+                ? null
+                : $package->priceEur + $importTotal,
+        ];
     }
 }

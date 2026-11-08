@@ -7,24 +7,32 @@ import {
     MessageCircle,
     Phone,
 } from 'lucide-vue-next';
-import { computed, onMounted, reactive, ref } from 'vue';
+import { onMounted, reactive, ref } from 'vue';
 import type { ServicePackage } from '@/components/PackageSelector.vue';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { trackEvent } from '@/lib/analytics';
-import { postJson, isApiError, isNetworkError } from '@/lib/api';
+import {
+    postJson,
+    isApiError,
+    isNetworkError,
+    sharedApiErrorMessage,
+} from '@/lib/api';
 import { PHONE, PHONE_DISPLAY, WHATSAPP_URL } from '@/lib/contact';
+import { store as storeLead } from '@/routes/api/leads';
 
-const props = defineProps<{
-    kenteken: string;
-    selectedPackage: ServicePackage;
-    importTotalEur: number;
-    bpmEligible: boolean;
-    bpmRestEur: number;
-    residencyChange: boolean;
-    autonomia: string;
-}>();
+const props = withDefaults(
+    defineProps<{
+        kenteken: string;
+        selectedPackage: ServicePackage;
+        residencyChange: boolean;
+        autonomia: string;
+        /** True while the calculation above is outdated or recalculating. */
+        disabled?: boolean;
+    }>(),
+    { disabled: false },
+);
 
 const form = reactive({
     name: '',
@@ -50,11 +58,6 @@ onMounted(() => {
     utm.campaign = params.get('utm_campaign') ?? '';
 });
 
-const totaalprijs = computed(
-    () => props.selectedPackage.price_eur + props.importTotalEur,
-);
-const bpmIndicatie = computed(() => (props.bpmEligible ? props.bpmRestEur : 0));
-
 interface LeadResponse {
     ok: true;
     lead_id: number;
@@ -66,9 +69,42 @@ interface ValidationErrorBody {
     message?: string;
 }
 
+const VISIBLE_FIELDS = [
+    'name',
+    'email',
+    'phone',
+    'regio',
+    'expected_move_date',
+    'comment',
+] as const;
+
+type FieldName = (typeof VISIBLE_FIELDS)[number];
+
 const isSubmitting = ref(false);
 const submitError = ref<string | null>(null);
 const successReference = ref<string | null>(null);
+// Per-field messages from a 422, keyed by request field name.
+const fieldErrors = ref<Record<string, string>>({});
+
+function fieldError(field: FieldName): string | undefined {
+    return fieldErrors.value[field];
+}
+
+function errorId(field: FieldName): string | undefined {
+    return fieldErrors.value[field] ? `qr-${field}-error` : undefined;
+}
+
+/**
+ * Errors on hidden fields (kenteken, pakket) have no input to sit next to,
+ * so the first of those goes in the summary box instead.
+ */
+function validationSummary(errors: Record<string, string>): string {
+    const hiddenFieldError = Object.entries(errors).find(
+        ([field]) => !(VISIBLE_FIELDS as readonly string[]).includes(field),
+    )?.[1];
+
+    return hiddenFieldError ?? 'Controleer de gemarkeerde velden.';
+}
 
 function buildPayload() {
     return {
@@ -85,10 +121,6 @@ function buildPayload() {
         package_slug: props.selectedPackage.slug,
         residency_change: props.residencyChange,
         autonomia: props.autonomia,
-        // Hele euro's — de server valideert deze indicaties als integer.
-        bpm_teruggave_indicatie: Math.round(bpmIndicatie.value),
-        import_kosten_indicatie: Math.round(props.importTotalEur),
-        totaalprijs_indicatie: Math.round(totaalprijs.value),
         utm_source: utm.source,
         utm_medium: utm.medium,
         utm_campaign: utm.campaign,
@@ -96,16 +128,17 @@ function buildPayload() {
 }
 
 async function submit() {
-    if (isSubmitting.value || successReference.value) {
+    if (isSubmitting.value || successReference.value || props.disabled) {
         return;
     }
 
     isSubmitting.value = true;
     submitError.value = null;
+    fieldErrors.value = {};
 
     try {
         const response = await postJson<LeadResponse>(
-            '/api/leads',
+            storeLead.url(),
             buildPayload(),
         );
         successReference.value = response.reference;
@@ -120,16 +153,17 @@ async function submit() {
             submitError.value =
                 'Geen verbinding met de server. Controleer uw internet en probeer opnieuw.';
         } else if (isApiError<ValidationErrorBody>(raw)) {
-            if (raw.status === 422) {
-                const firstError = Object.values(
-                    raw.data?.errors ?? {},
-                )[0]?.[0];
-                submitError.value =
-                    firstError ??
-                    'Controleer de ingevulde velden en probeer opnieuw.';
-            } else if (raw.status === 429) {
-                submitError.value =
-                    'Te veel aanvragen vanaf uw locatie. Wacht een minuut en probeer opnieuw.';
+            const sharedMessage = sharedApiErrorMessage(raw);
+
+            if (sharedMessage) {
+                submitError.value = sharedMessage;
+            } else if (raw.status === 422) {
+                fieldErrors.value = Object.fromEntries(
+                    Object.entries(raw.data?.errors ?? {}).map(
+                        ([field, messages]) => [field, messages[0] ?? ''],
+                    ),
+                );
+                submitError.value = validationSummary(fieldErrors.value);
             } else {
                 submitError.value =
                     'Er ging iets mis bij het versturen. Probeer het zo opnieuw.';
@@ -246,7 +280,18 @@ async function submit() {
                             autocomplete="name"
                             required
                             placeholder="Voornaam Achternaam"
+                            :aria-invalid="
+                                fieldError('name') ? true : undefined
+                            "
+                            :aria-describedby="errorId('name')"
                         />
+                        <p
+                            v-if="fieldError('name')"
+                            :id="errorId('name')"
+                            class="text-sm text-destructive"
+                        >
+                            {{ fieldError('name') }}
+                        </p>
                     </div>
                     <div class="space-y-1.5">
                         <Label for="qr-email"
@@ -261,7 +306,18 @@ async function submit() {
                             autocomplete="email"
                             required
                             placeholder="naam@voorbeeld.nl"
+                            :aria-invalid="
+                                fieldError('email') ? true : undefined
+                            "
+                            :aria-describedby="errorId('email')"
                         />
+                        <p
+                            v-if="fieldError('email')"
+                            :id="errorId('email')"
+                            class="text-sm text-destructive"
+                        >
+                            {{ fieldError('email') }}
+                        </p>
                     </div>
                     <div class="space-y-1.5">
                         <Label for="qr-phone"
@@ -276,7 +332,18 @@ async function submit() {
                             autocomplete="tel"
                             required
                             placeholder="+31 6 12345678"
+                            :aria-invalid="
+                                fieldError('phone') ? true : undefined
+                            "
+                            :aria-describedby="errorId('phone')"
                         />
+                        <p
+                            v-if="fieldError('phone')"
+                            :id="errorId('phone')"
+                            class="text-sm text-destructive"
+                        >
+                            {{ fieldError('phone') }}
+                        </p>
                     </div>
                     <div class="space-y-1.5">
                         <Label for="qr-regio">
@@ -291,7 +358,18 @@ async function submit() {
                             autocomplete="address-level2"
                             required
                             placeholder="bv. Marbella, Costa del Sol"
+                            :aria-invalid="
+                                fieldError('regio') ? true : undefined
+                            "
+                            :aria-describedby="errorId('regio')"
                         />
+                        <p
+                            v-if="fieldError('regio')"
+                            :id="errorId('regio')"
+                            class="text-sm text-destructive"
+                        >
+                            {{ fieldError('regio') }}
+                        </p>
                     </div>
                 </div>
 
@@ -305,7 +383,18 @@ async function submit() {
                         v-model="form.expected_move_date"
                         type="text"
                         placeholder="bv. juni 2026"
+                        :aria-invalid="
+                            fieldError('expected_move_date') ? true : undefined
+                        "
+                        :aria-describedby="errorId('expected_move_date')"
                     />
+                    <p
+                        v-if="fieldError('expected_move_date')"
+                        :id="errorId('expected_move_date')"
+                        class="text-sm text-destructive"
+                    >
+                        {{ fieldError('expected_move_date') }}
+                    </p>
                 </div>
 
                 <!-- Honeypot — visueel verborgen, off-screen positioned i.p.v. display:none
@@ -331,9 +420,18 @@ async function submit() {
                         id="qr-comment"
                         v-model="form.comment"
                         rows="4"
+                        :aria-invalid="fieldError('comment') ? true : undefined"
+                        :aria-describedby="errorId('comment')"
                         class="flex w-full min-w-0 rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-xs transition-[color,box-shadow] outline-none placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:opacity-50"
                         placeholder="Bijzonderheden over uw situatie, vragen of wensen…"
                     ></textarea>
+                    <p
+                        v-if="fieldError('comment')"
+                        :id="errorId('comment')"
+                        class="text-sm text-destructive"
+                    >
+                        {{ fieldError('comment') }}
+                    </p>
                 </div>
 
                 <div
@@ -344,6 +442,15 @@ async function submit() {
                     <AlertCircle class="mt-0.5 size-5 shrink-0" />
                     <div>{{ submitError }}</div>
                 </div>
+
+                <p
+                    v-if="disabled && !isSubmitting"
+                    id="qr-disabled-reason"
+                    class="text-sm text-muted-foreground"
+                >
+                    Wacht tot de berekening hierboven is bijgewerkt voordat u de
+                    aanvraag verstuurt.
+                </p>
 
                 <div
                     class="flex flex-col items-stretch gap-3 sm:flex-row sm:items-center sm:justify-between"
@@ -369,7 +476,10 @@ async function submit() {
                         type="submit"
                         size="lg"
                         class="h-11 w-full bg-accent text-accent-foreground hover:bg-accent/90 sm:w-auto"
-                        :disabled="isSubmitting"
+                        :disabled="isSubmitting || disabled"
+                        :aria-describedby="
+                            disabled ? 'qr-disabled-reason' : undefined
+                        "
                     >
                         <Send v-if="!isSubmitting" class="size-4" />
                         <span

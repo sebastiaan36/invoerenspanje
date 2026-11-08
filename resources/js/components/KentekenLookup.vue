@@ -9,6 +9,7 @@ import {
     ChevronDown,
     MessageCircle,
     Phone,
+    RefreshCw,
 } from 'lucide-vue-next';
 import {
     ref,
@@ -22,10 +23,13 @@ import {
 import type { ServicePackage } from '@/components/PackageSelector.vue';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
+import { scrollToQuote } from '@/composables/useScrollToQuote';
 import { trackEvent } from '@/lib/analytics';
-import { postJson } from '@/lib/api';
+import { isNetworkError, postJson, sharedApiErrorMessage } from '@/lib/api';
 import type { ApiError } from '@/lib/api';
 import { PHONE, PHONE_DISPLAY, WHATSAPP_URL } from '@/lib/contact';
+import { home } from '@/routes';
+import { lookup } from '@/routes/api';
 import type { VehicleResponse } from '@/types/quote';
 
 // Result-only parts load after the first lookup is under way, so the hero
@@ -82,6 +86,10 @@ const loading = ref(false);
 const errorMessage = ref<string | null>(null);
 const notFound = ref(false);
 const result = ref<VehicleResponse | null>(null);
+// True when the last recalculation failed while a result was on screen: the
+// figures no longer match the visitor's answers, so we flag them and block
+// the quote form until a recalculation succeeds.
+const resultStale = ref(false);
 const announcement = ref('');
 
 const kentekenInput = ref<HTMLInputElement | null>(null);
@@ -192,6 +200,7 @@ async function performRecalc() {
     if (!isLikelyValidKenteken(trimmed)) {
         // Onvolledig of ongeldig formaat — stille reset; geen errors tijdens typen.
         result.value = null;
+        resultStale.value = false;
         errorMessage.value = null;
         notFound.value = false;
         loading.value = false;
@@ -206,7 +215,7 @@ async function performRecalc() {
     const seq = ++requestSeq;
 
     try {
-        const data = await postJson<VehicleResponse>('/api/lookup', {
+        const data = await postJson<VehicleResponse>(lookup.url(), {
             kenteken: trimmed,
             residency_change: residencyChange.value,
             autonomia: autonomia.value,
@@ -218,6 +227,7 @@ async function performRecalc() {
 
         const isNewVehicle = result.value?.kenteken !== data.kenteken;
         result.value = data;
+        resultStale.value = false;
 
         if (isNewVehicle) {
             onNewResult(data);
@@ -228,8 +238,18 @@ async function performRecalc() {
         }
 
         const e = raw as ApiError<ValidationErrorBody & NotFoundBody>;
+        const sharedMessage = sharedApiErrorMessage(raw);
 
-        if (e.status === 422) {
+        if (result.value) {
+            resultStale.value = true;
+        }
+
+        if (isNetworkError(raw)) {
+            errorMessage.value =
+                'Geen verbinding met de server. Controleer uw internet en probeer het opnieuw.';
+        } else if (sharedMessage) {
+            errorMessage.value = sharedMessage;
+        } else if (e.status === 422) {
             errorMessage.value =
                 e.data?.errors?.kenteken?.[0] ?? 'Ongeldig kenteken-formaat.';
         } else if (e.status === 404) {
@@ -237,6 +257,7 @@ async function performRecalc() {
                 e.data?.message ?? 'Geen voertuig gevonden bij dit kenteken.';
             notFound.value = true;
             result.value = null;
+            resultStale.value = false;
             trackLookup('not_found');
         } else if (e.status === 503) {
             errorMessage.value =
@@ -298,25 +319,11 @@ const prefersReducedMotion = () =>
     typeof window !== 'undefined' &&
     window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-function scrollToElement(el: HTMLElement | null, focusFirstField = false) {
-    if (!el) {
-        return;
-    }
-
-    el.scrollIntoView({
+function scrollToElement(el: HTMLElement | null) {
+    el?.scrollIntoView({
         behavior: prefersReducedMotion() ? 'auto' : 'smooth',
         block: 'start',
     });
-
-    if (focusFirstField) {
-        el.querySelector<HTMLElement>('input, textarea, button')?.focus({
-            preventScroll: true,
-        });
-    }
-}
-
-function scrollToQuote() {
-    scrollToElement(quoteSection.value, true);
 }
 
 function scrollToPackages() {
@@ -435,7 +442,7 @@ const vehicleSummary = computed(() => {
 // meteen naar het formulier: de bezoeker vroeg om de Spaanse kosten.
 const totalCostsHref = computed(
     () =>
-        `/?kenteken=${encodeURIComponent(result.value?.kenteken ?? '')}#resultaat`,
+        `${home.url({ query: { kenteken: result.value?.kenteken ?? '' } })}#resultaat`,
 );
 
 // Kiest de bezoeker "permanent", dan gaan we uit van de gebruikelijke situatie
@@ -482,7 +489,11 @@ onBeforeUnmount(() => {
                     spellcheck="false"
                     aria-label="Nederlands kenteken"
                     :aria-invalid="errorMessage ? true : undefined"
-                    aria-describedby="kenteken-help"
+                    :aria-describedby="
+                        errorMessage
+                            ? 'kenteken-error kenteken-help'
+                            : 'kenteken-help'
+                    "
                     placeholder="Bijv. GV-412-X"
                     class="min-w-0 flex-1 bg-plate px-4 py-4 font-display text-2xl tracking-wider text-plate-foreground caret-[#003399] placeholder:font-sans placeholder:text-base placeholder:font-normal placeholder:tracking-normal placeholder:text-plate-muted focus:outline-none"
                     @blur="showFormatHint"
@@ -513,6 +524,7 @@ onBeforeUnmount(() => {
             <!-- ERROR -->
             <div
                 v-if="errorMessage"
+                id="kenteken-error"
                 class="mt-6 rounded-xl border border-destructive/40 bg-card p-4 text-sm"
                 role="alert"
             >
@@ -554,11 +566,43 @@ onBeforeUnmount(() => {
             v-if="result?.found"
             ref="resultSection"
             class="mt-8 scroll-mt-24 space-y-6 md:space-y-8"
+            :aria-busy="loading"
         >
+            <div
+                v-if="resultStale"
+                class="flex flex-col gap-3 rounded-xl border border-warning/50 bg-warning/10 p-4 text-sm text-foreground sm:flex-row sm:items-center sm:justify-between"
+                role="status"
+            >
+                <p class="flex items-start gap-2">
+                    <AlertTriangle
+                        class="mt-0.5 size-4 shrink-0 text-warning"
+                        aria-hidden="true"
+                    />
+                    <span>
+                        Deze berekening is niet bijgewerkt met uw laatste keuze.
+                        Bereken opnieuw voordat u een offerte aanvraagt.
+                    </span>
+                </p>
+                <button
+                    type="button"
+                    class="inline-flex min-h-11 shrink-0 items-center justify-center gap-2 rounded-xl border border-border bg-card px-4 font-semibold text-foreground transition-colors hover:bg-muted focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:outline-none disabled:opacity-60"
+                    :disabled="loading"
+                    @click="performRecalc"
+                >
+                    <RefreshCw
+                        class="size-4"
+                        :class="{ 'animate-spin': loading }"
+                        aria-hidden="true"
+                    />
+                    Opnieuw berekenen
+                </button>
+            </div>
+
             <!-- Volledige tool (homepage): één antwoord bovenaan, details inklapbaar -->
             <template v-if="!props.bpmOnly && result.import_costs">
                 <ResultAnswerCard
                     v-if="selectedPackageData"
+                    :class="{ 'opacity-60': resultStale }"
                     :kenteken="result.kenteken"
                     :vehicle-summary="vehicleSummary"
                     :selected-package="selectedPackageData"
@@ -877,11 +921,9 @@ onBeforeUnmount(() => {
                     <QuoteRequestForm
                         :kenteken="result.kenteken"
                         :selected-package="selectedPackageData"
-                        :import-total-eur="result.import_costs.total_eur"
-                        :bpm-eligible="result.bpm?.is_eligible ?? false"
-                        :bpm-rest-eur="result.bpm?.rest_bpm_eur ?? 0"
                         :residency-change="residencyChange"
                         :autonomia="autonomia"
+                        :disabled="resultStale || loading"
                     />
                 </div>
             </template>

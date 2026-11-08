@@ -1,3 +1,10 @@
+import { cookie as csrfCookie } from '@/routes/csrf';
+
+export const SESSION_EXPIRED_MESSAGE =
+    'Je sessie is verlopen, herlaad de pagina.';
+export const TOO_MANY_REQUESTS_MESSAGE =
+    'Te veel aanvragen, probeer het over een minuut opnieuw.';
+
 function xsrfTokenFromCookie(): string {
     const match = document.cookie.match(/(?:^|;\s*)XSRF-TOKEN=([^;]+)/);
 
@@ -32,14 +39,29 @@ export function isApiError<T = unknown>(e: unknown): e is ApiError<T> {
     );
 }
 
-export async function postJson<TResponse, TBody = unknown>(
-    url: string,
-    body: TBody,
-): Promise<TResponse> {
-    let response: Response;
+/**
+ * Messages for failures that every API call shares: an expired session (419,
+ * still failing after one token refresh) and rate limiting (429).
+ */
+export function sharedApiErrorMessage(e: unknown): string | null {
+    if (!isApiError(e)) {
+        return null;
+    }
 
+    if (e.status === 419) {
+        return SESSION_EXPIRED_MESSAGE;
+    }
+
+    if (e.status === 429) {
+        return TOO_MANY_REQUESTS_MESSAGE;
+    }
+
+    return null;
+}
+
+async function sendJson(url: string, body: unknown): Promise<Response> {
     try {
-        response = await fetch(url, {
+        return await fetch(url, {
             method: 'POST',
             credentials: 'same-origin',
             headers: {
@@ -57,6 +79,35 @@ export async function postJson<TResponse, TBody = unknown>(
         };
 
         throw err;
+    }
+}
+
+/**
+ * The response carries a fresh XSRF-TOKEN cookie (new session after expiry).
+ * A failure here is ignored: the retry then simply fails with 419 again.
+ */
+async function refreshXsrfToken(): Promise<void> {
+    try {
+        await fetch(csrfCookie.url(), {
+            credentials: 'same-origin',
+            headers: { Accept: 'application/json' },
+        });
+    } catch {
+        // Handled by the retry.
+    }
+}
+
+export async function postJson<TResponse, TBody = unknown>(
+    url: string,
+    body: TBody,
+): Promise<TResponse> {
+    let response = await sendJson(url, body);
+
+    // 419: the session (and its CSRF token) expired while the page was open.
+    // Fetch a new token and retry once before giving up.
+    if (response.status === 419) {
+        await refreshXsrfToken();
+        response = await sendJson(url, body);
     }
 
     const data = await response.json().catch(() => null);
