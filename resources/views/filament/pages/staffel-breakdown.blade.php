@@ -18,13 +18,6 @@
         heading="Staffel-berekening"
         :description="'Reset op 1 januari ' . $year"
     >
-        @php
-            $rows = [
-                ['label' => '€ 0 – € 10.000',      'rate' => '20%', 'omzet' => $tier1Revenue, 'deel' => $tier1Share],
-                ['label' => '€ 10.000 – € 30.000', 'rate' => '15%', 'omzet' => $tier2Revenue, 'deel' => $tier2Share],
-                ['label' => 'Boven € 30.000',       'rate' => '10%', 'omzet' => $tier3Revenue, 'deel' => $tier3Share],
-            ];
-        @endphp
 
         <table style="width:100%; border-collapse:collapse; font-size:.875rem;">
             <thead>
@@ -36,10 +29,10 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($rows as $row)
+                @foreach ($tiers as $row)
                     <tr style="border-bottom:1px solid var(--gray-100); {{ $row['omzet'] <= 0 ? 'opacity:.4;' : '' }}">
                         <td style="padding:.875rem 1rem; font-weight:500;">{{ $row['label'] }}</td>
-                        <td style="padding:.875rem 1rem;">{{ $row['rate'] }}</td>
+                        <td style="padding:.875rem 1rem;">{{ rtrim(rtrim(number_format($row['rate_pct'], 1, ',', ''), '0'), ',') }}%</td>
                         <td style="padding:.875rem 1rem; text-align:right;">€ {{ number_format($row['omzet'], 0, ',', '.') }}</td>
                         <td style="padding:.875rem 1rem; text-align:right; font-weight:600;">€ {{ number_format($row['deel'], 0, ',', '.') }}</td>
                     </tr>
@@ -61,7 +54,7 @@
         <x-filament::section>
             <p style="font-size:.75rem; font-weight:600; text-transform:uppercase; letter-spacing:.05em; color:var(--warning-600);">Marketing</p>
             <p style="font-size:1.5rem; font-weight:700; margin-top:.5rem;">€ {{ number_format($marketing, 0, ',', '.') }}</p>
-            <p style="font-size:.875rem; color:var(--gray-500); margin-top:.25rem;">10% van bruto omzet</p>
+            <p style="font-size:.875rem; color:var(--gray-500); margin-top:.25rem;">{{ rtrim(rtrim(number_format($marketingSharePct, 1, ',', ''), '0'), ',') }}% van bruto omzet</p>
         </x-filament::section>
 
         <x-filament::section>

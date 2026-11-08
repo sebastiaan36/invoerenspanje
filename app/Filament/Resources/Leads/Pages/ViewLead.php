@@ -7,6 +7,7 @@ namespace App\Filament\Resources\Leads\Pages;
 use App\Filament\Resources\Dossiers\DossierResource;
 use App\Filament\Resources\Leads\LeadResource;
 use App\Models\Lead;
+use App\Services\Leads\LeadConversionRefusedException;
 use App\Services\Leads\LeadConverter;
 use Filament\Actions\Action;
 use Filament\Forms\Components\Select;
@@ -37,10 +38,21 @@ class ViewLead extends ViewRecord
                         ->helperText('Optioneel — kun je later ook bij het dossier zelf invullen.'),
                 ])
                 ->action(function (array $data, Lead $record, LeadConverter $converter): void {
-                    $dossier = $converter->convert(
-                        $record,
-                        isset($data['service_fee_eur']) ? (int) $data['service_fee_eur'] : null,
-                    );
+                    try {
+                        $dossier = $converter->convert(
+                            $record,
+                            isset($data['service_fee_eur']) ? (int) $data['service_fee_eur'] : null,
+                        );
+                    } catch (LeadConversionRefusedException $exception) {
+                        Notification::make()
+                            ->title('Dossier niet aangemaakt')
+                            ->body($exception->getMessage())
+                            ->danger()
+                            ->persistent()
+                            ->send();
+
+                        return;
+                    }
 
                     Notification::make()
                         ->title("Dossier #{$dossier->id} aangemaakt")

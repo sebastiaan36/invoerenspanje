@@ -26,13 +26,7 @@ class StaffelBreakdown extends Page
 
         $distribution = new RevenueDistribution($revenue);
 
-        $tier1Revenue = min($revenue, 10_000);
-        $tier2Revenue = max(0.0, min($revenue, 30_000) - 10_000);
-        $tier3Revenue = max(0.0, $revenue - 30_000);
-
-        $tier1Share = round($tier1Revenue * 0.20, 2);
-        $tier2Share = round($tier2Revenue * 0.15, 2);
-        $tier3Share = round($tier3Revenue * 0.10, 2);
+        $tiers = self::tierRows($revenue);
 
         return [
             'year' => $year,
@@ -40,12 +34,44 @@ class StaffelBreakdown extends Page
             'marketing' => $distribution->marketing,
             'sebastiaan' => $distribution->sebastiaan,
             'maikel' => $distribution->maikel,
-            'tier1Revenue' => $tier1Revenue,
-            'tier2Revenue' => $tier2Revenue,
-            'tier3Revenue' => $tier3Revenue,
-            'tier1Share' => $tier1Share,
-            'tier2Share' => $tier2Share,
-            'tier3Share' => $tier3Share,
+            'tiers' => $tiers,
+            'marketingSharePct' => (float) config('revenue.marketing_share') * 100,
         ];
+    }
+
+    /**
+     * Split the revenue over the staffel tiers from config/revenue.php.
+     *
+     * @return list<array{label: string, rate_pct: float, omzet: float, deel: float}>
+     */
+    public static function tierRows(float $revenue): array
+    {
+        /** @var list<array{up_to_eur: int|null, share: float}> $tiers */
+        $tiers = config('revenue.sebastiaan_tiers');
+
+        $rows = [];
+        $lowerBound = 0;
+
+        foreach ($tiers as $tier) {
+            $upperBound = $tier['up_to_eur'];
+            $tierRevenue = $upperBound === null
+                ? max(0.0, $revenue - $lowerBound)
+                : max(0.0, min($revenue, $upperBound) - $lowerBound);
+
+            $rows[] = [
+                'label' => $upperBound === null
+                    ? 'Boven € '.number_format($lowerBound, 0, ',', '.')
+                    : '€ '.number_format($lowerBound, 0, ',', '.').' – € '.number_format($upperBound, 0, ',', '.'),
+                'rate_pct' => $tier['share'] * 100,
+                'omzet' => (float) $tierRevenue,
+                'deel' => round($tierRevenue * $tier['share'], 2),
+            ];
+
+            if ($upperBound !== null) {
+                $lowerBound = $upperBound;
+            }
+        }
+
+        return $rows;
     }
 }

@@ -129,7 +129,10 @@ const iedmtSavings = computed<number>(() => {
         return 0;
     }
 
-    return Math.max(0, ic.iedmt_without_exemption_eur - ic.iedmt_eur);
+    return Math.max(
+        0,
+        (ic.iedmt_without_exemption_eur ?? 0) - (ic.iedmt_eur ?? 0),
+    );
 });
 
 const showExemptionHighlight = computed(

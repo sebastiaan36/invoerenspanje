@@ -28,7 +28,6 @@ final class PublicPageController extends Controller
             'faqItems' => config('faq.home'),
             'contentHtml' => app(UnpublishedBlogLinkFilter::class)->filter(view('content.home', [
                 'lowestPackagePrice' => min(array_map(fn (ServicePackage $p): int => $p->priceEur, ServicePackages::all())),
-                'fixedCostsTotal' => array_sum(array_column(SpainFixedCosts::fromConfig(), 'amount_eur')),
             ])->render()),
             'reviews' => $this->reviews(),
             'recentPosts' => Post::published()

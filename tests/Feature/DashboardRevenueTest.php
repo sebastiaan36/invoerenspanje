@@ -120,6 +120,11 @@ final class DashboardRevenueTest extends TestCase
         $staffel = (new StaffelBreakdown)->getViewData();
         $this->assertSame(1395.0, $staffel['revenue']);
         $this->assertSame($expected->sebastiaan, $staffel['sebastiaan']);
+        $this->assertEqualsWithDelta(
+            $staffel['sebastiaan'],
+            array_sum(array_column($staffel['tiers'], 'deel')),
+            0.01,
+        );
 
         $widget = new RevenueDistributionOverview;
         $method = new \ReflectionMethod($widget, 'getStats');
@@ -151,5 +156,23 @@ final class DashboardRevenueTest extends TestCase
         }
 
         return $result;
+    }
+
+    public function test_staffel_tiers_follow_the_revenue_config(): void
+    {
+        config(['revenue.sebastiaan_tiers' => [
+            ['up_to_eur' => 5_000, 'share' => 0.30],
+            ['up_to_eur' => null, 'share' => 0.05],
+        ]]);
+
+        $rows = StaffelBreakdown::tierRows(8_000.0);
+
+        $this->assertCount(2, $rows);
+        $this->assertSame('€ 0 – € 5.000', $rows[0]['label']);
+        $this->assertSame(5_000.0, $rows[0]['omzet']);
+        $this->assertSame(1_500.0, $rows[0]['deel']);
+        $this->assertSame('Boven € 5.000', $rows[1]['label']);
+        $this->assertSame(3_000.0, $rows[1]['omzet']);
+        $this->assertSame(150.0, $rows[1]['deel']);
     }
 }
