@@ -14,11 +14,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [PublicPageController::class, 'home'])->name('home');
 
-Route::inertia('diensten', 'Diensten')->name('diensten');
-Route::inertia('over-ons', 'OverOns')->name('over-ons');
-Route::inertia('contact', 'Contact', [
-    'werkgebied' => config('werkgebied'),
-])->name('contact');
+Route::get('diensten', [PublicPageController::class, 'diensten'])->name('diensten');
+Route::get('over-ons', [PublicPageController::class, 'overOns'])->name('over-ons');
+Route::get('contact', [PublicPageController::class, 'contact'])->name('contact');
 Route::post('contact', [ContactController::class, 'store'])->middleware('throttle:contact')->name('contact.store');
 Route::get('tarieven', [PublicPageController::class, 'tarieven'])->name('tarieven');
 Route::get('bpm-calculator', [PublicPageController::class, 'bpmCalculator'])->name('bpm-calculator');

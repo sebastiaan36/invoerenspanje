@@ -46,6 +46,7 @@ class HandleInertiaRequests extends Middleware
             'sidebarOpen' => ! $request->hasCookie('sidebar_state') || $request->cookie('sidebar_state') === 'true',
             // Static config: sent on the first visit only, kept by the client after that.
             'packages' => Inertia::once(fn () => ServicePackages::toSharedArray()),
+            'contact' => Inertia::once(fn (): array => config('contact')),
             'flash' => [
                 'success' => fn () => $request->session()->get('success'),
                 'error' => fn () => $request->session()->get('error'),
@@ -63,7 +64,10 @@ class HandleInertiaRequests extends Middleware
      * Controllers may override this by passing their own `seo` prop (e.g. blog
      * posts), which takes precedence over the route-name lookup below.
      *
-     * @return array{title: string, description: string, image: ?string}
+     * `h1`, `h1_accent`, `intro` and `intro_short` are the page hero copy, so
+     * the Vue page and the crawler HTML (seo/fallback.blade.php) print the same text.
+     *
+     * @return array{title: string, description: string, image: ?string, h1: ?string, h1_accent: ?string, intro: ?string, intro_short: ?string}
      */
     protected function resolveSeo(Request $request): array
     {
@@ -79,6 +83,10 @@ class HandleInertiaRequests extends Middleware
             'title' => $meta['title'] ?? config('seo.default.title'),
             'description' => $meta['description'] ?? config('seo.default.description'),
             'image' => $image ? $this->absoluteImageUrl($image) : null,
+            'h1' => $meta['h1'] ?? null,
+            'h1_accent' => $meta['h1_accent'] ?? null,
+            'intro' => $meta['intro'] ?? null,
+            'intro_short' => $meta['intro_short'] ?? null,
         ];
     }
 

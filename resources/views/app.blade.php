@@ -81,6 +81,12 @@
             $path = $hasSecretInUrl ? 'feedback' : trim(request()->path(), '/');
             $canonicalUrl = rtrim(config('app.url'), '/').($path === '' ? '' : '/'.$path);
 
+            // Paginated blog pages are their own canonical (page 1 stays plain /blog).
+            $pageNumber = filter_var(request()->query('page'), FILTER_VALIDATE_INT);
+            if ($page['component'] === 'Blog/Index' && $pageNumber !== false && $pageNumber > 1) {
+                $canonicalUrl .= '?page='.$pageNumber;
+            }
+
             $isPublicPage = in_array($page['component'], ['Welcome', 'Diensten', 'Tarieven', 'BpmCalculator', 'Contact', 'OverOns', 'Faq', 'Gids'], true)
                 || str_starts_with($page['component'], 'Blog/');
             $isArticle = $page['component'] === 'Blog/Show';

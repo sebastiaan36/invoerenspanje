@@ -1,7 +1,9 @@
 <script setup lang="ts">
+import AccentHeading from '@/components/AccentHeading.vue';
 import ContactStrip from '@/components/ContactStrip.vue';
 import FaqAccordion from '@/components/FaqAccordion.vue';
 import type { FaqItem } from '@/components/FaqAccordion.vue';
+import { usePageSeo } from '@/composables/usePageSeo';
 import PublicLayout from '@/layouts/PublicLayout.vue';
 
 withDefaults(
@@ -16,17 +18,19 @@ withDefaults(
         updatedLabel: '',
     },
 );
+
+const seo = usePageSeo();
 </script>
 
 <template>
     <PublicLayout>
         <section class="bg-background">
             <div class="container mx-auto max-w-3xl px-4 pt-16 pb-10 md:pt-24">
-                <h1
+                <AccentHeading
+                    :text="seo.h1 ?? ''"
+                    :accent="seo.h1_accent"
                     class="font-display text-4xl leading-tight font-semibold text-balance text-foreground md:text-5xl"
-                >
-                    Auto invoeren in Spanje: de complete gids
-                </h1>
+                />
                 <p
                     v-if="updatedLabel"
                     class="mt-4 text-sm text-muted-foreground"

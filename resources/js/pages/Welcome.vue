@@ -1,12 +1,14 @@
 <script setup lang="ts">
 import { Link } from '@inertiajs/vue3';
 import { ArrowRight, Check } from 'lucide-vue-next';
+import AccentHeading from '@/components/AccentHeading.vue';
 import ContactStrip from '@/components/ContactStrip.vue';
 import FaqAccordion from '@/components/FaqAccordion.vue';
 import type { FaqItem } from '@/components/FaqAccordion.vue';
 import KentekenLookup from '@/components/KentekenLookup.vue';
 import ReviewsSection from '@/components/ReviewsSection.vue';
 import type { Review } from '@/components/ReviewsSection.vue';
+import { usePageSeo } from '@/composables/usePageSeo';
 import { scrollToQuote } from '@/composables/useScrollToQuote';
 import PublicLayout from '@/layouts/PublicLayout.vue';
 
@@ -33,6 +35,8 @@ withDefaults(
         recentPosts: () => [],
     },
 );
+
+const seo = usePageSeo();
 
 const lanes = [
     {
@@ -80,28 +84,21 @@ const lanes = [
             <div
                 class="container mx-auto max-w-6xl px-4 py-8 text-center sm:py-16 md:py-24"
             >
-                <h1
+                <AccentHeading
+                    :text="seo.h1 ?? ''"
+                    :accent="seo.h1_accent"
                     class="font-display text-3xl leading-tight font-semibold text-balance text-foreground sm:text-4xl md:text-6xl"
-                >
-                    Uw auto
-                    <span class="text-accent">invoeren in Spanje</span>, zonder
-                    gedoe.
-                </h1>
+                />
                 <!-- Op mobiel een korte intro, zodat het kentekenveld direct in beeld staat. -->
                 <p
                     class="mx-auto mt-3 max-w-2xl text-lg text-pretty text-muted-foreground sm:hidden"
                 >
-                    Vul uw Nederlandse kenteken in en zie direct wat het u netto
-                    kost.
+                    {{ seo.intro_short }}
                 </p>
                 <p
                     class="mx-auto mt-5 hidden max-w-2xl text-lg text-pretty text-muted-foreground sm:block"
                 >
-                    Voor Nederlanders aan de Costa del Sol. Wij regelen het hele
-                    traject om uw auto in Spanje in te voeren, van papierwerk
-                    tot ITV en BPM-teruggave. Vul uw Nederlandse kenteken in en
-                    zie direct wat het u netto kost, met de BPM-teruggave al
-                    verrekend.
+                    {{ seo.intro }}
                 </p>
 
                 <div

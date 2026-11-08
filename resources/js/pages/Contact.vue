@@ -11,10 +11,18 @@ import {
     Phone,
 } from 'lucide-vue-next';
 import { ref } from 'vue';
+import AccentHeading from '@/components/AccentHeading.vue';
 import WerkgebiedKaart from '@/components/WerkgebiedKaart.vue';
+import { usePageSeo } from '@/composables/usePageSeo';
 import PublicLayout from '@/layouts/PublicLayout.vue';
 import { trackEvent } from '@/lib/analytics';
-import { EMAIL, PHONE, PHONE_DISPLAY, WHATSAPP_URL } from '@/lib/contact';
+import {
+    EMAIL,
+    OPENING_HOURS,
+    PHONE,
+    PHONE_DISPLAY,
+    WHATSAPP_URL,
+} from '@/lib/contact';
 
 interface Plaats {
     naam: string;
@@ -29,11 +37,14 @@ interface WerkgebiedData {
     bounds: [[number, number], [number, number]];
     gebied: [number, number][];
     plaatsen: Plaats[];
+    intro: string;
 }
 
 defineProps<{
     werkgebied: WerkgebiedData;
 }>();
+
+const seo = usePageSeo();
 
 const team = [
     { name: 'Maikel', photo: '/images/maikel.jpeg' },
@@ -72,16 +83,15 @@ function submit(): void {
             <div
                 class="container mx-auto max-w-4xl px-4 py-16 text-center md:py-20"
             >
-                <h1
+                <AccentHeading
+                    :text="seo.h1 ?? ''"
+                    :accent="seo.h1_accent"
                     class="font-display text-4xl leading-tight font-semibold text-balance text-foreground md:text-5xl"
-                >
-                    Neem contact op
-                </h1>
+                />
                 <p
                     class="mx-auto mt-4 max-w-xl text-lg text-pretty text-muted-foreground"
                 >
-                    Heeft u een vraag of wilt u een vrijblijvende offerte? Wij
-                    zijn bereikbaar via telefoon, WhatsApp of e-mail.
+                    {{ seo.intro }}
                 </p>
                 <Link
                     href="/#offerte"
@@ -186,9 +196,13 @@ function submit(): void {
                                 Bereikbaarheid (Spaanse tijd)
                             </h2>
                             <ul class="mt-3 space-y-1.5 text-muted-foreground">
-                                <li>Maandag – vrijdag: 09:00 – 18:00</li>
-                                <li>Zaterdag: 10:00 – 14:00</li>
-                                <li>Zondag: gesloten</li>
+                                <li
+                                    v-for="openingHours in OPENING_HOURS"
+                                    :key="openingHours.days"
+                                >
+                                    {{ openingHours.days }}:
+                                    {{ openingHours.hours }}
+                                </li>
                             </ul>
                         </div>
                     </div>
@@ -469,8 +483,7 @@ function submit(): void {
                         Ons werkgebied
                     </h2>
                     <p class="mt-3 text-muted-foreground">
-                        Wij begeleiden auto-imports vanuit de Costa del Sol, het
-                        binnenland van Málaga en de Montes de Málaga.
+                        {{ werkgebied.intro }}
                     </p>
                 </div>
                 <WerkgebiedKaart :data="werkgebied" />
