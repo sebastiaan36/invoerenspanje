@@ -28,7 +28,13 @@ final class LeadRequest extends FormRequest
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email:rfc,strict', 'max:255'],
             'phone' => ['required', 'string', 'max:64'],
-            'regio' => ['required', 'string', 'max:255'],
+            'regio' => [
+                'required',
+                'string',
+                'max:255',
+                // Printed in the confirmation mail: no links, only a place name.
+                'not_regex:/(https?:|www\.|:\/\/|[a-z0-9-]+\.(?:com|net|org|nl|es|io|ru|info|xyz|top|link|click)\b)/i',
+            ],
             'expected_move_date' => ['nullable', 'string', 'max:100'],
             'comment' => ['nullable', 'string', 'max:5000'],
 
@@ -44,11 +50,7 @@ final class LeadRequest extends FormRequest
             ],
             'package_slug' => ['required', 'string', Rule::in($packageSlugs)],
             'residency_change' => ['sometimes', 'boolean'],
-            'autonomia' => ['sometimes', 'string', 'max:32'],
-
-            'bpm_teruggave_indicatie' => ['nullable', 'integer', 'min:0', 'max:1000000'],
-            'import_kosten_indicatie' => ['nullable', 'integer', 'min:0', 'max:1000000'],
-            'totaalprijs_indicatie' => ['nullable', 'integer', 'min:0', 'max:1000000'],
+            'autonomia' => ['sometimes', 'string', Rule::in(array_keys(config('spain_import.autonomias')))],
 
             'utm_source' => ['nullable', 'string', 'max:255'],
             'utm_medium' => ['nullable', 'string', 'max:255'],
@@ -60,6 +62,42 @@ final class LeadRequest extends FormRequest
     }
 
     /**
+     * @return array<string, string>
+     */
+    public function messages(): array
+    {
+        return [
+            'regio.not_regex' => 'Vul alleen uw woonplaats of regio in, zonder link.',
+        ];
+    }
+
+    /**
+     * Lowercase the e-mail address and strip Markdown/HTML brackets from the
+     * region, which is printed in the confirmation mail.
+     */
+    protected function prepareForValidation(): void
+    {
+        $normalized = [];
+
+        if (is_string($this->input('email'))) {
+            $normalized['email'] = mb_strtolower(trim($this->input('email')));
+        }
+
+        if (is_string($this->input('regio'))) {
+            $normalized['regio'] = trim((string) preg_replace(
+                '/\s+/',
+                ' ',
+                str_replace(['[', ']', '<', '>'], ' ', $this->input('regio')),
+            ));
+        }
+
+        $this->merge($normalized);
+    }
+
+    /**
+     * Price indications are deliberately absent: the controller derives them
+     * from the server-side quote and ignores whatever the browser sent.
+     *
      * @return array<string, mixed>
      */
     public function toLeadAttributes(): array
@@ -78,10 +116,6 @@ final class LeadRequest extends FormRequest
             'package_slug' => $this->input('package_slug'),
             'residency_change' => $this->boolean('residency_change'),
             'autonomia' => $this->input('autonomia') ?: 'default',
-
-            'bpm_teruggave_indicatie_eur' => $this->input('bpm_teruggave_indicatie'),
-            'import_kosten_indicatie_eur' => $this->input('import_kosten_indicatie'),
-            'totaalprijs_indicatie_eur' => $this->input('totaalprijs_indicatie'),
 
             // utm_medium=social marks unpaid social links (the Instagram bio
             // page); any other tagged visit counts as an ad.

@@ -7,6 +7,7 @@ namespace Tests\Feature\Api;
 use App\Models\KentekenLookup;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Schema;
 use Tests\TestCase;
 
 final class LookupControllerTest extends TestCase
@@ -218,5 +219,67 @@ final class LookupControllerTest extends TestCase
             ->assertJsonPath('kenteken', '12ABC3');
 
         $this->assertDatabaseCount('kenteken_lookups', 0);
+    }
+
+    public function test_it_records_brandstof_and_bouwjaar_in_the_lookup_analytics(): void
+    {
+        $this->fakeRdwGolf();
+
+        $this->postJson(route('api.lookup'), ['kenteken' => '12-abc-3'])->assertOk();
+
+        $lookup = KentekenLookup::sole();
+        $this->assertSame('12ABC3', $lookup->kenteken);
+        $this->assertSame('VOLKSWAGEN', $lookup->merk);
+        $this->assertSame('GOLF', $lookup->model);
+        $this->assertSame('Benzine', $lookup->brandstof);
+        $this->assertSame(2019, (int) $lookup->bouwjaar);
+    }
+
+    public function test_it_rejects_an_unknown_autonomia(): void
+    {
+        $this->postJson(route('api.lookup'), ['kenteken' => '12-abc-3', 'autonomia' => 'atlantis'])
+            ->assertUnprocessable()
+            ->assertJsonValidationErrors(['autonomia']);
+    }
+
+    public function test_it_accepts_a_configured_autonomia(): void
+    {
+        $this->fakeRdwGolf();
+
+        $this->postJson(route('api.lookup'), ['kenteken' => '12-abc-3', 'autonomia' => 'costa_del_sol'])
+            ->assertOk()
+            ->assertJsonPath('import_costs.autonomia', 'costa_del_sol');
+    }
+
+    public function test_an_unexpected_calculation_failure_returns_a_json_error_instead_of_a_500(): void
+    {
+        $this->fakeRdwGolf();
+        // A database error halfway through the quote (Hacienda price lookup).
+        Schema::drop('hacienda_vehicle_prices');
+
+        $this->postJson(route('api.lookup'), ['kenteken' => '12-abc-3'])
+            ->assertStatus(503)
+            ->assertJsonPath('found', false)
+            ->assertJsonPath('kenteken', '12ABC3')
+            ->assertJsonStructure(['message']);
+    }
+
+    private function fakeRdwGolf(): void
+    {
+        Http::fake([
+            'opendata.rdw.nl/resource/m9d7-ebf2.json*' => Http::response([[
+                'kenteken' => '12ABC3',
+                'voertuigsoort' => 'Personenauto',
+                'merk' => 'VOLKSWAGEN',
+                'handelsbenaming' => 'GOLF',
+                'datum_eerste_toelating' => '20190401',
+                'catalogusprijs' => '31500',
+            ]]),
+            'opendata.rdw.nl/resource/8ys7-d773.json*' => Http::response([[
+                'kenteken' => '12ABC3',
+                'brandstof_omschrijving' => 'Benzine',
+                'co2_uitstoot_gecombineerd' => '180',
+            ]]),
+        ]);
     }
 }

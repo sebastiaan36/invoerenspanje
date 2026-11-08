@@ -10,10 +10,12 @@ use App\Mail\QuoteRequestConfirmation;
 use App\Models\Lead;
 use App\Services\Leads\LeadConverter;
 use App\Services\Leads\LeadTelegramAlert;
+use App\Services\Packages\ServicePackages;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Client\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Schema;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Tests\TestCase;
 
@@ -112,6 +114,9 @@ final class LeadControllerTest extends TestCase
         $lead = Lead::firstOrFail();
         $this->assertNull($lead->rdw_snapshot_json);
         $this->assertNull($lead->bpm_calculation_json);
+        $this->assertNull($lead->bpm_teruggave_indicatie_eur);
+        $this->assertNull($lead->import_kosten_indicatie_eur);
+        $this->assertNull($lead->totaalprijs_indicatie_eur);
         Mail::assertSent(LeadReceivedNotification::class);
         Mail::assertSent(QuoteRequestConfirmation::class);
     }
@@ -156,6 +161,7 @@ final class LeadControllerTest extends TestCase
     public function test_it_stores_a_lead_and_sends_two_mails(): void
     {
         Mail::fake();
+        $this->fakeRdwGolf();
 
         $payload = $this->validPayload();
 
@@ -176,9 +182,6 @@ final class LeadControllerTest extends TestCase
         $this->assertSame('Marbella, Costa del Sol', $lead->woonplaats_spanje);
         $this->assertTrue($lead->residency_change);
         $this->assertSame('costa_del_sol', $lead->autonomia);
-        $this->assertSame(1500, $lead->bpm_teruggave_indicatie_eur);
-        $this->assertSame(750, $lead->import_kosten_indicatie_eur);
-        $this->assertSame(1645, $lead->totaalprijs_indicatie_eur);
         $this->assertSame('nieuw', $lead->status);
         $this->assertSame('organic', $lead->source); // geen utm_source
 
@@ -376,6 +379,145 @@ final class LeadControllerTest extends TestCase
         $this->postJson(route('api.leads.store'), $payload)->assertStatus(429);
 
         $this->assertSame(5, Lead::count());
+    }
+
+    public function test_it_derives_price_indications_from_the_server_quote_and_ignores_client_values(): void
+    {
+        Mail::fake();
+        $this->fakeRdwGolf();
+
+        $this->postJson(route('api.leads.store'), $this->validPayload([
+            'residency_change' => false,
+            'bpm_teruggave_indicatie' => 999999,
+            'import_kosten_indicatie' => 1,
+            'totaalprijs_indicatie' => 1,
+        ]))->assertCreated();
+
+        $lead = Lead::firstOrFail();
+        $expectedImport = (int) round($lead->import_calculation_json['total_eur']);
+        $packagePrice = ServicePackages::findBySlug('compleet')->priceEur;
+
+        $this->assertTrue($lead->bpm_calculation_json['is_eligible']);
+        $this->assertSame((int) round($lead->bpm_calculation_json['rest_bpm_eur']), $lead->bpm_teruggave_indicatie_eur);
+        $this->assertNotSame(999999, $lead->bpm_teruggave_indicatie_eur);
+        $this->assertSame($expectedImport, $lead->import_kosten_indicatie_eur);
+        $this->assertGreaterThan(1, $lead->import_kosten_indicatie_eur);
+        $this->assertSame($packagePrice + $expectedImport, $lead->totaalprijs_indicatie_eur);
+    }
+
+    public function test_price_indications_are_null_for_an_unknown_kenteken(): void
+    {
+        Mail::fake();
+        Http::fake(['opendata.rdw.nl/*' => Http::response([])]);
+
+        $this->postJson(route('api.leads.store'), $this->validPayload())->assertCreated();
+
+        $lead = Lead::firstOrFail();
+        $this->assertNull($lead->rdw_snapshot_json);
+        $this->assertNull($lead->bpm_teruggave_indicatie_eur);
+        $this->assertNull($lead->import_kosten_indicatie_eur);
+        $this->assertNull($lead->totaalprijs_indicatie_eur);
+    }
+
+    public function test_it_still_stores_the_lead_when_the_quote_calculation_fails_unexpectedly(): void
+    {
+        Mail::fake();
+        $this->fakeRdwGolf();
+        // A database error halfway through the quote (Hacienda price lookup).
+        Schema::drop('hacienda_vehicle_prices');
+
+        $this->postJson(route('api.leads.store'), $this->validPayload())->assertCreated();
+
+        $lead = Lead::firstOrFail();
+        $this->assertSame('12ABC3', $lead->kenteken);
+        $this->assertNull($lead->rdw_snapshot_json);
+        $this->assertNull($lead->bpm_calculation_json);
+        $this->assertNull($lead->import_calculation_json);
+        $this->assertNull($lead->totaalprijs_indicatie_eur);
+        Mail::assertSent(LeadReceivedNotification::class);
+        Mail::assertSent(QuoteRequestConfirmation::class);
+    }
+
+    public function test_it_rejects_an_unknown_autonomia(): void
+    {
+        Mail::fake();
+
+        $this->postJson(route('api.leads.store'), $this->validPayload(['autonomia' => 'atlantis']))
+            ->assertUnprocessable()
+            ->assertJsonValidationErrors(['autonomia']);
+
+        $this->assertDatabaseCount('leads', 0);
+    }
+
+    public function test_it_stores_the_email_address_in_lowercase(): void
+    {
+        Mail::fake();
+        $this->fakeRdwGolf();
+
+        $this->postJson(route('api.leads.store'), $this->validPayload(['email' => 'Seb.Test@Example.COM']))
+            ->assertCreated();
+
+        $this->assertSame('seb.test@example.com', Lead::firstOrFail()->email);
+    }
+
+    public function test_it_rejects_a_link_in_the_region_field(): void
+    {
+        Mail::fake();
+
+        $this->postJson(route('api.leads.store'), $this->validPayload(['regio' => 'Kijk op https://evil.example']))
+            ->assertUnprocessable()
+            ->assertJsonValidationErrors(['regio']);
+
+        $this->postJson(route('api.leads.store'), $this->validPayload(['regio' => 'www.evil.example']))
+            ->assertUnprocessable()
+            ->assertJsonValidationErrors(['regio']);
+    }
+
+    public function test_it_strips_markdown_brackets_from_the_region(): void
+    {
+        Mail::fake();
+        $this->fakeRdwGolf();
+
+        $this->postJson(route('api.leads.store'), $this->validPayload(['regio' => '[Marbella] <Costa del Sol>']))
+            ->assertCreated();
+
+        $this->assertSame('Marbella Costa del Sol', Lead::firstOrFail()->woonplaats_spanje);
+    }
+
+    public function test_a_markdown_link_in_the_confirmation_mail_does_not_render_as_a_link(): void
+    {
+        $lead = Lead::factory()->create([
+            'name' => '[Klik](https://evil.example/naam) Jansen',
+            'woonplaats_spanje' => '[Uw account is geblokkeerd](https://evil.example/phish)',
+            'package_slug' => 'compleet',
+        ]);
+
+        $html = (new QuoteRequestConfirmation($lead))->render();
+
+        $this->assertStringNotContainsString('href="https://evil.example', $html);
+        $this->assertStringNotContainsString('<a ', str_replace('<a href="'.config('app.url'), '', $html));
+        $this->assertStringContainsString('[Uw account is geblokkeerd](https://evil', $html);
+    }
+
+    private function fakeRdwGolf(): void
+    {
+        Http::fake([
+            'opendata.rdw.nl/resource/m9d7-ebf2.json*' => Http::response([[
+                'kenteken' => '12ABC3',
+                'merk' => 'VOLKSWAGEN',
+                'handelsbenaming' => 'GOLF',
+                'voertuigsoort' => 'Personenauto',
+                'datum_eerste_toelating' => '20190401',
+                'massa_ledig_voertuig' => '1280',
+                'catalogusprijs' => '31500',
+            ]]),
+            'opendata.rdw.nl/resource/8ys7-d773.json*' => Http::response([[
+                'kenteken' => '12ABC3',
+                'brandstof_omschrijving' => 'Benzine',
+                'co2_uitstoot_gecombineerd' => '180',
+            ]]),
+            'api.telegram.org/*' => Http::response(['ok' => true]),
+        ]);
     }
 
     /**
