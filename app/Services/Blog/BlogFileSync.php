@@ -7,6 +7,7 @@ namespace App\Services\Blog;
 use App\Models\Post;
 use App\Models\User;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use RuntimeException;
@@ -28,32 +29,45 @@ use RuntimeException;
  *     ---
  *
  * Files are the source of truth: synced posts are marked `source = file`,
- * and a post whose file was removed is archived on the next sync.
+ * and a post whose file was removed is archived on the next sync. An empty
+ * content folder aborts the sync instead of archiving every article.
  */
 final class BlogFileSync
 {
     public function __construct(private readonly string $contentPath) {}
 
     /**
+     * Parse and validate every file first, then write all changes in one
+     * transaction, so a single broken article never leaves the blog half-synced.
+     *
      * @return array{created: list<string>, updated: list<string>, unchanged: list<string>, archived: list<string>}
      */
     public function sync(bool $dryRun = false): array
     {
         $result = ['created' => [], 'updated' => [], 'unchanged' => [], 'archived' => []];
+        $files = $this->files();
+
+        if ($files === [] && Post::query()->where('source', 'file')->exists()) {
+            throw new RuntimeException("Geen blogbestanden gevonden in {$this->contentPath}, terwijl er wel gesynchroniseerde artikelen bestaan. Sync afgebroken zodat niet alles gearchiveerd wordt.");
+        }
+
+        /** @var list<array{post: Post, attributes: array<string, mixed>, heroSource: string|null, heroTarget: string|null}> $pending */
+        $pending = [];
         $slugs = [];
 
-        foreach ($this->files() as $file) {
+        foreach ($files as $file) {
             $slug = basename($file, '.md');
             $slugs[] = $slug;
             $parsed = self::parse((string) file_get_contents($file), $file);
 
             $post = Post::query()->where('slug', $slug)->first();
-            $attributes = $this->attributes($slug, $parsed, $post);
+            $hero = $this->resolveHeroImage($slug, $parsed['meta']['hero_image'] ?? null, $post);
+            $attributes = $this->attributes($slug, $parsed, $post, $hero['path']);
 
             if ($post === null) {
                 $result['created'][] = $slug;
                 $post = new Post(['slug' => $slug]);
-            } elseif ($this->isUnchanged($post, $attributes)) {
+            } elseif ($hero['source'] === null && $this->isUnchanged($post, $attributes)) {
                 $result['unchanged'][] = $slug;
 
                 continue;
@@ -61,14 +75,7 @@ final class BlogFileSync
                 $result['updated'][] = $slug;
             }
 
-            if ($dryRun) {
-                continue;
-            }
-
-            $post->forceFill($attributes);
-            $post->timestamps = false;
-            $post->created_at ??= $attributes['updated_at'];
-            $post->save();
+            $pending[] = ['post' => $post, 'attributes' => $attributes, 'heroSource' => $hero['source'], 'heroTarget' => $hero['path']];
         }
 
         $orphans = Post::query()
@@ -79,11 +86,29 @@ final class BlogFileSync
 
         foreach ($orphans as $orphan) {
             $result['archived'][] = $orphan->slug;
+        }
 
-            if (! $dryRun) {
+        if ($dryRun) {
+            return $result;
+        }
+
+        DB::transaction(function () use ($pending, $orphans): void {
+            foreach ($pending as $change) {
+                if ($change['heroSource'] !== null && $change['heroTarget'] !== null) {
+                    Storage::disk('public')->put($change['heroTarget'], (string) file_get_contents($change['heroSource']), 'public');
+                }
+
+                $post = $change['post'];
+                $post->forceFill($change['attributes']);
+                $post->timestamps = false;
+                $post->created_at ??= $change['attributes']['updated_at'];
+                $post->save();
+            }
+
+            foreach ($orphans as $orphan) {
                 $orphan->forceFill(['status' => Post::STATUS_ARCHIVED])->save();
             }
-        }
+        });
 
         return $result;
     }
@@ -152,7 +177,7 @@ final class BlogFileSync
      * @param  array{meta: array<string, string>, body: string}  $parsed
      * @return array<string, mixed>
      */
-    private function attributes(string $slug, array $parsed, ?Post $post): array
+    private function attributes(string $slug, array $parsed, ?Post $post, ?string $heroImagePath): array
     {
         $meta = $parsed['meta'];
         $status = $meta['status'] ?? Post::STATUS_PUBLISHED;
@@ -173,7 +198,7 @@ final class BlogFileSync
             'published_at' => $publishedAt,
             'updated_at' => $updatedAt,
             'author_id' => $this->authorId($slug, $meta['author'] ?? null, $post),
-            'hero_image_path' => $this->heroImagePath($slug, $meta['hero_image'] ?? null, $post),
+            'hero_image_path' => $heroImagePath,
         ];
     }
 
@@ -224,19 +249,30 @@ final class BlogFileSync
     }
 
     /**
-     * Copy the hero image to the public disk under a content-hashed name, so
-     * an unchanged image is never copied again and a replaced one gets a new
-     * URL (no stale cache). Post::saving() re-encodes it as WebP.
+     * Resolve the hero image to a content-hashed name on the public disk, so an
+     * unchanged image is never copied again and a replaced one gets a new URL
+     * (no stale cache). Post::saving() re-encodes it as WebP.
+     *
+     * The image must live inside the content folder; `../` tricks are refused.
+     * Nothing is written here: `source` is set when the file still has to be
+     * copied during the write phase.
+     *
+     * @return array{path: string|null, source: string|null}
      */
-    private function heroImagePath(string $slug, ?string $relative, ?Post $post): ?string
+    private function resolveHeroImage(string $slug, ?string $relative, ?Post $post): array
     {
         if ($relative === null || $relative === '') {
-            return null;
+            return ['path' => null, 'source' => null];
         }
 
-        $source = rtrim($this->contentPath, '/').'/'.ltrim($relative, '/');
+        $root = realpath($this->contentPath);
+        $source = realpath(rtrim($this->contentPath, '/').'/'.ltrim($relative, '/'));
 
-        if (! is_file($source)) {
+        if ($root !== false && $source !== false && ! str_starts_with($source, rtrim($root, DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR)) {
+            throw new RuntimeException("{$slug}: afbeelding {$relative} ligt buiten de contentmap.");
+        }
+
+        if ($root === false || $source === false || ! is_file($source)) {
             throw new RuntimeException("{$slug}: afbeelding {$relative} niet gevonden.");
         }
 
@@ -248,12 +284,10 @@ final class BlogFileSync
         // Already synced: the optimizer stores it as .webp under the same base name.
         foreach (["{$base}.webp", "{$base}.{$extension}"] as $candidate) {
             if ($post?->hero_image_path === $candidate && $disk->exists($candidate)) {
-                return $candidate;
+                return ['path' => $candidate, 'source' => null];
             }
         }
 
-        $disk->put("{$base}.{$extension}", (string) file_get_contents($source), 'public');
-
-        return "{$base}.{$extension}";
+        return ['path' => "{$base}.{$extension}", 'source' => $source];
     }
 }

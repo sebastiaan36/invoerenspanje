@@ -13,9 +13,16 @@ use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
+use Illuminate\Auth\Access\Response;
 
 class PostsTable
 {
+    /**
+     * Artikelen uit resources/content/blog komen bij de volgende blog:sync terug;
+     * verwijder het Markdown-bestand om ze weg te halen (dan worden ze gearchiveerd).
+     */
+    public const string FILE_MANAGED_DELETE_MESSAGE = 'Artikelen uit een Markdown-bestand kun je niet verwijderen: ze komen bij de volgende sync terug. Verwijder het bestand in resources/content/blog, dan wordt het artikel gearchiveerd.';
+
     public static function configure(Table $table): Table
     {
         return $table
@@ -77,11 +84,16 @@ class PostsTable
             ])
             ->recordActions([
                 EditAction::make(),
-                DeleteAction::make()->requiresConfirmation(),
+                DeleteAction::make()
+                    ->requiresConfirmation()
+                    ->hidden(fn (Post $record): bool => $record->isFileManaged()),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
-                    DeleteBulkAction::make(),
+                    DeleteBulkAction::make()
+                        ->authorizeIndividualRecords(fn (Post $record): Response => $record->isFileManaged()
+                            ? Response::deny(self::FILE_MANAGED_DELETE_MESSAGE)
+                            : Response::allow()),
                 ]),
             ]);
     }
