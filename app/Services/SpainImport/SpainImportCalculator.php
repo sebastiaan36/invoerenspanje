@@ -18,13 +18,13 @@ final class SpainImportCalculator
      *         label: string,
      *         iedmt_brackets: list<array{co2_max_g_per_km: int|null, rate_pct: float|int}>,
      *     }>,
-     *     fixed_costs: list<array{key: string, label: string, amount_eur?: float|int, amount_excl_vat_eur?: float|int, vat_pct?: float|int}>,
-     *     hacienda: array{table_year: int, apply_foreign_registration_correction: bool},
+     *     fixed_costs: list<array{key: string, label: string, amount_eur?: float|int, amount_excl_vat_eur?: float|int, vat_pct?: float|int, optional?: bool}>,
+     *     hacienda: array{table_year: int, apply_foreign_registration_correction: bool, match_cache_ttl_seconds?: int},
      *     hacienda_retention_pct_by_full_years: list<int>,
      *     iva_rate_history: list<array{0: string, 1: float|int}>,
      *     exemptions: array{residency_change: array{reason: string}},
      *     static_notes: list<string>,
-     *     notes: array{commercial_vehicle: string, unknown_co2: string, catalogue_price_fallback: string},
+     *     notes: array{commercial_vehicle: string, unknown_co2: string, iedmt_unknown_value: string, iedmt_unknown_co2: string, hacienda_table_missing: string, catalogue_price_fallback: string},
      * }  $config
      */
     public function __construct(
@@ -43,27 +43,40 @@ final class SpainImportCalculator
         $marketValue = $newValue * $retentionPct / 100;
 
         $rate = $this->iedmtRate($autonomiaConfig['iedmt_brackets'], $input);
-        $taxableValue = $marketValue / $this->foreignRegistrationDivisor($input->datumEersteToelating, $rate);
+        $taxableValue = $marketValue / $this->foreignRegistrationDivisor($input->datumEersteToelating, $rate ?? 0.0);
 
         $exempt = $input->residencyChange;
         $exemptReason = $exempt
             ? $this->config['exemptions']['residency_change']['reason']
             : null;
 
-        $iedmt = $exempt ? 0.0 : round($taxableValue * ($rate / 100), 2);
+        $unknownReason = $exempt ? null : $this->undeterminableReason($rate, $valueSource);
+        $iedmt = match (true) {
+            $exempt => 0.0,
+            $unknownReason !== null => null,
+            default => round($taxableValue * ($rate / 100), 2),
+        };
 
         $fixedCosts = $this->fixedCosts();
-        $fixedCostsTotal = array_sum(array_map(fn (FixedCostItem $c) => $c->amountEur, $fixedCosts));
+        $fixedCostsTotal = array_sum(array_map(
+            fn (FixedCostItem $c): float => $c->optional ? 0.0 : $c->amountEur,
+            $fixedCosts,
+        ));
 
         $notes = $this->config['static_notes'] ?? [];
         if ($this->isCommercialVehicle($input->voertuigsoort)) {
             $notes[] = $this->config['notes']['commercial_vehicle'];
         }
-        if (! $exempt && $input->co2 === null && ! $input->isZeroEmission) {
+        if ($unknownReason !== null) {
+            $notes[] = $this->config['notes'][$unknownReason];
+        }
+        if (! $exempt && $rate !== null && $input->co2 === null && ! $input->isZeroEmission) {
             $notes[] = $this->config['notes']['unknown_co2'];
         }
-        if (! $exempt && $rate > 0 && $valueSource === SpainImportResult::VALUE_SOURCE_CATALOGUE_PRICE) {
-            $notes[] = $this->config['notes']['catalogue_price_fallback'];
+        if (! $exempt && $rate !== null && $rate > 0 && $valueSource === SpainImportResult::VALUE_SOURCE_CATALOGUE_PRICE) {
+            $notes[] = $input->haciendaTableAvailable
+                ? $this->config['notes']['catalogue_price_fallback']
+                : $this->config['notes']['hacienda_table_missing'];
         }
 
         return new SpainImportResult(
@@ -74,7 +87,7 @@ final class SpainImportCalculator
             estimatedMarketValueEur: round($marketValue, 2),
             fixedCosts: $fixedCosts,
             fixedCostsTotalEur: round($fixedCostsTotal, 2),
-            totalEur: round($iedmt + $fixedCostsTotal, 2),
+            totalEur: $iedmt === null ? null : round($iedmt + $fixedCostsTotal, 2),
             autonomia: $input->autonomia,
             notes: $notes,
             valueSource: $valueSource,
@@ -83,7 +96,25 @@ final class SpainImportCalculator
             haciendaConfidence: $input->hacienda?->confidence,
             retentionPct: $retentionPct,
             taxableValueEur: round($taxableValue, 2),
+            iedmtDeterminable: $iedmt !== null,
         );
+    }
+
+    /**
+     * The key of the note explaining why the IEDMT cannot be calculated, or
+     * null when it can. A 0% bracket needs no value: it is always € 0.
+     */
+    private function undeterminableReason(?float $rate, string $valueSource): ?string
+    {
+        if ($rate === null) {
+            return 'iedmt_unknown_co2';
+        }
+
+        if ($rate > 0 && $valueSource === SpainImportResult::VALUE_SOURCE_NONE) {
+            return 'iedmt_unknown_value';
+        }
+
+        return null;
     }
 
     /**
@@ -144,14 +175,19 @@ final class SpainImportCalculator
 
     /**
      * Step 4: electric and hydrogen cars pay 0%; without a known CO2 value
-     * Hacienda applies the highest bracket.
+     * Hacienda applies the highest bracket. When the RDW has no fuel data at
+     * all we cannot tell the fuel type either, so the rate is unknown (null).
      *
      * @param  list<array{co2_max_g_per_km: int|null, rate_pct: float|int}>  $brackets
      */
-    private function iedmtRate(array $brackets, SpainImportInput $input): float
+    private function iedmtRate(array $brackets, SpainImportInput $input): ?float
     {
         if ($input->isZeroEmission) {
             return 0.0;
+        }
+
+        if ($input->fuelDataMissing) {
+            return null;
         }
 
         $co2 = $input->co2;
@@ -176,7 +212,7 @@ final class SpainImportCalculator
     private function fixedCosts(): array
     {
         return array_map(
-            fn (array $c) => new FixedCostItem($c['key'], $c['label'], $c['amount_eur']),
+            fn (array $c): FixedCostItem => new FixedCostItem($c['key'], $c['label'], $c['amount_eur'], $c['optional']),
             SpainFixedCosts::resolve($this->config['fixed_costs']),
         );
     }

@@ -2,18 +2,11 @@
 import { Link } from '@inertiajs/vue3';
 import { ChevronLeft, ChevronRight } from 'lucide-vue-next';
 import { computed } from 'vue';
+import AccentHeading from '@/components/AccentHeading.vue';
 import ContactStrip from '@/components/ContactStrip.vue';
+import { usePageSeo } from '@/composables/usePageSeo';
 import PublicLayout from '@/layouts/PublicLayout.vue';
-
-interface PostSummary {
-    slug: string;
-    title: string;
-    excerpt: string | null;
-    hero_image_url: string | null;
-    hero_image_srcset: string | null;
-    published_at: string | null;
-    author: string | null;
-}
+import type { PostSummary } from '@/types/blog';
 
 interface PaginationLink {
     url: string | null;
@@ -39,6 +32,8 @@ interface PaginationItem extends PaginationLink {
 const props = defineProps<{
     posts: PostsPaginator;
 }>();
+
+const seo = usePageSeo();
 
 const offerteHref = '/#offerte';
 
@@ -87,17 +82,15 @@ function formatDate(iso: string | null): string {
             <div
                 class="container mx-auto max-w-4xl px-4 py-16 text-center md:py-20"
             >
-                <h1
+                <AccentHeading
+                    :text="seo.h1 ?? ''"
+                    :accent="seo.h1_accent"
                     class="font-display text-4xl leading-tight font-semibold text-balance text-foreground md:text-5xl"
-                >
-                    Praktische gidsen voor uw Spaanse import
-                </h1>
+                />
                 <p
                     class="mx-auto mt-4 max-w-2xl text-base text-muted-foreground md:text-lg"
                 >
-                    Stappenplannen, fiscale toelichting en ervaring uit de
-                    praktijk — geschreven voor Nederlanders die hun auto naar
-                    Spanje verhuizen.
+                    {{ seo.intro }}
                 </p>
             </div>
         </section>

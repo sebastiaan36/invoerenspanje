@@ -8,10 +8,21 @@ import {
     UserRound,
     X,
 } from 'lucide-vue-next';
-import { computed, onBeforeUnmount, onMounted, ref } from 'vue';
+import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue';
 import { scrollToQuote } from '@/composables/useScrollToQuote';
 import { EMAIL, PHONE, PHONE_DISPLAY, WHATSAPP_URL } from '@/lib/contact';
-import { home, login } from '@/routes';
+import {
+    bpmCalculator,
+    contact,
+    diensten,
+    faq,
+    gids,
+    home,
+    login,
+    overOns,
+    tarieven,
+} from '@/routes';
+import { index as blogIndex } from '@/routes/blog';
 
 const currentPath = computed(() => new URL(usePage().url, 'http://x').pathname);
 
@@ -30,34 +41,37 @@ const seoTitle = computed(
 );
 
 const navItems = [
-    { label: 'Diensten', href: '/diensten' },
-    { label: 'Tarieven', href: '/tarieven' },
-    { label: 'BPM-calculator', href: '/bpm-calculator' },
-    { label: 'Blog', href: '/blog' },
-    { label: 'Over ons', href: '/over-ons' },
-    { label: 'Contact', href: '/contact' },
+    { label: 'Diensten', href: diensten().url },
+    { label: 'Tarieven', href: tarieven().url },
+    { label: 'BPM-calculator', href: bpmCalculator().url },
+    { label: 'Blog', href: blogIndex().url },
+    { label: 'Over ons', href: overOns().url },
+    { label: 'Contact', href: contact().url },
 ];
 
 const dienstenLinks = [
     {
         label: 'Auto op Spaans kenteken',
-        href: '/diensten#auto-op-spaans-kenteken',
+        href: `${diensten().url}#auto-op-spaans-kenteken`,
     },
-    { label: 'BPM-teruggave', href: '/diensten#bpm-teruggave' },
-    { label: 'Auto-export Nederland', href: '/diensten#auto-export-nederland' },
-    { label: 'ITV-begeleiding', href: '/diensten#itv-begeleiding' },
+    { label: 'BPM-teruggave', href: `${diensten().url}#bpm-teruggave` },
+    {
+        label: 'Auto-export Nederland',
+        href: `${diensten().url}#auto-export-nederland`,
+    },
+    { label: 'ITV-begeleiding', href: `${diensten().url}#itv-begeleiding` },
 ];
 
 const gidsLink = {
     label: 'Gids auto invoeren in Spanje',
-    href: '/auto-invoeren-spanje',
+    href: gids().url,
 };
 
 const bedrijfLinks = [
     gidsLink,
-    { label: 'Over ons', href: '/over-ons' },
-    { label: 'Blog', href: '/blog' },
-    { label: 'Veelgestelde vragen', href: '/veelgestelde-vragen' },
+    { label: 'Over ons', href: overOns().url },
+    { label: 'Blog', href: blogIndex().url },
+    { label: 'Veelgestelde vragen', href: faq().url },
 ];
 
 const year = new Date().getFullYear();
@@ -67,10 +81,30 @@ function closeMenu() {
     mobileMenuOpen.value = false;
 }
 
+const menuButton = ref<HTMLButtonElement | null>(null);
+
+function onKeydown(event: KeyboardEvent): void {
+    if (event.key === 'Escape' && mobileMenuOpen.value) {
+        closeMenu();
+        menuButton.value?.focus();
+    }
+}
+
+// Escape closes the mobile menu; only listen while it is open.
+watch(mobileMenuOpen, (open) => {
+    if (open) {
+        document.addEventListener('keydown', onKeydown);
+    } else {
+        document.removeEventListener('keydown', onKeydown);
+    }
+});
+
+onBeforeUnmount(() => document.removeEventListener('keydown', onKeydown));
+
 // The quote flow lives on the homepage. There, "Offerte" must scroll to it
 // instead of re-visiting the page, which would wipe the visitor's calculation.
-const isHome = computed(() => currentPath.value === '/');
-const offerteHref = '/#offerte';
+const isHome = computed(() => currentPath.value === home().url);
+const offerteHref = `${home().url}#offerte`;
 
 function scrollToOfferte() {
     closeMenu();
@@ -180,8 +214,10 @@ const showMobileQuickCta = computed(() => !isHome.value || !lookupInView.value);
                     </Transition>
                     <!-- Hamburger -->
                     <button
+                        ref="menuButton"
                         type="button"
                         class="flex size-11 items-center justify-center rounded-lg text-foreground transition-colors hover:bg-secondary lg:hidden"
+                        aria-controls="mobile-menu"
                         :aria-expanded="mobileMenuOpen"
                         :aria-label="
                             mobileMenuOpen ? 'Menu sluiten' : 'Menu openen'
@@ -196,7 +232,8 @@ const showMobileQuickCta = computed(() => !isHome.value || !lookupInView.value);
 
             <!-- Mobile menu -->
             <div
-                v-if="mobileMenuOpen"
+                v-show="mobileMenuOpen"
+                id="mobile-menu"
                 class="border-t border-border bg-background/95 backdrop-blur lg:hidden"
             >
                 <nav class="container mx-auto flex flex-col px-4 py-4">

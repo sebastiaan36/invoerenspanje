@@ -46,6 +46,20 @@
         is_object($posts) && method_exists($posts, 'items') => $posts->items(),
         default => [],
     };
+    [$currentPage, $lastPage] = match (true) {
+        is_array($posts) => [(int) ($posts['current_page'] ?? 1), (int) ($posts['last_page'] ?? 1)],
+        is_object($posts) && method_exists($posts, 'lastPage') => [$posts->currentPage(), $posts->lastPage()],
+        default => [1, 1],
+    };
+    // Relative links; page 1 is the plain /blog URL (its canonical).
+    $blogPageUrl = fn (int $number): string => $number > 1 ? "/blog?page={$number}" : '/blog';
+
+    // The homepage hero h1 with its `h1_accent` part in the accent colour, split like AccentHeading.vue.
+    $headingText = $meta['h1'] ?? config('seo.default.title');
+    $headingAccent = $meta['h1_accent'] ?? null;
+    $heading = $headingAccent && str_contains($headingText, $headingAccent)
+        ? \Illuminate\Support\Str::replaceFirst(e($headingAccent), '<span class="text-accent">'.e($headingAccent).'</span>', e($headingText))
+        : e($headingText);
 
     $faqGroups = [];
     if (! empty($props['categories'])) {
@@ -77,7 +91,7 @@
         <main class="flex-1">
             <section class="relative overflow-hidden bg-background">
                 <div class="container mx-auto max-w-6xl px-4 py-16 text-center md:py-24">
-                    <h1 class="font-display text-4xl leading-tight font-semibold text-balance text-foreground md:text-6xl">{!! str_replace('invoeren in Spanje', '<span class="text-accent">invoeren in Spanje</span>', e($meta['h1'] ?? config('seo.default.title'))) !!}</h1>
+                    <h1 class="font-display text-4xl leading-tight font-semibold text-balance text-foreground md:text-6xl">{!! $heading !!}</h1>
                     <p class="mx-auto mt-5 max-w-2xl text-lg text-pretty text-muted-foreground">{{ $meta['intro'] ?? '' }}</p>
                     <div class="mt-6 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm text-muted-foreground">
                         @foreach (['Vaste prijs vooraf', 'Nederlandstalige begeleiding', 'BPM-teruggave inbegrepen'] as $usp)
@@ -107,7 +121,7 @@
             </article>
         @else
             @unless ($isHome)
-                <h1 class="font-display text-4xl font-semibold">{{ $meta['h1'] ?? config('seo.default.title') }}</h1>
+                <h1 class="font-display text-4xl font-semibold">{{ $headingText }}</h1>
                 @if (! empty($meta['intro']))
                     <p class="mt-5 text-lg text-muted-foreground">{{ $meta['intro'] }}</p>
                 @endif
@@ -124,6 +138,16 @@
                         </li>
                     @endforeach
                 </ul>
+                @if ($lastPage > 1)
+                    <nav aria-label="Paginering" class="mt-10 flex gap-6">
+                        @if ($currentPage > 1)
+                            <a href="{{ $blogPageUrl($currentPage - 1) }}" rel="prev">Vorige pagina</a>
+                        @endif
+                        @if ($currentPage < $lastPage)
+                            <a href="{{ $blogPageUrl($currentPage + 1) }}" rel="next">Volgende pagina</a>
+                        @endif
+                    </nav>
+                @endif
             @endif
 
             @if ($component === 'Tarieven')
@@ -143,10 +167,18 @@
                 <h2 class="mt-12 font-display text-2xl font-semibold">Vaste kosten in Spanje</h2>
                 <ul class="mt-4">
                     @foreach ($props['fixedCosts'] ?? [] as $cost)
-                        <li>{{ $cost['label'] }}: {{ $euro($cost['amount_eur']) }}</li>
+                        <li>{{ $cost['label'] }}: {{ $euro($cost['amount_eur']) }}@if ($cost['optional'] ?? false) (niet inbegrepen in de standaard kosten)@endif</li>
                     @endforeach
-                    <li>Registratiebelasting (IEDMT): 0% tot 120 g/km CO₂, daarboven 4,75% tot 14,75% van de waarde. Vrijstelling mogelijk bij verhuizing van uw hoofdverblijf.</li>
+                    @if (! empty($props['iedmtSummary']))
+                        <li>Registratiebelasting (IEDMT): {{ $props['iedmtSummary'] }} Vrijstelling mogelijk bij verhuizing van uw hoofdverblijf.</li>
+                    @endif
                 </ul>
+            @endif
+
+            @if ($component === 'Contact')
+                <div class="prose prose-lg mt-12 max-w-[68ch]">
+                    @include('content.contact')
+                </div>
             @endif
 
             @if (! empty($props['contentHtml']))
@@ -185,8 +217,8 @@
             </ul>
             <p>autoinvoerenspanje.nl, voor Nederlanders aan de Costa del Sol die hun auto op Spaans kenteken willen zetten.</p>
             <p class="mt-2">
-                Telefoon en WhatsApp: <a href="tel:+34650015942">+34 650 015 942</a> ·
-                E-mail: <a href="mailto:info@autoinvoerenspanje.nl">info@autoinvoerenspanje.nl</a> · Málaga, Spanje
+                Telefoon en WhatsApp: <a href="tel:{{ config('contact.phone') }}">{{ config('contact.phone_display') }}</a> ·
+                E-mail: <a href="mailto:{{ config('contact.email') }}">{{ config('contact.email') }}</a> · {{ config('contact.location') }}
             </p>
         </div>
     </footer>

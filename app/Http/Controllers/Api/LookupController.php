@@ -11,6 +11,7 @@ use App\Services\Quote\VehicleQuoteService;
 use App\Services\Rdw\RdwUnavailableException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Throwable;
 
 final class LookupController extends Controller
 {
@@ -33,13 +34,19 @@ final class LookupController extends Controller
                 'kenteken' => $request->normalizedKenteken(),
                 'message' => 'De RDW is op dit moment niet bereikbaar. Probeer het over een paar minuten opnieuw.',
             ], 503);
+        } catch (Throwable $e) {
+            report($e);
+
+            return response()->json([
+                'found' => false,
+                'kenteken' => $request->normalizedKenteken(),
+                'message' => 'De berekening is op dit moment niet beschikbaar. Probeer het over een paar minuten opnieuw of neem contact met ons op.',
+            ], 503);
         }
 
         if (! $quote->found()) {
-            KentekenLookup::create([
+            $this->recordLookup($request, [
                 'kenteken' => $quote->kenteken,
-                'ip_address' => $request->ip(),
-                'page' => $this->referer($request),
             ]);
 
             return response()->json([
@@ -51,14 +58,12 @@ final class LookupController extends Controller
 
         $rdw = $quote->rdwSnapshot();
 
-        KentekenLookup::create([
+        $this->recordLookup($request, [
             'kenteken' => $quote->kenteken,
             'merk' => $rdw['vehicle']['merk'] ?? null,
             'model' => $rdw['vehicle']['handelsbenaming'] ?? null,
-            'bouwjaar' => isset($rdw['vehicle']['bouwjaar']) ? (int) $rdw['vehicle']['bouwjaar'] : null,
-            'brandstof' => $rdw['fuel']['brandstof_omschrijving'] ?? null,
-            'ip_address' => $request->ip(),
-            'page' => $this->referer($request),
+            'bouwjaar' => $this->buildYear($rdw['vehicle']['datum_eerste_toelating'] ?? null),
+            'brandstof' => $rdw['fuel']['brandstof'] ?? null,
         ]);
 
         return response()->json([
@@ -70,6 +75,36 @@ final class LookupController extends Controller
             'import_costs' => $quote->importSnapshot(),
             'net_effect_eur' => $quote->netEffectEur(),
         ]);
+    }
+
+    /**
+     * Analytics only: a failure here must never cost the visitor their result.
+     *
+     * @param  array<string, mixed>  $attributes
+     */
+    private function recordLookup(Request $request, array $attributes): void
+    {
+        try {
+            KentekenLookup::create([
+                ...$attributes,
+                'ip_address' => $request->ip(),
+                'page' => $this->referer($request),
+            ]);
+        } catch (Throwable $e) {
+            report($e);
+        }
+    }
+
+    /**
+     * Year of first admission (Y-m-d), the closest RDW has to a build year.
+     */
+    private function buildYear(?string $firstAdmissionDate): ?int
+    {
+        if ($firstAdmissionDate === null || preg_match('/^(\d{4})-/', $firstAdmissionDate, $matches) !== 1) {
+            return null;
+        }
+
+        return (int) $matches[1];
     }
 
     /**

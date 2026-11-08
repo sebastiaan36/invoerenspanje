@@ -17,4 +17,12 @@ final class RdwUnavailableException extends RuntimeException
     {
         return new self("RDW {$kind} lookup failed: {$previous->getMessage()}", 0, $previous);
     }
+
+    /**
+     * The RDW answered, but not with the expected list of rows (e.g. a Socrata error object).
+     */
+    public static function unexpectedResponse(string $kind): self
+    {
+        return new self("RDW {$kind} lookup returned an unexpected response.");
+    }
 }

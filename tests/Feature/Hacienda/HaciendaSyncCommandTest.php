@@ -63,6 +63,26 @@ final class HaciendaSyncCommandTest extends TestCase
         $this->assertSame([23000], HaciendaVehiclePrice::query()->pluck('price_eur')->all());
     }
 
+    public function test_a_malformed_row_fails_with_its_line_number_and_keeps_the_old_rows(): void
+    {
+        $importer = app(HaciendaPriceImporter::class);
+        $importer->writeCsv(2026, [$this->row('VOLVO', 'V 50 2.0 Momentum', 22400)]);
+        $this->artisan('hacienda:sync')->assertSuccessful();
+
+        file_put_contents(
+            $importer->csvPath(2026),
+            implode(',', HaciendaPriceImporter::CSV_HEADER)."\n"
+            ."VOLVO,V 50 2.0 Momentum,2004,,1999,G,107,146,23000\n"
+            ."VOLVO,kapotte regel,2004\n",
+        );
+
+        $this->artisan('hacienda:sync')
+            ->expectsOutputToContain('Ongeldige regel 3')
+            ->assertFailed();
+
+        $this->assertSame([22400], HaciendaVehiclePrice::query()->pluck('price_eur')->all());
+    }
+
     public function test_it_warns_when_there_is_no_csv(): void
     {
         $this->artisan('hacienda:sync')->expectsOutputToContain('Geen CSV-bestanden gevonden.')->assertSuccessful();

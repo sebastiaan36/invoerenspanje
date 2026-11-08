@@ -6,6 +6,7 @@ use App\Models\Post;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Carbon;
+use Inertia\Testing\AssertableInertia as Assert;
 use Tests\TestCase;
 
 /**
@@ -52,6 +53,154 @@ class SeoServerRenderingTest extends TestCase
             $this->assertSame(e($meta['h1']), trim(strip_tags($h1[1])), "{$routeName} h1 differs from config");
             $this->assertStringContainsString('href="/tarieven"', $app, "{$routeName} lacks crawlable internal links");
         }
+    }
+
+    public function test_vue_pages_get_their_hero_copy_from_the_shared_seo_prop(): void
+    {
+        foreach (array_filter(config('seo.routes'), fn (array $meta): bool => isset($meta['h1'])) as $routeName => $meta) {
+            $this->get(route($routeName))->assertInertia(fn (Assert $page) => $page
+                ->where('seo.h1', $meta['h1'])
+                ->where('seo.h1_accent', $meta['h1_accent'] ?? null)
+                ->where('seo.intro', $meta['intro'] ?? null)
+                ->etc());
+        }
+    }
+
+    /**
+     * Guards against drift: the hero copy lives in config/seo.php only, not
+     * hardcoded a second time in the Vue pages.
+     */
+    public function test_vue_pages_do_not_hardcode_the_hero_copy(): void
+    {
+        $vueSource = collect(glob(resource_path('js/pages/{*,Blog/*}.vue'), GLOB_BRACE))
+            ->map(fn (string $path): string => preg_replace('/\s+/', ' ', file_get_contents($path)))
+            ->implode("\n");
+
+        foreach (config('seo.routes') as $routeName => $meta) {
+            foreach (['h1', 'intro', 'intro_short'] as $key) {
+                // Short h1s like "Over ons" also occur as plain words; only longer copy is checked.
+                if (isset($meta[$key]) && mb_strlen($meta[$key]) > 25) {
+                    $this->assertStringNotContainsString($meta[$key], $vueSource, "{$routeName}.{$key} is hardcoded in a Vue page");
+                }
+            }
+        }
+    }
+
+    public function test_diensten_and_over_ons_print_their_full_body_copy(): void
+    {
+        $diensten = $this->get(route('diensten'));
+        $dienstenApp = $this->appHtml($diensten->getContent());
+
+        foreach (['Wat wij voor u regelen', 'Auto-export Nederland', 'BPM-teruggave', 'Auto op Spaans kenteken', 'ITV-begeleiding', 'Exportmelding via een erkende RDW-exportpartner', 'Daarnaast mogelijk', 'Aankoopbegeleiding'] as $copy) {
+            $this->assertStringContainsString($copy, $dienstenApp);
+        }
+        // Same source for Vue: the page renders the content view through v-html.
+        $diensten->assertInertia(fn (Assert $page) => $page
+            ->component('Diensten')
+            ->where('contentHtml', fn (string $html): bool => str_contains($html, 'Exportmelding via een erkende RDW-exportpartner')));
+
+        $overOns = $this->get(route('over-ons'));
+        $overOnsApp = $this->appHtml($overOns->getContent());
+
+        foreach (['Onze missie', 'Het team', 'Maikel Mobility', 'HBO Automotive aan de IVA', 'Been &amp; van Dam', 'Waar wij voor staan', 'Nederlandstalig, met vaste prijzen'] as $copy) {
+            $this->assertStringContainsString($copy, $overOnsApp);
+        }
+        $this->assertStringContainsString('id="maikel"', $overOnsApp, 'The schema Person @id anchors must exist');
+        $overOns->assertInertia(fn (Assert $page) => $page
+            ->component('OverOns')
+            ->where('contentHtml', fn (string $html): bool => str_contains($html, 'Maikel Mobility')));
+    }
+
+    public function test_contact_page_prints_contact_details_hours_and_service_area(): void
+    {
+        $app = $this->appHtml($this->get(route('contact'))->assertOk()->getContent());
+
+        $this->assertStringContainsString('href="'.config('contact.whatsapp_url').'"', $app);
+        $this->assertStringContainsString('href="mailto:'.config('contact.email').'"', $app);
+        foreach (config('contact.opening_hours') as $openingHours) {
+            $this->assertStringContainsString(e($openingHours['days']).': '.e($openingHours['hours']), $app);
+        }
+        $this->assertStringContainsString(e(config('werkgebied.intro')), $app);
+        $this->assertStringContainsString(e(config('werkgebied.plaatsen.0.naam')), $app);
+    }
+
+    public function test_contact_details_come_from_one_config_source(): void
+    {
+        config([
+            'contact.phone' => '+34600111222',
+            'contact.phone_display' => '+34 600 111 222',
+            'contact.email' => 'test@example.com',
+        ]);
+
+        $response = $this->get(route('contact'));
+        $html = $response->getContent();
+
+        $business = collect($this->jsonLdGraph($html))->firstWhere('@type', 'ProfessionalService');
+        $this->assertSame('+34600111222', $business['telephone']);
+        $this->assertSame('test@example.com', $business['contactPoint']['email']);
+        $this->assertStringContainsString('<a href="tel:+34600111222">+34 600 111 222</a>', $this->appHtml($html));
+        $response->assertInertia(fn (Assert $page) => $page
+            ->where('contact.phone', '+34600111222')
+            ->where('contact.email', 'test@example.com')
+            ->etc());
+
+        // The front end reads the shared prop instead of keeping its own copy.
+        $contactModule = file_get_contents(resource_path('js/lib/contact.ts'));
+        $this->assertStringNotContainsString('650015942', $contactModule);
+        $this->assertStringNotContainsString('@autoinvoerenspanje.nl', $contactModule);
+    }
+
+    public function test_iedmt_tiers_are_generated_from_the_config(): void
+    {
+        config(['spain_import.autonomias.costa_del_sol.iedmt_brackets' => [
+            ['co2_max_g_per_km' => 110, 'rate_pct' => 0.0],
+            ['co2_max_g_per_km' => 150, 'rate_pct' => 5.5],
+            ['co2_max_g_per_km' => null, 'rate_pct' => 16],
+        ]]);
+        $expected = '0% tot 110 g/km CO₂, daarboven 5,5% of 16% van de waarde van de auto.';
+
+        $response = $this->get(route('tarieven'));
+
+        $this->assertStringContainsString('Registratiebelasting (IEDMT): '.$expected, $this->appHtml($response->getContent()));
+        $response->assertInertia(fn (Assert $page) => $page->where('iedmtSummary', $expected));
+
+        $gids = $this->appHtml($this->get(route('gids'))->getContent());
+        $this->assertStringContainsString('0% tot 16%, afhankelijk van CO₂', $gids);
+        $this->assertStringContainsString("Auto's tot\n        110 g/km CO₂ betalen geen IEDMT", $gids);
+
+        foreach (['js/pages/Tarieven.vue', 'views/seo/fallback.blade.php'] as $file) {
+            $this->assertStringNotContainsString('14,75%', file_get_contents(resource_path($file)), "{$file} hardcodes an IEDMT rate");
+        }
+    }
+
+    public function test_iedmt_summary_lists_the_current_tiers(): void
+    {
+        $this->get(route('tarieven'))->assertInertia(fn (Assert $page) => $page
+            ->where('iedmtSummary', '0% tot 120 g/km CO₂, daarboven 4,75%, 9,75% of 14,75% van de waarde van de auto.'));
+    }
+
+    public function test_paginated_blog_pages_keep_their_page_in_the_canonical_and_link_prev_next(): void
+    {
+        config(['app.url' => 'https://autoinvoerenspanje.nl']);
+        $author = User::factory()->create();
+        foreach (range(1, 10) as $number) {
+            Post::create(['title' => "Artikel {$number}", 'slug' => "artikel-{$number}", 'content_html' => '<p>x</p>', 'status' => Post::STATUS_PUBLISHED, 'published_at' => now()->subDays($number), 'author_id' => $author->id]);
+        }
+
+        $first = $this->get(route('blog.index'))->getContent();
+        $this->assertStringContainsString('<link rel="canonical" href="https://autoinvoerenspanje.nl/blog">', $first);
+        $this->assertStringContainsString('<a href="/blog?page=2" rel="next">', $this->appHtml($first));
+        $this->assertStringNotContainsString('rel="prev"', $this->appHtml($first));
+
+        $second = $this->get(route('blog.index', ['page' => 2]))->getContent();
+        $this->assertStringContainsString('<link rel="canonical" href="https://autoinvoerenspanje.nl/blog?page=2">', $second);
+        $this->assertStringContainsString('<a href="/blog" rel="prev">', $this->appHtml($second));
+        $this->assertStringNotContainsString('rel="next"', $this->appHtml($second));
+
+        $this->get(route('blog.index', ['page' => 1]))
+            ->assertSee('<link rel="canonical" href="https://autoinvoerenspanje.nl/blog">', false);
+        $this->get(route('blog.index', ['page' => 'abc']))
+            ->assertSee('<link rel="canonical" href="https://autoinvoerenspanje.nl/blog">', false);
     }
 
     public function test_homepage_prints_long_form_copy_and_faq_without_javascript(): void

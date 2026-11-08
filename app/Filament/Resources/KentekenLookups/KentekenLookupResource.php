@@ -31,7 +31,11 @@ class KentekenLookupResource extends Resource
 
     public static function getNavigationBadge(): ?string
     {
-        $today = KentekenLookup::whereDate('created_at', today())->count();
+        // A range instead of whereDate() so the created_at index can be used.
+        $today = KentekenLookup::query()
+            ->where('created_at', '>=', today())
+            ->where('created_at', '<', today()->addDay())
+            ->count();
 
         return $today > 0 ? (string) $today : null;
     }

@@ -2,9 +2,11 @@
 import { Link, usePage } from '@inertiajs/vue3';
 import { ArrowRight, Check, Star } from 'lucide-vue-next';
 import { computed } from 'vue';
+import AccentHeading from '@/components/AccentHeading.vue';
 import ContactStrip from '@/components/ContactStrip.vue';
 import FaqAccordion from '@/components/FaqAccordion.vue';
 import type { FaqItem } from '@/components/FaqAccordion.vue';
+import { usePageSeo } from '@/composables/usePageSeo';
 import PublicLayout from '@/layouts/PublicLayout.vue';
 import { trackEvent } from '@/lib/analytics';
 
@@ -21,18 +23,25 @@ interface FixedCost {
     key: string;
     label: string;
     amount_eur: number;
+    /** Optional items are not part of the standard Spanish costs. */
+    optional?: boolean;
 }
 
 const props = withDefaults(
     defineProps<{
         fixedCosts?: FixedCost[];
         faqItems?: FaqItem[];
+        // IEDMT tiers as one sentence, built from config/spain_import.php.
+        iedmtSummary?: string;
     }>(),
     {
         fixedCosts: () => [],
         faqItems: () => [],
+        iedmtSummary: '',
     },
 );
+
+const seo = usePageSeo();
 
 const packages = usePage().props.packages as ServicePackage[];
 
@@ -131,19 +140,15 @@ const steps = [
             <div
                 class="container mx-auto max-w-4xl px-4 py-16 text-center md:py-24"
             >
-                <h1
+                <AccentHeading
+                    :text="seo.h1 ?? ''"
+                    :accent="seo.h1_accent"
                     class="font-display text-4xl leading-tight font-semibold text-balance text-foreground md:text-5xl"
-                >
-                    Wat kost het om uw auto
-                    <span class="text-accent">op Spaans kenteken</span> te
-                    zetten?
-                </h1>
+                />
                 <p
                     class="mx-auto mt-5 max-w-2xl text-lg text-pretty text-muted-foreground"
                 >
-                    Een vaste prijs voor onze begeleiding, plus de vaste kosten
-                    in Spanje die wij hieronder voor u op een rij zetten. Geen
-                    verrassingen achteraf.
+                    {{ seo.intro }}
                 </p>
             </div>
         </section>
@@ -337,9 +342,21 @@ const steps = [
                                     >
                                         {{ fixedCostNotes[cost.key] }}
                                     </p>
+                                    <p
+                                        v-if="cost.optional"
+                                        class="mt-0.5 text-sm text-muted-foreground"
+                                    >
+                                        Optioneel: niet inbegrepen in de
+                                        standaard kosten.
+                                    </p>
                                 </div>
                                 <span
-                                    class="text-right font-medium whitespace-nowrap text-foreground tabular-nums"
+                                    class="text-right font-medium whitespace-nowrap tabular-nums"
+                                    :class="
+                                        cost.optional
+                                            ? 'text-muted-foreground'
+                                            : 'text-foreground'
+                                    "
                                     >{{ formatEuro(cost.amount_eur) }}</span
                                 >
                             </li>
@@ -356,11 +373,10 @@ const steps = [
                                     >
                                 </div>
                                 <p class="mt-1 text-sm text-muted-foreground">
-                                    0% tot 120 g/km, daarboven 4,75%, 9,75% of
-                                    14,75% van de waarde van de auto. Verhuist u
-                                    uw hoofdverblijf naar Spanje en staat de
-                                    auto al minstens zes maanden op uw naam, dan
-                                    kunt u vrijstelling krijgen.
+                                    {{ iedmtSummary }} Verhuist u uw
+                                    hoofdverblijf naar Spanje en staat de auto
+                                    al minstens zes maanden op uw naam, dan kunt
+                                    u vrijstelling krijgen.
                                 </p>
                             </li>
                         </ul>

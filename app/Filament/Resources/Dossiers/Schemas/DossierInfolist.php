@@ -112,7 +112,7 @@ class DossierInfolist
                         TextEntry::make('import_calculation_json.iedmt_rate_pct')
                             ->label('IEDMT-tarief')
                             ->formatStateUsing(fn ($state) => $state !== null ? number_format((float) $state, 2, ',', '').' %' : '—'),
-                        TextEntry::make('import_calculation_json.iedmt_eur')->label('IEDMT')->money('eur'),
+                        TextEntry::make('import_calculation_json.iedmt_eur')->label('IEDMT')->money('eur')->placeholder('Niet automatisch te bepalen'),
                         TextEntry::make('import_calculation_json.iedmt_without_exemption_eur')
                             ->label('IEDMT zonder vrijstelling')
                             ->money('eur')
@@ -135,7 +135,7 @@ class DossierInfolist
                         TextEntry::make('import_calculation_json.retention_pct')->label('Afschrijving (Anexo IV)')->suffix('% resterend')->placeholder('—'),
                         TextEntry::make('import_calculation_json.estimated_market_value_eur')->label('Marktwaarde (grondslag IEDMT)')->money('eur'),
                         TextEntry::make('import_calculation_json.fixed_costs_total_eur')->label('Vaste kosten totaal')->money('eur'),
-                        TextEntry::make('import_calculation_json.total_eur')->label('Totaal Spanje')->money('eur'),
+                        TextEntry::make('import_calculation_json.total_eur')->label('Totaal Spanje')->money('eur')->placeholder('Niet te bepalen (IEDMT onbekend)'),
                         TextEntry::make('fixed_costs_breakdown')
                             ->label('Vaste kosten breakdown')
                             ->state(function ($record): string {

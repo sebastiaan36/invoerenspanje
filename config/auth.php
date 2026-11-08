@@ -99,6 +99,16 @@ return [
             'expire' => 60,
             'throttle' => 60,
         ],
+
+        // Set-password link in the welcome mail after a lead becomes a dossier.
+        // Own table, so the 7-day expiry never applies to forgot-password tokens.
+        // The reset form accepts both (App\Http\Controllers\Auth\NewPasswordController).
+        'welcome' => [
+            'provider' => 'users',
+            'table' => 'welcome_password_tokens',
+            'expire' => 10080,
+            'throttle' => 0,
+        ],
     ],
 
     /*

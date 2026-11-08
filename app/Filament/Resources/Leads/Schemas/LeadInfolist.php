@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Leads\Schemas;
 
+use App\Models\Lead;
 use App\Services\Packages\ServicePackages;
 use Filament\Infolists\Components\IconEntry;
 use Filament\Infolists\Components\RepeatableEntry;
@@ -40,7 +41,7 @@ class LeadInfolist
 
                 Section::make('Feedback na verlies')
                     ->description('Twee weken na "verloren" krijgt de lead automatisch een mail met de vraag waarom hij of zij niet voor ons koos.')
-                    ->visible(fn ($record): bool => $record->status === 'verloren' || $record->feedback_requested_at !== null || $record->feedback()->exists())
+                    ->visible(fn (Lead $record): bool => $record->status === 'verloren' || $record->feedback_requested_at !== null || $record->feedback()->exists())
                     ->schema([
                         TextEntry::make('lost_at')
                             ->label('Verloren op')
@@ -182,7 +183,7 @@ class LeadInfolist
                         TextEntry::make('import_calculation_json.iedmt_rate_pct')
                             ->label('IEDMT-tarief')
                             ->formatStateUsing(fn ($state) => $state !== null ? number_format((float) $state, 2, ',', '').' %' : '—'),
-                        TextEntry::make('import_calculation_json.iedmt_eur')->label('IEDMT')->money('eur'),
+                        TextEntry::make('import_calculation_json.iedmt_eur')->label('IEDMT')->money('eur')->placeholder('Niet automatisch te bepalen'),
                         TextEntry::make('import_calculation_json.iedmt_without_exemption_eur')
                             ->label('IEDMT zonder vrijstelling')
                             ->money('eur')
@@ -205,7 +206,7 @@ class LeadInfolist
                         TextEntry::make('import_calculation_json.retention_pct')->label('Afschrijving (Anexo IV)')->suffix('% resterend')->placeholder('—'),
                         TextEntry::make('import_calculation_json.estimated_market_value_eur')->label('Marktwaarde (grondslag IEDMT)')->money('eur'),
                         TextEntry::make('import_calculation_json.fixed_costs_total_eur')->label('Vaste kosten totaal')->money('eur'),
-                        TextEntry::make('import_calculation_json.total_eur')->label('Totaal Spanje')->money('eur'),
+                        TextEntry::make('import_calculation_json.total_eur')->label('Totaal Spanje')->money('eur')->placeholder('Niet te bepalen (IEDMT onbekend)'),
                         TextEntry::make('fixed_costs_breakdown')
                             ->label('Vaste kosten breakdown')
                             ->state(function ($record): string {

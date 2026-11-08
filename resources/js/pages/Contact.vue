@@ -11,10 +11,19 @@ import {
     Phone,
 } from 'lucide-vue-next';
 import { ref } from 'vue';
+import AccentHeading from '@/components/AccentHeading.vue';
 import WerkgebiedKaart from '@/components/WerkgebiedKaart.vue';
+import { usePageSeo } from '@/composables/usePageSeo';
 import PublicLayout from '@/layouts/PublicLayout.vue';
 import { trackEvent } from '@/lib/analytics';
-import { EMAIL, PHONE, PHONE_DISPLAY, WHATSAPP_URL } from '@/lib/contact';
+import {
+    EMAIL,
+    OPENING_HOURS,
+    PHONE,
+    PHONE_DISPLAY,
+    WHATSAPP_URL,
+} from '@/lib/contact';
+import { store as storeContact } from '@/routes/contact';
 
 interface Plaats {
     naam: string;
@@ -29,11 +38,14 @@ interface WerkgebiedData {
     bounds: [[number, number], [number, number]];
     gebied: [number, number][];
     plaatsen: Plaats[];
+    intro: string;
 }
 
 defineProps<{
     werkgebied: WerkgebiedData;
 }>();
+
+const seo = usePageSeo();
 
 const team = [
     { name: 'Maikel', photo: '/images/maikel.jpeg' },
@@ -53,13 +65,41 @@ const form = useForm({
 
 const submitted = ref(false);
 
+/** Banner text for failures that aren't validation errors (429, 419, 500, offline). */
+const generalError = ref<string | null>(null);
+
+function messageForStatus(status: number): string {
+    if (status === 429) {
+        return 'U heeft net al een paar berichten gestuurd. Wacht een minuut en probeer het opnieuw.';
+    }
+
+    if (status === 419) {
+        return 'Uw sessie is verlopen. Ververs de pagina en verstuur uw bericht opnieuw.';
+    }
+
+    return `Er is iets misgegaan bij het versturen. Probeer het opnieuw, of mail ons via ${EMAIL}.`;
+}
+
 function submit(): void {
-    form.post('/contact', {
+    generalError.value = null;
+
+    form.submit(storeContact(), {
         preserveScroll: true,
         onSuccess: () => {
             submitted.value = true;
             form.reset();
             trackEvent('generate_lead', { method: 'contact_form' });
+        },
+        // Returning false suppresses Inertia's default error modal; we show a banner instead.
+        onHttpException: (response) => {
+            generalError.value = messageForStatus(response.status);
+
+            return false;
+        },
+        onNetworkError: () => {
+            generalError.value = `Geen verbinding. Controleer uw internet en probeer het opnieuw, of mail ons via ${EMAIL}.`;
+
+            return false;
         },
     });
 }
@@ -72,16 +112,15 @@ function submit(): void {
             <div
                 class="container mx-auto max-w-4xl px-4 py-16 text-center md:py-20"
             >
-                <h1
+                <AccentHeading
+                    :text="seo.h1 ?? ''"
+                    :accent="seo.h1_accent"
                     class="font-display text-4xl leading-tight font-semibold text-balance text-foreground md:text-5xl"
-                >
-                    Neem contact op
-                </h1>
+                />
                 <p
                     class="mx-auto mt-4 max-w-xl text-lg text-pretty text-muted-foreground"
                 >
-                    Heeft u een vraag of wilt u een vrijblijvende offerte? Wij
-                    zijn bereikbaar via telefoon, WhatsApp of e-mail.
+                    {{ seo.intro }}
                 </p>
                 <Link
                     href="/#offerte"
@@ -186,9 +225,13 @@ function submit(): void {
                                 Bereikbaarheid (Spaanse tijd)
                             </h2>
                             <ul class="mt-3 space-y-1.5 text-muted-foreground">
-                                <li>Maandag – vrijdag: 09:00 – 18:00</li>
-                                <li>Zaterdag: 10:00 – 14:00</li>
-                                <li>Zondag: gesloten</li>
+                                <li
+                                    v-for="openingHours in OPENING_HOURS"
+                                    :key="openingHours.days"
+                                >
+                                    {{ openingHours.days }}:
+                                    {{ openingHours.hours }}
+                                </li>
                             </ul>
                         </div>
                     </div>
@@ -416,12 +459,13 @@ function submit(): void {
                             <!-- Algemene serverfout -->
                             <div
                                 v-if="
-                                    form.hasErrors &&
-                                    !form.errors.name &&
-                                    !form.errors.email &&
-                                    !form.errors.phone &&
-                                    !form.errors.subject &&
-                                    !form.errors.message
+                                    generalError ||
+                                    (form.hasErrors &&
+                                        !form.errors.name &&
+                                        !form.errors.email &&
+                                        !form.errors.phone &&
+                                        !form.errors.subject &&
+                                        !form.errors.message)
                                 "
                                 role="alert"
                                 class="flex items-start gap-2 rounded-xl border border-destructive/30 bg-destructive/5 p-3 text-sm text-destructive"
@@ -430,7 +474,10 @@ function submit(): void {
                                     class="mt-0.5 size-4 shrink-0"
                                     aria-hidden="true"
                                 />
-                                <span>
+                                <span v-if="generalError">{{
+                                    generalError
+                                }}</span>
+                                <span v-else>
                                     Er is iets misgegaan bij het versturen.
                                     Probeer het opnieuw, of mail ons via
                                     {{ EMAIL }}.
@@ -469,8 +516,7 @@ function submit(): void {
                         Ons werkgebied
                     </h2>
                     <p class="mt-3 text-muted-foreground">
-                        Wij begeleiden auto-imports vanuit de Costa del Sol, het
-                        binnenland van Málaga en de Montes de Málaga.
+                        {{ werkgebied.intro }}
                     </p>
                 </div>
                 <WerkgebiedKaart :data="werkgebied" />

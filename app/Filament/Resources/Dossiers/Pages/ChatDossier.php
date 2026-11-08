@@ -98,9 +98,10 @@ class ChatDossier extends Page implements HasSchemas
                     continue;
                 }
 
+                // Extension from the detected MIME type, never from the client filename (same as the portal).
                 $path = $tempFile->storeAs(
                     "dossier-message-attachments/{$dossier->id}",
-                    Str::uuid().'.'.$tempFile->getClientOriginalExtension(),
+                    Str::uuid().'.'.($tempFile->extension() ?: 'bin'),
                     'local',
                 );
 

@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Settings;
 
+use App\Models\Dossier;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -114,5 +115,40 @@ class ProfileUpdateTest extends TestCase
             ->assertRedirect(route('profile.edit'));
 
         $this->assertNotNull($user->fresh());
+    }
+
+    public function test_user_with_a_dossier_cannot_delete_their_account_and_stays_logged_in(): void
+    {
+        $user = User::factory()->create();
+        Dossier::factory()->create(['user_id' => $user->id]);
+
+        $response = $this
+            ->actingAs($user)
+            ->from(route('profile.edit'))
+            ->delete(route('profile.destroy'), [
+                'password' => 'password',
+            ]);
+
+        $response
+            ->assertSessionHasErrors(['account' => 'Je hebt een lopend dossier; neem contact met ons op om je account te verwijderen.'])
+            ->assertRedirect(route('profile.edit'));
+
+        $this->assertAuthenticatedAs($user);
+        $this->assertNotNull($user->fresh());
+    }
+
+    public function test_deleted_user_with_a_remember_token_is_not_recreated_on_logout(): void
+    {
+        $user = User::factory()->create(['remember_token' => 'token-123']);
+
+        $this
+            ->actingAs($user)
+            ->delete(route('profile.destroy'), [
+                'password' => 'password',
+            ])
+            ->assertRedirect(route('home'));
+
+        $this->assertGuest();
+        $this->assertSame(0, User::query()->whereKey($user->id)->count());
     }
 }

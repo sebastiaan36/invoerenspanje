@@ -8,6 +8,8 @@
     $brackets = config('spain_import.autonomias.costa_del_sol.iedmt_brackets');
     $packages = config('packages.list');
     $euro = fn (float $amount): string => '€ '.number_format($amount, fmod($amount, 1) ? 2 : 0, ',', '.');
+    $percent = fn (float|int $rate): string => rtrim(rtrim(number_format((float) $rate, 2, ',', ''), '0'), ',').'%';
+    $taxFreeUpTo = $brackets[0]['co2_max_g_per_km'];
 
     // Worked example: a car with a COC (no Ficha Técnica), temporary plates, below 120 g/km.
     $exampleKeys = ['tasas', 'honorarios', 'matriculas_temporales', 'itv_keuring'];
@@ -27,7 +29,7 @@
         <strong>inschrijving in Spanje</strong> (ITV-keuring en DGT).</li>
     <li>U krijgt in Nederland een deel van de BPM terug: de <strong>rest-BPM</strong>.</li>
     <li>In Spanje betaalt u vaste kosten en mogelijk <strong>registratiebelasting (IEDMT)</strong>. Auto's tot
-        120 g/km CO₂ betalen geen IEDMT, en bij verhuizing van uw hoofdverblijf is vrijstelling mogelijk.</li>
+        {{ $taxFreeUpTo }} g/km CO₂ betalen geen IEDMT, en bij verhuizing van uw hoofdverblijf is vrijstelling mogelijk.</li>
     <li>Onze begeleiding kost een vaste prijs: van {{ $euro($packages[0]['price_eur']) }} tot
         {{ $euro(end($packages)['price_eur']) }}, afhankelijk van hoeveel u uit handen geeft.</li>
 </ul>
@@ -129,9 +131,9 @@
     </thead>
     <tbody>
         @foreach ($fixedCosts as $cost)
-            <tr><td>{{ $cost['label'] }}</td><td>{{ $euro($cost['amount_eur']) }}</td></tr>
+            <tr><td>{{ $cost['label'] }}@if ($cost['optional']) (niet inbegrepen in de standaard kosten)@endif</td><td>{{ $euro($cost['amount_eur']) }}</td></tr>
         @endforeach
-        <tr><td>Registratiebelasting (IEDMT)</td><td>0% tot 14,75%, afhankelijk van CO₂</td></tr>
+        <tr><td>Registratiebelasting (IEDMT)</td><td>{{ $percent($brackets[0]['rate_pct']) }} tot {{ $percent(end($brackets)['rate_pct']) }}, afhankelijk van CO₂</td></tr>
     </tbody>
 </table>
 <p>

@@ -58,6 +58,9 @@ function smoothRing(
 const mapEl = useTemplateRef<HTMLDivElement>('mapEl');
 let mapInstance: LeafletMap | null = null;
 
+/** Set on unmount, so a Leaflet import that resolves afterwards doesn't build a map on a detached element. */
+let disposed = false;
+
 onMounted(async () => {
     if (!mapEl.value) {
         return;
@@ -67,6 +70,10 @@ onMounted(async () => {
         import('leaflet'),
         import('leaflet/dist/leaflet.css'),
     ]);
+
+    if (disposed || !mapEl.value) {
+        return;
+    }
 
     const cfg = props.data;
 
@@ -114,6 +121,8 @@ onMounted(async () => {
 });
 
 onBeforeUnmount(() => {
+    disposed = true;
+
     if (mapInstance) {
         mapInstance.remove();
         mapInstance = null;

@@ -1,0 +1,1 @@
+import{t as e}from"./createLucideIcon-CZtLW6ya.js";var t=e(`ArrowRightIcon`,[[`path`,{d:`M5 12h14`,key:`1ays0h`}],[`path`,{d:`m12 5 7 7-7 7`,key:`xquz4c`}]]),n=e(`MessageCircleIcon`,[[`path`,{d:`M7.9 20A9 9 0 1 0 4 16.1L2 22Z`,key:`vv11sd`}]]);export{t as n,n as t};

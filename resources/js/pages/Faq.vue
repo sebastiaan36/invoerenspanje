@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import { Link } from '@inertiajs/vue3';
 import { ArrowRight } from 'lucide-vue-next';
+import AccentHeading from '@/components/AccentHeading.vue';
 import ContactStrip from '@/components/ContactStrip.vue';
 import FaqAccordion from '@/components/FaqAccordion.vue';
 import type { FaqItem } from '@/components/FaqAccordion.vue';
+import { usePageSeo } from '@/composables/usePageSeo';
 import PublicLayout from '@/layouts/PublicLayout.vue';
 
 interface FaqCategory {
@@ -15,6 +17,8 @@ interface FaqCategory {
 defineProps<{
     categories: FaqCategory[];
 }>();
+
+const seo = usePageSeo();
 </script>
 
 <template>
@@ -24,17 +28,15 @@ defineProps<{
             <div
                 class="container mx-auto max-w-3xl px-4 py-16 text-center md:py-24"
             >
-                <h1
+                <AccentHeading
+                    :text="seo.h1 ?? ''"
+                    :accent="seo.h1_accent"
                     class="font-display text-4xl leading-tight font-semibold text-balance text-foreground md:text-5xl"
-                >
-                    Veelgestelde <span class="text-accent">vragen</span>
-                </h1>
+                />
                 <p
                     class="mx-auto mt-5 max-w-2xl text-lg text-pretty text-muted-foreground"
                 >
-                    Antwoorden op de meest gestelde vragen over het importeren
-                    van een auto naar Spanje: van BPM-teruggave en de
-                    ITV-keuring tot documenten en kosten.
+                    {{ seo.intro }}
                 </p>
 
                 <nav

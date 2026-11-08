@@ -5,6 +5,9 @@ declare(strict_types=1);
 return [
     // Terracotta uit DESIGN.md: hsl(17 55% 42%).
     'accent' => '#a65230',
+
+    // Shown above the map on /contact and in the crawler HTML (content/contact.blade.php).
+    'intro' => 'Wij begeleiden auto-imports vanuit de Costa del Sol, het binnenland van Málaga en de Montes de Málaga.',
     'tiles' => 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
     'attribution' => '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>-bijdragers',
 

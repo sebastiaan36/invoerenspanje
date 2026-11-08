@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Mail;
 
 use App\Models\Lead;
+use App\Services\Mail\MarkdownEscaper;
 use App\Services\Packages\ServicePackages;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
@@ -35,6 +36,9 @@ final class QuoteRequestConfirmation extends Mailable
             markdown: 'mail.quote-confirmation',
             with: [
                 'lead' => $this->lead,
+                // Free text from the form: escaped so Markdown can't turn it into a link.
+                'firstName' => MarkdownEscaper::escape(explode(' ', trim($this->lead->name))[0]),
+                'regio' => MarkdownEscaper::escape($this->lead->woonplaats_spanje),
                 'packageName' => $package?->name ?? $this->lead->package_slug,
                 'packagePriceEur' => $package?->priceEur,
             ],

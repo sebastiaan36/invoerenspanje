@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Str;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 
 #[Fillable(['name', 'email', 'password', 'role'])]
@@ -48,6 +49,67 @@ class User extends Authenticatable implements FilamentUser
     public function dossiers(): HasMany
     {
         return $this->hasMany(Dossier::class);
+    }
+
+    /**
+     * @return HasMany<Post, $this>
+     */
+    public function posts(): HasMany
+    {
+        return $this->hasMany(Post::class, 'author_id');
+    }
+
+    /**
+     * @return HasMany<DossierMessage, $this>
+     */
+    public function dossierMessages(): HasMany
+    {
+        return $this->hasMany(DossierMessage::class, 'author_id');
+    }
+
+    /**
+     * @return HasMany<Document, $this>
+     */
+    public function reviewedDocuments(): HasMany
+    {
+        return $this->hasMany(Document::class, 'reviewed_by');
+    }
+
+    /**
+     * Relations that keep a user from being deleted: removing them would break
+     * a dossier, its history or a blog article.
+     *
+     * @return list<string>
+     */
+    public static function protectingRelations(): array
+    {
+        return ['dossiers', 'posts', 'dossierMessages', 'reviewedDocuments'];
+    }
+
+    /**
+     * Why `$actor` may not delete this user, or null when deleting is allowed.
+     * Uses `<relation>_exists` attributes when the query loaded them via withExists().
+     */
+    public function deletionBlockedReason(?User $actor = null): ?string
+    {
+        if ($actor !== null && $actor->is($this)) {
+            return 'Je kunt je eigen account hier niet verwijderen.';
+        }
+
+        if ($this->isAdmin() && self::query()->where('role', 'admin')->count() <= 1) {
+            return 'Dit is de laatste beheerder; die kan niet verwijderd worden.';
+        }
+
+        foreach (self::protectingRelations() as $relation) {
+            $loaded = $this->getAttributes()[Str::snake($relation).'_exists'] ?? null;
+            $exists = $loaded !== null ? (bool) $loaded : $this->{$relation}()->exists();
+
+            if ($exists) {
+                return 'Deze gebruiker heeft dossiers, blogartikelen, berichten of beoordeelde documenten en kan daarom niet verwijderd worden.';
+            }
+        }
+
+        return null;
     }
 
     /**

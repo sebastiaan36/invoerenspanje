@@ -66,10 +66,10 @@
         ],
         "deploy": [
             "@php artisan migrate --force",
-            "@php artisan blog:sync",
+            "@php artisan optimize",
             "@php artisan hacienda:sync",
-            "@php artisan blog:optimize-images",
-            "@php artisan optimize"
+            "@php artisan blog:sync",
+            "@php artisan blog:optimize-images"
         ],
         "test": [
             "@php artisan config:clear --ansi",

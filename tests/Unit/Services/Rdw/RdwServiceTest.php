@@ -81,6 +81,91 @@ final class RdwServiceTest extends TestCase
         Http::assertSentCount(1);
     }
 
+    public function test_a_not_found_result_is_only_cached_briefly(): void
+    {
+        Http::fake([
+            'opendata.rdw.nl/resource/m9d7-ebf2.json*' => Http::sequence()
+                ->push([])
+                ->push([['kenteken' => '12ABC3', 'merk' => 'VOLKSWAGEN']]),
+        ]);
+
+        $service = $this->makeService(notFoundCacheTtlMinutes: 60);
+
+        $this->assertNull($service->lookupVehicle('12ABC3'));
+
+        $this->travel(59)->minutes();
+        $this->assertNull($service->lookupVehicle('12ABC3'));
+        Http::assertSentCount(1);
+
+        $this->travel(2)->minutes();
+        $this->assertSame('VOLKSWAGEN', $service->lookupVehicle('12ABC3')?->merk);
+        Http::assertSentCount(2);
+    }
+
+    public function test_a_found_vehicle_is_cached_for_the_full_ttl(): void
+    {
+        Http::fake([
+            'opendata.rdw.nl/resource/m9d7-ebf2.json*' => Http::response([['kenteken' => '12ABC3', 'merk' => 'VOLKSWAGEN']]),
+        ]);
+
+        $service = $this->makeService(notFoundCacheTtlMinutes: 60);
+        $service->lookupVehicle('12ABC3');
+
+        $this->travel(6)->days();
+        $service->lookupVehicle('12ABC3');
+
+        Http::assertSentCount(1);
+    }
+
+    public function test_an_empty_fuel_list_is_not_cached_when_the_vehicle_exists(): void
+    {
+        Http::fake([
+            'opendata.rdw.nl/resource/m9d7-ebf2.json*' => Http::response([[
+                'kenteken' => '12ABC3',
+                'datum_eerste_toelating' => '20190401',
+            ]]),
+            'opendata.rdw.nl/resource/8ys7-d773.json*' => Http::sequence()
+                ->push([])
+                ->push([['kenteken' => '12ABC3', 'brandstof_omschrijving' => 'Benzine']]),
+        ]);
+
+        $service = $this->makeService();
+
+        $this->assertNull($service->fullLookup('12ABC3')->fuel);
+        $this->assertSame('Benzine', $service->fullLookup('12ABC3')->fuel?->brandstofOmschrijving);
+    }
+
+    public function test_a_non_list_response_is_treated_as_unavailable_and_not_cached(): void
+    {
+        Http::fake([
+            'opendata.rdw.nl/resource/m9d7-ebf2.json*' => Http::sequence()
+                ->push(['error' => true, 'message' => 'query timeout'])
+                ->push([['kenteken' => '12ABC3', 'merk' => 'VOLKSWAGEN']]),
+        ]);
+
+        $service = $this->makeService();
+
+        try {
+            $service->lookupVehicle('12ABC3');
+            $this->fail('Expected RdwUnavailableException');
+        } catch (RdwUnavailableException) {
+            // expected
+        }
+
+        $this->assertSame('VOLKSWAGEN', $service->lookupVehicle('12ABC3')?->merk);
+    }
+
+    public function test_a_list_of_non_rows_is_treated_as_unavailable(): void
+    {
+        Http::fake([
+            'opendata.rdw.nl/resource/m9d7-ebf2.json*' => Http::response(['unexpected']),
+        ]);
+
+        $this->expectException(RdwUnavailableException::class);
+
+        $this->makeService()->lookupVehicle('12ABC3');
+    }
+
     public function test_it_sends_app_token_header_when_configured(): void
     {
         Http::fake([
@@ -202,7 +287,7 @@ final class RdwServiceTest extends TestCase
 
         $this->assertFalse($result->isPluginHybrid);
         $this->assertSame('Benzine', $result->fuel?->brandstofOmschrijving);
-        $this->assertTrue($result->fuel?->isNonPluginHybrid());
+        $this->assertSame('NOVC-HEV', $result->fuel?->klasseHybrideElektrischVoertuig);
     }
 
     public function test_full_lookup_marks_a_single_fuel_car_as_not_plugin_hybrid(): void
@@ -249,7 +334,7 @@ final class RdwServiceTest extends TestCase
         $this->assertSame('VOLKSWAGEN', $service->lookupVehicle('12ABC3')?->merk);
     }
 
-    private function makeService(?string $appToken = null): RdwService
+    private function makeService(?string $appToken = null, int $notFoundCacheTtlMinutes = 60): RdwService
     {
         return new RdwService(
             http: app(Factory::class),
@@ -260,6 +345,7 @@ final class RdwServiceTest extends TestCase
             appToken: $appToken,
             cacheTtlDays: 7,
             timeoutSeconds: 5,
+            notFoundCacheTtlMinutes: $notFoundCacheTtlMinutes,
         );
     }
 }

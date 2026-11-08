@@ -3,6 +3,7 @@ import { Head, useForm } from '@inertiajs/vue3';
 import { Send, MessageSquare, Paperclip, FileText, X } from 'lucide-vue-next';
 import { ref } from 'vue';
 import DossierTabs from '@/components/DossierTabs.vue';
+import type { DossierSummary } from '@/types/dossier';
 
 interface Attachment {
     id: number;
@@ -23,18 +24,8 @@ interface Message {
     attachments: Attachment[];
 }
 
-interface Dossier {
-    id: number;
-    kenteken: string;
-    merk: string | null;
-    model: string | null;
-    status: string;
-    unread_admin_messages_count: number | null;
-    urls: { show: string; documents: string; messages: string };
-}
-
 const props = defineProps<{
-    dossier: Dossier;
+    dossier: DossierSummary;
     messages: Message[];
 }>();
 
@@ -49,6 +40,9 @@ const MAX_FILES = 5;
 const MAX_BYTES = 10 * 1024 * 1024;
 const ALLOWED = /\.(jpe?g|png|webp|gif|pdf)$/i;
 
+/** Files that were not added, with the reason, shown below the picker. */
+const rejectedFiles = ref<string[]>([]);
+
 function onPick(e: Event) {
     const input = e.target as HTMLInputElement;
 
@@ -56,17 +50,35 @@ function onPick(e: Event) {
         return;
     }
 
-    form.attachments = [
-        ...form.attachments,
-        ...Array.from(input.files).filter(
-            (f) => ALLOWED.test(f.name) && f.size <= MAX_BYTES,
-        ),
-    ].slice(0, MAX_FILES);
+    const rejected: string[] = [];
+    const accepted: File[] = [];
+
+    for (const file of Array.from(input.files)) {
+        if (!ALLOWED.test(file.name)) {
+            rejected.push(
+                `${file.name}: bestandstype niet toegestaan (alleen JPG, PNG, WEBP, GIF of PDF).`,
+            );
+        } else if (file.size > MAX_BYTES) {
+            rejected.push(
+                `${file.name}: te groot (${formatBytes(file.size)}, maximaal 10 MB).`,
+            );
+        } else if (form.attachments.length + accepted.length >= MAX_FILES) {
+            rejected.push(
+                `${file.name}: niet toegevoegd, maximaal ${MAX_FILES} bijlagen per bericht.`,
+            );
+        } else {
+            accepted.push(file);
+        }
+    }
+
+    form.attachments = [...form.attachments, ...accepted];
+    rejectedFiles.value = rejected;
     input.value = '';
 }
 
 function removeFile(idx: number) {
     form.attachments = form.attachments.filter((_, i) => i !== idx);
+    rejectedFiles.value = [];
 }
 
 function submit() {
@@ -75,6 +87,7 @@ function submit() {
         preserveScroll: true,
         onSuccess: () => {
             form.reset('body', 'attachments');
+            rejectedFiles.value = [];
 
             if (fileInput.value) {
                 fileInput.value.value = '';
@@ -284,6 +297,22 @@ function formatBytes(bytes: number): string {
                     <Send class="size-4" />
                     {{ form.processing ? 'Versturen…' : 'Verstuur' }}
                 </button>
+            </div>
+            <ul
+                v-if="rejectedFiles.length"
+                role="alert"
+                class="mt-2 space-y-1 text-sm text-destructive"
+            >
+                <li v-for="reason in rejectedFiles" :key="reason">
+                    {{ reason }}
+                </li>
+            </ul>
+            <div
+                v-if="form.errors.attachments"
+                role="alert"
+                class="mt-2 text-sm text-destructive"
+            >
+                {{ form.errors.attachments }}
             </div>
             <p class="mt-2 text-xs text-muted-foreground">
                 Max 5 bestanden van 10 MB. Toegestaan: JPG, PNG, WEBP, GIF, PDF.

@@ -107,6 +107,18 @@ final class BpmInputTest extends TestCase
         $this->assertSame(0, $input->co2);
     }
 
+    public function test_a_hydrogen_car_without_co2_can_be_calculated(): void
+    {
+        $vehicle = VehicleData::fromRdwRow(['datum_eerste_toelating' => '20220415']);
+        $fuel = FuelData::fromRdwRow(['brandstof_omschrijving' => 'Waterstof']);
+
+        $input = BpmInput::fromLookup(new VehicleLookupResult('12ABC3', $vehicle, $fuel));
+
+        $this->assertNotNull($input);
+        $this->assertSame(0, $input->co2);
+        $this->assertTrue(BpmInput::isZeroEmissionFuel('Waterstof'));
+    }
+
     private function lookupResult(bool $isPluginHybrid, string $voertuigsoort = 'Personenauto'): VehicleLookupResult
     {
         $vehicle = VehicleData::fromRdwRow([

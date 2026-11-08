@@ -36,9 +36,11 @@ return [
     | Keyed by the route's name. Dynamic pages (e.g. blog posts) instead pass
     | a `seo` prop from their controller, which overrides anything here.
     |
-    | `h1` and `intro` feed the server-rendered crawler HTML (resources/views/
-    | seo/fallback.blade.php) and mirror each page's hero. `updated` is the
-    | last content review date, used as <lastmod> in the sitemap.
+    | `h1` and `intro` are each page's hero copy: shared with Vue through the
+    | `seo` page prop and printed in the server-rendered crawler HTML
+    | (resources/views/seo/fallback.blade.php), so both always match.
+    | `h1_accent` is the part of the h1 shown in the accent colour.
+    | `updated` is the last content review date, used as <lastmod> in the sitemap.
     |
     */
 
@@ -47,7 +49,10 @@ return [
             'title' => 'Auto invoeren in Spanje? Wij regelen uw Spaans kenteken',
             'description' => 'Uw Nederlandse auto invoeren in Spanje? Wij regelen export, BPM-teruggave, ITV en het Spaanse kenteken. Bereken direct uw kosten met uw Nederlandse kenteken.',
             'h1' => 'Uw auto invoeren in Spanje, zonder gedoe.',
+            'h1_accent' => 'invoeren in Spanje',
             'intro' => 'Voor Nederlanders aan de Costa del Sol. Wij regelen het hele traject om uw auto in Spanje in te voeren, van papierwerk tot ITV en BPM-teruggave. Vul uw Nederlandse kenteken in en zie direct wat het u netto kost, met de BPM-teruggave al verrekend.',
+            // Shown instead of the intro on small screens, so the kenteken field is in view right away.
+            'intro_short' => 'Vul uw Nederlandse kenteken in en zie direct wat het u netto kost.',
             'updated' => '2026-10-25',
         ],
 
@@ -64,6 +69,7 @@ return [
             'title' => 'Diensten — Alles voor uw auto op Spaans kenteken',
             'description' => 'Van BPM-teruggave en auto-export tot ITV-begeleiding en volledige matriculación in Spanje. Ontdek onze diensten voor Nederlanders aan de Costa del Sol.',
             'h1' => 'Eén dossier, van RDW tot Spaans kenteken',
+            'h1_accent' => 'RDW tot Spaans kenteken',
             'intro' => 'Wij begeleiden het volledige traject om uw Nederlandse auto op Spaans kenteken te zetten: de export en BPM-teruggave in Nederland, de keuring en inschrijving in Spanje.',
             'updated' => '2026-10-25',
         ],
@@ -100,6 +106,7 @@ return [
             'title' => 'Kosten auto invoeren in Spanje (2026) — vaste prijzen vanaf €395',
             'description' => 'Wat kost het om uw Nederlandse auto op Spaans kenteken te zetten? Drie vaste pakketten vanaf €395 plus alle Spaanse kosten op een rij: leges, platen, gestoría, ITV en IEDMT.',
             'h1' => 'Wat kost het om uw auto op Spaans kenteken te zetten?',
+            'h1_accent' => 'op Spaans kenteken',
             'intro' => 'Een vaste prijs voor onze begeleiding, plus de vaste kosten in Spanje die wij hieronder voor u op een rij zetten. Geen verrassingen achteraf.',
             'updated' => '2026-10-25',
         ],
@@ -108,6 +115,7 @@ return [
             'title' => 'Rest-BPM berekenen bij export — gratis BPM-teruggave calculator',
             'description' => 'Bereken gratis uw rest-BPM bij export. Voer uw Nederlandse kenteken in en zie direct hoeveel BPM u terugkrijgt, met de afschrijvingstabel van de Belastingdienst.',
             'h1' => 'Bereken uw rest-BPM bij export',
+            'h1_accent' => 'BPM',
             'intro' => 'Voer uw Nederlandse kenteken in en zie gratis hoeveel BPM u ongeveer terugkrijgt bij export naar Spanje. Wij rekenen met de BPM die de RDW voor uw auto heeft geregistreerd en de vaste afschrijvingstabel van de Belastingdienst.',
             'updated' => '2026-10-29',
         ],
@@ -116,6 +124,7 @@ return [
             'title' => 'Veelgestelde vragen — Auto invoeren in Spanje',
             'description' => 'Antwoorden op alle vragen over het invoeren van uw auto in Spanje: BPM-teruggave, ITV-keuring, IEDMT, documenten, kosten en meer.',
             'h1' => 'Veelgestelde vragen',
+            'h1_accent' => 'vragen',
             'intro' => 'Antwoorden op de meest gestelde vragen over het importeren van een auto naar Spanje: van BPM-teruggave en de ITV-keuring tot documenten en kosten.',
             'updated' => '2026-10-25',
         ],

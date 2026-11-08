@@ -2,25 +2,10 @@
 import { Head } from '@inertiajs/vue3';
 import DossierTabs from '@/components/DossierTabs.vue';
 import DossierTimeline from '@/components/DossierTimeline.vue';
-import type { DossierStatus } from '@/types/dossier';
-
-interface Dossier {
-    id: number;
-    status: DossierStatus;
-    kenteken: string;
-    merk: string | null;
-    model: string | null;
-    pakket: string;
-    bpm_indicatie_eur: number | null;
-    service_fee_eur: number | null;
-    started_at: string | null;
-    completed_at: string | null;
-    unread_admin_messages_count: number | null;
-    urls: { show: string; documents: string; messages: string };
-}
+import type { DossierDetail } from '@/types/dossier';
 
 defineProps<{
-    dossier: Dossier;
+    dossier: DossierDetail;
 }>();
 
 const euroFormatter = new Intl.NumberFormat('nl-NL', {

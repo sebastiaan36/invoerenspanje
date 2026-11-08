@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Services\Rdw\Dto;
 
 use Carbon\CarbonImmutable;
+use Throwable;
 
 final readonly class VehicleData
 {
@@ -85,11 +86,18 @@ final readonly class VehicleData
 
         $value = (string) $value;
 
-        // RDW serves dates as YYYYMMDD (e.g. "20190401").
-        if (preg_match('/^\d{8}$/', $value) === 1) {
-            return CarbonImmutable::createFromFormat('Ymd', $value)?->startOfDay();
-        }
+        // RDW serves dates as YYYYMMDD (e.g. "20190401"). An unparseable or
+        // impossible date (e.g. "20191345") is treated as unknown, not as a crash.
+        try {
+            if (preg_match('/^\d{8}$/', $value) === 1) {
+                $date = CarbonImmutable::createFromFormat('!Ymd', $value);
 
-        return CarbonImmutable::parse($value);
+                return $date !== null && $date->format('Ymd') === $value ? $date : null;
+            }
+
+            return CarbonImmutable::parse($value);
+        } catch (Throwable) {
+            return null;
+        }
     }
 }

@@ -7,7 +7,7 @@ namespace App\Services\Revenue;
 /**
  * Berekent de omzetverdeling tussen marketing, Sebastiaan en Maikel.
  *
- * Staffel op bruto-omzet (reset-datum instelbaar via config):
+ * Staffel op bruto-omzet, ingesteld in config/revenue.php:
  *   - 10% marketing (altijd)
  *   - Sebastiaan: 20% over €0–€10k | 15% over €10k–€30k | 10% boven €30k
  *   - Maikel: omzet − marketing − Sebastiaan
@@ -22,23 +22,33 @@ final readonly class RevenueDistribution
 
     public function __construct(public float $revenue)
     {
-        $this->marketing = round($revenue * 0.10, 2);
+        $this->marketing = round($revenue * (float) config('revenue.marketing_share'), 2);
         $this->sebastiaan = round(self::calculateSebastiaanShare($revenue), 2);
         $this->maikel = round($revenue - $this->marketing - $this->sebastiaan, 2);
     }
 
+    /**
+     * Each tier applies its share to the revenue between the previous tier's
+     * upper bound and its own (`up_to_eur` null = no upper bound).
+     */
     private static function calculateSebastiaanShare(float $revenue): float
     {
+        /** @var list<array{up_to_eur: int|float|null, share: float}> $tiers */
+        $tiers = config('revenue.sebastiaan_tiers');
+
         $share = 0.0;
+        $lowerBound = 0.0;
 
-        // 20% over de eerste €10.000
-        $share += min($revenue, 10_000) * 0.20;
+        foreach ($tiers as $tier) {
+            $upperBound = $tier['up_to_eur'] === null ? $revenue : min($revenue, (float) $tier['up_to_eur']);
+            $share += max(0.0, $upperBound - $lowerBound) * (float) $tier['share'];
 
-        // 15% over €10.000 – €30.000
-        $share += max(0, min($revenue, 30_000) - 10_000) * 0.15;
+            if ($tier['up_to_eur'] === null || $revenue <= $tier['up_to_eur']) {
+                break;
+            }
 
-        // 10% over alles boven €30.000
-        $share += max(0, $revenue - 30_000) * 0.10;
+            $lowerBound = (float) $tier['up_to_eur'];
+        }
 
         return $share;
     }

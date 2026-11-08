@@ -24,6 +24,7 @@ final class RdwService
         private readonly ?string $appToken,
         private readonly int $cacheTtlDays,
         private readonly int $timeoutSeconds,
+        private readonly int $notFoundCacheTtlMinutes = 60,
     ) {}
 
     public function lookupVehicle(string $kenteken): ?VehicleData
@@ -33,11 +34,6 @@ final class RdwService
         $row = $this->fetchRow('vehicle', $this->vehicleEndpoint, $normalized);
 
         return $row === null ? null : VehicleData::fromRdwRow($row);
-    }
-
-    public function lookupFuel(string $kenteken): ?FuelData
-    {
-        return $this->primaryFuel($this->lookupFuels($kenteken));
     }
 
     /**
@@ -132,12 +128,11 @@ final class RdwService
     /**
      * @return array<string, mixed>|null cached RDW row, or null when the kenteken is not registered
      *
-     * @throws RdwUnavailableException when the RDW cannot be reached
+     * @throws RdwUnavailableException when the RDW cannot be reached or answers with something other than a list of rows
      */
     private function fetchRow(string $kind, string $endpoint, string $kenteken): ?array
     {
         $cacheKey = "rdw:{$kind}:{$kenteken}";
-        $ttl = now()->addDays($this->cacheTtlDays);
 
         $cached = $this->cache->get($cacheKey);
         if ($cached !== null) {
@@ -145,56 +140,57 @@ final class RdwService
             return $cached === [] ? null : $cached;
         }
 
-        try {
-            $response = $this->client()
-                ->get($endpoint, ['kenteken' => $kenteken])
-                ->throw();
-        } catch (Throwable $e) {
-            $this->logger->error('RDW lookup failed', [
-                'kind' => $kind,
-                'kenteken' => $kenteken,
-                'exception' => $e::class,
-                'message' => $e->getMessage(),
-            ]);
+        $rows = $this->request($kind, $endpoint, $kenteken);
 
-            // Don't cache failures — let the next request retry.
-            throw RdwUnavailableException::fromPrevious($kind, $e);
-        }
-
-        $rows = $response->json();
-
-        if (! is_array($rows) || $rows === []) {
-            $this->cache->put($cacheKey, [], $ttl);
+        if ($rows === []) {
+            // A kenteken that is not (yet) registered may appear soon: cache it only briefly.
+            $this->cache->put($cacheKey, [], now()->addMinutes($this->notFoundCacheTtlMinutes));
 
             return null;
         }
 
-        /** @var array<string, mixed> $row */
         $row = $rows[0];
-        $this->cache->put($cacheKey, $row, $ttl);
+        $this->cache->put($cacheKey, $row, now()->addDays($this->cacheTtlDays));
 
         return $row;
     }
 
     /**
      * Like fetchRow, but returns ALL rows the RDW provides for the kenteken
-     * (e.g. one per brandstof). An empty list is cached as the "checked,
-     * nothing found" sentinel.
+     * (e.g. one per brandstof). Only called for a registered vehicle, so an
+     * empty list means the RDW has no fuel data yet: that is never cached.
      *
      * @return list<array<string, mixed>>
      *
-     * @throws RdwUnavailableException when the RDW cannot be reached
+     * @throws RdwUnavailableException when the RDW cannot be reached or answers with something other than a list of rows
      */
     private function fetchRows(string $kind, string $endpoint, string $kenteken): array
     {
         $cacheKey = "rdw:{$kind}s:{$kenteken}";
-        $ttl = now()->addDays($this->cacheTtlDays);
 
         $cached = $this->cache->get($cacheKey);
-        if (is_array($cached)) {
+        if (is_array($cached) && $cached !== []) {
             return $cached;
         }
 
+        $rows = $this->request($kind, $endpoint, $kenteken);
+
+        if ($rows !== []) {
+            $this->cache->put($cacheKey, $rows, now()->addDays($this->cacheTtlDays));
+        }
+
+        return $rows;
+    }
+
+    /**
+     * Performs the RDW request. Failures are never cached, so the next request retries.
+     *
+     * @return list<array<string, mixed>>
+     *
+     * @throws RdwUnavailableException
+     */
+    private function request(string $kind, string $endpoint, string $kenteken): array
+    {
         try {
             $response = $this->client()
                 ->get($endpoint, ['kenteken' => $kenteken])
@@ -207,21 +203,39 @@ final class RdwService
                 'message' => $e->getMessage(),
             ]);
 
-            // Don't cache failures — let the next request retry.
             throw RdwUnavailableException::fromPrevious($kind, $e);
         }
 
         $rows = $response->json();
 
-        if (! is_array($rows)) {
-            $rows = [];
+        // Socrata answers a list of row objects. Anything else (an error object,
+        // HTML, an empty body) means the RDW is not answering properly.
+        if (! is_array($rows) || ! array_is_list($rows) || ! $this->containsOnlyRows($rows)) {
+            $this->logger->error('RDW returned an unexpected response', [
+                'kind' => $kind,
+                'kenteken' => $kenteken,
+                'body' => mb_substr($response->body(), 0, 500),
+            ]);
+
+            throw RdwUnavailableException::unexpectedResponse($kind);
         }
 
         /** @var list<array<string, mixed>> $rows */
-        $rows = array_values($rows);
-        $this->cache->put($cacheKey, $rows, $ttl);
-
         return $rows;
+    }
+
+    /**
+     * @param  list<mixed>  $rows
+     */
+    private function containsOnlyRows(array $rows): bool
+    {
+        foreach ($rows as $row) {
+            if (! is_array($row)) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     private function client(): PendingRequest

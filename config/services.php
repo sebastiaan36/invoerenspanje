@@ -60,6 +60,8 @@ return [
         'fuel_endpoint' => env('RDW_FUEL_ENDPOINT', 'https://opendata.rdw.nl/resource/8ys7-d773.json'),
         'app_token' => env('RDW_SOCRATA_APP_TOKEN'),
         'cache_ttl_days' => (int) env('RDW_CACHE_TTL_DAYS', 7),
+        // "Kenteken niet gevonden" kort cachen: een net geregistreerde auto staat er snel wel in.
+        'not_found_cache_ttl_minutes' => (int) env('RDW_NOT_FOUND_CACHE_TTL_MINUTES', 60),
         'timeout_seconds' => (int) env('RDW_HTTP_TIMEOUT', 5),
     ],
 

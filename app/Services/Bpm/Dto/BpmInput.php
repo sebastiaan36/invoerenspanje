@@ -9,6 +9,14 @@ use Carbon\CarbonImmutable;
 
 final readonly class BpmInput
 {
+    /**
+     * RDW fuel types without tailpipe CO2: battery-electric and hydrogen
+     * (fuel cell). The BPM treats both as zero-emission cars.
+     *
+     * @var list<string>
+     */
+    public const array ZERO_EMISSION_FUELS = ['elektriciteit', 'elektrisch', 'waterstof'];
+
     public function __construct(
         public CarbonImmutable $datumEersteToelating,
         public int $co2,
@@ -57,9 +65,8 @@ final readonly class BpmInput
 
         // Without CO2 and without the RDW's own bruto BPM a combustion car would
         // be taxed on the fixed base only — a far too low amount presented as an
-        // answer. Electric cars pay a fixed amount, so they don't need CO2.
-        $isElectric = in_array(strtolower($fuel->brandstofOmschrijving), ['elektriciteit', 'elektrisch'], true);
-        if ($co2 === null && $vehicle->brutoBpm === null && ! $isElectric) {
+        // answer. Electric and hydrogen cars pay a fixed amount, so they don't need CO2.
+        if ($co2 === null && $vehicle->brutoBpm === null && ! self::isZeroEmissionFuel($fuel->brandstofOmschrijving)) {
             return null;
         }
 
@@ -72,5 +79,10 @@ final readonly class BpmInput
             historischBrutoBpm: $vehicle->brutoBpm,
             datumEersteTenaamstellingNl: $vehicle->datumEersteTenaamstellingNl,
         );
+    }
+
+    public static function isZeroEmissionFuel(string $brandstof): bool
+    {
+        return in_array(strtolower($brandstof), self::ZERO_EMISSION_FUELS, true);
     }
 }

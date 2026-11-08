@@ -7,6 +7,7 @@ namespace App\Http\Requests;
 use App\Services\Rdw\KentekenNormalizer;
 use Closure;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 final class LookupRequest extends FormRequest
 {
@@ -16,7 +17,7 @@ final class LookupRequest extends FormRequest
     }
 
     /**
-     * @return array<string, array<int, string|Closure>>
+     * @return array<string, array<int, string|Closure|object>>
      */
     public function rules(): array
     {
@@ -33,7 +34,7 @@ final class LookupRequest extends FormRequest
                 },
             ],
             'residency_change' => ['sometimes', 'boolean'],
-            'autonomia' => ['sometimes', 'string', 'max:32'],
+            'autonomia' => ['sometimes', 'string', Rule::in(array_keys(config('spain_import.autonomias')))],
         ];
     }
 

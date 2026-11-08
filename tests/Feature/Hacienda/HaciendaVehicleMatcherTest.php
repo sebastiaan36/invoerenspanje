@@ -6,11 +6,14 @@ namespace Tests\Feature\Hacienda;
 
 use App\Models\HaciendaVehiclePrice;
 use App\Services\Hacienda\Dto\HaciendaMatch;
+use App\Services\Hacienda\HaciendaPriceImporter;
 use App\Services\Hacienda\HaciendaVehicleMatcher;
 use App\Services\Rdw\Dto\FuelData;
 use App\Services\Rdw\Dto\VehicleData;
 use App\Services\Rdw\Dto\VehicleLookupResult;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Cache;
+use Psr\Log\LoggerInterface;
 use Tests\TestCase;
 
 final class HaciendaVehicleMatcherTest extends TestCase
@@ -145,6 +148,64 @@ final class HaciendaVehicleMatcherTest extends TestCase
         $this->price('VOLKSWAGEN', 'GOLF 1.5 TSI', 2019, null, 1498, 'G', 110, 26000);
 
         $this->assertNull($this->matcher()->match($this->lookup('SKODA', 'OCTAVIA', '20200101', 1498, 'Benzine', '110.00')));
+    }
+
+    /**
+     * The SQL pre-filter must not drop rows the PHP family checks accept:
+     * accented model names and a model code later in the name still match.
+     */
+    public function test_the_narrowed_query_keeps_accented_and_later_model_codes(): void
+    {
+        $this->price('RENAULT', 'Mégane 1.3 TCe Techno', 2020, null, 1332, 'G', 103, 27500);
+        $this->price('RENAULT', 'Clio 1.0 TCe Evolution', 2020, null, 999, 'G', 67, 18900);
+        $this->price('BMW', 'Serie 2 Active Tourer 220i', 2022, null, 1499, 'GyE', 125, 44000);
+
+        $megane = $this->matcher()->match($this->lookup('RENAULT', 'MEGANE', '20220301', 1332, 'Benzine', '103.00'));
+        $bmw = $this->matcher()->match($this->lookup('BMW', '220I', '20230301', 1499, 'Benzine', '125.00'));
+
+        $this->assertSame(27500, $megane?->newValueEur);
+        $this->assertSame(HaciendaMatch::CONFIDENCE_HIGH, $megane?->confidence);
+        $this->assertSame(44000, $bmw?->newValueEur);
+    }
+
+    public function test_a_match_is_cached_per_vehicle_and_table_version(): void
+    {
+        Cache::put(HaciendaPriceImporter::checksumCacheKey((int) config('spain_import.hacienda.table_year')), 'v1');
+        $this->price('VOLKSWAGEN', 'GOLF 1.5 TSI Life', 2019, null, 1498, 'G', 110, 26000);
+        $lookup = $this->lookup('VOLKSWAGEN', 'GOLF', '20200101', 1498, 'Benzine', '110.00');
+
+        $this->assertSame(26000, $this->matcher()->match($lookup)?->newValueEur);
+
+        // Served from the cache: the table is not queried again.
+        HaciendaVehiclePrice::query()->delete();
+        $cached = $this->matcher()->match($lookup);
+        $this->assertSame(26000, $cached?->newValueEur);
+        $this->assertSame('GOLF 1.5 TSI Life', $cached?->model);
+
+        // A new import (new checksum) invalidates the cached match.
+        Cache::put(HaciendaPriceImporter::checksumCacheKey((int) config('spain_import.hacienda.table_year')), 'v2');
+        $this->assertNull($this->matcher()->match($lookup));
+    }
+
+    public function test_an_empty_table_year_is_logged_once(): void
+    {
+        $logger = $this->mock(LoggerInterface::class);
+        $logger->shouldReceive('warning')->once();
+        $cache = Cache::store('array');
+
+        $this->assertFalse((new HaciendaVehicleMatcher(2099, $cache, $logger))->hasTable());
+        $this->assertFalse((new HaciendaVehicleMatcher(2099, $cache, $logger))->hasTable());
+    }
+
+    public function test_a_table_year_with_rows_is_not_logged(): void
+    {
+        $this->price('VOLKSWAGEN', 'GOLF 1.5 TSI Life', 2019, null, 1498, 'G', 110, 26000);
+        $logger = $this->mock(LoggerInterface::class);
+        $logger->shouldNotReceive('warning');
+
+        $matcher = new HaciendaVehicleMatcher((int) config('spain_import.hacienda.table_year'), Cache::store('array'), $logger);
+
+        $this->assertTrue($matcher->hasTable());
     }
 
     private function matcher(): HaciendaVehicleMatcher

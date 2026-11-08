@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
+use LogicException;
 
 /**
  * @property int $id
@@ -33,8 +34,10 @@ use Illuminate\Support\Str;
  * @property string|null $utm_campaign
  * @property string $status
  * @property Carbon|null $lost_at
+ * @property Carbon|null $won_at
  * @property string|null $feedback_token
  * @property Carbon|null $feedback_requested_at
+ * @property int $feedback_request_failures
  */
 final class Lead extends Model
 {
@@ -42,14 +45,22 @@ final class Lead extends Model
 
     public const string STATUS_LOST = 'verloren';
 
+    public const string STATUS_WON = 'gewonnen';
+
     /** Aantal dagen na 'verloren' waarna we om feedback vragen. */
     public const int FEEDBACK_DELAY_DAYS = 14;
+
+    /** Aantal dagen na de feedbackmail dat de persoonlijke link geldig blijft. */
+    public const int FEEDBACK_LINK_VALID_DAYS = 90;
+
+    /** Na zoveel mislukte verzendpogingen stopt de command met het mailen van deze lead. */
+    public const int MAX_FEEDBACK_REQUEST_FAILURES = 3;
 
     protected $guarded = ['id'];
 
     protected static function booted(): void
     {
-        // Houdt bij wanneer een lead verloren is, ongeacht waar de status wordt
+        // Houdt bij wanneer een lead verloren of gewonnen is, ongeacht waar de status wordt
         // gewijzigd (detailpagina, tabel of code).
         self::saving(function (Lead $lead): void {
             if (! $lead->isDirty('status')) {
@@ -57,6 +68,7 @@ final class Lead extends Model
             }
 
             $lead->lost_at = $lead->status === self::STATUS_LOST ? now() : null;
+            $lead->won_at = $lead->status === self::STATUS_WON ? now() : null;
         });
     }
 
@@ -71,7 +83,8 @@ final class Lead extends Model
         $query->where('status', self::STATUS_LOST)
             ->whereNotNull('lost_at')
             ->where('lost_at', '<=', now()->subDays(self::FEEDBACK_DELAY_DAYS))
-            ->whereNull('feedback_requested_at');
+            ->whereNull('feedback_requested_at')
+            ->where('feedback_request_failures', '<', self::MAX_FEEDBACK_REQUEST_FAILURES);
     }
 
     /**
@@ -80,16 +93,42 @@ final class Lead extends Model
     public function ensureFeedbackToken(): string
     {
         if ($this->feedback_token === null) {
-            $this->feedback_token = Str::random(48);
-            $this->save();
+            $this->forceFill(['feedback_token' => Str::random(48)])->save();
         }
 
         return $this->feedback_token;
     }
 
+    /**
+     * Persoonlijke feedbacklink. Zonder bijwerkingen: de token moet al bestaan (zie ensureFeedbackToken()).
+     *
+     * @throws LogicException
+     */
     public function feedbackUrl(): string
     {
-        return route('feedback.show', ['token' => $this->ensureFeedbackToken()]);
+        if ($this->feedback_token === null) {
+            throw new LogicException("Lead #{$this->id} heeft nog geen feedbacktoken.");
+        }
+
+        return route('feedback.show', ['token' => $this->feedback_token]);
+    }
+
+    /**
+     * De feedbacklink werkt alleen zolang de lead verloren is en de mail niet ouder is dan 90 dagen.
+     */
+    public function hasActiveFeedbackLink(): bool
+    {
+        return $this->status === self::STATUS_LOST
+            && $this->feedback_requested_at !== null
+            && $this->feedback_requested_at->greaterThanOrEqualTo(now()->subDays(self::FEEDBACK_LINK_VALID_DAYS));
+    }
+
+    /**
+     * Of deze lead het maximum aantal feedbackberichten al heeft ingestuurd.
+     */
+    public function hasReachedFeedbackLimit(): bool
+    {
+        return $this->feedback()->count() >= LeadFeedback::MAX_PER_LEAD;
     }
 
     /**
@@ -99,7 +138,9 @@ final class Lead extends Model
     {
         return [
             'lost_at' => 'datetime',
+            'won_at' => 'datetime',
             'feedback_requested_at' => 'datetime',
+            'feedback_request_failures' => 'integer',
             'residency_change' => 'boolean',
             'bpm_teruggave_indicatie_eur' => 'integer',
             'import_kosten_indicatie_eur' => 'integer',

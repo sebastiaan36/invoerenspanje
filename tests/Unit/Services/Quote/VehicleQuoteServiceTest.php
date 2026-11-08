@@ -115,6 +115,91 @@ final class VehicleQuoteServiceTest extends TestCase
         $this->assertSame(31500.0, $snapshot['new_value_eur']);
     }
 
+    public function test_an_undeterminable_iedmt_makes_the_net_effect_unknown(): void
+    {
+        Http::fake([
+            'opendata.rdw.nl/resource/m9d7-ebf2.json*' => Http::response([[
+                'kenteken' => '12ABC3',
+                'voertuigsoort' => 'Personenauto',
+                'merk' => 'VOLKSWAGEN',
+                'handelsbenaming' => 'GOLF',
+                'datum_eerste_toelating' => '20190401',
+            ]]),
+            'opendata.rdw.nl/resource/8ys7-d773.json*' => Http::response([[
+                'kenteken' => '12ABC3',
+                'brandstof_omschrijving' => 'Benzine',
+                'co2_uitstoot_gecombineerd' => '180',
+            ]]),
+        ]);
+
+        $quote = app(VehicleQuoteService::class)->quote('12ABC3');
+        $snapshot = $quote->importSnapshot();
+
+        $this->assertNull($quote->spainImport?->iedmtEur);
+        $this->assertNull($quote->spainImport?->totalEur);
+        $this->assertNull($quote->netEffectEur());
+        $this->assertNull($snapshot['iedmt_eur']);
+        $this->assertFalse($snapshot['iedmt_determinable']);
+        $this->assertNull($snapshot['total_eur']);
+        $this->assertGreaterThan(0.0, $snapshot['fixed_costs_total_eur']);
+    }
+
+    public function test_a_known_vehicle_without_fuel_rows_does_not_get_the_highest_bracket(): void
+    {
+        Http::fake([
+            'opendata.rdw.nl/resource/m9d7-ebf2.json*' => Http::response([[
+                'kenteken' => '12ABC3',
+                'voertuigsoort' => 'Personenauto',
+                'merk' => 'VOLKSWAGEN',
+                'handelsbenaming' => 'GOLF',
+                'datum_eerste_toelating' => '20190401',
+                'catalogusprijs' => '31500',
+            ]]),
+            'opendata.rdw.nl/resource/8ys7-d773.json*' => Http::response([]),
+        ]);
+
+        $quote = app(VehicleQuoteService::class)->quote('12ABC3');
+
+        $this->assertNull($quote->spainImport?->iedmtRatePct);
+        $this->assertNull($quote->spainImport?->iedmtEur);
+        $this->assertNull($quote->netEffectEur());
+        $this->assertContains(config('spain_import.notes.iedmt_unknown_co2'), $quote->spainImport->notes);
+    }
+
+    public function test_a_plugin_hybrid_uses_the_weighted_co2_for_the_iedmt_bracket(): void
+    {
+        Http::fake([
+            'opendata.rdw.nl/resource/m9d7-ebf2.json*' => Http::response([[
+                'kenteken' => '12ABC3',
+                'voertuigsoort' => 'Personenauto',
+                'merk' => 'MITSUBISHI',
+                'handelsbenaming' => 'OUTLANDER',
+                'datum_eerste_toelating' => '20190401',
+                'catalogusprijs' => '45000',
+            ]]),
+            'opendata.rdw.nl/resource/8ys7-d773.json*' => Http::response([
+                ['kenteken' => '12ABC3', 'brandstof_omschrijving' => 'Benzine', 'co2_uitstoot_gecombineerd' => '130', 'co2_uitstoot_gewogen' => '40'],
+                ['kenteken' => '12ABC3', 'brandstof_omschrijving' => 'Elektriciteit'],
+            ]),
+        ]);
+
+        $quote = app(VehicleQuoteService::class)->quote('12ABC3');
+
+        $this->assertTrue($quote->rdw->isPluginHybrid);
+        $this->assertSame(0.0, $quote->spainImport?->iedmtRatePct);
+        $this->assertSame(0.0, $quote->spainImport?->iedmtEur);
+    }
+
+    public function test_an_empty_hacienda_table_is_flagged_in_the_notes(): void
+    {
+        $this->fakeKnownVehicle(co2: '130');
+
+        $notes = app(VehicleQuoteService::class)->quote('12ABC3')->spainImport?->notes ?? [];
+
+        $this->assertContains(config('spain_import.notes.hacienda_table_missing'), $notes);
+        $this->assertNotContains(config('spain_import.notes.catalogue_price_fallback'), $notes);
+    }
+
     private function fakeKnownVehicle(?string $co2): void
     {
         Http::fake([

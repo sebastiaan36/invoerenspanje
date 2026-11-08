@@ -7,7 +7,8 @@ const props = defineProps<{
     kenteken: string;
     vehicleSummary: string;
     selectedPackage: ServicePackage;
-    importTotalEur: number;
+    /** Null when the IEDMT must be calculated manually: the net result is then unknown. */
+    importTotalEur: number | null;
     bpmAvailable: boolean;
     bpmEligible: boolean;
     bpmRestEur: number;
@@ -32,11 +33,14 @@ function formatEuro(value: number): string {
 const bpmBack = computed(() =>
     props.bpmAvailable && props.bpmEligible ? props.bpmRestEur : 0,
 );
-const youPay = computed(
-    () => props.selectedPackage.price_eur + props.importTotalEur,
+const isNetKnown = computed(() => props.importTotalEur !== null);
+const net = computed(
+    () =>
+        props.selectedPackage.price_eur +
+        (props.importTotalEur ?? 0) -
+        bpmBack.value,
 );
-const net = computed(() => youPay.value - bpmBack.value);
-const keepsMoney = computed(() => net.value < 0);
+const keepsMoney = computed(() => isNetKnown.value && net.value < 0);
 
 const formattedPlate = computed(() => {
     const plate = props.kenteken.replace(/[\s-]+/g, '').toUpperCase();
@@ -87,13 +91,29 @@ const formattedPlate = computed(() => {
                             : 'Wat het u netto kost'
                     }}
                 </h2>
+                <template v-if="!isNetKnown">
+                    <p
+                        class="mt-2 font-display text-3xl font-semibold text-foreground sm:text-4xl"
+                    >
+                        Volgt in de offerte
+                    </p>
+                    <p class="mt-3 max-w-md text-base text-muted-foreground">
+                        De Spaanse registratiebelasting (IEDMT) is voor deze
+                        auto niet automatisch te bepalen. Wij berekenen dit
+                        handmatig en sturen u het exacte bedrag.
+                    </p>
+                </template>
                 <p
+                    v-else
                     class="mt-2 font-display text-5xl font-semibold tabular-nums sm:text-6xl"
                     :class="keepsMoney ? 'text-success' : 'text-foreground'"
                 >
                     {{ formatEuro(Math.abs(net)) }}
                 </p>
-                <p class="mt-3 max-w-md text-base text-muted-foreground">
+                <p
+                    v-if="isNetKnown"
+                    class="mt-3 max-w-md text-base text-muted-foreground"
+                >
                     Met pakket
                     <span class="font-medium text-foreground">{{
                         selectedPackage.name
@@ -142,8 +162,11 @@ const formattedPlate = computed(() => {
                     </div>
                     <div class="flex items-baseline justify-between gap-3">
                         <dt class="text-muted-foreground">Kosten in Spanje</dt>
-                        <dd class="font-medium text-foreground">
-                            {{ formatEuro(importTotalEur) }}
+                        <dd class="text-right font-medium text-foreground">
+                            <template v-if="importTotalEur !== null">
+                                {{ formatEuro(importTotalEur) }}
+                            </template>
+                            <template v-else>IEDMT handmatig</template>
                         </dd>
                     </div>
                 </dl>
@@ -183,7 +206,11 @@ const formattedPlate = computed(() => {
                         class="font-display text-lg font-semibold"
                         :class="keepsMoney ? 'text-success' : 'text-foreground'"
                     >
-                        {{ formatEuro(Math.abs(net)) }}
+                        {{
+                            isNetKnown
+                                ? formatEuro(Math.abs(net))
+                                : 'Volgt in offerte'
+                        }}
                     </dd>
                 </dl>
             </div>
