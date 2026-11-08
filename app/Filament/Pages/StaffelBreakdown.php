@@ -4,9 +4,8 @@ declare(strict_types=1);
 
 namespace App\Filament\Pages;
 
-use App\Models\Lead;
-use App\Services\Packages\ServicePackages;
 use App\Services\Revenue\RevenueDistribution;
+use App\Services\Revenue\WonLeadRevenue;
 use Filament\Pages\Page;
 use Illuminate\Support\Carbon;
 
@@ -23,11 +22,7 @@ class StaffelBreakdown extends Page
         $yearStart = Carbon::now()->startOfYear();
         $year = Carbon::now()->year;
 
-        $revenue = (float) Lead::whereNotNull('package_slug')
-            ->where('status', 'gewonnen')
-            ->whereDate('created_at', '>=', $yearStart)
-            ->get()
-            ->sum(fn (Lead $lead) => ServicePackages::findBySlug($lead->package_slug)?->priceEur ?? 0);
+        $revenue = WonLeadRevenue::revenueSince($yearStart);
 
         $distribution = new RevenueDistribution($revenue);
 

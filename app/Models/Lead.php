@@ -33,6 +33,7 @@ use Illuminate\Support\Str;
  * @property string|null $utm_campaign
  * @property string $status
  * @property Carbon|null $lost_at
+ * @property Carbon|null $won_at
  * @property string|null $feedback_token
  * @property Carbon|null $feedback_requested_at
  */
@@ -42,6 +43,8 @@ final class Lead extends Model
 
     public const string STATUS_LOST = 'verloren';
 
+    public const string STATUS_WON = 'gewonnen';
+
     /** Aantal dagen na 'verloren' waarna we om feedback vragen. */
     public const int FEEDBACK_DELAY_DAYS = 14;
 
@@ -49,7 +52,7 @@ final class Lead extends Model
 
     protected static function booted(): void
     {
-        // Houdt bij wanneer een lead verloren is, ongeacht waar de status wordt
+        // Houdt bij wanneer een lead verloren of gewonnen is, ongeacht waar de status wordt
         // gewijzigd (detailpagina, tabel of code).
         self::saving(function (Lead $lead): void {
             if (! $lead->isDirty('status')) {
@@ -57,6 +60,7 @@ final class Lead extends Model
             }
 
             $lead->lost_at = $lead->status === self::STATUS_LOST ? now() : null;
+            $lead->won_at = $lead->status === self::STATUS_WON ? now() : null;
         });
     }
 
@@ -99,6 +103,7 @@ final class Lead extends Model
     {
         return [
             'lost_at' => 'datetime',
+            'won_at' => 'datetime',
             'feedback_requested_at' => 'datetime',
             'residency_change' => 'boolean',
             'bpm_teruggave_indicatie_eur' => 'integer',
