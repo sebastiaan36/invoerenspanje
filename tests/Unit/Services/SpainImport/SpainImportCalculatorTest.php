@@ -136,15 +136,80 @@ final class SpainImportCalculatorTest extends TestCase
 
     public function test_zero_catalogusprijs_yields_zero_iedmt(): void
     {
+        // Without a Hacienda value and without a catalogue price the IEDMT is
+        // unknown — never € 0 — when the car falls in a taxed bracket.
         $calculator = $this->makeCalculator();
         $input = $this->input(co2: 250, catalogusprijs: null);
 
         $result = $calculator->calculate($input, CarbonImmutable::create(2025, 1, 1));
 
         $this->assertSame(0.0, $result->estimatedMarketValueEur);
-        $this->assertSame(0.0, $result->iedmtEur);
+        $this->assertNull($result->iedmtEur);
+        $this->assertFalse($result->iedmtDeterminable);
+        $this->assertSame(14.75, $result->iedmtRatePct);
+        $this->assertNull($result->totalEur);
+        $this->assertTrue(collect($result->notes)->contains(config('spain_import.notes.iedmt_unknown_value')));
         // Fixed costs still apply.
         $this->assertGreaterThan(0.0, $result->fixedCostsTotalEur);
+    }
+
+    public function test_unknown_new_value_is_irrelevant_in_the_zero_percent_bracket(): void
+    {
+        $result = $this->makeCalculator()->calculate($this->input(co2: 110, catalogusprijs: null), CarbonImmutable::create(2025, 1, 1));
+
+        $this->assertSame(0.0, $result->iedmtEur);
+        $this->assertTrue($result->iedmtDeterminable);
+        $this->assertSame($result->fixedCostsTotalEur, $result->totalEur);
+        $this->assertFalse(collect($result->notes)->contains(config('spain_import.notes.iedmt_unknown_value')));
+    }
+
+    public function test_unknown_new_value_is_irrelevant_when_exempt(): void
+    {
+        $result = $this->makeCalculator()->calculate(
+            $this->input(co2: 250, catalogusprijs: null, residencyChange: true),
+            CarbonImmutable::create(2025, 1, 1),
+        );
+
+        $this->assertSame(0.0, $result->iedmtEur);
+        $this->assertSame($result->fixedCostsTotalEur, $result->totalEur);
+    }
+
+    public function test_missing_fuel_data_makes_the_iedmt_not_determinable(): void
+    {
+        $input = new SpainImportInput(
+            datumEersteToelating: CarbonImmutable::create(2020, 1, 1),
+            co2: null,
+            catalogusprijsEur: 30000,
+            voertuigsoort: 'Personenauto',
+            fuelDataMissing: true,
+        );
+
+        $result = $this->makeCalculator()->calculate($input, CarbonImmutable::create(2025, 1, 1));
+
+        $this->assertNull($result->iedmtRatePct);
+        $this->assertNull($result->iedmtEur);
+        $this->assertNull($result->totalEur);
+        $this->assertFalse($result->iedmtDeterminable);
+        $this->assertTrue(collect($result->notes)->contains(config('spain_import.notes.iedmt_unknown_co2')));
+        // Never claim the highest bracket when we simply have no data.
+        $this->assertFalse(collect($result->notes)->contains(config('spain_import.notes.unknown_co2')));
+    }
+
+    public function test_a_missing_hacienda_table_gets_its_own_note(): void
+    {
+        $input = new SpainImportInput(
+            datumEersteToelating: CarbonImmutable::create(2020, 1, 1),
+            co2: 130,
+            catalogusprijsEur: 30000,
+            voertuigsoort: 'Personenauto',
+            haciendaTableAvailable: false,
+        );
+
+        $result = $this->makeCalculator()->calculate($input, CarbonImmutable::create(2025, 1, 1));
+
+        $this->assertSame(SpainImportResult::VALUE_SOURCE_CATALOGUE_PRICE, $result->valueSource);
+        $this->assertTrue(collect($result->notes)->contains(config('spain_import.notes.hacienda_table_missing')));
+        $this->assertFalse(collect($result->notes)->contains(config('spain_import.notes.catalogue_price_fallback')));
     }
 
     public function test_iedmt_is_calculated_over_the_market_value_after_depreciation(): void

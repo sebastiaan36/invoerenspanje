@@ -129,7 +129,7 @@
     </thead>
     <tbody>
         @foreach ($fixedCosts as $cost)
-            <tr><td>{{ $cost['label'] }}</td><td>{{ $euro($cost['amount_eur']) }}</td></tr>
+            <tr><td>{{ $cost['label'] }}@if ($cost['optional']) (niet inbegrepen in de standaard kosten)@endif</td><td>{{ $euro($cost['amount_eur']) }}</td></tr>
         @endforeach
         <tr><td>Registratiebelasting (IEDMT)</td><td>0% tot 14,75%, afhankelijk van CO₂</td></tr>
     </tbody>

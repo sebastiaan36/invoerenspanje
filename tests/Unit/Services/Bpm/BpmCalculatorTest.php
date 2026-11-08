@@ -259,6 +259,21 @@ final class BpmCalculatorTest extends TestCase
     }
 
     /**
+     * Hydrogen (fuel cell) cars are zero-emission like battery-electric cars:
+     * no CO2 component and no fixed combustion base, just the EV amount.
+     */
+    public function test_hydrogen_is_treated_as_zero_emission_like_electric(): void
+    {
+        $calculator = $this->makeCalculator();
+
+        $before = new BpmInput(CarbonImmutable::create(2019, 4, 15), 0, 'Waterstof');
+        $this->assertSame(0.0, $calculator->calculateRestBpm($before, CarbonImmutable::create(2026, 4, 15))->brutoBpm);
+
+        $from2025 = new BpmInput(CarbonImmutable::create(2025, 1, 1), 0, 'Waterstof');
+        $this->assertSame(667.0, $calculator->calculateRestBpm($from2025, CarbonImmutable::create(2026, 1, 1))->brutoBpm);
+    }
+
+    /**
      * A PHEV (2017–2024) is taxed over its low weighted CO2 via a separate,
      * steeper table. At 40 g/km a 2019 PHEV pays € 0 + 30×€27 + 10×€113 = € 1.940,
      * far more than the € 440 a normal car would pay at the same CO2.

@@ -48,11 +48,13 @@ final class VehicleQuoteService
         $bpmInput = BpmInput::fromLookup($rdwResult);
         $bpmResult = $bpmInput !== null ? $this->bpm->calculateRestBpm($bpmInput) : null;
 
+        $haciendaMatch = $this->hacienda->match($rdwResult);
         $importInput = SpainImportInput::fromLookup(
             $rdwResult,
             $residencyChange,
             $autonomia,
-            $this->hacienda->match($rdwResult),
+            $haciendaMatch,
+            haciendaTableAvailable: $haciendaMatch !== null || $this->hacienda->hasTable(),
         );
         $importResult = $importInput !== null ? $this->spainImport->calculate($importInput) : null;
 

@@ -43,7 +43,10 @@ class AppServiceProvider extends ServiceProvider
         ));
 
         $this->app->bind(HaciendaVehicleMatcher::class, fn ($app): HaciendaVehicleMatcher => new HaciendaVehicleMatcher(
-            (int) $app['config']->get('spain_import.hacienda.table_year'),
+            tableYear: (int) $app['config']->get('spain_import.hacienda.table_year'),
+            cache: $app->make(CacheRepository::class),
+            logger: $app->make(LogManager::class)->channel(),
+            cacheTtlSeconds: (int) $app['config']->get('spain_import.hacienda.match_cache_ttl_seconds', 86_400),
         ));
 
         $this->app->singleton(SpainImportCalculator::class, fn ($app): SpainImportCalculator => new SpainImportCalculator(
@@ -61,6 +64,7 @@ class AppServiceProvider extends ServiceProvider
                 fuelEndpoint: $config['fuel_endpoint'],
                 appToken: $config['app_token'] ?? null,
                 cacheTtlDays: (int) $config['cache_ttl_days'],
+                notFoundCacheTtlMinutes: (int) ($config['not_found_cache_ttl_minutes'] ?? 60),
                 timeoutSeconds: (int) $config['timeout_seconds'],
             );
         });

@@ -21,6 +21,8 @@ interface FixedCost {
     key: string;
     label: string;
     amount_eur: number;
+    /** Optional items are not part of the standard Spanish costs. */
+    optional?: boolean;
 }
 
 const props = withDefaults(
@@ -337,9 +339,21 @@ const steps = [
                                     >
                                         {{ fixedCostNotes[cost.key] }}
                                     </p>
+                                    <p
+                                        v-if="cost.optional"
+                                        class="mt-0.5 text-sm text-muted-foreground"
+                                    >
+                                        Optioneel: niet inbegrepen in de
+                                        standaard kosten.
+                                    </p>
                                 </div>
                                 <span
-                                    class="text-right font-medium whitespace-nowrap text-foreground tabular-nums"
+                                    class="text-right font-medium whitespace-nowrap tabular-nums"
+                                    :class="
+                                        cost.optional
+                                            ? 'text-muted-foreground'
+                                            : 'text-foreground'
+                                    "
                                     >{{ formatEuro(cost.amount_eur) }}</span
                                 >
                             </li>

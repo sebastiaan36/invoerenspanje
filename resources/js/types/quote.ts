@@ -17,12 +17,17 @@ export interface FixedCost {
     key: string;
     label: string;
     amount_eur: number;
+    /** Listed for information only; never counted in a total. */
+    optional: boolean;
 }
 
 export interface ImportCostsPayload {
-    iedmt_eur: number;
-    iedmt_without_exemption_eur: number;
-    iedmt_rate_pct: number;
+    /** Null when the IEDMT cannot be determined automatically (see iedmt_determinable). */
+    iedmt_eur: number | null;
+    iedmt_determinable: boolean;
+    iedmt_without_exemption_eur: number | null;
+    /** Null when the CO2, and so the bracket, is unknown. */
+    iedmt_rate_pct: number | null;
     iedmt_exempt: boolean;
     iedmt_exempt_reason: string | null;
     estimated_market_value_eur: number;
@@ -33,8 +38,10 @@ export interface ImportCostsPayload {
     retention_pct: number;
     taxable_value_eur: number;
     fixed_costs: FixedCost[];
+    /** Sum of the non-optional fixed costs. */
     fixed_costs_total_eur: number;
-    total_eur: number;
+    /** IEDMT + fixed costs; null when the IEDMT is not determinable. */
+    total_eur: number | null;
     autonomia: string;
     notes: string[];
 }

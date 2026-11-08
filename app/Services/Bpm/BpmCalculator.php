@@ -237,7 +237,9 @@ final class BpmCalculator
      */
     private function calculateBrutoBpm(BpmInput $input, array $rates): float
     {
-        if ($this->isElectric($input->brandstof)) {
+        // Zero-emission (battery-electric and hydrogen) cars have no CO2
+        // component: they pay the fixed EV amount (0 until 2025).
+        if (BpmInput::isZeroEmissionFuel($input->brandstof)) {
             return (float) $rates['ev_fixed'];
         }
 
@@ -339,11 +341,6 @@ final class BpmCalculator
     private function isDiesel(string $brandstof): bool
     {
         return strtolower($brandstof) === 'diesel';
-    }
-
-    private function isElectric(string $brandstof): bool
-    {
-        return in_array(strtolower($brandstof), ['elektriciteit', 'elektrisch'], true);
     }
 
     private function isCommercial(?string $voertuigsoort): bool

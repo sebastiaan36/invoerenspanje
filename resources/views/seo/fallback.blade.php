@@ -143,7 +143,7 @@
                 <h2 class="mt-12 font-display text-2xl font-semibold">Vaste kosten in Spanje</h2>
                 <ul class="mt-4">
                     @foreach ($props['fixedCosts'] ?? [] as $cost)
-                        <li>{{ $cost['label'] }}: {{ $euro($cost['amount_eur']) }}</li>
+                        <li>{{ $cost['label'] }}: {{ $euro($cost['amount_eur']) }}@if ($cost['optional'] ?? false) (niet inbegrepen in de standaard kosten)@endif</li>
                     @endforeach
                     <li>Registratiebelasting (IEDMT): 0% tot 120 g/km CO₂, daarboven 4,75% tot 14,75% van de waarde. Vrijstelling mogelijk bij verhuizing van uw hoofdverblijf.</li>
                 </ul>

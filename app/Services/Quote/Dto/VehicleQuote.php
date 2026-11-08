@@ -27,9 +27,13 @@ final readonly class VehicleQuote
         return $this->rdw->found();
     }
 
+    /**
+     * Rest-BPM minus the Spanish costs; null when either side is unknown
+     * (no import calculation, or an IEDMT that must be determined manually).
+     */
     public function netEffectEur(): ?float
     {
-        if ($this->spainImport === null) {
+        if ($this->spainImport?->totalEur === null) {
             return null;
         }
         $bpmRest = $this->bpm !== null && $this->bpm->isEligible ? $this->bpm->restBpm : 0.0;
@@ -109,7 +113,10 @@ final readonly class VehicleQuote
 
         return [
             'iedmt_eur' => $this->spainImport->iedmtEur,
-            'iedmt_without_exemption_eur' => $this->spainImportWithoutExemption?->iedmtEur ?? $this->spainImport->iedmtEur,
+            'iedmt_determinable' => $this->spainImport->iedmtDeterminable,
+            'iedmt_without_exemption_eur' => $this->spainImportWithoutExemption !== null
+                ? $this->spainImportWithoutExemption->iedmtEur
+                : $this->spainImport->iedmtEur,
             'iedmt_rate_pct' => $this->spainImport->iedmtRatePct,
             'iedmt_exempt' => $this->spainImport->iedmtExempt,
             'iedmt_exempt_reason' => $this->spainImport->iedmtExemptReason,
@@ -121,7 +128,7 @@ final readonly class VehicleQuote
             'retention_pct' => $this->spainImport->retentionPct,
             'taxable_value_eur' => $this->spainImport->taxableValueEur,
             'fixed_costs' => array_map(
-                fn ($c) => ['key' => $c->key, 'label' => $c->label, 'amount_eur' => $c->amountEur],
+                fn ($c) => ['key' => $c->key, 'label' => $c->label, 'amount_eur' => $c->amountEur, 'optional' => $c->optional],
                 $this->spainImport->fixedCosts,
             ),
             'fixed_costs_total_eur' => $this->spainImport->fixedCostsTotalEur,

@@ -7,7 +7,9 @@ namespace App\Services\Hacienda;
 use App\Models\HaciendaVehiclePrice;
 use App\Services\Hacienda\Dto\HaciendaMatch;
 use App\Services\Rdw\Dto\VehicleLookupResult;
+use Illuminate\Contracts\Cache\Repository as CacheRepository;
 use Illuminate\Support\Collection;
+use Psr\Log\LoggerInterface;
 
 /**
  * Finds the Hacienda new value for an RDW vehicle in the Orden HAC table.
@@ -16,6 +18,9 @@ use Illuminate\Support\Collection;
  * the commercial period, fuel type, cylinder capacity and power. Hacienda
  * lists many trim levels per engine; the median of the closest rows is used,
  * just like a gestor would pick "the nearest version".
+ *
+ * Only the rows of the brand whose model name can contain the model family
+ * are loaded, and a match is cached per vehicle and imported table version.
  */
 final class HaciendaVehicleMatcher
 {
@@ -42,11 +47,112 @@ final class HaciendaVehicleMatcher
 
     private const int LOOSE_CC_TOLERANCE = 60;
 
+    /**
+     * Characters that may appear accented in a Hacienda model name; in the SQL
+     * pre-filter they match any single character.
+     */
+    private const string ACCENTABLE_CHARACTERS = 'AEIOUNC';
+
+    private ?bool $hasTable = null;
+
+    /**
+     * @param  CacheRepository|null  $cache  caches match results; without it every call queries the table
+     * @param  int  $cacheTtlSeconds  lifetime of a cached match (the key also changes with every re-import)
+     */
     public function __construct(
         private readonly int $tableYear,
+        private readonly ?CacheRepository $cache = null,
+        private readonly ?LoggerInterface $logger = null,
+        private readonly int $cacheTtlSeconds = 86_400,
     ) {}
 
+    /**
+     * Whether the configured table year has imported rows. When it has none,
+     * a warning is logged (at most once a day) instead of silently falling
+     * back to the catalogue price for every vehicle.
+     */
+    public function hasTable(): bool
+    {
+        if ($this->hasTable !== null) {
+            return $this->hasTable;
+        }
+
+        $this->hasTable = HaciendaVehiclePrice::query()->where('table_year', $this->tableYear)->exists();
+
+        if (! $this->hasTable && $this->shouldWarnAboutMissingTable()) {
+            $this->logger?->warning('Hacienda price table has no rows for the configured table year; falling back to the catalogue price.', [
+                'table_year' => $this->tableYear,
+            ]);
+        }
+
+        return $this->hasTable;
+    }
+
     public function match(VehicleLookupResult $rdw): ?HaciendaMatch
+    {
+        $cacheKey = $this->matchCacheKey($rdw);
+
+        if ($cacheKey === null) {
+            return $this->findMatch($rdw);
+        }
+
+        $cached = $this->cache?->get($cacheKey);
+
+        if (is_array($cached) && array_key_exists('match', $cached)) {
+            return $cached['match'] === null ? null : new HaciendaMatch(...$cached['match']);
+        }
+
+        $match = $this->findMatch($rdw);
+
+        $this->cache?->put($cacheKey, ['match' => $match === null ? null : [
+            'newValueEur' => $match->newValueEur,
+            'brand' => $match->brand,
+            'model' => $match->model,
+            'tableYear' => $match->tableYear,
+            'candidateCount' => $match->candidateCount,
+            'confidence' => $match->confidence,
+        ]], $this->cacheTtlSeconds);
+
+        return $match;
+    }
+
+    /**
+     * Cache key per matching input and imported table version (the import
+     * checksum). Null when there is no cache or the table was not loaded via
+     * the importer, so a changed table can never serve a stale match.
+     */
+    private function matchCacheKey(VehicleLookupResult $rdw): ?string
+    {
+        if ($this->cache === null) {
+            return null;
+        }
+
+        $checksum = $this->cache->get(HaciendaPriceImporter::checksumCacheKey($this->tableYear));
+
+        if (! is_string($checksum) || $checksum === '') {
+            return null;
+        }
+
+        $inputs = [
+            $rdw->vehicle?->merk,
+            $rdw->vehicle?->handelsbenaming,
+            $rdw->vehicle?->datumEersteToelating?->year,
+            $rdw->vehicle?->cilinderinhoud,
+            $rdw->fuel?->powerKw(),
+            $rdw->fuel?->brandstofOmschrijving,
+            $rdw->isPluginHybrid,
+        ];
+
+        return "hacienda:match:{$this->tableYear}:{$checksum}:".sha1((string) json_encode($inputs));
+    }
+
+    private function shouldWarnAboutMissingTable(): bool
+    {
+        return $this->cache === null
+            || $this->cache->add("hacienda:missing-table-warned:{$this->tableYear}", true, 86_400);
+    }
+
+    private function findMatch(VehicleLookupResult $rdw): ?HaciendaMatch
     {
         $vehicle = $rdw->vehicle;
 
@@ -62,21 +168,26 @@ final class HaciendaVehicleMatcher
         $family = $this->modelFamily((string) $vehicle->handelsbenaming, $brandKey, $brandWords);
         $nameTokens = $this->nameTokens((string) $vehicle->handelsbenaming, $brandWords, $family);
 
+        // Without a model family nothing can match (see step 2 below).
+        if ($family === '') {
+            return null;
+        }
+
         $brandRows = HaciendaVehiclePrice::query()
+            ->select(['id', 'brand', 'model', 'start_year', 'end_year', 'cc', 'fuel', 'kw', 'price_eur'])
             ->where('table_year', $this->tableYear)
             ->where('brand_key', $brandKey)
+            ->whereRaw('UPPER(model) LIKE ?', [$this->familyLikePattern($family)])
             ->get();
 
         if ($brandRows->isEmpty()) {
             return null;
         }
 
-        $familyRows = $family === ''
-            ? collect()
-            : $brandRows->filter(fn (HaciendaVehiclePrice $row) => $this->isSameFamily($row->model, $family, $brandKey, $brandWords));
+        $familyRows = $brandRows->filter(fn (HaciendaVehiclePrice $row) => $this->isSameFamily($row->model, $family, $brandKey, $brandWords));
 
         // Model code later in the Hacienda name (BMW "220I" → "Serie 2 Active Tourer 220i").
-        if ($familyRows->isEmpty() && $family !== '') {
+        if ($familyRows->isEmpty()) {
             $familyRows = $brandRows->filter(fn (HaciendaVehiclePrice $row) => $this->containsModelCode($row->model, $family));
         }
         $fuelGroups = $this->fuelCodeGroups($rdw);
@@ -165,6 +276,23 @@ final class HaciendaVehicleMatcher
         }
 
         return $this->nearestPower($rows, $kw);
+    }
+
+    /**
+     * A LIKE pattern every model name of the family satisfies: both family
+     * checks (isSameFamily, containsModelCode) compare glued alphanumeric words,
+     * so the family's characters always appear in order in the model name.
+     * Characters that may be accented in the table match any single character.
+     * This only narrows the rows; the exact checks still run in PHP.
+     */
+    private function familyLikePattern(string $family): string
+    {
+        $characters = array_map(
+            fn (string $character): string => str_contains(self::ACCENTABLE_CHARACTERS, $character) ? '_' : $character,
+            str_split($family),
+        );
+
+        return '%'.implode('%', $characters).'%';
     }
 
     private function brandKey(string $merk): string

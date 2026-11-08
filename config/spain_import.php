@@ -7,11 +7,11 @@ declare(strict_types=1);
 | Spaanse import-kosten — IEDMT, marktwaarde-afschrijving en vaste kosten
 |--------------------------------------------------------------------------
 |
-| ⚠ Onderstaande bedragen zijn PLACEHOLDER. De IEDMT-percentages onder
-| 'autonomias.default' komen overeen met de algemene rijksregeling, maar
-| autonome regio's mogen hier vanaf wijken (Canarias, La Rioja, e.a.).
-| Vaste kosten en de marktwaarde-tabel moeten geverifieerd worden tegen
-| recente Boletín Oficial del Estado / DGT-publicaties voor productie.
+| De IEDMT-percentages onder 'autonomias' volgen de algemene rijksregeling
+| (Ley 38/1992, art. 70); autonome regio's mogen hiervan afwijken (Canarias,
+| Cataluña, Valencia e.a.) en krijgen dan een eigen entry. De marktwaarde
+| volgt de jaarlijkse Orden HAC (Anexo I + IV). De vaste kosten zijn onze
+| partner-tarieven; controleer ze bij elke tariefwijziging van DGT/gestoría.
 |
 | Bron-referenties:
 |   - Ley 38/1992 (Impuestos Especiales) — IEDMT-grondslag
@@ -61,17 +61,20 @@ return [
      * Vaste kosten bij import en matriculatie in Spanje.
      * Worden opgeteld bij de IEDMT.
      *
+     * `optional` = true: de post wordt wel getoond, maar telt NIET mee in het
+     * totaal van de vaste kosten, het totaal Spanje en het netto-effect.
+     *
      * `amount_eur` = eindbedrag (geen btw, bijv. overheidsleges).
      * `amount_excl_vat_eur` + `vat_pct` = bedrag excl. btw; de klant betaalt
      * het bedrag inclusief btw (zie App\Services\SpainImport\SpainFixedCosts).
      *
-     * ⚠ Bedragen zijn schattingen — pas aan voor je eigen partner-tarieven.
+     * Bedragen zijn richtprijzen op basis van onze partner-tarieven.
      */
     'fixed_costs' => [
         ['key' => 'tasas',                 'label' => 'Tasas DGT (registratieleges)',    'amount_eur' => 125],
         ['key' => 'ficha_tecnica',         'label' => 'Ficha Técnica (technisch rapport)', 'amount_eur' => 103], // eindbedrag incl. 21% IVA
         ['key' => 'honorarios',            'label' => 'Honorarios gestoría (Spaans administratiekantoor)', 'amount_excl_vat_eur' => 181.50, 'vat_pct' => 21],
-        ['key' => 'matriculas_temporales', 'label' => 'Tijdelijke kentekenplaten (optioneel)', 'amount_excl_vat_eur' => 150, 'vat_pct' => 21],
+        ['key' => 'matriculas_temporales', 'label' => 'Tijdelijke kentekenplaten (optioneel)', 'amount_excl_vat_eur' => 150, 'vat_pct' => 21, 'optional' => true],
         ['key' => 'itv_keuring',          'label' => 'ITV-keuring (ca. € 150–160)', 'amount_eur' => 155],
     ],
 
@@ -105,6 +108,10 @@ return [
         // Art. 5, regel 2: "se podrá utilizar" — de correctie is toegestaan, niet verplicht.
         // Uit: de IEDMT wordt over de marktwaarde (na afschrijving) berekend.
         'apply_foreign_registration_correction' => false,
+
+        // Hoe lang een gevonden Hacienda-match per auto gecachet wordt (seconden).
+        // Na een nieuwe import (hacienda:sync) verandert de cache-sleutel vanzelf.
+        'match_cache_ttl_seconds' => 86_400,
     ],
 
     /*
@@ -142,6 +149,9 @@ return [
     'notes' => [
         'commercial_vehicle' => 'Voor bedrijfsauto\'s gelden aparte regels bij de inschrijving in Spanje (mixto / comercial / turismo classificatie). Wij behandelen dit individueel in de offerte.',
         'unknown_co2' => 'De CO2-uitstoot van deze auto is niet bekend bij de RDW. Zonder aantoonbare CO2-waarde (CoC) rekent Hacienda het hoogste tarief van 14,75%.',
+        'iedmt_unknown_value' => 'De registratiebelasting (IEDMT) is voor deze auto niet automatisch te bepalen: het model staat niet in de Hacienda-prijstabel en de RDW kent geen catalogusprijs. Wij berekenen dit handmatig in de offerte; de getoonde kosten in Spanje zijn exclusief IEDMT.',
+        'iedmt_unknown_co2' => 'De registratiebelasting (IEDMT) is voor deze auto niet automatisch te bepalen: de RDW heeft geen brandstof- en CO2-gegevens. Wij berekenen dit handmatig in de offerte; de getoonde kosten in Spanje zijn exclusief IEDMT.',
+        'hacienda_table_missing' => 'De Hacienda-prijstabel is op dit moment niet beschikbaar. De registratiebelasting is geschat op basis van de Nederlandse catalogusprijs nieuw; wij controleren de exacte Hacienda-waarde in de offerte.',
         'catalogue_price_fallback' => 'Dit model staat niet in de Hacienda-prijstabel. De registratiebelasting is geschat op basis van de Nederlandse catalogusprijs nieuw; wij controleren de exacte Hacienda-waarde in de offerte.',
     ],
 

@@ -3,7 +3,12 @@
     as a prop for Welcome.vue (v-html) and inside the crawler fallback HTML.
     The step list and cost overview opt out of .prose (not-prose) so they
     read as scannable blocks; prices come from config via the controller.
+    The fixed-cost total is computed here so optional items (temporary
+    plates) are left out, matching the calculator.
 --}}
+@php
+    $includedFixedCostsTotal = \App\Services\SpainImport\SpainFixedCosts::includedTotal();
+@endphp
 <h2>Auto invoeren in Spanje als Nederlander: wat komt erbij kijken?</h2>
 <p>
     Veel Nederlanders wonen of verblijven langdurig aan de Costa del Sol. Op een gegeven moment komt de vraag:
@@ -72,8 +77,8 @@
     </div>
     <div class="bg-card p-5">
         <dt class="text-sm text-muted-foreground">Vaste kosten in Spanje</dt>
-        <dd class="mt-1 font-display text-2xl font-semibold text-foreground">ca. €&nbsp;{{ number_format(round($fixedCostsTotal, -1), 0, ',', '.') }}</dd>
-        <dd class="mt-1 text-sm text-muted-foreground">Leges, platen, gestoría, ITV</dd>
+        <dd class="mt-1 font-display text-2xl font-semibold text-foreground">ca. €&nbsp;{{ number_format(round($includedFixedCostsTotal, -1), 0, ',', '.') }}</dd>
+        <dd class="mt-1 text-sm text-muted-foreground">Leges, gestoría, ITV (excl. optionele tijdelijke platen)</dd>
     </div>
     <div class="bg-card p-5">
         <dt class="text-sm text-muted-foreground">Registratiebelasting</dt>

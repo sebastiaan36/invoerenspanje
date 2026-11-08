@@ -26,8 +26,9 @@ declare(strict_types=1);
 |   - 2013/2014: een EIGEN dieselschijventabel (diesel_brackets / diesel_fixed_base)
 |     + de dieseltoeslag.
 |
-| ev_fixed = BPM-bedrag voor volledig elektrische auto's (0 g/km). Tot 2025
-| gold een vrijstelling (0); vanaf 2025 betaalt een EV het vaste basisbedrag.
+| ev_fixed = BPM-bedrag voor emissievrije auto's (0 g/km): volledig elektrisch
+| én waterstof. Tot 2025 gold een vrijstelling (0); vanaf 2025 betaalt een
+| emissievrije auto het vaste basisbedrag.
 |
 | PHEV (plug-in hybride): had 2017–2024 een EIGEN, steiler tarief over de
 | gewogen CO2-uitstoot (phev_fixed_base / phev_brackets). Daarbuiten (2013–2016

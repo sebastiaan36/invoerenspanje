@@ -20,14 +20,6 @@ final readonly class FuelData
     ) {}
 
     /**
-     * Non plug-in hybrid (NOVC-HEV): full or mild hybrid without a charging plug.
-     */
-    public function isNonPluginHybrid(): bool
-    {
-        return strtoupper((string) $this->klasseHybrideElektrischVoertuig) === 'NOVC-HEV';
-    }
-
-    /**
      * Engine power in kW: the combustion engine's net power, or the electric
      * motor's net power for a fully electric vehicle.
      */

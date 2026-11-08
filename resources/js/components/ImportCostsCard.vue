@@ -17,6 +17,19 @@ const isBelowThreshold = computed(
         !props.importCosts.iedmt_exempt,
 );
 
+// Without a new value or CO2 the IEDMT is unknown (not € 0): the total then
+// only covers the fixed costs and the IEDMT follows in the quote.
+const isIedmtUnknown = computed(
+    () =>
+        !props.importCosts.iedmt_exempt &&
+        (props.importCosts.iedmt_eur === null ||
+            !props.importCosts.iedmt_determinable),
+);
+
+const hasOptionalCosts = computed(() =>
+    props.importCosts.fixed_costs.some((cost) => cost.optional),
+);
+
 const euroFormatter = new Intl.NumberFormat('nl-NL', {
     style: 'currency',
     currency: 'EUR',
@@ -36,7 +49,17 @@ function formatEuro(value: number): string {
         <p
             class="mt-2 font-display text-3xl font-semibold text-foreground tabular-nums"
         >
-            {{ formatEuro(importCosts.total_eur) }}
+            <template v-if="importCosts.total_eur !== null">
+                {{ formatEuro(importCosts.total_eur) }}
+            </template>
+            <template v-else>
+                {{ formatEuro(importCosts.fixed_costs_total_eur) }}
+                <span
+                    class="block font-sans text-sm font-normal text-muted-foreground"
+                >
+                    + IEDMT, berekenen wij handmatig
+                </span>
+            </template>
         </p>
 
         <div
@@ -53,8 +76,13 @@ function formatEuro(value: number): string {
         <dl class="mt-5 space-y-3 text-sm">
             <div class="flex items-baseline justify-between gap-3">
                 <dt class="text-muted-foreground">
-                    Registratiebelasting (IEDMT,
-                    {{ importCosts.iedmt_rate_pct.toLocaleString('nl-NL') }}%)
+                    Registratiebelasting (IEDMT<template
+                        v-if="importCosts.iedmt_rate_pct !== null"
+                        >,
+                        {{
+                            importCosts.iedmt_rate_pct.toLocaleString('nl-NL')
+                        }}%</template
+                    >)
                 </dt>
                 <dd class="text-right font-medium tabular-nums">
                     <span
@@ -64,12 +92,22 @@ function formatEuro(value: number): string {
                         <BadgeCheck class="size-4" />
                         Vrijgesteld
                     </span>
+                    <span
+                        v-else-if="
+                            isIedmtUnknown || importCosts.iedmt_eur === null
+                        "
+                        class="text-muted-foreground"
+                    >
+                        Niet automatisch te bepalen – wij berekenen dit
+                        handmatig
+                    </span>
                     <span v-else>{{ formatEuro(importCosts.iedmt_eur) }}</span>
                 </dd>
             </div>
             <template
                 v-if="
                     !importCosts.iedmt_exempt &&
+                    importCosts.iedmt_rate_pct !== null &&
                     importCosts.iedmt_rate_pct > 0 &&
                     importCosts.new_value_eur > 0
                 "
@@ -114,8 +152,16 @@ function formatEuro(value: number): string {
                 :key="cost.key"
                 class="flex items-baseline justify-between gap-3"
             >
-                <dt class="text-muted-foreground">{{ cost.label }}</dt>
-                <dd class="text-right font-medium tabular-nums">
+                <dt class="text-muted-foreground">
+                    {{ cost.label }}
+                    <span v-if="cost.optional" class="block text-xs">
+                        Niet inbegrepen in het totaal
+                    </span>
+                </dt>
+                <dd
+                    class="text-right font-medium tabular-nums"
+                    :class="{ 'text-muted-foreground': cost.optional }"
+                >
                     {{ formatEuro(cost.amount_eur) }}
                 </dd>
             </div>
@@ -125,11 +171,28 @@ function formatEuro(value: number): string {
             >
                 <dt class="font-semibold text-foreground">
                     Totaal kosten Spanje
+                    <span
+                        v-if="importCosts.total_eur === null"
+                        class="block text-xs font-normal text-muted-foreground"
+                    >
+                        Exclusief IEDMT, die berekenen wij handmatig
+                    </span>
+                    <span
+                        v-else-if="hasOptionalCosts"
+                        class="block text-xs font-normal text-muted-foreground"
+                    >
+                        Exclusief optionele posten
+                    </span>
                 </dt>
                 <dd
                     class="text-right font-display text-lg font-semibold text-foreground tabular-nums"
                 >
-                    {{ formatEuro(importCosts.total_eur) }}
+                    {{
+                        formatEuro(
+                            importCosts.total_eur ??
+                                importCosts.fixed_costs_total_eur,
+                        )
+                    }}
                 </dd>
             </div>
         </dl>

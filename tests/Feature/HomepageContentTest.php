@@ -75,7 +75,7 @@ final class HomepageContentTest extends TestCase
         $html = $this->get(route('home'))->viewData('page')['props']['contentHtml'];
 
         $this->assertStringContainsString('vanaf €&nbsp;395', $html);
-        $this->assertStringContainsString('ca. €&nbsp;780', $html);
+        $this->assertStringContainsString('ca. €&nbsp;600', $html);
         $this->assertStringNotContainsString('€ 6.000', $html);
     }
 

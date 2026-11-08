@@ -45,8 +45,37 @@ final class SpainFixedCostsTest extends TestCase
 
         $result = (new SpainImportCalculator(config('spain_import')))->calculate($input, CarbonImmutable::create(2026, 1, 1));
 
-        // 125 + 103 + 219,62 + 181,50 + 155 = 784,12 (IEDMT 0% onder 120 g/km).
-        $this->assertSame(784.12, $result->fixedCostsTotalEur);
-        $this->assertSame(784.12, $result->totalEur);
+        // 125 + 103 + 219,62 + 155 = 602,62 (IEDMT 0% onder 120 g/km); de optionele
+        // tijdelijke kentekenplaten (€ 181,50) tellen niet mee.
+        $this->assertSame(602.62, $result->fixedCostsTotalEur);
+        $this->assertSame(602.62, $result->totalEur);
+    }
+
+    public function test_optional_costs_are_listed_but_not_counted(): void
+    {
+        $input = new SpainImportInput(
+            datumEersteToelating: CarbonImmutable::create(2020, 1, 1),
+            co2: 100,
+            catalogusprijsEur: 30000,
+            voertuigsoort: 'Personenauto',
+        );
+
+        $result = (new SpainImportCalculator(config('spain_import')))->calculate($input, CarbonImmutable::create(2026, 1, 1));
+        $plates = collect($result->fixedCosts)->firstWhere('key', 'matriculas_temporales');
+
+        $this->assertNotNull($plates);
+        $this->assertTrue($plates->optional);
+        $this->assertSame(181.5, $plates->amountEur);
+        $this->assertFalse(collect($result->fixedCosts)->firstWhere('key', 'honorarios')->optional);
+    }
+
+    public function test_the_included_total_skips_optional_items(): void
+    {
+        $this->assertSame(602.62, SpainFixedCosts::includedTotal());
+
+        $this->assertSame(10.0, SpainFixedCosts::includedTotal(SpainFixedCosts::resolve([
+            ['key' => 'a', 'label' => 'A', 'amount_eur' => 10],
+            ['key' => 'b', 'label' => 'B', 'amount_eur' => 99, 'optional' => true],
+        ])));
     }
 }

@@ -13,20 +13,24 @@ final readonly class SpainImportResult
     public const string VALUE_SOURCE_NONE = 'onbekend';
 
     /**
+     * @param  float|null  $iedmtEur  null when the IEDMT cannot be determined automatically (see $iedmtDeterminable)
+     * @param  float|null  $iedmtRatePct  null when the CO2 (and so the bracket) is unknown
      * @param  float  $estimatedMarketValueEur  new value × Anexo IV percentage
-     * @param  float  $taxableValueEur  market value after the art. 5 correction; the IEDMT base
-     * @param  list<FixedCostItem>  $fixedCosts
+     * @param  list<FixedCostItem>  $fixedCosts  including optional items, which are not counted in the totals
+     * @param  float  $fixedCostsTotalEur  sum of the non-optional fixed costs
+     * @param  float|null  $totalEur  IEDMT + fixed costs; null when the IEDMT is unknown
      * @param  list<string>  $notes
+     * @param  float  $taxableValueEur  market value after the art. 5 correction; the IEDMT base
      */
     public function __construct(
-        public float $iedmtEur,
-        public float $iedmtRatePct,
+        public ?float $iedmtEur,
+        public ?float $iedmtRatePct,
         public bool $iedmtExempt,
         public ?string $iedmtExemptReason,
         public float $estimatedMarketValueEur,
         public array $fixedCosts,
         public float $fixedCostsTotalEur,
-        public float $totalEur,
+        public ?float $totalEur,
         public string $autonomia,
         public array $notes,
         public string $valueSource = self::VALUE_SOURCE_NONE,
@@ -35,5 +39,6 @@ final readonly class SpainImportResult
         public ?string $haciendaConfidence = null,
         public int $retentionPct = 100,
         public float $taxableValueEur = 0.0,
+        public bool $iedmtDeterminable = true,
     ) {}
 }

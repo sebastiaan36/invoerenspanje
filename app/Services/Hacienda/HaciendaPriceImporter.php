@@ -22,6 +22,15 @@ final class HaciendaPriceImporter
         private readonly string $directory,
     ) {}
 
+    /**
+     * Cache key holding the checksum of the last imported CSV of a table year;
+     * it doubles as the version of the imported table.
+     */
+    public static function checksumCacheKey(int $tableYear): string
+    {
+        return "hacienda:prices:{$tableYear}:checksum";
+    }
+
     public function csvPath(int $tableYear): string
     {
         return $this->directory.DIRECTORY_SEPARATOR."precios_medios_{$tableYear}.csv";
@@ -64,7 +73,7 @@ final class HaciendaPriceImporter
 
             $tableYear = (int) $match[1];
             $checksum = (string) sha1_file($path);
-            $cacheKey = "hacienda:prices:{$tableYear}:checksum";
+            $cacheKey = self::checksumCacheKey($tableYear);
             $existingRows = HaciendaVehiclePrice::query()->where('table_year', $tableYear)->count();
 
             if (! $force && $existingRows > 0 && $this->cache->get($cacheKey) === $checksum) {
@@ -80,6 +89,9 @@ final class HaciendaPriceImporter
         return $result;
     }
 
+    /**
+     * @throws RuntimeException when the header or a row is malformed; nothing is imported then
+     */
     private function import(int $tableYear, string $path): int
     {
         $handle = fopen($path, 'r') ?: throw new RuntimeException("Kan {$path} niet lezen.");
@@ -93,41 +105,70 @@ final class HaciendaPriceImporter
 
         $count = 0;
 
-        DB::transaction(function () use ($handle, $tableYear, &$count): void {
-            HaciendaVehiclePrice::query()->where('table_year', $tableYear)->delete();
-
-            $batch = [];
-            while (($values = fgetcsv($handle, escape: '')) !== false) {
-                $row = array_combine(self::CSV_HEADER, $values);
-                $batch[] = [
-                    'table_year' => $tableYear,
-                    'brand_key' => HaciendaVehiclePrice::normalizeKey($row['brand']),
-                    'brand' => $row['brand'],
-                    'model' => $row['model'],
-                    'start_year' => (int) $row['start_year'],
-                    'end_year' => $row['end_year'] === '' ? null : (int) $row['end_year'],
-                    'cc' => $row['cc'] === '' ? null : (int) $row['cc'],
-                    'fuel' => $row['fuel'],
-                    'kw' => (int) $row['kw'],
-                    'cv' => $row['cv'] === '' ? null : (int) $row['cv'],
-                    'price_eur' => (int) $row['price_eur'],
-                ];
-
-                if (count($batch) === 500) {
-                    HaciendaVehiclePrice::query()->insert($batch);
-                    $count += count($batch);
-                    $batch = [];
-                }
-            }
-
-            if ($batch !== []) {
-                HaciendaVehiclePrice::query()->insert($batch);
-                $count += count($batch);
-            }
-        });
-
-        fclose($handle);
+        try {
+            DB::transaction(function () use ($handle, $path, $tableYear, &$count): void {
+                $this->importRows($handle, $path, $tableYear, $count);
+            });
+        } finally {
+            fclose($handle);
+        }
 
         return $count;
+    }
+
+    /**
+     * @param  resource  $handle  positioned after the header
+     *
+     * @throws RuntimeException when a row does not have one value per column
+     */
+    private function importRows($handle, string $path, int $tableYear, int &$count): void
+    {
+        HaciendaVehiclePrice::query()->where('table_year', $tableYear)->delete();
+
+        $batch = [];
+        $line = 1;
+        while (($values = fgetcsv($handle, escape: '')) !== false) {
+            $line++;
+
+            if ($values === [null]) {
+                continue;
+            }
+
+            if (count($values) !== count(self::CSV_HEADER)) {
+                throw new RuntimeException(sprintf(
+                    'Ongeldige regel %d in %s: %d kolommen verwacht, %d gevonden.',
+                    $line,
+                    $path,
+                    count(self::CSV_HEADER),
+                    count($values),
+                ));
+            }
+
+            $row = array_combine(self::CSV_HEADER, $values);
+            $batch[] = [
+                'table_year' => $tableYear,
+                'brand_key' => HaciendaVehiclePrice::normalizeKey($row['brand']),
+                'brand' => $row['brand'],
+                'model' => $row['model'],
+                'start_year' => (int) $row['start_year'],
+                'end_year' => $row['end_year'] === '' ? null : (int) $row['end_year'],
+                'cc' => $row['cc'] === '' ? null : (int) $row['cc'],
+                'fuel' => $row['fuel'],
+                'kw' => (int) $row['kw'],
+                'cv' => $row['cv'] === '' ? null : (int) $row['cv'],
+                'price_eur' => (int) $row['price_eur'],
+            ];
+
+            if (count($batch) === 500) {
+                HaciendaVehiclePrice::query()->insert($batch);
+                $count += count($batch);
+                $batch = [];
+            }
+        }
+
+        if ($batch !== []) {
+            HaciendaVehiclePrice::query()->insert($batch);
+            $count += count($batch);
+        }
     }
 }
