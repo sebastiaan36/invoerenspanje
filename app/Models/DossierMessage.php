@@ -30,6 +30,11 @@ final class DossierMessage extends Model
 
     protected static function booted(): void
     {
+        // Delete attachments through Eloquent so their files are removed too (the DB cascade skips model events).
+        self::deleting(function (DossierMessage $message): void {
+            $message->attachments()->get()->each->delete();
+        });
+
         self::created(function (DossierMessage $message): void {
             // Plan een mail naar de tegenpartij — throttle naar max 1 mail per uur per dossier+richting.
             app(MessageNotifier::class)->onCreated($message);

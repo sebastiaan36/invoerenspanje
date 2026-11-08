@@ -7,6 +7,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 /**
  * @property int $id
@@ -23,6 +25,18 @@ final class DossierMessageAttachment extends Model
     protected $table = 'dossier_message_attachments';
 
     protected $guarded = ['id'];
+
+    /**
+     * Remove the stored file together with the record, once the delete is committed.
+     */
+    protected static function booted(): void
+    {
+        self::deleted(function (DossierMessageAttachment $attachment): void {
+            $path = $attachment->path;
+
+            DB::afterCommit(fn () => Storage::disk('local')->delete($path));
+        });
+    }
 
     /**
      * @return array<string, string>

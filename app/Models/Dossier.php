@@ -9,6 +9,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 /**
  * @property int $id
@@ -53,6 +55,28 @@ final class Dossier extends Model
     ];
 
     protected $guarded = ['id'];
+
+    /**
+     * Delete documents and messages through Eloquent, so their files are
+     * removed as well (the DB cascade skips model events), and clear the
+     * dossier's upload folders for anything left behind.
+     */
+    protected static function booted(): void
+    {
+        self::deleting(function (Dossier $dossier): void {
+            $dossier->documents()->get()->each->delete();
+            $dossier->messages()->get()->each->delete();
+        });
+
+        self::deleted(function (Dossier $dossier): void {
+            $id = $dossier->id;
+
+            DB::afterCommit(function () use ($id): void {
+                Storage::disk('local')->deleteDirectory("dossiers/{$id}");
+                Storage::disk('local')->deleteDirectory("dossier-message-attachments/{$id}");
+            });
+        });
+    }
 
     /**
      * @return array<string, string>

@@ -63,7 +63,7 @@ final class DocumentController extends Controller
 
         abort_unless($document->status === Document::STATUS_GEUPLOAD, 403);
 
-        Storage::disk('local')->delete($document->path);
+        // Document::deleted removes the stored file.
         $document->delete();
 
         return back()->with('success', 'Document verwijderd.');
