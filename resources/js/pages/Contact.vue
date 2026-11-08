@@ -15,6 +15,7 @@ import WerkgebiedKaart from '@/components/WerkgebiedKaart.vue';
 import PublicLayout from '@/layouts/PublicLayout.vue';
 import { trackEvent } from '@/lib/analytics';
 import { EMAIL, PHONE, PHONE_DISPLAY, WHATSAPP_URL } from '@/lib/contact';
+import { store as storeContact } from '@/routes/contact';
 
 interface Plaats {
     naam: string;
@@ -53,13 +54,41 @@ const form = useForm({
 
 const submitted = ref(false);
 
+/** Banner text for failures that aren't validation errors (429, 419, 500, offline). */
+const generalError = ref<string | null>(null);
+
+function messageForStatus(status: number): string {
+    if (status === 429) {
+        return 'U heeft net al een paar berichten gestuurd. Wacht een minuut en probeer het opnieuw.';
+    }
+
+    if (status === 419) {
+        return 'Uw sessie is verlopen. Ververs de pagina en verstuur uw bericht opnieuw.';
+    }
+
+    return `Er is iets misgegaan bij het versturen. Probeer het opnieuw, of mail ons via ${EMAIL}.`;
+}
+
 function submit(): void {
-    form.post('/contact', {
+    generalError.value = null;
+
+    form.submit(storeContact(), {
         preserveScroll: true,
         onSuccess: () => {
             submitted.value = true;
             form.reset();
             trackEvent('generate_lead', { method: 'contact_form' });
+        },
+        // Returning false suppresses Inertia's default error modal; we show a banner instead.
+        onHttpException: (response) => {
+            generalError.value = messageForStatus(response.status);
+
+            return false;
+        },
+        onNetworkError: () => {
+            generalError.value = `Geen verbinding. Controleer uw internet en probeer het opnieuw, of mail ons via ${EMAIL}.`;
+
+            return false;
         },
     });
 }
@@ -416,12 +445,13 @@ function submit(): void {
                             <!-- Algemene serverfout -->
                             <div
                                 v-if="
-                                    form.hasErrors &&
-                                    !form.errors.name &&
-                                    !form.errors.email &&
-                                    !form.errors.phone &&
-                                    !form.errors.subject &&
-                                    !form.errors.message
+                                    generalError ||
+                                    (form.hasErrors &&
+                                        !form.errors.name &&
+                                        !form.errors.email &&
+                                        !form.errors.phone &&
+                                        !form.errors.subject &&
+                                        !form.errors.message)
                                 "
                                 role="alert"
                                 class="flex items-start gap-2 rounded-xl border border-destructive/30 bg-destructive/5 p-3 text-sm text-destructive"
@@ -430,7 +460,10 @@ function submit(): void {
                                     class="mt-0.5 size-4 shrink-0"
                                     aria-hidden="true"
                                 />
-                                <span>
+                                <span v-if="generalError">{{
+                                    generalError
+                                }}</span>
+                                <span v-else>
                                     Er is iets misgegaan bij het versturen.
                                     Probeer het opnieuw, of mail ons via
                                     {{ EMAIL }}.
