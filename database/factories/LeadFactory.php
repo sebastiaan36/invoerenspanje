@@ -33,6 +33,11 @@ final class LeadFactory extends Factory
         ];
     }
 
+    public function verloren(): self
+    {
+        return $this->state(fn (array $attributes): array => ['status' => 'verloren']);
+    }
+
     public function gewonnen(): self
     {
         return $this->state(fn (array $attributes): array => ['status' => 'gewonnen']);

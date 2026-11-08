@@ -76,6 +76,12 @@ return [
             'updated' => '2026-10-25',
         ],
 
+        // Feedbackpagina voor verloren leads; noindex (zie app.blade.php).
+        'feedback.show' => [
+            'title' => 'Uw feedback — autoinvoerenspanje.nl',
+            'description' => 'Laat ons weten waarom u niet voor ons heeft gekozen, zodat wij onze service kunnen verbeteren.',
+        ],
+
         // Link-in-bio page; noindex and not in the sitemap (see app.blade.php).
         'instagram' => [
             'title' => 'Auto op Spaans kenteken — autoinvoerenspanje.nl',
