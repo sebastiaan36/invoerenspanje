@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\LeadController;
 use App\Http\Controllers\Api\LookupController;
 use App\Http\Controllers\Blog\BlogController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\LeadFeedbackController;
 use App\Http\Controllers\Portal\DocumentController;
 use App\Http\Controllers\Portal\MessageController;
 use App\Http\Controllers\Portal\PortalController;
@@ -24,6 +25,14 @@ Route::get('bpm-calculator', [PublicPageController::class, 'bpmCalculator'])->na
 Route::get('veelgestelde-vragen', [PublicPageController::class, 'faq'])->name('faq');
 Route::get('auto-invoeren-spanje', [PublicPageController::class, 'gids'])->name('gids');
 Route::get('instagram', [PublicPageController::class, 'instagram'])->name('instagram');
+
+// Feedback van verloren leads via de unieke link uit de feedbackmail (noindex, niet in de sitemap).
+Route::get('feedback/{token}', [LeadFeedbackController::class, 'show'])
+    ->middleware('throttle:30,1')
+    ->name('feedback.show');
+Route::post('feedback/{token}', [LeadFeedbackController::class, 'store'])
+    ->middleware('throttle:5,1')
+    ->name('feedback.store');
 
 Route::get('sitemap.xml', SitemapController::class)->name('sitemap');
 

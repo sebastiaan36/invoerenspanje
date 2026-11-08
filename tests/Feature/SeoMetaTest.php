@@ -20,6 +20,10 @@ final class SeoMetaTest extends TestCase
                 continue; // covered separately with a real route below
             }
 
+            if ($routeName === 'feedback.show') {
+                continue; // needs a lead token; covered in LostLeadFeedbackTest
+            }
+
             $response = $this->get(route($routeName));
 
             $response->assertOk();

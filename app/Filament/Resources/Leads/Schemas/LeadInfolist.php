@@ -6,6 +6,7 @@ namespace App\Filament\Resources\Leads\Schemas;
 
 use App\Services\Packages\ServicePackages;
 use Filament\Infolists\Components\IconEntry;
+use Filament\Infolists\Components\RepeatableEntry;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
@@ -36,6 +37,33 @@ class LeadInfolist
                             ->dateTime('d-m-Y H:i'),
                     ])
                     ->columns(3),
+
+                Section::make('Feedback na verlies')
+                    ->description('Twee weken na "verloren" krijgt de lead automatisch een mail met de vraag waarom hij of zij niet voor ons koos.')
+                    ->visible(fn ($record): bool => $record->status === 'verloren' || $record->feedback_requested_at !== null || $record->feedback()->exists())
+                    ->schema([
+                        TextEntry::make('lost_at')
+                            ->label('Verloren op')
+                            ->dateTime('d-m-Y H:i')
+                            ->placeholder('—'),
+                        TextEntry::make('feedback_requested_at')
+                            ->label('Feedbackmail verstuurd')
+                            ->dateTime('d-m-Y H:i')
+                            ->placeholder('Nog niet'),
+                        RepeatableEntry::make('feedback')
+                            ->label('Feedback van de klant')
+                            ->placeholder('Nog geen feedback ontvangen')
+                            ->schema([
+                                TextEntry::make('message')
+                                    ->hiddenLabel()
+                                    ->columnSpanFull(),
+                                TextEntry::make('created_at')
+                                    ->label('Ontvangen op')
+                                    ->dateTime('d-m-Y H:i'),
+                            ])
+                            ->columnSpanFull(),
+                    ])
+                    ->columns(2),
 
                 Section::make('Klant')
                     ->schema([

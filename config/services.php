@@ -39,6 +39,12 @@ return [
         'email' => env('INTERNAL_NOTIFICATIONS_EMAIL', 'info@autoinvoerenspanje.nl'),
     ],
 
+    // Afzender van de feedbackmail aan verloren leads (platte tekst, persoonlijk van Sebastiaan).
+    'lead_feedback' => [
+        'from_address' => env('LEAD_FEEDBACK_FROM_ADDRESS', 'info@autoinvoerenspanje.nl'),
+        'from_name' => env('LEAD_FEEDBACK_FROM_NAME', 'Sebastiaan Been'),
+    ],
+
     // Telegram-bericht bij elke nieuwe lead, met een WhatsApp-link om de
     // klantgegevens door te sturen. Zonder token of chat-id gebeurt er niets.
     'telegram' => [
