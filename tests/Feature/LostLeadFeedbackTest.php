@@ -369,6 +369,26 @@ final class LostLeadFeedbackTest extends TestCase
         $this->get(route('feedback.show', ['token' => 'geldige-token']))->assertTooManyRequests();
     }
 
+    public function test_analytics_and_social_tags_never_see_the_token(): void
+    {
+        $this->askedLead();
+        $this->app->detectEnvironment(fn (): string => 'production');
+
+        $html = $this->get(route('feedback.show', ['token' => 'geldige-token']))->assertOk()->getContent();
+        $head = substr($html, 0, strpos($html, '</head>'));
+
+        $this->assertStringContainsString("gtag('config', 'G-MER8N0VEN2', {", $head);
+        $this->assertStringContainsString('"page_path":"\/feedback"', $head);
+        $this->assertStringNotContainsString('geldige-token', $head);
+    }
+
+    public function test_other_pages_keep_the_plain_analytics_config(): void
+    {
+        $this->app->detectEnvironment(fn (): string => 'production');
+
+        $this->get(route('tarieven'))->assertSee("gtag('config', 'G-MER8N0VEN2');", false);
+    }
+
     public function test_the_command_is_scheduled_daily_without_overlapping(): void
     {
         $event = collect(app(Schedule::class)->events())

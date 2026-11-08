@@ -4,6 +4,12 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
+        @php
+            // Personal feedback links carry a secret token in the URL; analytics
+            // and social tags only ever see the path without it.
+            $hasSecretInUrl = request()->routeIs('feedback.*');
+        @endphp
+
         @production
             {{-- Google tag (gtag.js) — GA4. The 196 KB library loads after the page
                  has finished loading so it doesn't compete with the first render;
@@ -12,7 +18,11 @@
                 window.dataLayer = window.dataLayer || [];
                 function gtag(){dataLayer.push(arguments);}
                 gtag('js', new Date());
+                @if ($hasSecretInUrl)
+                gtag('config', 'G-MER8N0VEN2', @json(['page_location' => rtrim(config('app.url'), '/').'/feedback', 'page_path' => '/feedback']));
+                @else
                 gtag('config', 'G-MER8N0VEN2');
+                @endif
 
                 window.addEventListener('load', function () {
                     var script = document.createElement('script');
@@ -68,7 +78,7 @@
 
             // Built from APP_URL plus the route path, so aliases like /index.php
             // or a stray host never become their own canonical.
-            $path = trim(request()->path(), '/');
+            $path = $hasSecretInUrl ? 'feedback' : trim(request()->path(), '/');
             $canonicalUrl = rtrim(config('app.url'), '/').($path === '' ? '' : '/'.$path);
 
             $isPublicPage = in_array($page['component'], ['Welcome', 'Diensten', 'Tarieven', 'BpmCalculator', 'Contact', 'OverOns', 'Faq', 'Gids'], true)

@@ -33,6 +33,14 @@ declare global {
 }
 
 /**
+ * The current path without secrets: personal feedback links (/feedback/{token})
+ * are reported as /feedback, like the page_location set in app.blade.php.
+ */
+function analyticsPagePath(): string {
+    return window.location.pathname.replace(/^\/feedback\/[^/]+/, '/feedback');
+}
+
+/**
  * Send a GA4 event. Does nothing when gtag is not loaded.
  */
 export function trackEvent(
@@ -41,7 +49,7 @@ export function trackEvent(
 ): void {
     if (typeof window !== 'undefined' && typeof window.gtag === 'function') {
         window.gtag('event', name, {
-            page_path: window.location.pathname,
+            page_path: analyticsPagePath(),
             ...params,
         });
     }
