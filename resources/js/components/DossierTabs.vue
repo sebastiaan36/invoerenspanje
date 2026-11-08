@@ -2,25 +2,11 @@
 import { Link } from '@inertiajs/vue3';
 import { FolderOpen, Files, MessageSquare } from 'lucide-vue-next';
 import { computed } from 'vue';
-
-interface DossierUrls {
-    show: string;
-    documents: string;
-    messages: string;
-}
-
-interface Dossier {
-    id: number;
-    kenteken: string;
-    merk: string | null;
-    model: string | null;
-    status: string;
-    unread_admin_messages_count?: number | null;
-    urls: DossierUrls;
-}
+import { dashboard as portalDashboard } from '@/routes/portaal';
+import type { DossierSummary } from '@/types/dossier';
 
 const props = defineProps<{
-    dossier: Dossier;
+    dossier: DossierSummary;
     active: 'show' | 'documents' | 'messages';
 }>();
 
@@ -54,7 +40,7 @@ const tabs = computed(() => [
         <div class="flex items-baseline justify-between gap-4">
             <div>
                 <Link
-                    href="/portaal"
+                    :href="portalDashboard()"
                     class="text-xs font-medium tracking-wider text-muted-foreground uppercase hover:text-primary"
                 >
                     ← Mijn dossiers
