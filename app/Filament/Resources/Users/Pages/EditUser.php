@@ -3,8 +3,10 @@
 namespace App\Filament\Resources\Users\Pages;
 
 use App\Filament\Resources\Users\UserResource;
+use App\Models\User;
 use Filament\Actions\DeleteAction;
 use Filament\Resources\Pages\EditRecord;
+use Illuminate\Support\Facades\Auth;
 
 class EditUser extends EditRecord
 {
@@ -13,7 +15,12 @@ class EditUser extends EditRecord
     protected function getHeaderActions(): array
     {
         return [
-            DeleteAction::make(),
+            DeleteAction::make()
+                ->hidden(function (User $record): bool {
+                    $actor = Auth::user();
+
+                    return $record->deletionBlockedReason($actor instanceof User ? $actor : null) !== null;
+                }),
         ];
     }
 }
