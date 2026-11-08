@@ -4,31 +4,11 @@ import { ArrowLeft, ArrowRight } from 'lucide-vue-next';
 import { computed } from 'vue';
 import ContactStrip from '@/components/ContactStrip.vue';
 import PublicLayout from '@/layouts/PublicLayout.vue';
-
-interface Post {
-    slug: string;
-    title: string;
-    excerpt: string | null;
-    content_html: string;
-    hero_image_url: string | null;
-    hero_image_srcset: string | null;
-    published_at: string | null;
-    author: string | null;
-}
-
-interface RelatedPost {
-    slug: string;
-    title: string;
-    excerpt: string | null;
-    hero_image_url: string | null;
-    hero_image_srcset: string | null;
-    published_at: string | null;
-    author: string | null;
-}
+import type { BlogPost, PostSummary } from '@/types/blog';
 
 const props = defineProps<{
-    post: Post;
-    related: RelatedPost[];
+    post: BlogPost;
+    related: PostSummary[];
 }>();
 
 const offerteHref = '/#offerte';

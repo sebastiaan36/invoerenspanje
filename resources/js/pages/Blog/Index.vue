@@ -4,16 +4,7 @@ import { ChevronLeft, ChevronRight } from 'lucide-vue-next';
 import { computed } from 'vue';
 import ContactStrip from '@/components/ContactStrip.vue';
 import PublicLayout from '@/layouts/PublicLayout.vue';
-
-interface PostSummary {
-    slug: string;
-    title: string;
-    excerpt: string | null;
-    hero_image_url: string | null;
-    hero_image_srcset: string | null;
-    published_at: string | null;
-    author: string | null;
-}
+import type { PostSummary } from '@/types/blog';
 
 interface PaginationLink {
     url: string | null;

@@ -25,13 +25,15 @@ class DossiersTable
 
         return $table
             ->defaultSort('updated_at', 'desc')
+            ->modifyQueryUsing(fn (Builder $query): Builder => $query->withExists([
+                'messages as has_unread_messages' => fn (Builder $messages): Builder => $messages
+                    ->where('author_role', 'klant')
+                    ->whereNull('read_at'),
+            ]))
             ->columns([
                 IconColumn::make('has_unread_messages')
                     ->label('Nieuw')
-                    ->getStateUsing(fn (Dossier $record): bool => $record->messages()
-                        ->where('author_role', 'klant')
-                        ->whereNull('read_at')
-                        ->exists())
+                    ->getStateUsing(fn (Dossier $record): bool => (bool) $record->getAttribute('has_unread_messages'))
                     ->boolean()
                     ->trueIcon('heroicon-o-envelope')
                     ->trueColor('warning')

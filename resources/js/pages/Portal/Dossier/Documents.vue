@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Head, useForm, usePage } from '@inertiajs/vue3';
+import { Head, router, useForm, usePage } from '@inertiajs/vue3';
 import {
     CheckCircle2,
     AlertCircle,
@@ -10,7 +10,9 @@ import {
     XCircle,
 } from 'lucide-vue-next';
 import { ref } from 'vue';
+import { destroy as destroyDocument } from '@/actions/App/Http/Controllers/Portal/DocumentController';
 import DossierTabs from '@/components/DossierTabs.vue';
+import type { DossierSummary } from '@/types/dossier';
 
 interface DocumentRow {
     id: number;
@@ -25,18 +27,8 @@ interface DocumentRow {
     download_url: string;
 }
 
-interface Dossier {
-    id: number;
-    kenteken: string;
-    merk: string | null;
-    model: string | null;
-    status: string;
-    unread_admin_messages_count: number | null;
-    urls: { show: string; documents: string; messages: string };
-}
-
 const props = defineProps<{
-    dossier: Dossier;
+    dossier: DossierSummary;
     documents: DocumentRow[];
     documentTypes: Record<string, string>;
 }>();
@@ -68,12 +60,43 @@ function submit() {
     });
 }
 
+/** Id of the document being deleted; doubles as a guard against double clicks. */
+const deletingId = ref<number | null>(null);
+const deleteError = ref<string | null>(null);
+
 function destroy(doc: DocumentRow) {
+    if (deletingId.value !== null) {
+        return;
+    }
+
     if (!confirm(`Document "${doc.filename}" verwijderen?`)) {
         return;
     }
 
-    useForm({}).delete(`${props.dossier.urls.documents}/${doc.id}`);
+    deletingId.value = doc.id;
+    deleteError.value = null;
+
+    router.delete(
+        destroyDocument({ dossier: props.dossier.id, document: doc.id }),
+        {
+            preserveScroll: true,
+            onFinish: () => {
+                deletingId.value = null;
+            },
+            // Returning false suppresses Inertia's default error modal.
+            onHttpException: () => {
+                deleteError.value = `"${doc.filename}" kon niet worden verwijderd. Mogelijk is het al beoordeeld; ververs de pagina of stuur ons een bericht.`;
+
+                return false;
+            },
+            onNetworkError: () => {
+                deleteError.value =
+                    'Geen verbinding. Controleer uw internet en probeer het opnieuw.';
+
+                return false;
+            },
+        },
+    );
 }
 
 function formatBytes(bytes: number): string {
@@ -192,7 +215,16 @@ function statusInfo(status: string) {
                 </button>
             </form>
             <div
+                v-if="form.errors.type"
+                role="alert"
+                class="mt-3 flex items-center gap-2 text-sm text-destructive"
+            >
+                <AlertCircle class="size-4" />
+                {{ form.errors.type }}
+            </div>
+            <div
                 v-if="form.errors.file"
+                role="alert"
                 class="mt-3 flex items-center gap-2 text-sm text-destructive"
             >
                 <AlertCircle class="size-4" />
@@ -205,6 +237,15 @@ function statusInfo(status: string) {
                 <h2 class="font-display text-lg font-semibold text-foreground">
                     Geüploade documenten
                 </h2>
+            </div>
+
+            <div
+                v-if="deleteError"
+                role="alert"
+                class="flex items-center gap-2 border-b border-border bg-destructive/5 p-4 text-sm text-destructive"
+            >
+                <AlertCircle class="size-4 shrink-0" />
+                {{ deleteError }}
             </div>
 
             <div
@@ -266,11 +307,17 @@ function statusInfo(status: string) {
                         <button
                             v-if="doc.status === 'geupload'"
                             type="button"
-                            class="inline-flex h-8 items-center gap-1 rounded-md border border-destructive/40 px-3 text-xs font-medium text-destructive hover:bg-destructive/5"
+                            :disabled="deletingId !== null"
+                            :aria-busy="deletingId === doc.id"
+                            class="inline-flex h-8 items-center gap-1 rounded-md border border-destructive/40 px-3 text-xs font-medium text-destructive hover:bg-destructive/5 disabled:opacity-50"
                             @click="destroy(doc)"
                         >
                             <Trash2 class="size-3.5" />
-                            Verwijder
+                            {{
+                                deletingId === doc.id
+                                    ? 'Verwijderen…'
+                                    : 'Verwijder'
+                            }}
                         </button>
                     </div>
                 </li>

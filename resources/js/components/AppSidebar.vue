@@ -14,6 +14,8 @@ import {
     SidebarMenuButton,
     SidebarMenuItem,
 } from '@/components/ui/sidebar';
+import { dashboard as portalDashboard } from '@/routes/portaal';
+import { edit as editProfile } from '@/routes/profile';
 import type { NavItem } from '@/types';
 
 const page = usePage<{ portal?: { unreadMessages: number } | null }>();
@@ -25,13 +27,13 @@ const unreadMessages = computed(() => page.props.portal?.unreadMessages ?? 0);
 const mainNavItems = computed<NavItem[]>(() => [
     {
         title: 'Mijn dossiers',
-        href: '/portaal',
+        href: portalDashboard(),
         icon: LayoutGrid,
         ...(unreadMessages.value > 0
             ? { badge: String(unreadMessages.value) }
             : {}),
     },
-    { title: 'Profiel', href: '/settings/profile', icon: UserCircle },
+    { title: 'Profiel', href: editProfile(), icon: UserCircle },
 ]);
 </script>
 
@@ -41,7 +43,7 @@ const mainNavItems = computed<NavItem[]>(() => [
             <SidebarMenu>
                 <SidebarMenuItem>
                     <SidebarMenuButton size="lg" as-child>
-                        <Link href="/portaal">
+                        <Link :href="portalDashboard()">
                             <AppLogo />
                         </Link>
                     </SidebarMenuButton>

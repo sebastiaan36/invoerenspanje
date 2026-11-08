@@ -146,6 +146,7 @@ class BlogFileSyncTest extends TestCase
     public function test_removing_a_file_archives_its_post_but_leaves_admin_posts_alone(): void
     {
         $this->writePost('weg', ['title' => 'Weg', 'published_at' => '2026-05-23 16:40']);
+        $this->writePost('blijft', ['title' => 'Blijft', 'published_at' => '2026-05-23 16:40']);
         app(BlogFileSync::class)->sync();
         Post::create([
             'title' => 'Uit admin',
@@ -187,5 +188,91 @@ class BlogFileSyncTest extends TestCase
 
         $this->expectException(RuntimeException::class);
         app(BlogFileSync::class)->sync();
+    }
+
+    public function test_an_empty_content_folder_aborts_instead_of_archiving_everything(): void
+    {
+        $this->writePost('blijft', ['title' => 'Blijft', 'published_at' => '2026-05-23 16:40']);
+        app(BlogFileSync::class)->sync();
+        File::delete("{$this->dir}/blijft.md");
+
+        $this->artisan('blog:sync')
+            ->expectsOutputToContain('Geen blogbestanden gevonden')
+            ->assertFailed();
+
+        $this->assertSame(Post::STATUS_PUBLISHED, Post::firstWhere('slug', 'blijft')->status);
+    }
+
+    public function test_an_empty_content_folder_is_fine_when_no_file_posts_exist(): void
+    {
+        $result = app(BlogFileSync::class)->sync();
+
+        $this->assertSame([], $result['created']);
+        $this->assertSame([], $result['archived']);
+    }
+
+    public function test_one_invalid_file_stops_the_whole_sync_before_anything_is_written(): void
+    {
+        $this->writePost('a-geldig', ['title' => 'Geldig', 'published_at' => '2026-05-23 16:40']);
+        $this->writePost('b-kapot', ['title' => 'Kapot', 'published_at' => '2026-05-23 16:40', 'status' => 'onbekend']);
+
+        $this->artisan('blog:sync')->assertFailed();
+
+        $this->assertSame(0, Post::count());
+    }
+
+    public function test_a_failure_while_writing_rolls_back_every_change(): void
+    {
+        $this->writePost('a-eerste', ['title' => 'Eerste', 'published_at' => '2026-05-23 16:40']);
+        $this->writePost('b-tweede', ['title' => 'Tweede', 'published_at' => '2026-05-23 16:40']);
+
+        Post::saving(function (Post $post): void {
+            if ($post->slug === 'b-tweede') {
+                throw new RuntimeException('Database weg.');
+            }
+        });
+
+        try {
+            app(BlogFileSync::class)->sync();
+            $this->fail('Sync had moeten falen.');
+        } catch (RuntimeException $exception) {
+            $this->assertSame('Database weg.', $exception->getMessage());
+        }
+
+        $this->assertSame(0, Post::count());
+    }
+
+    public function test_hero_image_outside_the_content_folder_is_refused(): void
+    {
+        $outside = dirname($this->dir).'/geheim-'.uniqid().'.png';
+        File::put($outside, 'x');
+
+        try {
+            $this->writePost('x', ['title' => 'X', 'published_at' => '2026-05-23 16:40', 'hero_image' => '../'.basename($outside)]);
+
+            $this->artisan('blog:sync')
+                ->expectsOutputToContain('buiten de contentmap')
+                ->assertFailed();
+
+            $this->assertSame(0, Post::count());
+            $this->assertSame([], Storage::disk('public')->allFiles());
+        } finally {
+            File::delete($outside);
+        }
+    }
+
+    /**
+     * A broken article makes blog:sync fail and stops the deploy script, so the
+     * caches must already be rebuilt by then.
+     */
+    public function test_deploy_script_rebuilds_caches_before_syncing_the_blog(): void
+    {
+        $composer = json_decode((string) file_get_contents(base_path('composer.json')), true);
+        $steps = $composer['scripts']['deploy'];
+
+        $this->assertLessThan(
+            array_search('@php artisan blog:sync', $steps, true),
+            array_search('@php artisan optimize', $steps, true),
+        );
     }
 }

@@ -5,9 +5,8 @@ declare(strict_types=1);
 namespace App\Filament\Widgets;
 
 use App\Filament\Pages\StaffelBreakdown;
-use App\Models\Lead;
-use App\Services\Packages\ServicePackages;
 use App\Services\Revenue\RevenueDistribution;
+use App\Services\Revenue\WonLeadRevenue;
 use Filament\Widgets\StatsOverviewWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
 use Illuminate\Support\Carbon;
@@ -18,13 +17,7 @@ final class RevenueDistributionOverview extends StatsOverviewWidget
     {
         $yearStart = Carbon::now()->startOfYear();
 
-        $revenueThisYear = Lead::whereNotNull('package_slug')
-            ->where('status', 'gewonnen')
-            ->whereDate('created_at', '>=', $yearStart)
-            ->get()
-            ->sum(fn (Lead $lead) => ServicePackages::findBySlug($lead->package_slug)?->priceEur ?? 0);
-
-        $distribution = new RevenueDistribution((float) $revenueThisYear);
+        $distribution = new RevenueDistribution(WonLeadRevenue::revenueSince($yearStart));
 
         $year = Carbon::now()->year;
 
