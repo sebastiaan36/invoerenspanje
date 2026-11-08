@@ -1,9 +1,13 @@
 <script setup lang="ts">
+import AccentHeading from '@/components/AccentHeading.vue';
 import ContactStrip from '@/components/ContactStrip.vue';
 import KentekenLookup from '@/components/KentekenLookup.vue';
+import { usePageSeo } from '@/composables/usePageSeo';
 import PublicLayout from '@/layouts/PublicLayout.vue';
 
 withDefaults(defineProps<{ contentHtml?: string }>(), { contentHtml: '' });
+
+const seo = usePageSeo();
 </script>
 
 <template>
@@ -12,19 +16,15 @@ withDefaults(defineProps<{ contentHtml?: string }>(), { contentHtml: '' });
             <div
                 class="container mx-auto max-w-4xl px-4 py-16 text-center md:py-24"
             >
-                <h1
+                <AccentHeading
+                    :text="seo.h1 ?? ''"
+                    :accent="seo.h1_accent"
                     class="font-display text-4xl leading-tight font-semibold text-balance text-foreground md:text-5xl"
-                >
-                    Bereken uw rest-<span class="text-accent">BPM</span> bij
-                    export
-                </h1>
+                />
                 <p
                     class="mx-auto mt-5 max-w-2xl text-lg text-pretty text-muted-foreground"
                 >
-                    Voer uw Nederlandse kenteken in en zie gratis hoeveel BPM u
-                    ongeveer terugkrijgt bij export naar Spanje. Wij rekenen met
-                    de BPM die de RDW voor uw auto heeft geregistreerd en de
-                    vaste afschrijvingstabel van de Belastingdienst.
+                    {{ seo.intro }}
                 </p>
 
                 <div class="mx-auto mt-10 max-w-3xl text-left">

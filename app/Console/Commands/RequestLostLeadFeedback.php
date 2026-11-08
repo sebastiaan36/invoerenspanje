@@ -35,21 +35,9 @@ final class RequestLostLeadFeedback extends Command
                 continue;
             }
 
-            // Token vooraf vastleggen, zodat de link ook klopt als de mail later (uit een queue) wordt gerenderd.
-            $lead->ensureFeedbackToken();
-
-            try {
-                Mail::to($lead->email, $lead->name)->send(new LostLeadFeedbackMail($lead));
-            } catch (Throwable $exception) {
-                // Eén mislukte mail mag de rest niet blokkeren; de lead wordt bij de volgende run opnieuw geprobeerd.
-                report($exception);
-                $this->error("#{$lead->id}: versturen mislukt ({$exception->getMessage()})");
-
-                continue;
+            if ($this->sendFeedbackRequest($lead)) {
+                $sent++;
             }
-
-            $lead->forceFill(['feedback_requested_at' => now()])->save();
-            $sent++;
         }
 
         $this->info($this->option('dry-run')
@@ -57,5 +45,38 @@ final class RequestLostLeadFeedback extends Command
             : "{$sent} feedbackmail(s) verstuurd.");
 
         return self::SUCCESS;
+    }
+
+    /**
+     * Verstuurt de mail aan één lead. Een fout wordt gelogd en geteld; na
+     * Lead::MAX_FEEDBACK_REQUEST_FAILURES pogingen valt de lead buiten de scope.
+     */
+    private function sendFeedbackRequest(Lead $lead): bool
+    {
+        try {
+            // Token vooraf vastleggen, zodat de link ook klopt als de mail later (uit een queue) wordt gerenderd.
+            $lead->ensureFeedbackToken();
+
+            Mail::to($lead->email, $lead->name)->send(new LostLeadFeedbackMail($lead, $lead->feedbackUrl()));
+        } catch (Throwable $exception) {
+            report($exception);
+            $this->error("#{$lead->id}: versturen mislukt ({$exception->getMessage()})");
+            $this->recordFailure($lead);
+
+            return false;
+        }
+
+        $lead->forceFill(['feedback_requested_at' => now()])->save();
+
+        return true;
+    }
+
+    private function recordFailure(Lead $lead): void
+    {
+        try {
+            Lead::query()->whereKey($lead->getKey())->increment('feedback_request_failures');
+        } catch (Throwable $exception) {
+            report($exception);
+        }
     }
 }

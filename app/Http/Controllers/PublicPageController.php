@@ -71,6 +71,61 @@ final class PublicPageController extends Controller
         return Inertia::render('Tarieven', [
             'fixedCosts' => SpainFixedCosts::fromConfig(),
             'faqItems' => config('faq.tarieven'),
+            'iedmtSummary' => self::iedmtSummary(config('spain_import.autonomias.costa_del_sol.iedmt_brackets', [])),
+        ]);
+    }
+
+    /**
+     * The IEDMT tiers in one sentence, e.g. "0% tot 120 g/km CO₂, daarboven
+     * 4,75%, 9,75% of 14,75% van de waarde van de auto." Built from
+     * config/spain_import.php so the page never shows outdated rates.
+     *
+     * @param  list<array{co2_max_g_per_km: int|null, rate_pct: float|int}>  $brackets
+     */
+    public static function iedmtSummary(array $brackets): string
+    {
+        if ($brackets === []) {
+            return '';
+        }
+
+        $percent = fn (float|int $rate): string => rtrim(rtrim(number_format((float) $rate, 2, ',', ''), '0'), ',').'%';
+        $first = array_shift($brackets);
+        $summary = "{$percent($first['rate_pct'])} tot {$first['co2_max_g_per_km']} g/km CO₂";
+
+        if ($brackets === []) {
+            return $summary.'.';
+        }
+
+        $higherRates = array_map(fn (array $bracket): string => $percent($bracket['rate_pct']), $brackets);
+        $lastRate = array_pop($higherRates);
+        $rates = $higherRates === [] ? $lastRate : implode(', ', $higherRates).' of '.$lastRate;
+
+        return "{$summary}, daarboven {$rates} van de waarde van de auto.";
+    }
+
+    public function diensten(): Response
+    {
+        return Inertia::render('Diensten', [
+            'contentHtml' => app(UnpublishedBlogLinkFilter::class)->filter(view('content.diensten')->render()),
+        ]);
+    }
+
+    public function overOns(): Response
+    {
+        return Inertia::render('OverOns', [
+            'contentHtml' => app(UnpublishedBlogLinkFilter::class)->filter(view('content.over-ons')->render()),
+        ]);
+    }
+
+    /**
+     * The crawler HTML for this page (contact details, opening hours and
+     * service area) is resources/views/content/contact.blade.php, included by
+     * seo/fallback.blade.php; Contact.vue reads the same config.
+     */
+    public function contact(): Response
+    {
+        return Inertia::render('Contact', [
+            'werkgebied' => config('werkgebied'),
         ]);
     }
 

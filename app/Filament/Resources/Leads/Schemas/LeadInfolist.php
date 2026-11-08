@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Leads\Schemas;
 
+use App\Models\Lead;
 use App\Services\Packages\ServicePackages;
 use Filament\Infolists\Components\IconEntry;
 use Filament\Infolists\Components\RepeatableEntry;
@@ -40,7 +41,7 @@ class LeadInfolist
 
                 Section::make('Feedback na verlies')
                     ->description('Twee weken na "verloren" krijgt de lead automatisch een mail met de vraag waarom hij of zij niet voor ons koos.')
-                    ->visible(fn ($record): bool => $record->status === 'verloren' || $record->feedback_requested_at !== null || $record->feedback()->exists())
+                    ->visible(fn (Lead $record): bool => $record->status === 'verloren' || $record->feedback_requested_at !== null || $record->feedback()->exists())
                     ->schema([
                         TextEntry::make('lost_at')
                             ->label('Verloren op')
