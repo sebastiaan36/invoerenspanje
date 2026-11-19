@@ -51,8 +51,6 @@ Voor de ITV-keuring maakt het veel uit wanneer de trekhaak op de auto is gezet.
 
 Is de trekhaak door de fabrikant gemonteerd en staat hij in de typegoedkeuring van de auto? Dan wordt hij in de regel zonder problemen meegenomen in de Spaanse papieren. Op een Europees COC is daar een vak voor: het goedkeuringsnummer van de koppelinrichting, als die gemonteerd is. Ook het maximale trekgewicht staat op het COC.
 
-Staat het goedkeuringsnummer van de trekhaak op uw COC? Dan gaat de keuring meestal vlot.
-
 ### Trekhaak later gemonteerd
 
 Is de trekhaak later gemonteerd, bijvoorbeeld door een garage of trekhaakspecialist? Dan staat hij meestal niet op het COC. Voor het ITV-station is het dan een *reforma de importancia*: een belangrijke wijziging aan de auto.
@@ -119,7 +117,7 @@ Moet een later gemonteerde trekhaak als wijziging worden goedgekeurd? Dan komen 
 
 ## Hulp bij uw auto met trekhaak
 
-Wij regelen [de export in Nederland en de inschrijving in Spanje](/diensten). Wij kijken vooraf met u naar het COC en de trekhaak, zodat u niet voor verrassingen staat bij de ITV. In het Basispakket (€ 395) levert u zelf de documenten aan. In Compleet (€ 895) en Compleet Plus (€ 1.495) nemen wij u meer werk uit handen, zoals het plannen van de ITV-afspraak. De verschillen tussen de pakketten ziet u op de pagina [tarieven](/tarieven).
+Wij regelen [de export in Nederland en de inschrijving in Spanje](/diensten). Wij kijken vooraf met u naar het COC en de trekhaak, zodat u niet voor verrassingen staat bij de ITV. In het Basispakket (€ 395) levert u zelf de documenten aan. In Compleet (€ 895) en Compleet Plus (€ 1.495) nemen wij u meer werk uit handen, zoals het plannen van de ITV-afspraak. De verschillen tussen de pakketten ziet u op de pagina [tarieven](/tarieven). Hoe wij te werk gaan bij [auto invoeren in Spanje](/), leest u op onze homepage.
 
 Wilt u weten wat dit voor uw auto betekent? [Doe de kostencheck of vraag een vrijblijvende offerte aan](/#offerte).
 

@@ -22,7 +22,9 @@ Route::post('contact', [ContactController::class, 'store'])->middleware('throttl
 Route::get('tarieven', [PublicPageController::class, 'tarieven'])->name('tarieven');
 Route::get('bpm-calculator', [PublicPageController::class, 'bpmCalculator'])->name('bpm-calculator');
 Route::get('veelgestelde-vragen', [PublicPageController::class, 'faq'])->name('faq');
-Route::get('auto-invoeren-spanje', [PublicPageController::class, 'gids'])->name('gids');
+Route::get('auto-op-spaans-kenteken-zetten', [PublicPageController::class, 'gids'])->name('gids');
+// The stappenplan used to live here; the homepage now owns "auto invoeren in Spanje".
+Route::permanentRedirect('auto-invoeren-spanje', '/auto-op-spaans-kenteken-zetten');
 Route::get('instagram', [PublicPageController::class, 'instagram'])->name('instagram');
 
 // Feedback van verloren leads via de unieke link uit de feedbackmail (noindex, niet in de sitemap).

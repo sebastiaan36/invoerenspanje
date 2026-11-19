@@ -86,6 +86,65 @@ return [
         ],
     ],
 
+    'gids' => [
+        [
+            'id' => 'zonder-residencia-of-nie',
+            'question' => 'Kan ik mijn auto op Spaans kenteken zetten zonder residencia of NIE?',
+            'answer' => 'Zonder NIE-nummer niet. Het NIE is verplicht voor vrijwel alle officiële handelingen in Spanje, ook voor het inschrijven van een auto, en het komt op uw Spaanse kentekenbewijs te staan. U vraagt het aan bij de Spaanse politie of via een advocaat. Zonder residencia kan het wel: ook als niet-resident kunt u de auto inschrijven, met uw NIE en een adres in Spanje dat u kunt aantonen. U krijgt dan alleen geen vrijstelling van de registratiebelasting (IEDMT), want die is bedoeld voor wie zijn hoofdverblijf naar Spanje verhuist.',
+            'links' => [
+                ['label' => 'Resident, overwinteraar of niet-resident', 'href' => '/blog/wanneer-auto-op-spaans-kenteken-verplicht'],
+            ],
+        ],
+        [
+            'id' => 'wegenbelasting-ivtm',
+            'question' => 'Moet ik in Spanje wegenbelasting (IVTM) betalen en stopt mijn Nederlandse motorrijtuigenbelasting?',
+            'answer' => 'Ja, in Spanje betaalt u elk jaar wegenbelasting aan uw gemeente: het impuesto sobre vehículos de tracción mecánica (IVTM), ook wel impuesto de circulación. Gemeenten mogen tot 75% korting geven voor auto\'s die weinig vervuilen. Málaga geeft onder meer elektrische en hybride auto\'s 75% korting gedurende vijf belastingjaren; die vraagt u zelf aan bij Gestrisam. De Nederlandse motorrijtuigenbelasting betaalt u zolang de auto een Nederlands kenteken heeft. Zodra de auto bij de RDW is uitgeschreven voor export, kunt u die stopzetten.',
+            'links' => [
+                ['label' => 'Belastingvoordeel voor elektrische auto\'s en hybrides', 'href' => '/blog/belastingvrijstelling-elektrische-auto-hybride-spanje'],
+            ],
+        ],
+        [
+            'id' => 'doorlooptijd-spaans-kenteken',
+            'question' => 'Hoe lang duurt het om een auto op Spaans kenteken te zetten?',
+            'answer' => 'Reken op gemiddeld vier tot acht weken vanaf de exportmelding bij de RDW tot het definitieve Spaanse kentekenbewijs. De planning van de ITV-keuring en de verwerking bij de DGT bepalen grotendeels de doorlooptijd. Houd ook rekening met de vaste termijnen: met het exportkenteken mag u 14 dagen in Nederland rijden, en voor de BPM-teruggave moet de auto binnen 13 weken na de exportmelding in Spanje zijn ingeschreven.',
+            'links' => [
+                ['label' => 'Meld de auto niet te vroeg af', 'href' => '/blog/auto-uitschrijven-bij-de-rdw-en-exportkenteken-aanvragen-zo-werkt-het'],
+            ],
+        ],
+        [
+            'id' => 'kosten-gestoria',
+            'question' => 'Wat kost een gestoría als ik het zelf regel?',
+            'answer' => 'Elke gestoría (Spaans administratiekantoor) rekent een eigen tarief; vraag dat vooraf op. Wij rekenen met het tarief van onze partner-gestoría: € 219,62 inclusief 21% IVA en de definitieve kentekenplaten. Los van de gestoría betaalt u altijd de leges van de DGT (€ 125) en de ITV-keuring (ca. € 150 tot € 160, aan de balie van het station), zonder COC-document de Ficha Técnica (€ 103) en eventueel de IEDMT. Ook in ons Basis-pakket, waarin u de export en de ITV zelf regelt, komen deze Spaanse kosten bovenop de pakketprijs.',
+            'links' => [
+                ['label' => 'Alle tarieven', 'href' => '/tarieven'],
+            ],
+        ],
+        [
+            'id' => 'spaans-kenteken-in-nederland-rijden',
+            'question' => 'Kan ik met een Spaans kenteken in Nederland rijden?',
+            'answer' => 'Dat hangt af van waar u woont. Woont u in Nederland, dan mag u daar in principe niet rijden met een auto op een buitenlands kenteken; de Belastingdienst kan dan alsnog BPM en motorrijtuigenbelasting heffen. Daarom is een Spaans kenteken voor niet-residenten meestal geen goed idee. Woont u in Spanje en rijdt u af en toe naar Nederland, vraag dan uw Spaanse verzekeraar of uw dekking en pechhulp ook in Nederland gelden.',
+            'links' => [
+                ['label' => 'Uw auto verzekeren in Spanje', 'href' => '/blog/auto-verzekeren-spanje-na-import'],
+            ],
+        ],
+        [
+            'id' => 'niet-resident-spaans-kenteken',
+            'question' => 'Kan ik als niet-resident mijn auto op Spaans kenteken zetten?',
+            'answer' => 'Ja. Verplicht is het niet, mogelijk wel, bijvoorbeeld als de auto het hele jaar in Spanje staat. U heeft in elk geval een NIE-nummer en een aantoonbaar adres in Spanje nodig. Er zijn drie gevolgen: u krijgt geen vrijstelling van de IEDMT, rijden in Nederland wordt lastig, en de BPM-teruggave blijft wel mogelijk, omdat die afhangt van de export en niet van uw woonplaats. Voor de meeste niet-residenten is het gunstiger de auto op Nederlands kenteken te houden. Gaat u op termijn in Spanje wonen, wacht dan met de invoer tot u resident bent, zodat u de vrijstelling kunt aanvragen.',
+            'links' => [
+                ['label' => 'Lees meer over niet-residenten', 'href' => '/blog/wanneer-auto-op-spaans-kenteken-verplicht'],
+            ],
+        ],
+        [
+            'id' => 'wanneer-afmelden-rdw',
+            'question' => 'Wanneer meld ik mijn auto af bij de RDW?',
+            'answer' => 'Pas als de rest van het traject gepland is. Met de exportmelding beginnen twee termijnen: 14 dagen om met het exportkenteken in Nederland te rijden, en 13 weken waarbinnen de auto in Spanje ingeschreven moet zijn voor de BPM-teruggave. Regel daarom eerst de reis of het transport, uw NIE-nummer, een bewijs van adres in Spanje en het COC-document. Wacht ook niet onnodig lang: de BPM schrijft elke maand verder af.',
+            'links' => [
+                ['label' => 'Zo werkt het exportkenteken', 'href' => '/blog/auto-uitschrijven-bij-de-rdw-en-exportkenteken-aanvragen-zo-werkt-het'],
+            ],
+        ],
+    ],
+
     'categories' => [
         [
             'id' => 'algemeen',
@@ -94,7 +153,7 @@ return [
                 [
                     'id' => 'wanneer-spaans-kenteken-verplicht',
                     'question' => 'Wanneer ben ik verplicht mijn auto op Spaans kenteken te zetten?',
-                    'answer' => 'Zodra u fiscaal resident bent in Spanje — dat wil zeggen: u verblijft meer dan 183 dagen per jaar in Spanje — bent u verplicht uw auto in te schrijven bij de DGT, de Spaanse verkeersdienst (vergelijkbaar met de RDW). Rijdt u als resident langer dan 30 aaneengesloten dagen in Spanje op een buitenlands kenteken, dan kunt u worden beboet. De handhaving is de afgelopen jaren aanzienlijk strenger geworden.',
+                    'answer' => 'Zodra u fiscaal resident bent in Spanje (u verblijft er meer dan 183 dagen per jaar), bent u verplicht uw auto in te schrijven bij de DGT, de Spaanse verkeersdienst (vergelijkbaar met de RDW). Rijdt u als resident langer dan 30 aaneengesloten dagen in Spanje op een buitenlands kenteken, dan kunt u worden beboet. De handhaving is de afgelopen jaren aanzienlijk strenger geworden.',
                     'links' => [
                         ['label' => 'Lees meer over resident, overwinteraar of niet-resident', 'href' => '/blog/wanneer-auto-op-spaans-kenteken-verplicht'],
                     ],
@@ -133,6 +192,22 @@ return [
                     'links' => [
                         ['label' => 'Pakketten vergelijken', 'href' => '/tarieven'],
                         ['label' => 'Nieuwe auto meenemen: let op de btw', 'href' => '/blog/nieuwe-auto-meenemen-naar-spanje-btw'],
+                    ],
+                ],
+                [
+                    'id' => 'niet-resident-spaans-kenteken',
+                    'question' => 'Kan ik als niet-resident mijn auto op Spaans kenteken zetten?',
+                    'answer' => 'Ja. Verplicht is het niet, mogelijk wel, bijvoorbeeld als de auto het hele jaar in Spanje staat. U heeft in elk geval een NIE-nummer en een aantoonbaar adres in Spanje nodig. Er zijn drie gevolgen: u krijgt geen vrijstelling van de IEDMT, rijden in Nederland wordt lastig, en de BPM-teruggave blijft wel mogelijk, omdat die afhangt van de export en niet van uw woonplaats. Voor de meeste niet-residenten is het gunstiger de auto op Nederlands kenteken te houden. Gaat u op termijn in Spanje wonen, wacht dan met de invoer tot u resident bent, zodat u de vrijstelling kunt aanvragen.',
+                    'links' => [
+                        ['label' => 'Lees meer over niet-residenten', 'href' => '/blog/wanneer-auto-op-spaans-kenteken-verplicht'],
+                    ],
+                ],
+                [
+                    'id' => 'wanneer-afmelden-rdw',
+                    'question' => 'Wanneer meld ik mijn auto af bij de RDW?',
+                    'answer' => 'Pas als de rest van het traject gepland is. Met de exportmelding beginnen twee termijnen: 14 dagen om met het exportkenteken in Nederland te rijden, en 13 weken waarbinnen de auto in Spanje ingeschreven moet zijn voor de BPM-teruggave. Regel daarom eerst de reis of het transport, uw NIE-nummer, een bewijs van adres in Spanje en het COC-document. Wacht ook niet onnodig lang: de BPM schrijft elke maand verder af.',
+                    'links' => [
+                        ['label' => 'Zo werkt het exportkenteken', 'href' => '/blog/auto-uitschrijven-bij-de-rdw-en-exportkenteken-aanvragen-zo-werkt-het'],
                     ],
                 ],
             ],
@@ -187,7 +262,7 @@ return [
                 [
                     'id' => 'bpm-aanvraag-door-ons',
                     'question' => 'Regelen jullie de BPM-aanvraag voor mij?',
-                    'answer' => 'Ja, in het Compleet- en Compleet Plus-pakket. Daarin loopt de export via een van onze partners in Nederland, inclusief de aanvraag van de BPM-teruggave bij de Belastingdienst. In het Basis-pakket regelt u de export in Nederland zelf.',
+                    'answer' => 'Ja, in het Compleet- en Compleet Plus-pakket. Daarin loopt de export via een van onze partners in Nederland, inclusief de aanvraag van de BPM-teruggave bij de Belastingdienst. In het Basis-pakket regelt u de export in Nederland en de BPM-teruggave zelf.',
                     'links' => [
                         ['label' => 'Pakketten vergelijken', 'href' => '/tarieven'],
                     ],
@@ -314,6 +389,14 @@ return [
                         ['label' => 'Neem contact op', 'href' => '/contact'],
                     ],
                 ],
+                [
+                    'id' => 'zonder-residencia-of-nie',
+                    'question' => 'Kan ik mijn auto op Spaans kenteken zetten zonder residencia of NIE?',
+                    'answer' => 'Zonder NIE-nummer niet. Het NIE is verplicht voor vrijwel alle officiële handelingen in Spanje, ook voor het inschrijven van een auto, en het komt op uw Spaanse kentekenbewijs te staan. U vraagt het aan bij de Spaanse politie of via een advocaat. Zonder residencia kan het wel: ook als niet-resident kunt u de auto inschrijven, met uw NIE en een adres in Spanje dat u kunt aantonen. U krijgt dan alleen geen vrijstelling van de registratiebelasting (IEDMT), want die is bedoeld voor wie zijn hoofdverblijf naar Spanje verhuist.',
+                    'links' => [
+                        ['label' => 'Resident, overwinteraar of niet-resident', 'href' => '/blog/wanneer-auto-op-spaans-kenteken-verplicht'],
+                    ],
+                ],
             ],
         ],
         [
@@ -362,6 +445,14 @@ return [
                         ['label' => 'Vraag een offerte aan', 'href' => '/#offerte'],
                     ],
                 ],
+                [
+                    'id' => 'kosten-gestoria',
+                    'question' => 'Wat kost een gestoría als ik het zelf regel?',
+                    'answer' => 'Elke gestoría (Spaans administratiekantoor) rekent een eigen tarief; vraag dat vooraf op. Wij rekenen met het tarief van onze partner-gestoría: € 219,62 inclusief 21% IVA en de definitieve kentekenplaten. Los van de gestoría betaalt u altijd de leges van de DGT (€ 125) en de ITV-keuring (ca. € 150 tot € 160, aan de balie van het station), zonder COC-document de Ficha Técnica (€ 103) en eventueel de IEDMT. Ook in ons Basis-pakket, waarin u de export en de ITV zelf regelt, komen deze Spaanse kosten bovenop de pakketprijs.',
+                    'links' => [
+                        ['label' => 'Alle tarieven', 'href' => '/tarieven'],
+                    ],
+                ],
             ],
         ],
         [
@@ -390,6 +481,22 @@ return [
                     'id' => 'terug-naar-nederland',
                     'question' => 'Kan ik de auto na inschrijving in Spanje nog terugbrengen naar Nederland?',
                     'answer' => 'Technisch wel, maar dan begint het proces opnieuw: u schrijft de auto uit in Spanje en registreert hem opnieuw in Nederland. Daarbij betaalt u in Nederland BPM over de huidige waarde van de auto. Dat is doorgaans meer dan de BPM-teruggave die u bij export heeft ontvangen.',
+                ],
+                [
+                    'id' => 'wegenbelasting-ivtm',
+                    'question' => 'Moet ik in Spanje wegenbelasting (IVTM) betalen en stopt mijn Nederlandse motorrijtuigenbelasting?',
+                    'answer' => 'Ja, in Spanje betaalt u elk jaar wegenbelasting aan uw gemeente: het impuesto sobre vehículos de tracción mecánica (IVTM), ook wel impuesto de circulación. Gemeenten mogen tot 75% korting geven voor auto\'s die weinig vervuilen. Málaga geeft onder meer elektrische en hybride auto\'s 75% korting gedurende vijf belastingjaren; die vraagt u zelf aan bij Gestrisam. De Nederlandse motorrijtuigenbelasting betaalt u zolang de auto een Nederlands kenteken heeft. Zodra de auto bij de RDW is uitgeschreven voor export, kunt u die stopzetten.',
+                    'links' => [
+                        ['label' => 'Belastingvoordeel voor elektrische auto\'s en hybrides', 'href' => '/blog/belastingvrijstelling-elektrische-auto-hybride-spanje'],
+                    ],
+                ],
+                [
+                    'id' => 'spaans-kenteken-in-nederland-rijden',
+                    'question' => 'Kan ik met een Spaans kenteken in Nederland rijden?',
+                    'answer' => 'Dat hangt af van waar u woont. Woont u in Nederland, dan mag u daar in principe niet rijden met een auto op een buitenlands kenteken; de Belastingdienst kan dan alsnog BPM en motorrijtuigenbelasting heffen. Daarom is een Spaans kenteken voor niet-residenten meestal geen goed idee. Woont u in Spanje en rijdt u af en toe naar Nederland, vraag dan uw Spaanse verzekeraar of uw dekking en pechhulp ook in Nederland gelden.',
+                    'links' => [
+                        ['label' => 'Uw auto verzekeren in Spanje', 'href' => '/blog/auto-verzekeren-spanje-na-import'],
+                    ],
                 ],
             ],
         ],

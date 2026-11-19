@@ -125,7 +125,7 @@ Met een goedgekeurde ITV is het technische deel klaar. Daarna volgt het fiscale 
 
 Verhuist u uw hoofdverblijf naar Spanje? Dan is onder voorwaarden vrijstelling van de IEDMT mogelijk. Hoe dat werkt, leest u in ons artikel over [de registratiebelasting en de vrijstelling bij verhuizing](/blog/registratiebelasting-iedmt-spanje-vrijstelling-verhuizing). Daarna wordt de auto ingeschreven bij de DGT, de Spaanse verkeersdienst, en krijgt u de definitieve platen.
 
-Vergeet ook de Nederlandse kant niet. Na export kunt u een deel van de BPM terugvragen. Dat staat los van de Spaanse keuring en belastingen. Alle stappen van begin tot eind staan in onze [complete gids over auto invoeren in Spanje](/auto-invoeren-spanje).
+Vergeet ook de Nederlandse kant niet. Na export kunt u een deel van de BPM terugvragen. Dat staat los van de Spaanse keuring en belastingen. Alle stappen van begin tot eind staan in ons [stappenplan: auto op Spaans kenteken zetten](/auto-op-spaans-kenteken-zetten).
 
 ## Veelgemaakte fouten
 
@@ -137,7 +137,7 @@ Vergeet ook de Nederlandse kant niet. Na export kunt u een deel van de BPM terug
 
 ## Hulp bij de ITV en de inschrijving
 
-Wij begeleiden het hele traject van de invoer: van de export in Nederland tot het Spaanse kenteken. Afhankelijk van uw pakket plannen wij de ITV-afspraak of gaan wij namens u naar het station. Wij controleren vooraf of uw dossier compleet is.
+Wij begeleiden het hele traject van de invoer: van de export in Nederland tot het Spaanse kenteken. Afhankelijk van uw pakket plannen wij de ITV-afspraak of gaan wij namens u naar het station. Wij controleren vooraf of uw dossier compleet is. Wat erbij komt kijken als u [uw auto in Spanje laat invoeren](/), leest u op onze homepage.
 
 Wilt u weten wat dit voor uw auto betekent? [Vraag een vrijblijvende offerte aan](/#offerte).
 

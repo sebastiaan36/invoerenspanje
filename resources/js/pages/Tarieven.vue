@@ -46,13 +46,11 @@ const seo = usePageSeo();
 const packages = usePage().props.packages as ServicePackage[];
 
 // Same example as the guide (resources/views/content/gids.blade.php): a car
-// with a COC (no Ficha Técnica), temporary plates and IEDMT at 0%.
-const EXAMPLE_COST_KEYS = [
-    'tasas',
-    'honorarios',
-    'matriculas_temporales',
-    'itv_keuring',
-];
+// with a COC (no Ficha Técnica), temporary plates and IEDMT at 0%. As on the
+// homepage, "vaste kosten" excludes the optional temporary plates; those get
+// their own line.
+const EXAMPLE_COST_KEYS = ['tasas', 'honorarios', 'itv_keuring'];
+const TEMPORARY_PLATES_KEY = 'matriculas_temporales';
 
 const workedExample = computed(() => {
     const pkg = packages.find((p) => p.slug === 'compleet');
@@ -65,11 +63,16 @@ const workedExample = computed(() => {
         .filter((cost) => EXAMPLE_COST_KEYS.includes(cost.key))
         .reduce((sum, cost) => sum + cost.amount_eur, 0);
 
+    const temporaryPlates =
+        props.fixedCosts.find((cost) => cost.key === TEMPORARY_PLATES_KEY)
+            ?.amount_eur ?? 0;
+
     return {
         packageName: pkg.name,
         packagePrice: pkg.price_eur,
         spanish,
-        total: pkg.price_eur + spanish,
+        temporaryPlates,
+        total: pkg.price_eur + spanish + temporaryPlates,
     };
 });
 
@@ -235,7 +238,13 @@ const steps = [
                             De registratiebelasting (IEDMT) hangt af van de
                             CO₂-uitstoot en de waarde van uw auto. Met de
                             calculator op de homepage ziet u wat dat voor uw
-                            auto betekent.
+                            auto betekent. In ons artikel over de kosten staan
+                            <Link
+                                href="/blog/kosten-auto-invoeren-spanje-rekenvoorbeelden"
+                                class="font-medium text-primary underline underline-offset-4 hover:text-primary/80"
+                                >drie rekenvoorbeelden met BPM-teruggave en
+                                IEDMT</Link
+                            >.
                         </p>
                         <div
                             v-if="workedExample"
@@ -265,10 +274,25 @@ const steps = [
                                 </div>
                                 <div class="flex justify-between gap-4">
                                     <dt class="text-muted-foreground">
-                                        Vaste kosten in Spanje
+                                        Vaste kosten in Spanje (met COC)
                                     </dt>
                                     <dd class="font-medium text-foreground">
                                         {{ formatEuro(workedExample.spanish) }}
+                                    </dd>
+                                </div>
+                                <div
+                                    v-if="workedExample.temporaryPlates > 0"
+                                    class="flex justify-between gap-4"
+                                >
+                                    <dt class="text-muted-foreground">
+                                        Tijdelijke kentekenplaten (optioneel)
+                                    </dt>
+                                    <dd class="font-medium text-foreground">
+                                        {{
+                                            formatEuro(
+                                                workedExample.temporaryPlates,
+                                            )
+                                        }}
                                     </dd>
                                 </div>
                                 <div class="flex justify-between gap-4">
@@ -306,10 +330,10 @@ const steps = [
                             <ArrowRight class="size-4" />
                         </Link>
                         <Link
-                            href="/auto-invoeren-spanje"
+                            href="/auto-op-spaans-kenteken-zetten"
                             class="inline-flex min-h-11 items-center gap-2 text-sm font-semibold text-primary underline-offset-4 hover:underline"
                         >
-                            Lees de complete gids auto invoeren in Spanje
+                            Alle stappen om uw auto op Spaans kenteken te zetten
                             <ArrowRight class="size-4" />
                         </Link>
                     </div>
@@ -400,9 +424,14 @@ const steps = [
                         Kies uw pakket
                     </h2>
                     <p class="mx-auto mt-3 max-w-xl text-muted-foreground">
-                        Drie vaste pakketten, van zelf de regie houden tot
-                        volledig ontzorgd worden. U kiest hoeveel u uit handen
-                        geeft.
+                        Drie vaste pakketten, van zelf de regie houden tot alles
+                        door ons laten regelen. U kiest hoeveel u uit handen
+                        geeft. Wat elk onderdeel inhoudt, leest u op de
+                        <Link
+                            href="/diensten"
+                            class="font-medium text-primary underline underline-offset-4 hover:text-primary/80"
+                            >dienstenpagina</Link
+                        >.
                     </p>
                 </div>
 
@@ -507,6 +536,15 @@ const steps = [
                 </h2>
 
                 <FaqAccordion :items="faqItems" class="mt-10" />
+                <p class="mt-8 text-center text-muted-foreground">
+                    Meer vragen over de BPM-teruggave, de ITV en de
+                    registratiebelasting vindt u bij de
+                    <Link
+                        href="/veelgestelde-vragen"
+                        class="font-medium text-primary underline underline-offset-4 hover:text-primary/80"
+                        >veelgestelde vragen</Link
+                    >.
+                </p>
             </div>
         </section>
 

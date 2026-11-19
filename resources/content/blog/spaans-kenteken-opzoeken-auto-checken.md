@@ -1,6 +1,6 @@
 ---
 title: "Spaans kenteken opzoeken: zo checkt u een Spaanse auto"
-excerpt: "Spaans kenteken check: Spanje heeft geen gratis kentekenzoeker zoals de RDW. Zo vraagt u het voertuigrapport van de DGT aan en wat u gratis kunt checken."
+excerpt: "Spaans kenteken opzoeken? Spanje heeft geen gratis kentekenzoeker zoals de RDW. Zo vraagt u het voertuigrapport van de DGT aan en wat is gratis."
 author: Sebastiaan
 published_at: 2026-12-08 09:00
 updated_at: 2026-12-08
@@ -21,7 +21,7 @@ Wilt u een Spaans kenteken opzoeken, bijvoorbeeld omdat u aan de Costa del Sol e
 
 In Nederland typt u een kenteken in op de site van de RDW en ziet u direct merk, bouwjaar, APK-datum en meer. Iedereen kan dat, zonder in te loggen.
 
-In Spanje werkt het anders. Het voertuigregister valt onder de DGT (*Dirección General de Tráfico*). Een vrij toegankelijke kentekencheck met technische gegevens en keuringsdatum biedt de DGT niet. Gegevens over een auto vraagt u op via een voertuigrapport, het *informe de vehículo*. Daarvoor moet u zich identificeren. Ook voor de gratis variant.
+In Spanje werkt het anders. Het voertuigregister valt onder de DGT (*Dirección General de Tráfico*). Een vrij toegankelijke kentekencheck met technische gegevens en keuringsdatum biedt de DGT niet. Gegevens over een auto vraagt u op via een voertuigrapport, het *informe de vehículo*. Daarvoor moet u zich identificeren, ook voor de gratis variant.
 
 Websites die een "gratis Spaanse kenteken check" beloven, zijn meestal commerciële partijen. Zij vragen vaak het DGT-rapport voor u op, tegen een hogere prijs. Wilt u zeker zijn van de bron, vraag het rapport dan zelf aan bij de DGT.
 
@@ -106,8 +106,8 @@ Zorg ook dat u vanaf de eerste dag verzekerd bent. Hoe dat werkt, leest u in [uw
 
 ## Wilt u juist uw Nederlandse auto op een Spaans kenteken?
 
-Misschien zocht u op "kenteken check Spanje" omdat u uw eigen auto naar Spanje wilt halen. Dat is precies [wat wij doen](/diensten). Maikel Mobility regelt het invoeren van Nederlandse auto's in Spanje: van de export bij de RDW tot het Spaanse kentekenbewijs en de platen.
+Misschien zocht u op "kenteken check Spanje" omdat u uw eigen auto naar Spanje wilt halen. Daarbij kunnen [wij u helpen](/diensten): Maikel Mobility regelt het [auto invoeren in Spanje](/) voor Nederlandse auto's: van de export bij de RDW tot het Spaanse kentekenbewijs en de platen.
 
-Op [onze homepage](/#offerte) vult u uw Nederlandse kenteken in. U ziet dan direct wat het invoeren van uw auto ongeveer kost, inclusief de Spaanse registratiebelasting. Alle stappen, documenten en kosten op een rij leest u in onze gids over [auto invoeren in Spanje](/auto-invoeren-spanje). Wilt u eerst weten of het voor u verplicht is? Lees dan [wanneer uw auto op een Spaans kenteken moet](/blog/wanneer-auto-op-spaans-kenteken-verplicht).
+Op [onze homepage](/#offerte) vult u uw Nederlandse kenteken in. U ziet dan direct wat het invoeren van uw auto ongeveer kost, inclusief de Spaanse registratiebelasting. Alle stappen, documenten en kosten op een rij staan in ons stappenplan [Nederlandse auto op Spaans kenteken zetten](/auto-op-spaans-kenteken-zetten). Wilt u eerst weten of het voor u verplicht is? Lees dan [wanneer uw auto op een Spaans kenteken moet](/blog/wanneer-auto-op-spaans-kenteken-verplicht).
 
 *Dit artikel is algemene informatie. Tarieven en werkwijzen van de DGT kunnen wijzigen. Controleer de actuele informatie bij de [DGT](https://www.dgt.es).*

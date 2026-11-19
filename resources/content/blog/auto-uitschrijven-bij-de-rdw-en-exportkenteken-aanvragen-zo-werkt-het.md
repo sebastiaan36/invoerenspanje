@@ -33,7 +33,7 @@ Het exportkenteken is niet hetzelfde als een Spaans kenteken. Het [definitieve S
 
 ## Eerst de planning, dan de exportmelding
 
-De belangrijkste tip in dit artikel: **meld uw auto niet te vroeg af.** Zodra de auto is afgemeld, lopen er twee termijnen tegelijk:
+**Meld uw auto niet te vroeg af.** Zodra de auto is afgemeld, lopen er twee termijnen tegelijk:
 
 | Termijn | Wat houdt het in? |
 |---|---|
@@ -61,7 +61,7 @@ Laat u de auto vervoeren in plaats van zelf te rijden? Dan blijft de exportmeldi
 
 ## Geen uitvoeraangifte nodig binnen de EU
 
-Bij export naar een land buiten de Europese Unie is een uitvoeraangifte bij de douane nodig. Spanje is een EU-land. Voor uw auto is die aangifte daarom niet nodig. Dat scheelt een stap.
+Bij export naar een land buiten de Europese Unie is een uitvoeraangifte bij de douane nodig. Spanje is een EU-land. Voor uw auto is die aangifte daarom niet nodig.
 
 ## Wat er daarna gebeurt met de BPM
 
@@ -73,7 +73,7 @@ De voorwaarden, een rekenvoorbeeld en hoe u de aanvraag indient, leest u in ons 
 
 Het exportkenteken geldt alleen in Nederland en maar 14 dagen. In Spanje rijdt u daarna met tijdelijke groene platen (*matrículas temporales*, € 181,50) naar de [ITV-keuring bij import](/blog/itv-keuring-auto-import-spanje). Daarna volgen de registratiebelasting en de inschrijving bij de DGT.
 
-Neem het Nederlandse kentekenbewijs en het uitschrijfbewijs van de RDW mee naar Spanje: beide heeft u nodig voor de inschrijving. Alle Spaanse stappen, documenten en kosten staan in onze [gids over auto invoeren in Spanje](/auto-invoeren-spanje).
+Neem het Nederlandse kentekenbewijs en het uitschrijfbewijs van de RDW mee naar Spanje: beide heeft u nodig voor de inschrijving. Alle Spaanse stappen, documenten en kosten staan in onze [gids voor het op Spaans kenteken zetten van uw auto](/auto-op-spaans-kenteken-zetten).
 
 ## Veelgemaakte fouten
 
@@ -93,4 +93,4 @@ Bekijk wat elk pakket bevat op de [tarievenpagina](/tarieven), of lees meer over
 
 ## Weten wat het voor uw auto betekent?
 
-Vul uw Nederlandse kenteken in en zie direct een indicatie van de BPM-teruggave en de kosten in Spanje. [Vraag een vrijblijvende offerte aan](/#offerte).
+Vul uw Nederlandse kenteken in en zie direct een indicatie van de BPM-teruggave en de kosten in Spanje. [Vraag een vrijblijvende offerte aan](/#offerte). Wilt u de [auto invoeren in Spanje uit handen geven](/)? Op de homepage leest u hoe wij u daarbij begeleiden.

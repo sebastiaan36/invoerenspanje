@@ -30,7 +30,7 @@ Een auto wordt elk jaar minder waard. Daarmee daalt ook het deel van de BPM dat 
 
 In de meeste gevallen wel. De voorwaarde is dat de auto Nederland definitief verlaat en in een ander EU-land wordt ingeschreven. Spanje is een EU-land. Komt uw auto op een Spaans kenteken, dan voldoet u aan dat deel van de regels. Rijdt u een leaseauto of een gefinancierde auto? Lees dan [wie bij lease of financiering de BPM terugkrijgt](/blog/leaseauto-of-gefinancierde-auto-meenemen-naar-spanje).
 
-Goed om te weten: de BPM-teruggave staat los van de Spaanse registratiebelasting, de IEDMT (*Impuesto Especial sobre Determinados Medios de Transporte*). De BPM krijgt u terug in Nederland. De IEDMT betaalt u eventueel in Spanje, afhankelijk van de CO₂-uitstoot. Het zijn twee aparte trajecten in twee landen. Hoe de IEDMT werkt en wanneer u vrijstelling krijgt, leest u in ons artikel over [de registratiebelasting en de vrijstelling bij verhuizing](/blog/registratiebelasting-iedmt-spanje-vrijstelling-verhuizing). Kijk dus niet alleen naar de Spaanse kosten: de teruggave in Nederland verlaagt uw totale kosten.
+De BPM-teruggave staat los van de Spaanse registratiebelasting, de IEDMT (*Impuesto Especial sobre Determinados Medios de Transporte*). De BPM krijgt u terug in Nederland. De IEDMT betaalt u eventueel in Spanje, afhankelijk van de CO₂-uitstoot. Hoe de IEDMT werkt en wanneer u vrijstelling krijgt, leest u in ons artikel over [de registratiebelasting en de vrijstelling bij verhuizing](/blog/registratiebelasting-iedmt-spanje-vrijstelling-verhuizing). Kijk dus niet alleen naar de Spaanse kosten: de teruggave in Nederland verlaagt uw totale kosten.
 
 ## De voorwaarden op een rij
 
@@ -42,7 +42,7 @@ Niet elke auto komt in aanmerking. U moet aan al deze voorwaarden voldoen:
 - **De auto wordt binnen 13 weken na de exportmelding in Spanje ingeschreven.** Tijdelijk naar Spanje rijden is niet genoeg. De auto moet echt op een Spaans kenteken komen.
 - **De teruggave is minimaal € 50.** Komt de rest-BPM lager uit, bijvoorbeeld bij een oude auto of een auto met weinig BPM, dan keert de Belastingdienst niets uit.
 
-De laatste voorwaarde wordt vaak onderschat. De Spaanse inschrijving kan langer duren dan u verwacht. Daarom is het verstandig om [de exportmelding](/blog/auto-uitschrijven-bij-de-rdw-en-exportkenteken-aanvragen-zo-werkt-het) en de Spaanse inschrijving goed op elkaar af te stemmen. Controleer de actuele voorwaarden altijd bij de [Belastingdienst](https://www.belastingdienst.nl/wps/wcm/connect/nl/bpm/content/teruggaaf-bpm-export-gebruikt-motorrijtuig).
+De termijn van 13 weken wordt vaak onderschat. De Spaanse inschrijving kan langer duren dan u verwacht. Daarom is het verstandig om [de exportmelding](/blog/auto-uitschrijven-bij-de-rdw-en-exportkenteken-aanvragen-zo-werkt-het) en de Spaanse inschrijving goed op elkaar af te stemmen. Controleer de actuele voorwaarden altijd bij de [Belastingdienst](https://www.belastingdienst.nl/wps/wcm/connect/nl/bpm/content/teruggaaf-bpm-export-gebruikt-motorrijtuig).
 
 ### En elektrische auto's?
 
@@ -68,7 +68,7 @@ Stel: bij de eerste registratie is € 6.000 BPM betaald. In de tabel hieronder
 | 5 jaar | 65% | € 2.100 |
 | 8 jaar | 77% | € 1.380 |
 
-U ziet het: bij een jonge auto gaat het om een flink bedrag. Bij een auto van vijf jaar oud krijgt u in dit voorbeeld nog ca. € 2.100 terug. Neemt u een bijna nieuwe auto mee, let dan ook op de btw: zie [een nieuwe auto meenemen naar Spanje](/blog/nieuwe-auto-meenemen-naar-spanje-btw).
+Neemt u een bijna nieuwe auto mee, let dan ook op de btw: zie [een nieuwe auto meenemen naar Spanje](/blog/nieuwe-auto-meenemen-naar-spanje-btw).
 
 ### Elke maand telt
 
@@ -95,7 +95,7 @@ Onze [BPM-calculator](/bpm-calculator) haalt bij de RDW twee gegevens op: de dat
 4. **Dien het verzoek in bij de Belastingdienst.** Gebruik daarvoor het juiste formulier van de Belastingdienst, met het Spaanse kentekenbewijs als bewijs van inschrijving.
 5. **Wacht op het antwoord.** De Belastingdienst heeft 8 weken de tijd om op uw verzoek te reageren.
 
-Wilt u het hele traject zien, van export in Nederland tot Spaans kenteken? Lees dan onze [gids over auto invoeren in Spanje](/auto-invoeren-spanje).
+Wilt u het hele traject zien, van export in Nederland tot Spaans kenteken? Lees dan hoe u [uw auto op Spaans kenteken zet](/auto-op-spaans-kenteken-zetten).
 
 ## Veelgemaakte fouten
 
@@ -110,12 +110,12 @@ In de praktijk gaat het vaak op dezelfde punten mis:
 
 U kunt de teruggave zelf aanvragen. Dan houdt u zelf de termijnen bij en zorgt u zelf voor de documenten aan beide kanten van de grens.
 
-Kiest u ons pakket Compleet of Compleet Plus, dan regelen wij de export via een van onze partners in Nederland, inclusief de aanvraag van de BPM-teruggave bij de Belastingdienst. Wij stemmen de export af op de Spaanse inschrijving, zodat u zelf geen termijnen hoeft te bewaken. In het pakket Basis regelt u de export in Nederland zelf. Op de [tarievenpagina](/tarieven) ziet u wat elk pakket precies bevat en wat de vaste kosten in Spanje zijn.
+Kiest u ons pakket Compleet of Compleet Plus, dan regelen wij de export via een van onze partners in Nederland, inclusief de aanvraag van de BPM-teruggave bij de Belastingdienst. Wij stemmen de export af op de Spaanse inschrijving, zodat u zelf geen termijnen hoeft te bewaken. In het pakket Basis regelt u de export in Nederland zelf en vraagt u ook de BPM-teruggave zelf aan. Op de [tarievenpagina](/tarieven) ziet u wat elk pakket precies bevat en wat de vaste kosten in Spanje zijn.
 
 Heeft u nog andere vragen, bijvoorbeeld over een auto die al is uitgeschreven? Kijk dan bij de [veelgestelde vragen](/veelgestelde-vragen).
 
 ## Wat levert het voor uw auto op?
 
-Vul uw Nederlandse kenteken in bij de [kostencheck](/#offerte). U ziet direct een indicatie van uw BPM-teruggave en de kosten in Spanje. Daarna kunt u vrijblijvend een offerte aanvragen.
+Vul uw Nederlandse kenteken in bij de [kostencheck](/#offerte). U ziet direct een indicatie van uw BPM-teruggave en de kosten in Spanje. Daarna kunt u vrijblijvend een offerte aanvragen. Hoe wij u helpen als u de [auto invoeren in Spanje uit handen wilt geven](/), leest u op onze homepage.
 
 *Dit artikel is algemene informatie. De regels kunnen wijzigen. Raadpleeg voor de actuele voorwaarden en formulieren altijd de [Belastingdienst](https://www.belastingdienst.nl/wps/wcm/connect/nl/bpm/content/teruggaaf-bpm-export-gebruikt-motorrijtuig).*

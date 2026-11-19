@@ -1,6 +1,6 @@
 ---
 title: "Registratiebelasting in Spanje (IEDMT) en vrijstelling"
-excerpt: "Hoe de Spaanse registratiebelasting werkt, welke CO₂-tarieven gelden en wanneer u bij verhuizing naar Spanje vrijstelling kunt krijgen."
+excerpt: "Hoe de Spaanse registratiebelasting (IEDMT) werkt, welke CO₂-tarieven gelden en wanneer u bij verhuizing naar Spanje vrijstelling krijgt."
 author: Sebastiaan
 published_at: 2026-09-02 10:00
 updated_at: 2026-10-25
@@ -13,7 +13,7 @@ Komt uw auto voor het eerst op een Spaans kenteken, dan krijgt u te maken met de
 
 - De IEDMT is een eenmalige belasting bij de eerste Spaanse inschrijving. Het tarief hangt af van de officiële CO₂-uitstoot: 0% tot en met 120 g/km, daarboven 4,75%, 9,75% of 14,75%.
 - Bij een gebruikte auto betaalt u over de marktwaarde. Daarvoor gebruikt Spanje jaarlijkse tabellen met gemiddelde verkoopprijzen.
-- Verhuist u uw hoofdverblijf naar Spanje, dan is vrijstelling mogelijk. U moet onder meer twaalf maanden buiten Spanje hebben gewoond en de auto minimaal zes maanden in uw oude woonplaats hebben gebruikt.
+- Verhuist u uw hoofdverblijf naar Spanje, dan is vrijstelling mogelijk. U moet onder meer twaalf maanden buiten Spanje hebben gewoond en de auto moet minimaal zes maanden op uw naam staan.
 - De vrijstelling vraagt u aan met Modelo 06 bij de Agencia Tributaria, vóór de definitieve inschrijving.
 - Na de vrijstelling mag u de auto twaalf maanden niet verkopen. Anders moet u de belasting alsnog betalen.
 
@@ -42,7 +42,7 @@ Dit zijn de landelijke tarieven. Spaanse regio's mogen eigen tarieven vaststelle
 
 ### Over welk bedrag betaalt u?
 
-Bij een gebruikte auto is de grondslag de marktwaarde op het moment van inschrijving. Dat is dus niet de prijs die u ooit betaalde. Ook niet de Nederlandse cataloguswaarde.
+Bij een gebruikte auto is de grondslag de marktwaarde op het moment van inschrijving. Dat is dus niet de prijs die u ooit betaalde, en ook niet de Nederlandse cataloguswaarde.
 
 Voor die marktwaarde mag u de officiële tabellen met gemiddelde verkoopprijzen gebruiken. Het Spaanse ministerie van Financiën publiceert die elk jaar per merk, model en uitvoering. Daarbij hoort een afschrijving naar leeftijd. Voor 2026 is dat de [Orden HAC/1501/2025](https://www.boe.es/buscar/act.php?id=BOE-A-2025-26357).
 
@@ -60,11 +60,11 @@ U moet aan alle vijf voorwaarden voldoen:
 
 1. **U woonde minimaal twaalf maanden achter elkaar buiten Spanje** vóór de verhuizing. Voor de meeste Nederlanders is dat Nederland.
 2. **De auto is in het land van herkomst op de normale manier belast.** De wet voegt daaraan toe dat de auto bij vertrek geen vrijstelling of teruggave van belasting mag hebben gekregen.
-3. **U heeft de auto minimaal zes maanden in uw oude woonplaats gebruikt** voordat u verhuisde.
+3. **De auto staat minimaal zes maanden op uw naam** voordat u verhuist.
 4. **U vraagt de inschrijving op tijd aan.** Daarover meer hieronder.
 5. **U verkoopt de auto niet binnen twaalf maanden** na de Spaanse inschrijving. Doet u dat wel, dan moet u de IEDMT alsnog betalen.
 
-De tweede voorwaarde verdient aandacht. Bij export vraagt u in Nederland vaak de rest-BPM terug. Hoe de Spaanse belastingdienst dat in uw situatie beoordeelt, hangt af van uw dossier. Wij bespreken dit vooraf met u, zodat u niet voor verrassingen komt te staan.
+Met de tweede voorwaarde kan het lastig worden, want bij export vraagt u in Nederland vaak de rest-BPM terug. Hoe de Spaanse belastingdienst dat in uw situatie beoordeelt, hangt af van uw dossier. Wij bespreken dit vooraf met u.
 
 ### Een tweede woning telt niet
 
@@ -86,7 +86,7 @@ Volgens de instructies van de Agencia Tributaria voegt u bij code ET4 in elk gev
 - een verklaring dat u minimaal twaalf maanden achter elkaar buiten Spanje woonde, afgegeven door de bevoegde consulaire autoriteit;
 - de aankoopfactuur van de auto, in origineel en als kopie.
 
-Daarnaast vraagt de belastingdienst de technische gegevens van de auto. Ook moet u kunnen laten zien dat u de auto zes maanden in uw oude woonplaats gebruikte. Het Nederlandse kentekenbewijs helpt daarbij. Houd er rekening mee dat het kantoor om aanvullende stukken kan vragen.
+Daarnaast vraagt de belastingdienst de technische gegevens van de auto. Ook moet u kunnen laten zien dat de auto minimaal zes maanden op uw naam staat. Het Nederlandse kentekenbewijs helpt daarbij. Houd er rekening mee dat het kantoor om aanvullende stukken kan vragen.
 
 ### Hoe dient u het in?
 
@@ -96,7 +96,7 @@ De aangifte moet zijn goedgekeurd vóór de definitieve inschrijving bij de DGT.
 
 ## Welke termijnen gelden?
 
-De belangrijkste termijn staat in de wet. Rijdt u in Spanje met een auto die niet op Spaans kenteken staat, dan moet u binnen 30 dagen na het eerste gebruik in Spanje de inschrijving aanvragen. Bij een verhuizing met recht op vrijstelling is dat 60 dagen ([administracion.gob.es](https://administracion.gob.es/tu-espacio-europeo/derechos-obligaciones/ciudadanos/vehiculos/traslado/impuesto)).
+De belangrijkste termijn staat in de wet. Rijdt u in Spanje met een auto die niet op Spaans kenteken staat, dan moet u binnen 30 dagen na het eerste gebruik in Spanje de inschrijving aanvragen. Bij een verhuizing met recht op vrijstelling vraagt u de inschrijving met vrijstelling aan binnen 60 dagen na uw inschrijving bij de gemeente (empadronamiento) ([administracion.gob.es](https://administracion.gob.es/tu-espacio-europeo/derechos-obligaciones/ciudadanos/vehiculos/traslado/impuesto)).
 
 Vraagt u de inschrijving te laat aan, dan voldoet u niet meer aan voorwaarde 4. Dan vervalt het recht op vrijstelling.
 
@@ -109,7 +109,7 @@ Voldoet u niet aan de voorwaarden? Dan betaalt u de IEDMT op de gewone manier. D
 Een paar situaties waarin dit vaak voorkomt:
 
 - U houdt uw hoofdverblijf in Nederland.
-- U heeft de auto kort voor de verhuizing gekocht en nog geen zes maanden gebruikt.
+- U heeft de auto kort voor de verhuizing gekocht en hij staat nog geen zes maanden op uw naam.
 - U woonde de laatste twaalf maanden al (deels) in Spanje.
 - U verkoopt de auto binnen een jaar na inschrijving. Dan moet u alsnog betalen.
 
@@ -121,7 +121,7 @@ De vrijstelling geldt alleen voor de IEDMT. De vaste kosten betaalt u altijd, oo
 
 ## Hulp bij de IEDMT en de vrijstelling
 
-Wij kijken vooraf of u in aanmerking komt voor vrijstelling. Komt u in aanmerking, dan verzorgen wij de aanvraag. Anders berekenen wij welke IEDMT u kunt verwachten. Het hele traject, van export in Nederland tot Spaans kenteken, staat in onze [gids over auto invoeren in Spanje](/auto-invoeren-spanje).
+Geeft u het [auto invoeren in Spanje uit handen](/), dan kijken wij vooraf of u in aanmerking komt voor vrijstelling. Komt u in aanmerking, dan verzorgen wij de aanvraag. Anders berekenen wij welke IEDMT u kunt verwachten. Het hele traject, van export in Nederland tot Spaans kenteken, staat in ons [stappenplan om uw auto op Spaans kenteken te zetten](/auto-op-spaans-kenteken-zetten).
 
 Wilt u weten wat dit voor uw auto betekent? Vul uw Nederlandse kenteken in bij de [kostencheck](/#offerte). U ziet direct een indicatie van de kosten in Spanje en de BPM-teruggave. Daarna kunt u vrijblijvend een offerte aanvragen.
 

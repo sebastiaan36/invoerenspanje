@@ -1,6 +1,6 @@
 ---
 title: "Verhuisvrijstelling Spanje: inboedel, verhuisgoed en auto"
-excerpt: "Verhuizen naar Spanje: wat zijn de regels voor uw inboedel en verhuisgoed, en wanneer krijgt u vrijstelling van de registratiebelasting (IEDMT) voor uw auto?"
+excerpt: "Verhuisvrijstelling in Spanje: de regels voor uw inboedel en verhuisgoed, en wanneer uw auto vrijstelling van de registratiebelasting (IEDMT) krijgt."
 author: Sebastiaan
 published_at: 2026-12-01 09:00
 updated_at: 2026-12-01
@@ -13,7 +13,7 @@ Gaat u naar Spanje verhuizen, bijvoorbeeld naar de Costa del Sol? Dan hoort u va
 
 - Verhuist u van Nederland naar Spanje, dan neemt u uw inboedel en verhuisgoed in het algemeen mee zonder douaneaangifte. Beide landen zitten in de EU.
 - Een "verhuisvrijstelling" met formulieren en voorwaarden speelt vooral bij uw auto. Het gaat dan om vrijstelling van de Spaanse registratiebelasting, de IEDMT.
-- Voor die vrijstelling moet u onder meer uw hoofdverblijf naar Spanje verplaatsen, twaalf maanden buiten Spanje hebben gewoond en de auto minimaal zes maanden in Nederland hebben gebruikt.
+- Voor die vrijstelling moet u onder meer uw hoofdverblijf naar Spanje verplaatsen, twaalf maanden buiten Spanje hebben gewoond en de auto moet minimaal zes maanden op uw naam staan.
 - U vraagt de vrijstelling aan met Modelo 06, vóór de inschrijving van de auto. Daarna mag u de auto twaalf maanden niet verkopen.
 - De BPM-teruggave in Nederland en de vaste kosten in Spanje blijven gewoon gelden.
 
@@ -59,13 +59,13 @@ Verhuist u uw hoofdverblijf naar Spanje en neemt u uw eigen auto mee, dan kunt u
 
 1. U woonde minimaal **twaalf maanden achter elkaar buiten Spanje** vóór de verhuizing.
 2. De auto is in Nederland op de normale manier belast gekocht.
-3. U heeft de auto minimaal **zes maanden** in uw oude woonplaats gebruikt vóórdat u vertrok.
-4. U vraagt de inschrijving **op tijd** aan. Bij een verhuizing met vrijstelling is dat binnen 60 dagen na het eerste gebruik van de auto in Spanje ([artikel 65.1.d](https://www.boe.es/buscar/act.php?id=BOE-A-1992-28741#a65)).
+3. De auto staat minimaal **zes maanden** op uw naam vóórdat u vertrekt.
+4. U vraagt de inschrijving **op tijd** aan. Bij een verhuizing met vrijstelling is dat binnen 60 dagen na uw inschrijving bij de gemeente (empadronamiento) ([artikel 65.1.d](https://www.boe.es/buscar/act.php?id=BOE-A-1992-28741#a65)).
 5. U **verkoopt de auto niet** binnen twaalf maanden na de Spaanse inschrijving. Anders betaalt u de IEDMT alsnog.
 
 De vrijstelling vraagt u aan met **Modelo 06**, met de code ET4, bij de Agencia Tributaria. Dat moet gebeuren vóór de definitieve inschrijving van de auto ([instructies Modelo 06](https://sede.agenciatributaria.gob.es/Sede/todas-gestiones/impuestos-tasas/impuesto-matriculacion/modelo-06-impues_____xenciones-no-sujecion-previo_/instrucciones-modelo-06.html)). Alle details, de stukken en de valkuilen leest u in ons artikel over [de registratiebelasting (IEDMT) en de vrijstelling bij verhuizing](/blog/registratiebelasting-iedmt-spanje-vrijstelling-verhuizing).
 
-Moet uw auto eigenlijk wel op een Spaans kenteken? Als resident wel. Dat leest u in ons artikel [wanneer uw auto op een Spaans kenteken moet](/blog/wanneer-auto-op-spaans-kenteken-verplicht).
+Moet uw auto eigenlijk wel op een Spaans kenteken? Ja, zodra u fiscaal resident bent, dus meer dan 183 dagen per jaar in Spanje woont. Dat leest u in ons artikel [wanneer uw auto op een Spaans kenteken moet](/blog/wanneer-auto-op-spaans-kenteken-verplicht).
 
 ## Wat blijft er wél: BPM-teruggave en vaste kosten
 
@@ -78,7 +78,7 @@ De vrijstelling gaat alleen over de Spaanse registratiebelasting. Twee andere za
 | Kostenpost | Bedrag |
 |---|---|
 | Gestoría (administratiekantoor), incl. definitieve kentekenplaten | € 219,62 |
-| Tijdelijke kentekenplaten (*matrículas temporales*) | € 181,50 |
+| Tijdelijke kentekenplaten (*matrículas temporales*), optioneel en niet inbegrepen in de vaste kosten | € 181,50 |
 | ITV-keuring bij import | ca. € 150–160 |
 | *Ficha Técnica* (technisch rapport), vervalt als u een COC heeft | € 103 |
 
@@ -93,13 +93,13 @@ Voor de vrijstelling van de auto moet u laten zien dat u echt verhuist. Deze doc
 - ***Certificado de empadronamiento*.** Dit is het bewijs van inschrijving bij de gemeente waar u woont. De Spaanse douane noemt het padrón als bewijs van de datum waarop u zich in Spanje vestigde.
 - **Uitschrijving uit de BRP.** Gaat u langer dan acht maanden per jaar in het buitenland wonen, dan schrijft u zich uit bij uw Nederlandse gemeente ([rijksoverheid.nl](https://www.rijksoverheid.nl/onderwerpen/privacy-en-persoonsgegevens/vraag-en-antwoord/uitschrijven-basisregistratie-personen)). Een bewijs van uitschrijving is nuttig voor uw dossier.
 - **Bewijs van uw eerdere woonplaats.** Voor code ET4 vraagt de Agencia Tributaria een verklaring dat u minimaal twaalf maanden buiten Spanje woonde, *afgegeven door de bevoegde consulaire autoriteit*. Welk Nederlands document het belastingkantoor daarvoor accepteert, kan per kantoor verschillen. Denk aan een uittreksel uit de BRP met adresgeschiedenis. Vraag dit vooraf na, ook of een vertaling nodig is.
-- **Aankoopfactuur en kentekenbewijs van de auto.** De factuur is verplicht voor ET4. Het kentekenbewijs helpt aantonen dat u de auto zes maanden in Nederland gebruikte.
+- **Aankoopfactuur en kentekenbewijs van de auto.** De factuur is verplicht voor ET4. Het kentekenbewijs laat zien sinds wanneer de auto op uw naam staat.
 
 ## Checklist en tijdlijn
 
 **Zes maanden of langer vóór vertrek**
 
-- Controleer of u de auto op uw vertrekdatum minimaal zes maanden heeft. Koop vlak voor de verhuizing liever geen andere auto.
+- Controleer of de auto op uw vertrekdatum minimaal zes maanden op uw naam staat. Koop vlak voor de verhuizing liever geen andere auto.
 - Bewaar de aankoopfactuur.
 
 **Eén tot twee maanden vóór vertrek**
@@ -117,7 +117,7 @@ Voor de vrijstelling van de auto moet u laten zien dat u echt verhuist. Deze doc
 
 - Schrijf u in op het padrón (*empadronamiento*).
 - Vraag het *certificado de registro de ciudadano de la Unión* aan.
-- Dien Modelo 06 in en laat de auto keuren bij de [ITV](/blog/itv-keuring-auto-import-spanje). Houd de 60 dagen voor de inschrijving in het oog.
+- Dien Modelo 06 in en laat de auto keuren bij de [ITV](/blog/itv-keuring-auto-import-spanje). Houd de 60 dagen na uw empadronamiento in het oog.
 
 **Na de inschrijving**
 
@@ -135,7 +135,7 @@ Voor de vrijstelling van de auto moet u laten zien dat u echt verhuist. Deze doc
 
 ## Hulp bij uw verhuizing met de auto
 
-Uw inboedel regelt u met een verhuisbedrijf, de auto regelen wij. Maikel Mobility [verzorgt beide kanten](/diensten): de export en de BPM-teruggave in Nederland, en de vrijstelling, ITV en inschrijving in Spanje. Wij kijken vooraf of u in aanmerking komt voor vrijstelling. Antwoorden op andere vragen over de invoer vindt u bij de [veelgestelde vragen](/veelgestelde-vragen). Het hele traject staat in onze [gids over auto invoeren in Spanje](/auto-invoeren-spanje).
+Uw inboedel regelt u met een verhuisbedrijf. Het [auto invoeren in Spanje](/) regelen wij. Maikel Mobility [verzorgt beide kanten](/diensten): de export en de BPM-teruggave in Nederland, en de vrijstelling, ITV en inschrijving in Spanje. Wij kijken vooraf of u in aanmerking komt voor vrijstelling. Antwoorden op andere vragen over de invoer vindt u bij de [veelgestelde vragen](/veelgestelde-vragen). Het hele traject staat stap voor stap in onze gids over [de auto op Spaans kenteken zetten](/auto-op-spaans-kenteken-zetten).
 
 Wilt u weten wat dit voor uw auto betekent? Doe de [kostencheck en vraag een vrijblijvende offerte aan](/#offerte).
 

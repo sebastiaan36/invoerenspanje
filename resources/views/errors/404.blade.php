@@ -20,7 +20,7 @@
                 <a href="/#offerte" class="inline-flex min-h-11 items-center rounded-xl bg-accent px-5 text-sm font-semibold text-accent-foreground">Bereken wat het voor uw auto kost</a>
             </p>
             <ul class="mt-10 grid gap-x-8 gap-y-3 sm:grid-cols-2">
-                <li><a class="text-primary underline underline-offset-4" href="/auto-invoeren-spanje">Gids auto invoeren in Spanje</a></li>
+                <li><a class="text-primary underline underline-offset-4" href="/auto-op-spaans-kenteken-zetten">Stappenplan: auto op Spaans kenteken zetten</a></li>
                 <li><a class="text-primary underline underline-offset-4" href="/tarieven">Tarieven en kosten</a></li>
                 <li><a class="text-primary underline underline-offset-4" href="/bpm-calculator">BPM-calculator</a></li>
                 <li><a class="text-primary underline underline-offset-4" href="/veelgestelde-vragen">Veelgestelde vragen</a></li>

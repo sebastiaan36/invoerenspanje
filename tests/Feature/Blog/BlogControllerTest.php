@@ -118,6 +118,36 @@ final class BlogControllerTest extends TestCase
         $this->assertNotContains('huidig-artikel', array_column($related, 'slug'));
     }
 
+    public function test_show_related_puts_posts_linked_from_the_article_first(): void
+    {
+        $author = User::factory()->create();
+
+        foreach (range(1, 4) as $i) {
+            Post::create([
+                'title' => "Artikel {$i}",
+                'slug' => "artikel-{$i}",
+                'content_html' => '<p>inhoud</p>',
+                'status' => Post::STATUS_PUBLISHED,
+                'published_at' => now()->subDays($i + 1),
+                'author_id' => $author->id,
+            ]);
+        }
+
+        $current = Post::create([
+            'title' => 'Huidig artikel',
+            'slug' => 'huidig-artikel',
+            'content_html' => '<p>Zie <a href="/blog/artikel-4">dit</a> en <a href="/blog/artikel-3">dat</a>, of <a href="/blog/huidig-artikel">hier</a>.</p>',
+            'status' => Post::STATUS_PUBLISHED,
+            'published_at' => now()->subDay(),
+            'author_id' => $author->id,
+        ]);
+
+        $related = $this->get(route('blog.show', $current->slug))->viewData('page')['props']['related'];
+
+        // The two linked posts in link order, then the newest other post.
+        $this->assertSame(['artikel-4', 'artikel-3', 'artikel-1'], array_column($related, 'slug'));
+    }
+
     public function test_show_404s_for_draft_post(): void
     {
         $author = User::factory()->create();

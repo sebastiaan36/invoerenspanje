@@ -74,4 +74,34 @@ final class SeoMetaTest extends TestCase
         $response->assertSee('<meta name="description" content="'.e($post->excerpt).'">', false);
         $response->assertSee('<meta property="og:title" content="'.e($post->title.' — autoinvoerenspanje.nl').'">', false);
     }
+
+    public function test_long_blog_post_title_drops_the_site_name(): void
+    {
+        $author = User::factory()->create();
+        $title = 'Spaans kentekenbewijs en kentekenplaten: zo ziet het eruit';
+        Post::create([
+            'title' => $title,
+            'slug' => 'spaans-kentekenbewijs',
+            'content_html' => '<p>inhoud</p>',
+            'status' => Post::STATUS_PUBLISHED,
+            'published_at' => now()->subDay(),
+            'author_id' => $author->id,
+        ]);
+
+        $response = $this->get(route('blog.show', 'spaans-kentekenbewijs'));
+
+        $response->assertOk();
+        $response->assertSee('<title>'.e($title).'</title>', false);
+    }
+
+    public function test_old_guide_url_redirects_permanently_to_the_stappenplan(): void
+    {
+        $this->get('/auto-invoeren-spanje')
+            ->assertStatus(301)
+            ->assertRedirect('/auto-op-spaans-kenteken-zetten');
+
+        $this->get(route('gids'))
+            ->assertOk()
+            ->assertSee('<title>'.e(config('seo.routes.gids.title')).'</title>', false);
+    }
 }

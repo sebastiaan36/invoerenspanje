@@ -1,13 +1,13 @@
 ---
-title: "Het Spaanse kentekenbewijs en de kentekenplaten: zo ziet het eruit"
-excerpt: "Wat is het permiso de circulación, wat staat er op de Spaanse kentekenplaat en welke papieren horen in uw auto? Alles wat u krijgt als uw auto op Spaans kenteken staat."
+title: "Spaans kentekenbewijs en kentekenplaten: zo ziet het eruit"
+excerpt: "Het Spaanse kentekenbewijs (permiso de circulación) en de kentekenplaten: wat erop staat en welke papieren u in de auto bewaart."
 author: Sebastiaan
 published_at: 2026-10-29 10:00
 updated_at: 2026-11-04
 status: published
 hero_image: images/spaans-kentekenbewijs-en-kentekenplaten.webp
 ---
-Staat uw auto straks op een Spaans kenteken, dan krijgt u andere papieren dan u uit Nederland gewend bent. Geen kentekencard, maar een *permiso de circulación*. Daarnaast een technisch document en nieuwe platen. In dit artikel leest u wat u krijgt, wat erop staat en wat u in de auto bewaart.
+Staat uw auto straks op een Spaans kenteken, dan krijgt u andere papieren dan u uit Nederland gewend bent. In plaats van een kentekencard krijgt u een *permiso de circulación*, plus een technisch document en nieuwe platen. In dit artikel leest u wat u krijgt, wat erop staat en wat u in de auto bewaart. Moet uw Nederlandse auto nog [op Spaans kenteken gezet worden](/auto-op-spaans-kenteken-zetten)? Dan staan de stappen daarvoor in onze gids.
 
 ## In het kort
 
@@ -41,7 +41,7 @@ Naast het kentekenbewijs heeft elke Spaanse auto een technisch document: de *tar
 
 In Nederland bestaat zo'n apart document niet. De RDW houdt die gegevens centraal bij. In Spanje hoort u de tarjeta ITV bij de auto te hebben. Raakt u hem kwijt, dan vraagt u een duplicaat aan bij een ITV-station.
 
-Bij de invoer speelt het COC-document hierbij een grote rol. Het ITV-station neemt de fabrieksgegevens over uit het COC. Heeft u geen COC, dan is een apart technisch rapport nodig. Dat kost € 103 extra. Meer daarover leest u in ons artikel over [de ITV-keuring bij import](/blog/itv-keuring-auto-import-spanje).
+Bij de invoer neemt het ITV-station de fabrieksgegevens over uit het COC-document. Heeft u geen COC, dan is een apart technisch rapport nodig. Dat kost € 103 extra. Meer daarover leest u in ons artikel over [de ITV-keuring bij import](/blog/itv-keuring-auto-import-spanje).
 
 ## De Spaanse kentekenplaat
 
@@ -51,7 +51,7 @@ Sinds 2000 heeft Spanje één landelijk systeem voor kentekens. Een kenteken bes
 - drie medeklinkers, zonder de Ñ en de Q;
 - links de blauwe EU-strook met de letter E.
 
-De nummers worden op volgorde uitgegeven. Aan de letters kunt u dus ongeveer zien wanneer een auto in Spanje is ingeschreven. Wat u verder over een Spaanse auto kunt opvragen, leest u in ons artikel over [een Spaans kenteken opzoeken](/blog/spaans-kenteken-opzoeken-auto-checken). Een ingevoerde auto van vijf jaar oud krijgt daarom een nieuw nummer en ziet er op het oog jong uit. Op de platen staat geen provincie meer, zoals vroeger.
+De nummers worden op volgorde uitgegeven. Aan de letters kunt u dus ongeveer zien wanneer een auto in Spanje is ingeschreven. Een ingevoerde auto van vijf jaar oud krijgt daarom een nieuw nummer en ziet er op het oog jong uit. Op de platen staat geen provincie meer, zoals vroeger. Wat u verder over een Spaanse auto kunt opvragen, leest u in ons artikel over [een Spaans kenteken opzoeken](/blog/spaans-kenteken-opzoeken-auto-checken).
 
 De platen laat u maken bij een erkende plaatmaker, op vertoon van het kentekenbewijs. Ze kosten rond de € 35. Laat u de inschrijving via ons lopen, dan zitten de platen in de kosten van de gestoría. Een voor- en een achterplaat zijn verplicht.
 
@@ -90,11 +90,11 @@ Bewaar daarnaast thuis een kopie van alle documenten uit het invoertraject, zoal
 
 Het kentekenbewijs is de laatste stap van het traject. Daarvoor zijn de export in Nederland, de ITV-keuring en de registratiebelasting (IEDMT) afgerond. Reken van de exportmelding tot het definitieve kentekenbewijs op gemiddeld vier tot acht weken.
 
-Het Spaanse kentekenbewijs heeft u ook nodig voor de [BPM-teruggave](/blog/bpm-teruggave-auto-importeren-spanje): u stuurt het mee met uw aanvraag bij de Belastingdienst. Alle stappen, documenten en kosten op een rij leest u in onze gids over [auto invoeren in Spanje](/auto-invoeren-spanje).
+Het Spaanse kentekenbewijs heeft u ook nodig voor de [BPM-teruggave](/blog/bpm-teruggave-auto-importeren-spanje): u stuurt het mee met uw aanvraag bij de Belastingdienst. Alle stappen, documenten en kosten op een rij leest u in het [stappenplan voor uw Spaanse kenteken](/auto-op-spaans-kenteken-zetten).
 
 ## Hulp bij uw Spaanse kenteken
 
-Wij [regelen het traject](/diensten) van RDW tot Spaans kentekenbewijs, in uw eigen taal. In het Basispakket (€ 395) levert u de documenten aan en verwerken wij de aanvraag bij de DGT. In Compleet (€ 895) en Compleet Plus (€ 1.495) nemen wij u meer werk uit handen. De verschillen ziet u op de pagina [tarieven](/tarieven).
+Wij [regelen het traject](/diensten) van RDW tot Spaans kentekenbewijs, in uw eigen taal. Zo kunt u [uw auto in Spanje laten invoeren](/) zonder zelf met de DGT te schakelen. In het Basispakket (€ 395) levert u de documenten aan en verwerken wij de aanvraag bij de DGT. In Compleet (€ 895) en Compleet Plus (€ 1.495) nemen wij u meer werk uit handen. De verschillen ziet u op de pagina [tarieven](/tarieven).
 
 Wilt u weten wat dit voor uw auto betekent? [Vraag een vrijblijvende offerte aan](/#offerte).
 

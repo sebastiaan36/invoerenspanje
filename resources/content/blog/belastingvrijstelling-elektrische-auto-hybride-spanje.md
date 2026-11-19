@@ -1,13 +1,13 @@
 ---
 title: "Elektrische auto of hybride naar Spanje: belastingvoordeel"
-excerpt: "Elektrische auto of (plug-in) hybride naar Spanje? Tot 120 gram CO₂ (WLTP) betaalt u 0% registratiebelasting. Plus: milieusticker en korting op wegenbelasting."
+excerpt: "Elektrische auto of (plug-in) hybride naar Spanje? Tot 120 g/km CO₂ (WLTP) betaalt u 0% registratiebelasting. Ook: milieusticker en lagere wegenbelasting."
 author: Sebastiaan
 published_at: 2026-11-24 09:00
 updated_at: 2026-11-24
 status: published
 hero_image: images/belastingvrijstelling-elektrische-auto-hybride-spanje.webp
 ---
-Rijdt u elektrisch, hybride of plug-in hybride en verhuist u naar de Costa del Sol? Dan heeft u geluk. In Spanje hangt de registratiebelasting af van de CO₂-uitstoot. Tot en met 120 gram CO₂ per kilometer (WLTP) betaalt u niets. Een elektrische auto valt daar altijd onder. In dit artikel leest u welke belastingvrijstelling voor een elektrische auto in Spanje geldt, hoe dat zit bij een hybride en een plug-in hybride, en welke voordelen er daarna nog bij komen.
+Rijdt u elektrisch, hybride of plug-in hybride en verhuist u naar de Costa del Sol? In Spanje hangt de registratiebelasting af van de CO₂-uitstoot. Tot en met 120 gram CO₂ per kilometer (WLTP) betaalt u niets. Een elektrische auto valt daar altijd onder. In dit artikel leest u welke belastingvrijstelling voor een elektrische auto in Spanje geldt, hoe dat zit bij een hybride en een plug-in hybride, en welke voordelen er daarna nog bij komen.
 
 ## In het kort
 
@@ -62,8 +62,6 @@ De bedragen hieronder zijn voorbeelden. De echte tabelwaarde van uw auto kan and
 
 **Voorbeeld 2: gewone hybride met 125 g/km.** Stel: de Hacienda-nieuwwaarde is € 32.000 en de auto is 4 jaar oud. De marktwaarde is dan 47% van € 32.000 = € 15.040. De uitstoot van 125 g/km valt net boven de grens van 120 g/km. Het tarief is 4,75%. U betaalt **€ 714,40 IEDMT**.
 
-U ziet: een paar gram CO₂ maakt het verschil tussen niets en een paar honderd euro.
-
 Wilt u weten wat het voor uw eigen auto is? Onze [kostencheck](/#offerte) zoekt de CO₂-waarde op bij de RDW, koppelt die aan de Hacienda-tabel en rekent de IEDMT per kenteken uit. Meer voorbeelden van het hele traject vindt u in [de kosten van auto invoeren in Spanje](/blog/kosten-auto-invoeren-spanje-rekenvoorbeelden).
 
 ## De milieusticker van de DGT
@@ -113,7 +111,7 @@ Met de [BPM-calculator](/bpm-calculator) ziet u direct of er voor uw auto iets t
 
 ## Hulp bij uw elektrische auto of hybride
 
-Maikel Mobility regelt het hele traject: de export in Nederland, de BPM-teruggave, de ITV-keuring en de inschrijving in Spanje. Wij controleren vooraf de CO₂-waarde, zodat u weet welk tarief geldt. Het volledige stappenplan staat in onze [gids over auto invoeren in Spanje](/auto-invoeren-spanje).
+Maikel Mobility regelt het hele traject: de export in Nederland, de BPM-teruggave, de ITV-keuring en de inschrijving in Spanje. Wij controleren vooraf de CO₂-waarde, zodat u weet welk tarief geldt. Alle stappen staan in ons [stappenplan om uw auto op Spaans kenteken te zetten](/auto-op-spaans-kenteken-zetten). Op de homepage leest u hoe wij werken als u [uw auto in Spanje laat invoeren](/).
 
 Wilt u weten wat het voor uw auto betekent? Vul uw Nederlandse kenteken in bij de [kostencheck](/#offerte). U ziet direct een indicatie van de IEDMT, de kosten in Spanje en de BPM-teruggave. Daarna kunt u vrijblijvend een offerte aanvragen.
 

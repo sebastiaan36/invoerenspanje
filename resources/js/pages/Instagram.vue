@@ -164,10 +164,10 @@ const secondaryLinks = [
             </section>
 
             <a
-                href="/auto-invoeren-spanje"
+                href="/auto-op-spaans-kenteken-zetten"
                 class="mt-4 inline-flex min-h-11 items-center justify-center gap-1 text-sm font-medium text-primary underline-offset-4 hover:underline"
             >
-                Of lees de complete gids
+                Of lees het stappenplan
                 <ArrowRight class="size-4" aria-hidden="true" />
             </a>
 

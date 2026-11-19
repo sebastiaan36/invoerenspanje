@@ -15,11 +15,12 @@
             'alt' => 'Maikel, autospecialist',
             'company' => 'Maikel Mobility',
             'role' => 'Autospecialist, regelt de Spaanse kant van het traject',
-            'bio' => 'Maikel is de autospecialist achter het importtraject. Hij studeerde HBO Automotive aan de IVA, werkt met erkende RDW-exportpartners en kent de procedures bij de DGT (de Spaanse RDW). Van Ficha Técnica (Spaans technisch voertuigrapport) tot ITV (de Spaanse APK-keuring): Maikel regelt het.',
+            'bio' => 'Maikel is de autospecialist achter het importtraject en werkt vanuit de Costa del Sol onder de naam Maikel Mobility. Hij studeerde HBO Automotive aan de IVA. In Nederland laat hij de export lopen via erkende RDW-exportpartners, in Spanje kent hij de procedures bij de DGT (de Spaanse RDW). Ontbreekt het COC-document, dan regelt hij de Ficha Técnica (Spaans technisch voertuigrapport), met de foto\'s op locatie. Hij plant de ITV (de Spaanse APK-keuring) en gaat bij Compleet Plus namens u naar het keuringsstation. Na uw offerteaanvraag belt of mailt Maikel u binnen 24 uur met de definitieve berekening. Kan de kostencheck uw auto niet automatisch doorrekenen, dan rekent hij het met de hand uit.',
             'highlights' => [
-                'IVA-gecertificeerd: HBO Automotive aan de IVA',
+                'HBO Automotive aan de IVA',
                 'Werkt met erkende RDW-exportpartners',
                 'Kent de procedures bij de DGT (de Spaanse RDW)',
+                'Belt of mailt binnen 24 uur na uw offerteaanvraag',
             ],
         ],
         [
@@ -29,10 +30,11 @@
             'alt' => 'Sebastiaan, online aanspreekpunt',
             'company' => 'Been & van Dam',
             'role' => 'Uw aanspreekpunt online',
-            'bio' => 'Sebastiaan is uw aanspreekpunt online. Hij beantwoordt uw vragen over de berekening en de offerte, en houdt uw dossier bij, zodat u steeds weet hoe het met uw auto staat.',
+            'bio' => 'Sebastiaan is uw aanspreekpunt online. Hij beantwoordt uw vragen over de berekening en de offerte, en houdt uw dossier in het klantenportaal bij, zodat u steeds weet hoe het met uw auto staat. U bereikt hem net als Maikel per telefoon, WhatsApp of e-mail, in het Nederlands. Sebastiaan schrijft ook de artikelen op onze blog, over onderwerpen als de BPM-teruggave, de ITV-keuring en de Spaanse registratiebelasting.',
             'highlights' => [
                 'Beantwoordt uw vragen over berekening en offerte',
                 'Houdt uw dossier en de berekening voor u bij',
+                'Schrijft de artikelen op onze blog',
             ],
         ],
     ];
@@ -54,8 +56,8 @@
             <h2 class="font-display text-2xl font-semibold text-foreground sm:text-3xl">Onze missie</h2>
             <p class="mx-auto mt-5 max-w-2xl text-muted-foreground">
                 Veel Nederlanders wonen of verblijven langdurig aan de Costa del Sol. Zij willen hun vertrouwde auto
-                meenemen naar Spanje, maar lopen vast op bureaucratie, taalbarrières en een ondoorzichtig systeem. Wij
-                zetten dat recht: één aanspreekpunt, vaste prijs, alles geregeld.
+                meenemen naar Spanje, maar lopen vast op de Spaanse bureaucratie en de taal. Bij ons heeft u één
+                aanspreekpunt en een vaste prijs, en wij regelen het traject van begin tot eind.
             </p>
         </div>
     </section>
@@ -65,7 +67,8 @@
             <div class="text-center">
                 <h2 class="font-display text-2xl font-semibold text-foreground sm:text-3xl">Het team</h2>
                 <p class="mx-auto mt-3 max-w-xl text-muted-foreground">
-                    Twee mensen met elk hun eigen vakgebied. Samen zorgen zij voor het complete plaatje.
+                    Twee mensen met elk een eigen vakgebied: Maikel regelt de auto en de Spaanse kant, Sebastiaan
+                    beantwoordt uw vragen en houdt uw dossier online bij.
                 </p>
             </div>
 

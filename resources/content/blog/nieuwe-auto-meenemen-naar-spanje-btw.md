@@ -1,6 +1,6 @@
 ---
 title: "Nieuwe auto meenemen naar Spanje: zo zit het met de btw"
-excerpt: "Een auto tot 6.000 km of tot 6 maanden oud geldt voor de btw als nieuw. Dan betaalt u IVA in Spanje. Lees wat dat betekent voor uw aankoop en verhuizing."
+excerpt: "Nieuwe auto meenemen naar Spanje? Tot 6.000 km of 6 maanden oud geldt de auto voor de btw als nieuw en betaalt u IVA in Spanje. Zo zit het."
 author: Sebastiaan
 published_at: 2026-09-23 10:00
 updated_at: 2026-10-25
@@ -75,7 +75,7 @@ Een jonge auto is nog weinig afgeschreven. Daardoor is de rest-BPM die u bij exp
 
 Verhuist u uw hoofdverblijf naar Spanje, dan kunt u onder voorwaarden vrijstelling van de IEDMT krijgen. Eén van die voorwaarden is dat u de auto vóór de verhuizing minimaal 6 maanden in uw oude woonplaats heeft gebruikt. Meer hierover leest u in ons artikel over de [registratiebelasting (IEDMT) en de vrijstelling bij verhuizing](/blog/registratiebelasting-iedmt-spanje-vrijstelling-verhuizing).
 
-Hier zit een belangrijk punt. Een auto die u kort vóór uw verhuizing koopt, staat meestal nog geen 6 maanden op uw naam. Dan komt u niet in aanmerking voor de vrijstelling. U betaalt dan mogelijk zowel IVA als IEDMT in Spanje.
+Een auto die u kort vóór uw verhuizing koopt, staat meestal nog geen 6 maanden op uw naam. Dan komt u niet in aanmerking voor de vrijstelling. U betaalt dan mogelijk zowel IVA als IEDMT in Spanje.
 
 ## Waarom het moment van kopen en verhuizen telt
 
@@ -99,10 +99,10 @@ Koopt u bewust in Nederland? Denk dan vóór de aankoop na over deze vragen:
 4. **Wat is de CO₂-uitstoot?** Die bepaalt het IEDMT-tarief als er geen vrijstelling is.
 5. **Hoe gaat de auto naar Spanje?** [Zelf rijden op exportkenteken of laten vervoeren](/blog/auto-naar-spanje-zelf-rijden-of-transport). De auto wordt daarvoor bij de RDW afgemeld; hoe dat werkt, leest u in ons artikel over [de auto uitschrijven bij de RDW](/blog/auto-uitschrijven-bij-de-rdw-en-exportkenteken-aanvragen-zo-werkt-het).
 
-Wilt u hier vooraf over sparren? In ons pakket Compleet Plus zit aankoopadvies voor een auto in Nederland: een belafspraak van 30 minuten. Daarnaast exporteren wij de auto via een van onze partners en regelen wij het transport. De transportkosten komen daar apart bij. Op de [tarievenpagina](/tarieven) ziet u wat elk pakket bevat. Alle stappen na de aankoop staan in onze [complete gids over auto invoeren in Spanje](/auto-invoeren-spanje).
+Wilt u hier vooraf over sparren? In ons pakket Compleet Plus zit aankoopadvies voor een auto in Nederland: een belafspraak van 30 minuten. Daarnaast exporteren wij de auto via een van onze partners en regelen wij het transport. De transportkosten komen daar apart bij. Op de [tarievenpagina](/tarieven) ziet u wat elk pakket bevat. Wat er na de aankoop gebeurt, staat in ons [stappenplan om de auto op Spaans kenteken te zetten](/auto-op-spaans-kenteken-zetten).
 
 ## Wat betekent dit voor uw auto?
 
-Vul uw Nederlandse kenteken in bij de [kostencheck](/#offerte). U ziet direct een indicatie van uw BPM-teruggave en de kosten in Spanje. Daarna vraagt u vrijblijvend een offerte aan. Vermeld daarbij dat het om een (bijna) nieuwe auto gaat, dan nemen wij de btw mee in ons advies.
+Vul uw Nederlandse kenteken in bij de [kostencheck](/#offerte) op onze pagina over [auto invoeren in Spanje](/). U ziet direct een indicatie van uw BPM-teruggave en de kosten in Spanje. Daarna vraagt u vrijblijvend een offerte aan. Vermeld daarbij dat het om een (bijna) nieuwe auto gaat, dan nemen wij de btw mee in ons advies.
 
 *Dit artikel is algemene informatie en geen fiscaal advies. De regels kunnen wijzigen. Controleer de actuele regels bij de [Belastingdienst](https://www.belastingdienst.nl/wps/wcm/connect/bldcontentnl/themaoverstijgend/programmas_en_formulieren/aangifte_omzetbelasting_intracommunautaire_levering_en_verwerving_van_nieuwe_en_bijna_nieuwe_vervoermiddelen) en de [Agencia Tributaria](https://sede.agenciatributaria.gob.es/Sede/todas-gestiones/impuestos-tasas/iva/modelo-309-iva-declaracion-liquidacion-periodica_/instrucciones-modelo-309.html).*

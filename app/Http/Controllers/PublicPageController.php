@@ -146,7 +146,7 @@ final class PublicPageController extends Controller
     {
         return Inertia::render('Gids', [
             'contentHtml' => app(UnpublishedBlogLinkFilter::class)->filter(view('content.gids')->render()),
-            'faqItems' => config('faq.home'),
+            'faqItems' => config('faq.gids', []),
             'updatedLabel' => 'Bijgewerkt: '.config('seo.routes.gids.updated_label'),
         ]);
     }

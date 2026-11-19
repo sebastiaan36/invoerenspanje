@@ -193,7 +193,7 @@ async function submit() {
             <h3
                 class="mt-4 font-display text-2xl font-semibold text-foreground sm:text-3xl"
             >
-                Bedankt — uw aanvraag is binnen
+                Bedankt, uw aanvraag is binnen
             </h3>
             <p class="mx-auto mt-3 max-w-md text-sm text-muted-foreground">
                 We nemen binnen 24 uur contact op via {{ form.email }} of

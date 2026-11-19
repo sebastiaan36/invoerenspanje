@@ -79,8 +79,8 @@ ongeveer 65% afgeschreven.
 <strong>U krijgt dan ca. €2.100 terug.</strong>
 </p>
 <p>
-Elke maand telt: hoe jonger de auto bij export, hoe meer
-u terugkrijgt. Veel mensen denken pas aan de BPM als ze
+Hoe jonger de auto bij export, hoe meer u terugkrijgt,
+en het verschil loopt per maand op. Veel mensen denken pas aan de BPM als ze
 al maanden met de Spaanse kant bezig zijn. Het loont dus
 om de export niet onnodig uit te stellen.
 </p>
