@@ -1,17 +1,17 @@
 ---
-title: "Wat kost auto invoeren in Spanje? Drie rekenvoorbeelden"
-excerpt: "Van een kleine hybride tot een grote SUV: drie uitgewerkte voorbeelden van de kosten in Spanje, de registratiebelasting en de BPM-teruggave. Soms houdt u er geld aan over."
+title: "Rekenvoorbeelden: wat kost uw auto naar Spanje écht netto?"
+excerpt: "Wat kost uw auto naar Spanje netto? Drie rekenvoorbeelden van hybride tot SUV, met Spaanse kosten, registratiebelasting en BPM-teruggave verrekend."
 author: Sebastiaan
 published_at: 2026-10-29 10:00
 updated_at: 2026-11-04
 status: published
 hero_image: images/kosten-auto-invoeren-spanje-rekenvoorbeelden.webp
 ---
-"Wat kost het?" is de eerste vraag die bijna iedereen ons stelt. Het eerlijke antwoord: dat hangt af van uw auto. Een paar kosten zijn vast. Twee bedragen verschillen per auto: de Spaanse registratiebelasting en de BPM die u in Nederland terugkrijgt. Aan de hand van drie voorbeelden laten wij zien hoe dat uitpakt.
+"Wat kost het?" is de eerste vraag die bijna iedereen ons stelt. Het antwoord hangt af van uw auto. Een paar kosten zijn vast. Twee bedragen verschillen per auto: de Spaanse registratiebelasting en de BPM die u in Nederland terugkrijgt. Aan de hand van drie voorbeelden laten wij zien hoe dat uitpakt.
 
 ## In het kort
 
-- De vaste kosten in Spanje liggen rond de € 680, met een COC-document. Zonder COC komt er € 103 bij.
+- De vaste kosten in Spanje zijn ca. € 500 met een COC-document en ca. € 600 zonder. Heeft u tijdelijke kentekenplaten nodig, dan komt daar € 181,50 bij.
 - De registratiebelasting (IEDMT) hangt af van de CO₂-uitstoot. Tot 120 g/km betaalt u niets, daarboven 4,75% tot 14,75% van de waarde.
 - Verhuist u uw hoofdverblijf naar Spanje, dan is onder voorwaarden vrijstelling van de IEDMT mogelijk.
 - Daar staat de BPM-teruggave tegenover. Bij een jonge auto met veel BPM is die vaak hoger dan alle kosten samen.
@@ -26,13 +26,14 @@ Deze kosten heeft u bij elke invoer, ongeacht de auto:
 | Leges van de DGT (*tasas*) | € 125 |
 | Gestoría (Spaans administratiekantoor), incl. definitieve kentekenplaten | € 219,62 |
 | ITV-keuring bij import | ca. € 155 |
-| Tijdelijke groene platen (*matrículas temporales*) | € 181,50 |
-| **Totaal met COC-document** | **ca. € 681,12** |
-| Technisch rapport als u geen COC heeft | + € 103 |
+| **Vaste kosten met COC-document** | **ca. € 499,62** |
+| Technisch rapport (Ficha Técnica) als u geen COC heeft | + € 103 |
+| **Vaste kosten zonder COC-document** | **ca. € 602,62** |
+| Tijdelijke groene platen (*matrículas temporales*), optioneel | + € 181,50 |
 
 De bedragen voor de gestoría, de tijdelijke platen en het technisch rapport zijn inclusief 21% Spaanse btw (IVA).
 
-De tijdelijke platen zijn niet verplicht, maar wel nodig om met de geëxporteerde auto naar de ITV te rijden. In de praktijk heeft vrijwel iedereen ze nodig. De [ITV-keuring bij import](/blog/itv-keuring-auto-import-spanje) betaalt u zelf aan de balie van het station.
+De tijdelijke platen zijn niet verplicht en vallen daarom buiten de vaste kosten. Wel zijn ze nodig om met de geëxporteerde auto naar de ITV te rijden. In de praktijk heeft vrijwel iedereen ze nodig, dus in de rekenvoorbeelden hieronder tellen wij ze als aparte regel mee. De voorbeelden gaan uit van een auto met COC-document. De [ITV-keuring bij import](/blog/itv-keuring-auto-import-spanje) betaalt u zelf aan de balie van het station.
 
 Daarbij komt de prijs voor onze begeleiding. Die is vast: € 395 voor Basis, € 895 voor Compleet en € 1.495 voor Compleet Plus. Wat elk pakket bevat, ziet u op de pagina [tarieven](/tarieven).
 
@@ -51,7 +52,7 @@ Bij de eerste inschrijving in Spanje betaalt u het *Impuesto Especial sobre Dete
 
 Het percentage rekent u over de fiscale waarde van de auto. Die bepaalt de Spaanse belastingdienst met vaste tabellen per merk en model, met een afschrijving naar leeftijd. Het is dus niet de prijs die u voor de auto betaald heeft.
 
-Verhuist u uw hoofdverblijf naar Spanje en had u de auto al minimaal zes maanden in gebruik? Dan kunt u onder voorwaarden vrijstelling aanvragen. Hoe dat werkt, leest u in ons artikel over [de IEDMT en de vrijstelling bij verhuizing](/blog/registratiebelasting-iedmt-spanje-vrijstelling-verhuizing).
+Verhuist u uw hoofdverblijf naar Spanje en staat de auto al minimaal zes maanden op uw naam? Dan kunt u onder voorwaarden vrijstelling aanvragen. Hoe dat werkt, leest u in ons artikel over [de IEDMT en de vrijstelling bij verhuizing](/blog/registratiebelasting-iedmt-spanje-vrijstelling-verhuizing).
 
 ### De BPM-teruggave
 
@@ -67,7 +68,8 @@ Een kleine hybride met een lage uitstoot. U regelt veel zelf en kiest het Basisp
 
 | | Bedrag |
 |---|---|
-| Vaste kosten in Spanje | € 681,12 |
+| Vaste kosten in Spanje | € 499,62 |
+| Tijdelijke kentekenplaten | € 181,50 |
 | Basispakket | € 395 |
 | IEDMT | € 0 |
 | **Totale kosten** | **€ 1.076,12** |
@@ -87,14 +89,15 @@ Een gangbare gezinsauto. U wilt het niet zelf regelen en kiest Compleet.
 
 | | Zonder vrijstelling | Met vrijstelling bij verhuizing |
 |---|---|---|
-| Vaste kosten in Spanje | € 681,12 | € 681,12 |
+| Vaste kosten in Spanje | € 499,62 | € 499,62 |
+| Tijdelijke kentekenplaten | € 181,50 | € 181,50 |
 | Pakket Compleet | € 895 | € 895 |
 | IEDMT (4,75% van € 16.000) | € 760 | € 0 |
 | **Totale kosten** | **€ 2.336,12** | **€ 1.576,12** |
 | BPM-teruggave (ca. 35%) | − € 2.100 | − € 2.100 |
 | **Saldo** | **kost u ca. € 236,12** | **u houdt ca. € 523,88 over** |
 
-Hier ziet u wat de vrijstelling bij verhuizing doet. Komt u ervoor in aanmerking, dan betaalt de BPM-teruggave het hele traject.
+Komt u in aanmerking voor de vrijstelling bij verhuizing, dan betaalt de BPM-teruggave het hele traject.
 
 ## Rekenvoorbeeld 3: een grote SUV van twee jaar
 
@@ -107,7 +110,8 @@ Een jonge, zware auto met veel BPM. U kiest Compleet Plus, waarbij wij ook het t
 
 | | Zonder vrijstelling | Met vrijstelling bij verhuizing |
 |---|---|---|
-| Vaste kosten in Spanje | € 681,12 | € 681,12 |
+| Vaste kosten in Spanje | € 499,62 | € 499,62 |
+| Tijdelijke kentekenplaten | € 181,50 | € 181,50 |
 | Pakket Compleet Plus | € 1.495 | € 1.495 |
 | IEDMT (14,75% van € 40.000) | € 5.900 | € 0 |
 | **Totale kosten** | **€ 8.076,12** | **€ 2.176,12** |
@@ -127,8 +131,8 @@ Komen er nog andere kosten bij? Denk aan het transport als u niet zelf rijdt, ee
 
 ## Wat kost het voor uw auto?
 
-De voorbeelden hierboven zijn indicaties. Voor uw eigen auto rekenen wij met de gegevens van de RDW: de werkelijke BPM, de leeftijd en de CO₂-uitstoot. Vul uw Nederlandse kenteken in bij de [kostencheck en vraag een vrijblijvende offerte aan](/#offerte). U ziet dan direct de kosten in Spanje met de BPM-teruggave al verrekend.
+De voorbeelden hierboven zijn indicaties. Voor uw eigen auto rekenen wij met de gegevens van de RDW: de werkelijke BPM, de leeftijd en de CO₂-uitstoot. Vul uw Nederlandse kenteken in bij de [kostencheck en vraag een vrijblijvende offerte aan](/#offerte). U ziet dan direct de kosten in Spanje met de BPM-teruggave al verrekend. Op de homepage leest u ook wat wij doen als u de [auto invoeren in Spanje uit handen geeft](/).
 
-Wilt u eerst alle stappen van het traject zien? Lees dan onze gids over [auto invoeren in Spanje](/auto-invoeren-spanje).
+Wilt u eerst alle stappen van het traject zien? Lees dan ons [stappenplan om uw auto op Spaans kenteken te zetten](/auto-op-spaans-kenteken-zetten).
 
 *Dit artikel is algemene informatie en geen fiscaal advies. De rekenvoorbeelden zijn vereenvoudigd en gaan uit van zelfgekozen waarden. De werkelijke fiscale waarde in Spanje, de BPM en de kosten kunnen afwijken en kunnen wijzigen. Controleer de actuele regels bij de Belastingdienst en de Agencia Tributaria.*

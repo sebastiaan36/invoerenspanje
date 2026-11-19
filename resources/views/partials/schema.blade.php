@@ -84,7 +84,7 @@
     $crumbNames = [
         'diensten' => 'Diensten', 'tarieven' => 'Tarieven', 'bpm-calculator' => 'BPM-calculator',
         'over-ons' => 'Over ons', 'contact' => 'Contact', 'faq' => 'Veelgestelde vragen',
-        'gids' => 'Auto invoeren in Spanje', 'blog.index' => 'Blog', 'blog.show' => 'Blog',
+        'gids' => 'Auto op Spaans kenteken zetten', 'blog.index' => 'Blog', 'blog.show' => 'Blog',
     ];
     if (isset($crumbNames[$routeName])) {
         $items = [['@type' => 'ListItem', 'position' => 1, 'name' => 'Home', 'item' => $base.'/']];
@@ -97,11 +97,13 @@
         $graph[] = ['@type' => 'BreadcrumbList', 'itemListElement' => $items];
     }
 
-    if ($routeName === 'tarieven' && ! empty($props['packages'])) {
+    // The service with its fixed-price packages, on the homepage (which owns
+    // "auto invoeren in Spanje") and on the prices page.
+    if (in_array($routeName, ['home', 'tarieven'], true) && ! empty($props['packages'])) {
         $graph[] = [
             '@type' => 'Service',
-            '@id' => $base.'/tarieven#service',
-            'name' => 'Nederlandse auto op Spaans kenteken zetten',
+            '@id' => $base.'/#service',
+            'name' => 'Auto invoeren in Spanje: Nederlandse auto op Spaans kenteken zetten',
             'serviceType' => 'Auto-import en matriculación (Nederland naar Spanje)',
             'provider' => ['@id' => $orgId],
             'areaServed' => $areaServed[0],
@@ -123,17 +125,19 @@
 
     if ($routeName === 'gids') {
         $updated = config('seo.routes.gids.updated');
-        $graph[] = [
+        $graph[] = array_filter([
             '@type' => 'Article',
             '@id' => $canonicalUrl.'#article',
             'mainEntityOfPage' => ['@id' => $canonicalUrl.'#webpage'],
             'headline' => config('seo.routes.gids.h1'),
             'description' => $seoDescription,
+            'image' => $hasOgImage ? $base.'/og-image.jpg' : null,
+            'datePublished' => config('seo.routes.gids.published'),
             'dateModified' => $updated,
             'inLanguage' => 'nl-NL',
             'author' => ['@id' => $orgId],
             'publisher' => ['@id' => $orgId],
-        ];
+        ]);
     }
 
     if ($routeName === 'blog.show' && ! empty($props['post'])) {

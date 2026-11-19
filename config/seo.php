@@ -25,7 +25,7 @@ return [
 
     'default' => [
         'title' => 'Auto invoeren in Spanje? Wij regelen uw Spaans kenteken',
-        'description' => 'Wij regelen het hele traject om je Nederlandse auto op Spaans kenteken te zetten — van papierwerk en BPM-teruggave tot de ITV. Voor Nederlanders aan de Costa del Sol.',
+        'description' => 'Wij zetten uw Nederlandse auto op Spaans kenteken, van papierwerk en BPM-teruggave tot de ITV. Voor Nederlanders aan de Costa del Sol.',
     ],
 
     /*
@@ -46,40 +46,42 @@ return [
 
     'routes' => [
         'home' => [
-            'title' => 'Auto invoeren in Spanje? Wij regelen uw Spaans kenteken',
-            'description' => 'Uw Nederlandse auto invoeren in Spanje? Wij regelen export, BPM-teruggave, ITV en het Spaanse kenteken. Bereken direct uw kosten met uw Nederlandse kenteken.',
-            'h1' => 'Uw auto invoeren in Spanje, zonder gedoe.',
+            'title' => 'Auto invoeren in Spanje: wij regelen alles, vaste prijs',
+            'description' => 'Nederlandse auto invoeren in Spanje? Wij regelen export, BPM-teruggave, ITV en inschrijving bij de DGT. Vaste prijs vanaf €395. Bereken direct uw kosten.',
+            'h1' => 'Uw Nederlandse auto invoeren in Spanje, zonder gedoe',
             'h1_accent' => 'invoeren in Spanje',
             'intro' => 'Voor Nederlanders aan de Costa del Sol. Wij regelen het hele traject om uw auto in Spanje in te voeren, van papierwerk tot ITV en BPM-teruggave. Vul uw Nederlandse kenteken in en zie direct wat het u netto kost, met de BPM-teruggave al verrekend.',
             // Shown instead of the intro on small screens, so the kenteken field is in view right away.
             'intro_short' => 'Vul uw Nederlandse kenteken in en zie direct wat het u netto kost.',
-            'updated' => '2026-10-25',
+            'updated' => '2026-11-19',
         ],
 
         'gids' => [
-            'title' => 'Auto invoeren in Spanje: complete gids (2026)',
-            'description' => 'Alle stappen om uw Nederlandse auto in Spanje in te voeren: export en BPM-teruggave, documenten, ITV-keuring, registratiebelasting (IEDMT) en een kostenoverzicht.',
-            'h1' => 'Auto invoeren in Spanje: de complete gids',
-            'intro' => 'Welke stappen er zijn, welke documenten u nodig heeft en wat het kost om uw Nederlandse auto op Spaans kenteken te zetten.',
-            'updated' => '2026-10-25',
-            'updated_label' => '25 oktober 2026',
+            'title' => 'Auto op Spaans kenteken zetten: stappenplan en kosten 2026',
+            'description' => 'Uw Nederlandse auto op Spaans kenteken zetten? Alle stappen van RDW-export tot DGT, de documenten, de kosten en de ITV-valkuilen. Bijgewerkt 2026.',
+            'h1' => 'Nederlandse auto op Spaans kenteken zetten: zo werkt het',
+            'h1_accent' => 'op Spaans kenteken zetten',
+            'intro' => 'Woont u in Spanje, dan moet uw Nederlandse auto op een Spaans kenteken. Hieronder staan alle stappen in de juiste volgorde, met de documenten en de kosten.',
+            'published' => '2026-10-25',
+            'updated' => '2026-11-19',
+            'updated_label' => '19 november 2026',
         ],
 
         'diensten' => [
-            'title' => 'Diensten — Alles voor uw auto op Spaans kenteken',
-            'description' => 'Van BPM-teruggave en auto-export tot ITV-begeleiding en volledige matriculación in Spanje. Ontdek onze diensten voor Nederlanders aan de Costa del Sol.',
+            'title' => 'Diensten: export, BPM-teruggave, ITV en Spaans kenteken',
+            'description' => 'Wij regelen de RDW-export, BPM-teruggave, ITV-afspraak en inschrijving bij de DGT, in het Nederlands. Kies Basis, Compleet of Compleet Plus.',
             'h1' => 'Eén dossier, van RDW tot Spaans kenteken',
             'h1_accent' => 'RDW tot Spaans kenteken',
             'intro' => 'Wij begeleiden het volledige traject om uw Nederlandse auto op Spaans kenteken te zetten: de export en BPM-teruggave in Nederland, de keuring en inschrijving in Spanje.',
-            'updated' => '2026-10-25',
+            'updated' => '2026-11-19',
         ],
 
         'over-ons' => [
-            'title' => 'Over ons — autoinvoerenspanje.nl',
-            'description' => 'Maak kennis met Maikel en Sebastiaan, het team achter autoinvoerenspanje.nl: een autospecialist en uw online aanspreekpunt, voor Nederlanders in Spanje.',
+            'title' => 'Over ons: Nederlandse autospecialist aan de Costa del Sol',
+            'description' => 'Maikel (HBO Automotive, IVA) en Sebastiaan regelen uw auto op Spaans kenteken: in het Nederlands, tegen vaste prijs, vanuit de Costa del Sol.',
             'h1' => 'Over ons',
-            'intro' => 'autoinvoerenspanje.nl is een samenwerking tussen een IVA-gecertificeerde autospecialist en een online marketeer. Samen maken wij het importtraject eenvoudig, transparant en volledig Nederlandstalig.',
-            'updated' => '2026-10-25',
+            'intro' => 'autoinvoerenspanje.nl is een samenwerking tussen een IVA-gecertificeerde autospecialist en een online marketeer. Samen begeleiden wij u door het hele importtraject, in het Nederlands en tegen een vaste prijs.',
+            'updated' => '2026-11-19',
         ],
 
         // Feedbackpagina voor verloren leads; noindex (zie app.blade.php).
@@ -103,17 +105,17 @@ return [
         ],
 
         'tarieven' => [
-            'title' => 'Kosten auto invoeren in Spanje (2026) — vaste prijzen vanaf €395',
-            'description' => 'Wat kost het om uw Nederlandse auto op Spaans kenteken te zetten? Drie vaste pakketten vanaf €395 plus alle Spaanse kosten op een rij: leges, platen, gestoría, ITV en IEDMT.',
-            'h1' => 'Wat kost het om uw auto op Spaans kenteken te zetten?',
-            'h1_accent' => 'op Spaans kenteken',
-            'intro' => 'Een vaste prijs voor onze begeleiding, plus de vaste kosten in Spanje die wij hieronder voor u op een rij zetten. Geen verrassingen achteraf.',
-            'updated' => '2026-10-25',
+            'title' => 'Kosten auto invoeren in Spanje 2026: vaste prijs vanaf €395',
+            'description' => 'Wat kost auto invoeren in Spanje? Drie vaste pakketten vanaf €395 plus alle Spaanse kosten: leges, gestoría, platen, ITV en registratiebelasting (IEDMT).',
+            'h1' => 'Wat kost het om uw auto in Spanje in te voeren?',
+            'h1_accent' => 'in Spanje in te voeren',
+            'intro' => 'Onze begeleiding kost een vaste prijs. Daarbovenop komen de Spaanse kosten, die wij hieronder per post op een rij zetten, en daar staat uw BPM-teruggave tegenover.',
+            'updated' => '2026-11-19',
         ],
 
         'bpm-calculator' => [
             'title' => 'Rest-BPM berekenen bij export — gratis BPM-teruggave calculator',
-            'description' => 'Bereken gratis uw rest-BPM bij export. Voer uw Nederlandse kenteken in en zie direct hoeveel BPM u terugkrijgt, met de afschrijvingstabel van de Belastingdienst.',
+            'description' => 'Bereken gratis uw rest-BPM bij export. Vul uw Nederlandse kenteken in en zie direct hoeveel BPM u terugkrijgt, met de tabel van de Belastingdienst.',
             'h1' => 'Bereken uw rest-BPM bij export',
             'h1_accent' => 'BPM',
             'intro' => 'Voer uw Nederlandse kenteken in en zie gratis hoeveel BPM u ongeveer terugkrijgt bij export naar Spanje. Wij rekenen met de BPM die de RDW voor uw auto heeft geregistreerd en de vaste afschrijvingstabel van de Belastingdienst.',
@@ -121,16 +123,16 @@ return [
         ],
 
         'faq' => [
-            'title' => 'Veelgestelde vragen — Auto invoeren in Spanje',
-            'description' => 'Antwoorden op alle vragen over het invoeren van uw auto in Spanje: BPM-teruggave, ITV-keuring, IEDMT, documenten, kosten en meer.',
+            'title' => 'Veelgestelde vragen: BPM, ITV, IEDMT en Spaans kenteken',
+            'description' => 'Antwoorden over BPM-teruggave, ITV-keuring, registratiebelasting (IEDMT), documenten, doorlooptijd en kosten als u uw auto op Spaans kenteken zet.',
             'h1' => 'Veelgestelde vragen',
             'h1_accent' => 'vragen',
             'intro' => 'Antwoorden op de meest gestelde vragen over het importeren van een auto naar Spanje: van BPM-teruggave en de ITV-keuring tot documenten en kosten.',
-            'updated' => '2026-10-25',
+            'updated' => '2026-11-19',
         ],
 
         'blog.index' => [
-            'title' => 'Blog — autoinvoerenspanje.nl',
+            'title' => 'Blog: export, BPM, ITV en uw Spaanse kenteken',
             'description' => 'Praktische artikelen over auto-import van Nederland naar Spanje, BPM-teruggave, IEDMT en alles wat erbij komt kijken.',
             'h1' => 'Praktische gidsen voor uw Spaanse import',
             'intro' => 'Stappenplannen, fiscale toelichting en ervaring uit de praktijk, geschreven voor Nederlanders die hun auto naar Spanje verhuizen.',

@@ -207,7 +207,7 @@ class SeoServerRenderingTest extends TestCase
     {
         $app = $this->appHtml($this->get(route('home'))->getContent());
 
-        $this->assertStringContainsString('Auto importeren in Spanje: de stappen op een rij', $app);
+        $this->assertStringContainsString('Zo werkt auto invoeren in Spanje met ons', $app);
         $this->assertStringContainsString(e(config('faq.home.0.question')), $app);
     }
 
@@ -217,7 +217,7 @@ class SeoServerRenderingTest extends TestCase
 
         // Same classes as Welcome.vue, so the LCP paragraph paints from HTML.
         $this->assertStringContainsString('<p class="mx-auto mt-5 max-w-2xl text-lg text-pretty text-muted-foreground">'.e(config('seo.routes.home.intro')).'</p>', $app);
-        $this->assertStringContainsString('<h1 class="font-display text-4xl leading-tight font-semibold text-balance text-foreground md:text-6xl">Uw auto <span class="text-accent">invoeren in Spanje</span>, zonder gedoe.</h1>', $app);
+        $this->assertStringContainsString('<h1 class="font-display text-4xl leading-tight font-semibold text-balance text-foreground md:text-6xl">Uw Nederlandse auto <span class="text-accent">invoeren in Spanje</span>, zonder gedoe</h1>', $app);
         $this->assertStringContainsString('class="container mx-auto flex h-16 items-center justify-between px-4"', $app);
     }
 
@@ -297,7 +297,7 @@ class SeoServerRenderingTest extends TestCase
 
         $app = $this->appHtml($this->get(route('home'))->getContent());
 
-        $this->assertStringContainsString('<a href="/auto-invoeren-spanje">auto invoeren in Spanje</a>', $app);
+        $this->assertStringContainsString('<a href="/auto-op-spaans-kenteken-zetten">stappenplan: Nederlandse auto op Spaans kenteken zetten</a>', $app);
 
         foreach ($slugs as $slug) {
             $this->assertStringContainsString('href="/blog/'.$slug.'"', $app);
@@ -337,6 +337,23 @@ class SeoServerRenderingTest extends TestCase
         $this->assertTrue($types->contains('BreadcrumbList'));
         $this->assertTrue($types->contains('Service'));
         $this->assertFalse($types->contains('AggregateRating'));
+    }
+
+    public function test_homepage_schema_has_the_service_with_its_packages(): void
+    {
+        $service = collect($this->jsonLdGraph($this->get(route('home'))->getContent()))->firstWhere('@type', 'Service');
+
+        $this->assertNotNull($service);
+        $this->assertNotEmpty($service['hasOfferCatalog']['itemListElement']);
+        $this->assertSame('EUR', $service['hasOfferCatalog']['itemListElement'][0]['priceCurrency']);
+    }
+
+    public function test_stappenplan_article_schema_has_publication_date(): void
+    {
+        $article = collect($this->jsonLdGraph($this->get(route('gids'))->getContent()))->firstWhere('@type', 'Article');
+
+        $this->assertSame(config('seo.routes.gids.published'), $article['datePublished']);
+        $this->assertSame(config('seo.routes.gids.h1'), $article['headline']);
     }
 
     public function test_schema_and_fallback_show_the_current_phone_number(): void

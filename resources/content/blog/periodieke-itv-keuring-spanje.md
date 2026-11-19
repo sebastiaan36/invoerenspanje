@@ -139,7 +139,7 @@ Rijdt u met een verlopen keuring, dan riskeert u een boete. Vraag ook bij uw ver
 
 ## Uw auto nog naar Spanje halen?
 
-De periodieke ITV regelt u zelf, gewoon zoals de APK in Nederland. Staat uw auto nog op een Nederlands kenteken? Dan begeleiden wij de invoer: van de export in Nederland tot het Spaanse kenteken, inclusief de ITV-keuring bij invoer. Hoe dat traject verloopt, leest u in onze [complete gids over auto invoeren in Spanje](/auto-invoeren-spanje). Welk pakket bij u past, ziet u op de pagina [diensten](/diensten).
+De periodieke ITV regelt u zelf, gewoon zoals de APK in Nederland. Staat uw auto nog op een Nederlands kenteken? Dan begeleiden wij het [auto invoeren in Spanje](/): van de export in Nederland tot het Spaanse kenteken, inclusief de ITV-keuring bij invoer. Hoe dat traject verloopt, leest u in ons [stappenplan voor een Spaans kenteken](/auto-op-spaans-kenteken-zetten). Welk pakket bij u past, ziet u op de pagina [diensten](/diensten).
 
 Wilt u weten wat de invoer voor uw auto betekent? Doe de kostencheck en [vraag een vrijblijvende offerte aan](/#offerte).
 

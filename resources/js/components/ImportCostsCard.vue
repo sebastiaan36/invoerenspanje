@@ -98,8 +98,7 @@ function formatEuro(value: number): string {
                         "
                         class="text-muted-foreground"
                     >
-                        Niet automatisch te bepalen – wij berekenen dit
-                        handmatig
+                        Niet automatisch te bepalen, wij berekenen dit handmatig
                     </span>
                     <span v-else>{{ formatEuro(importCosts.iedmt_eur) }}</span>
                 </dd>

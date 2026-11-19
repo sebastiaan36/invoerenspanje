@@ -104,7 +104,7 @@ Let op bij diesels van 2006 tot 2015: die krijgen meestal label B, precies de gr
 
 ## Welke auto neemt u mee?
 
-Twijfelt u welke auto u meeneemt? Deze vuistregels helpen:
+Deze vuistregels helpen bij de keuze:
 
 - **Elektrisch of plug-in hybride met minstens 40 km bereik.** Label CERO: u zit goed, nu en naar verwachting ook straks. Vaak betaalt u bovendien 0% registratiebelasting, omdat de uitstoot onder de 120 g/km blijft. Lees meer over [het belastingvoordeel voor elektrische auto's en hybrides](/blog/belastingvrijstelling-elektrische-auto-hybride-spanje).
 - **Gewone hybride.** Label ECO. Ook in alle fases welkom.
@@ -125,16 +125,16 @@ Woont u elders, zoals in Marbella, Fuengirola of Benalmádena? Vraag de regels n
 
 ## Aandachtspunten
 
-- **De regels veranderen.** Kijk vóór een rit naar het centrum op [movilidad.malaga.eu](https://movilidad.malaga.eu/es/servicios/zona-bajas-emisiones/).
-- **Controleer uw label na de Spaanse inschrijving** op de [website van de DGT](https://sede.dgt.gob.es/es/vehiculos/informacion-de-vehiculos/distintivo-ambiental/). Hoe dat werkt, leest u in ons artikel over [een Spaans kenteken opzoeken](/blog/spaans-kenteken-opzoeken-auto-checken).
-- **De sticker is in Málaga niet nodig**, maar in andere steden misschien wel. Hij kost € 5 bij een postkantoor of *gestoría* (administratiekantoor).
-- **Oude boete betaald?** Vraag de terugbetaling aan bij Gestrisam.
-- **Kijk naar uw rijpatroon.** Komt u zelden in het centrum van Málaga? Dan weegt het label minder zwaar.
+- De regels veranderen. Kijk vóór een rit naar het centrum op [movilidad.malaga.eu](https://movilidad.malaga.eu/es/servicios/zona-bajas-emisiones/).
+- Controleer uw label na de Spaanse inschrijving op de [website van de DGT](https://sede.dgt.gob.es/es/vehiculos/informacion-de-vehiculos/distintivo-ambiental/). Hoe dat werkt, leest u in ons artikel over [een Spaans kenteken opzoeken](/blog/spaans-kenteken-opzoeken-auto-checken).
+- De sticker is in Málaga niet nodig, maar in andere steden misschien wel. Hij kost € 5 bij een postkantoor of *gestoría* (administratiekantoor).
+- Oude boete betaald? Vraag de terugbetaling aan bij Gestrisam.
+- Komt u zelden in het centrum van Málaga? Dan weegt het label minder zwaar.
 
 ## Hulp bij uw keuze en de invoer
 
-Maikel Mobility [regelt de invoer van uw Nederlandse auto](/diensten): de export in Nederland, de ITV-keuring en het Spaanse kenteken. Het hele stappenplan staat in onze [gids over auto invoeren in Spanje](/auto-invoeren-spanje).
+Maikel Mobility [regelt de invoer van uw Nederlandse auto](/diensten): de export in Nederland, de ITV-keuring en het Spaanse kenteken. Hoe u de auto daarna op Spaans kenteken zet, leest u in ons [stappenplan voor het Spaanse kenteken](/auto-op-spaans-kenteken-zetten).
 
-Wilt u weten wat de invoer van uw auto kost? Vul uw Nederlandse kenteken in bij de [kostencheck](/#offerte). U ziet direct een indicatie van de registratiebelasting, de kosten in Spanje en de BPM-teruggave. Daarna kunt u vrijblijvend een offerte aanvragen.
+Wilt u weten wat het kost om uw [auto in Spanje te laten invoeren](/)? Vul uw Nederlandse kenteken in bij de [kostencheck](/#offerte). U ziet direct een indicatie van de registratiebelasting, de kosten in Spanje en de BPM-teruggave. Daarna kunt u vrijblijvend een offerte aanvragen.
 
-*Dit artikel is algemene informatie. Laatst gecontroleerd: november 2026. De regels voor de milieuzone van Málaga zijn in beweging. Raadpleeg voor de actuele situatie [movilidad.malaga.eu](https://movilidad.malaga.eu/es/servicios/zona-bajas-emisiones/), de [DGT](https://www.dgt.es/nuestros-servicios/tu-vehiculo/tus-vehiculos/distintivo-ambiental/) en uw eigen gemeente.*
+*Dit artikel is algemene informatie. Laatst gecontroleerd: december 2026. De regels voor de milieuzone van Málaga zijn in beweging. Raadpleeg voor de actuele situatie [movilidad.malaga.eu](https://movilidad.malaga.eu/es/servicios/zona-bajas-emisiones/), de [DGT](https://www.dgt.es/nuestros-servicios/tu-vehiculo/tus-vehiculos/distintivo-ambiental/) en uw eigen gemeente.*

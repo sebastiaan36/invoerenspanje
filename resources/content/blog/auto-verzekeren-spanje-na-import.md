@@ -1,13 +1,13 @@
 ---
 title: "Autoverzekering in Spanje na import: zo regelt u het zonder gat in de dekking"
-excerpt: "Zonder verzekering riskeert u in Spanje € 601 tot € 3.005 boete. Wat verplicht is, het verschil tussen terceros en todo riesgo, en hoe u uw schadevrije jaren meeneemt."
+excerpt: "Zonder verzekering riskeert u in Spanje € 601 tot € 3.005 boete. Wat verplicht is, terceros of todo riesgo, en hoe u uw schadevrije jaren meeneemt."
 author: Sebastiaan
 published_at: 2026-10-01 10:00
 updated_at: 2026-10-29
 status: published
 hero_image: images/auto-verzekeren-spanje-na-import.webp
 ---
-Komt uw auto op een Spaans kenteken, dan verandert ook uw verzekering. De Nederlandse polis hoort bij het Nederlandse kenteken. Voor de auto met Spaanse platen heeft u een Spaanse verzekering nodig. Het belangrijkste is dat er tussen die twee geen dag zit waarop u onverzekerd rijdt.
+Komt uw auto op een Spaans kenteken, dan verandert ook uw verzekering. De Nederlandse polis hoort bij het Nederlandse kenteken. Voor de auto met Spaanse platen heeft u een Spaanse verzekering nodig. Zorg dat er tussen die twee geen dag zit waarop u onverzekerd rijdt.
 
 ## In het kort
 
@@ -54,9 +54,9 @@ Welke dekking past, hangt vooral af van de waarde en de leeftijd van uw auto. Bi
 
 Let ook op deze punten:
 
-- **Het eigen risico.** Bij *todo riesgo con franquicia* betaalt u bij schade zelf een deel. Een hoger eigen risico geeft een lagere premie.
-- **Pechhulp.** Vraag of pechhulp ook geldt als u met de auto naar Nederland rijdt.
-- **De taal.** Vraag of de verzekeraar u in het Nederlands of Engels kan helpen bij schade.
+- Bij *todo riesgo con franquicia* betaalt u bij schade zelf een deel: het eigen risico. Een hoger eigen risico geeft een lagere premie.
+- Vraag of pechhulp ook geldt als u met de auto naar Nederland rijdt.
+- Vraag of de verzekeraar u in het Nederlands of Engels kan helpen bij schade.
 
 ## Geen gat in de dekking: zo plant u het
 
@@ -121,7 +121,7 @@ Iedere verzekeraar vraagt net iets anders. Houd in elk geval bij de hand:
 - de verklaring van uw schadeverleden;
 - uw IBAN voor de betaling van de premie.
 
-Bewijs van verzekering is ook nodig voor de Spaanse inschrijving zelf. Welke documenten verder in het dossier horen, staat in onze [complete gids over auto invoeren in Spanje](/auto-invoeren-spanje).
+Bewijs van verzekering is ook nodig voor de Spaanse inschrijving zelf. Welke documenten verder in het dossier horen, staat in ons [stappenplan voor een Spaans kenteken](/auto-op-spaans-kenteken-zetten).
 
 ## Veelgemaakte fouten
 
@@ -133,7 +133,7 @@ Bewijs van verzekering is ook nodig voor de Spaanse inschrijving zelf. Welke doc
 
 ## Hulp bij uw verzekering
 
-Wij regelen niet zelf uw verzekering, maar [begeleiden wel de invoer](/diensten). Wel helpen wij u op weg, afhankelijk van uw pakket:
+Wij sluiten zelf geen verzekeringen af. Wij [begeleiden de invoer](/diensten) van uw auto. Wat [auto invoeren in Spanje](/) met onze hulp inhoudt, ziet u op de homepage. Afhankelijk van uw pakket helpen wij u ook op weg met de verzekering:
 
 - **Basis:** u regelt de verzekering zelf.
 - **Compleet:** wij verwijzen u door naar een aangesloten verzekeraar.

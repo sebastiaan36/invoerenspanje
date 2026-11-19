@@ -19,7 +19,7 @@ Uw auto moet van Nederland naar Spanje. Dat kan op twee manieren: u rijdt er zel
 
 ## Eerst de exportmelding, dan de reis
 
-Of u nu zelf rijdt of de auto laat ophalen: de auto moet eerst uit het Nederlandse register. Dat doet u bij een RDW-keuringsstation, een RDW-balie of een erkend exportbedrijf. U neemt uw identiteitsbewijs, het kentekenbewijs en de kentekenplaten mee. De platen levert u in. Zo staat het op de [exportpagina van de RDW](https://www.rdw.nl/particulier/voertuigen/auto/invoeren-exporteren-doorvoeren/auto-exporteren).
+Ook als u de auto laat ophalen, moet hij eerst uit het Nederlandse register. Dat doet u bij een RDW-keuringsstation, een RDW-balie of een erkend exportbedrijf. U neemt uw identiteitsbewijs, het kentekenbewijs en de kentekenplaten mee. De platen levert u in. Zo staat het op de [exportpagina van de RDW](https://www.rdw.nl/particulier/voertuigen/auto/invoeren-exporteren-doorvoeren/auto-exporteren).
 
 U krijgt daarna onder meer een vrijwaringsbewijs en een exportbewijs. Die papieren heeft u in Spanje nodig voor de inschrijving. Hoe de exportmelding precies werkt, leest u in ons artikel over [auto uitschrijven bij de RDW en het exportkenteken](/blog/auto-uitschrijven-bij-de-rdw-en-exportkenteken-aanvragen-zo-werkt-het).
 
@@ -31,7 +31,7 @@ Let op de timing. Met de exportmelding begint ook de termijn voor de BPM-terugga
 
 Het exportkenteken is het bestaande kenteken van uw auto, maar dan op witte platen met zwarte letters en cijfers. U mag die platen zelf laten maken, zolang ze ook bij slecht weer leesbaar blijven. Na de exportmelding mag u nog 14 dagen in Nederland op de openbare weg rijden.
 
-Belangrijk: die 14 dagen gaan over Nederland. De RDW schrijft dat de regels voor een Nederlands exportkenteken in het buitenland per land verschillen. Controleer daarom vooraf wat geldt in de landen waar u doorheen rijdt. Dat staat op de [RDW-pagina over het exportkenteken](https://www.rdw.nl/particulier/voertuigen/auto/het-kentekenbewijs/bijzondere-kentekenbewijzen/uitvoerkenteken).
+Die 14 dagen gelden alleen voor Nederland. De RDW schrijft dat de regels voor een Nederlands exportkenteken in het buitenland per land verschillen. Controleer daarom vooraf wat geldt in de landen waar u doorheen rijdt. Dat staat op de [RDW-pagina over het exportkenteken](https://www.rdw.nl/particulier/voertuigen/auto/het-kentekenbewijs/bijzondere-kentekenbewijzen/uitvoerkenteken).
 
 ### Verzekering en APK onderweg
 
@@ -127,8 +127,8 @@ Zelf rijden geeft u de meeste vrijheid. U bent wel zelf verantwoordelijk voor ve
 
 ## Hoe wij kunnen helpen
 
-In het **Basis-pakket** (€ 395) en het **Compleet-pakket** (€ 895) zorgt u zelf dat de auto in Spanje komt. In het Compleet-pakket loopt de export wel via een van onze partners in Nederland. Bij het **Compleet Plus-pakket** (€ 1.495) regelen wij ook het transport van de auto. De transportkosten zelf komen daar apart bij. Bekijk alle pakketten op de [tarievenpagina](/tarieven), of lees het hele traject na in onze [gids over auto invoeren in Spanje](/auto-invoeren-spanje).
+In het **Basis-pakket** (€ 395) en het **Compleet-pakket** (€ 895) zorgt u zelf dat de auto in Spanje komt. In het Compleet-pakket loopt de export wel via een van onze partners in Nederland. Bij het **Compleet Plus-pakket** (€ 1.495) regelen wij ook het transport van de auto. De transportkosten zelf komen daar apart bij. Bekijk alle pakketten op de [tarievenpagina](/tarieven), of lees het hele traject na in ons [stappenplan om uw auto op Spaans kenteken te zetten](/auto-op-spaans-kenteken-zetten).
 
 ## Uw auto naar Spanje laten brengen?
 
-Vul uw Nederlandse kenteken in en zie direct een indicatie van de BPM-teruggave en de kosten in Spanje. Geef in uw aanvraag aan of u zelf rijdt of transport wilt. [Vraag een vrijblijvende offerte aan](/#offerte).
+Vul uw Nederlandse kenteken in en zie direct een indicatie van de BPM-teruggave en de kosten in Spanje. Geef in uw aanvraag aan of u zelf rijdt of transport wilt. [Vraag een vrijblijvende offerte aan](/#offerte). Op onze homepage ziet u hoe het werkt als u [uw auto in Spanje laat invoeren](/) met onze begeleiding.

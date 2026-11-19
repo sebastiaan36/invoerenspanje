@@ -25,6 +25,7 @@
 
     // Same items as navItems in PublicLayout.vue.
     $nav = [
+        '/auto-op-spaans-kenteken-zetten' => 'Stappenplan',
         '/diensten' => 'Diensten',
         '/tarieven' => 'Tarieven',
         '/bpm-calculator' => 'BPM-calculator',
@@ -34,7 +35,7 @@
     ];
     // Linked from the footer, like the PublicLayout.vue footer does.
     $footerNav = [
-        '/auto-invoeren-spanje' => 'Gids auto invoeren in Spanje',
+        '/auto-op-spaans-kenteken-zetten' => 'Stappenplan Spaans kenteken',
         '/veelgestelde-vragen' => 'Veelgestelde vragen',
     ];
     $isHome = $component === 'Welcome';

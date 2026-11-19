@@ -10,6 +10,7 @@ use App\Services\Blog\BlogHtmlSanitizer;
 use App\Services\Blog\UnpublishedBlogLinkFilter;
 use App\Services\HeroImageOptimizer;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -43,13 +44,7 @@ final class BlogController extends Controller
             ->where('slug', $slug)
             ->firstOrFail();
 
-        $related = Post::published()
-            ->with('author:id,name')
-            ->where('slug', '!=', $slug)
-            ->latest('published_at')
-            ->take(3)
-            ->get()
-            ->map(fn (Post $p) => $this->card($p));
+        $related = $this->relatedPosts($post)->map(fn (Post $p) => $this->card($p));
 
         $heroImageUrl = $post->hero_image_path
             ? asset('storage/'.$post->hero_image_path)
@@ -57,7 +52,7 @@ final class BlogController extends Controller
 
         return Inertia::render('Blog/Show', [
             'seo' => [
-                'title' => trim($post->title).' — autoinvoerenspanje.nl',
+                'title' => self::seoTitle($post->title),
                 'description' => trim((string) $post->excerpt) ?: config('seo.default.description'),
                 'image' => $heroImageUrl ?? (config('seo.default_image') ? url((string) config('seo.default_image')) : null),
             ],
@@ -74,6 +69,57 @@ final class BlogController extends Controller
             ],
             'related' => $related,
         ]);
+    }
+
+    private const SEO_TITLE_SUFFIX = ' — autoinvoerenspanje.nl';
+
+    private const SEO_TITLE_MAX_LENGTH = 60;
+
+    /**
+     * The post title, with the site name only when the whole stays short
+     * enough for Google to show it untruncated.
+     */
+    public static function seoTitle(string $title): string
+    {
+        $title = trim($title);
+        $withSuffix = $title.self::SEO_TITLE_SUFFIX;
+
+        return mb_strlen($withSuffix) <= self::SEO_TITLE_MAX_LENGTH ? $withSuffix : $title;
+    }
+
+    /**
+     * Three related posts: first the published posts this article links to
+     * (so they are on the same topic), topped up with the newest posts.
+     *
+     * @return Collection<int, Post>
+     */
+    private function relatedPosts(Post $post): Collection
+    {
+        preg_match_all('#href="/blog/([a-z0-9-]+)"#', (string) $post->content_html, $matches);
+        $linkedSlugs = array_values(array_unique(array_diff($matches[1], [$post->slug])));
+
+        $linked = $linkedSlugs === []
+            ? collect()
+            : Post::published()
+                ->with('author:id,name')
+                ->whereIn('slug', $linkedSlugs)
+                ->get()
+                ->sortBy(fn (Post $p): int|false => array_search($p->slug, $linkedSlugs, true))
+                ->take(3)
+                ->values();
+
+        if ($linked->count() >= 3) {
+            return $linked;
+        }
+
+        $newest = Post::published()
+            ->with('author:id,name')
+            ->whereNotIn('slug', [$post->slug, ...$linked->pluck('slug')->all()])
+            ->latest('published_at')
+            ->take(3 - $linked->count())
+            ->get();
+
+        return $linked->concat($newest)->values();
     }
 
     /**

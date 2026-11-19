@@ -76,7 +76,7 @@ final class BpmCalculator
         if ($input->isImported()) {
             $notes[] = 'Deze auto is als gebruikte auto geïmporteerd. De teruggaaf hangt af van de BPM die bij '
                 .'import werkelijk is betaald; die is meestal lager dan de bruto BPM. Deze indicatie gaat uit '
-                .'van de bruto BPM en kan daardoor afwijken — wij controleren het exacte bedrag in de offerte.';
+                .'van de bruto BPM en kan daardoor afwijken. Wij controleren het exacte bedrag in de offerte.';
         }
 
         $restBpm = round(max(0.0, $restBpm), 2);
@@ -142,7 +142,7 @@ final class BpmCalculator
                 'Let op: deze auto is van vóór '.$earliestFrom->year.'. Tot '.$earliestFrom->year.' werd de '
                 .'BPM berekend over de netto-catalogusprijs en niet over de CO₂-uitstoot. Deze indicatie is '
                 .'een ruwe benadering op basis van de tarieven van '.$earliestFrom->year.' en kan sterk '
-                .'afwijken van de werkelijke BPM. Gebruik deze niet voor de aangifte — vraag een offerte aan '
+                .'afwijken van de werkelijke BPM. Gebruik deze niet voor de aangifte. Vraag een offerte aan '
                 .'voor een exacte berekening.',
             ]];
         }
@@ -204,7 +204,7 @@ final class BpmCalculator
             'Let op: tot '.$fallbackYear.' werd de BPM voor bestelauto’s berekend over de '
             .'netto-catalogusprijs (37,7%) en niet over de CO₂-uitstoot. Deze indicatie is een ruwe '
             .'benadering op basis van het bestelautotarief van '.$fallbackYear.' en kan sterk afwijken '
-            .'van de werkelijke BPM. Gebruik deze niet voor de aangifte — vraag een offerte aan voor een '
+            .'van de werkelijke BPM. Gebruik deze niet voor de aangifte. Vraag een offerte aan voor een '
             .'exacte berekening.',
         ]];
     }

@@ -41,6 +41,7 @@ const seoTitle = computed(
 );
 
 const navItems = [
+    { label: 'Stappenplan', href: gids().url },
     { label: 'Diensten', href: diensten().url },
     { label: 'Tarieven', href: tarieven().url },
     { label: 'BPM-calculator', href: bpmCalculator().url },
@@ -50,10 +51,7 @@ const navItems = [
 ];
 
 const dienstenLinks = [
-    {
-        label: 'Auto op Spaans kenteken',
-        href: `${diensten().url}#auto-op-spaans-kenteken`,
-    },
+    { label: 'Auto op Spaans kenteken', href: gids().url },
     { label: 'BPM-teruggave', href: `${diensten().url}#bpm-teruggave` },
     {
         label: 'Auto-export Nederland',
@@ -63,7 +61,7 @@ const dienstenLinks = [
 ];
 
 const gidsLink = {
-    label: 'Gids auto invoeren in Spanje',
+    label: 'Stappenplan Spaans kenteken',
     href: gids().url,
 };
 
@@ -290,8 +288,8 @@ const showMobileQuickCta = computed(() => !isHome.value || !lookupInView.value);
                     </div>
                     <p class="mt-3 text-sm text-brand-foreground/75">
                         Voor Nederlanders aan de Costa del Sol die hun auto op
-                        Spaans kenteken willen zetten — alles geregeld, niets
-                        aan de hand.
+                        Spaans kenteken willen zetten, met een vaste prijs
+                        vooraf.
                     </p>
                 </div>
 

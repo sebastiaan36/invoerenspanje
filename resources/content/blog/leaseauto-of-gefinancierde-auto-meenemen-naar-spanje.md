@@ -1,6 +1,6 @@
 ---
 title: "Leaseauto of gefinancierde auto meenemen naar Spanje: kan dat?"
-excerpt: "Rijdt u private lease, financial lease of heeft u een autolening? Wat de leasemaatschappij of financier moet goedkeuren, wie de BPM terugkrijgt en waarom u op tijd moet afkopen."
+excerpt: "Leaseauto of gefinancierde auto meenemen naar Spanje? Wat de leasemaatschappij of financier moet goedkeuren en wie de BPM terugkrijgt."
 author: Sebastiaan
 published_at: 2026-10-29 10:00
 updated_at: 2026-10-29
@@ -59,7 +59,7 @@ Koopt u de auto eerst af, dan staat hij daarna op uw naam. Exporteert u hem verv
 
 ## Koop op tijd af: de zes maanden voor de IEDMT-vrijstelling
 
-Verhuist u uw hoofdverblijf naar Spanje, dan kunt u onder voorwaarden vrijstelling krijgen van de Spaanse registratiebelasting, de IEDMT. Een van de voorwaarden is dat de auto al minimaal zes maanden op uw naam staat en door u is gebruikt vóór de verhuizing.
+Verhuist u uw hoofdverblijf naar Spanje, dan kunt u onder voorwaarden vrijstelling krijgen van de Spaanse registratiebelasting, de IEDMT. Een van de voorwaarden is dat de auto vóór de verhuizing al minimaal zes maanden op uw naam staat.
 
 Hier gaat het bij lease vaak mis. Stond de auto tot vlak voor de verhuizing op naam van de leasemaatschappij, dan voldoet u mogelijk niet aan die zes maanden. U betaalt dan de volledige IEDMT. Bij een auto met een hoge CO₂-uitstoot kan dat oplopen tot 14,75% van de waarde.
 
@@ -73,10 +73,10 @@ Gaat u verhuizen? Koop de auto dan bij voorkeur minimaal zes maanden voor uw ver
 4. **Vraag schriftelijke toestemming als er nog een voorbehoud geldt.** Zonder die toestemming kunt u de auto niet afmelden voor export.
 5. **Plan de export en de Spaanse inschrijving samen.** Na de exportmelding heeft u 13 weken om de auto in Spanje in te schrijven, anders vervalt de BPM-teruggave.
 
-Alle stappen van de export tot het Spaanse kenteken staan in onze gids over [auto invoeren in Spanje](/auto-invoeren-spanje).
+Alle stappen van de export tot het Spaanse kenteken staan in ons [stappenplan om uw auto op Spaans kenteken te zetten](/auto-op-spaans-kenteken-zetten).
 
 ## Hulp nodig?
 
-Twijfelt u of het meenemen van uw lease- of gefinancierde auto loont? Wij [rekenen het voor u door](/diensten): de afkoopprijs tegenover de BPM-teruggave en [de kosten in Spanje](/blog/kosten-auto-invoeren-spanje-rekenvoorbeelden). Vul uw Nederlandse kenteken in bij de [kostencheck en vraag een vrijblijvende offerte aan](/#offerte), en vermeld dat het om een lease- of gefinancierde auto gaat.
+Twijfelt u of het meenemen van uw lease- of gefinancierde auto loont? Wij [rekenen het voor u door](/diensten): de afkoopprijs tegenover de BPM-teruggave en [de kosten in Spanje](/blog/kosten-auto-invoeren-spanje-rekenvoorbeelden). Vul uw Nederlandse kenteken in bij de [kostencheck en vraag een vrijblijvende offerte aan](/#offerte), en vermeld dat het om een lease- of gefinancierde auto gaat. Hoe wij werken als u [uw auto in Spanje laat invoeren](/), leest u op onze homepage.
 
 *Dit artikel is algemene informatie en geen juridisch of fiscaal advies. Wat mag, hangt af van uw contract en uw persoonlijke situatie. Vraag de voorwaarden na bij uw leasemaatschappij of financier, en controleer de actuele regels bij de RDW, de Belastingdienst en de Spaanse overheid.*

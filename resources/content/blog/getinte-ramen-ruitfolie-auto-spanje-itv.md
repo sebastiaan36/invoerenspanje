@@ -95,7 +95,7 @@ Ook de manier van plakken telt. Bellen groter dan 2 mm zijn niet toegestaan. De 
 
 Een folie die niet aan de regels voldoet of slecht is geplakt, staat in de handleiding als ernstig gebrek (*defecto grave*). Dan is de uitslag ongunstig. U moet het gebrek laten herstellen en terugkomen voor een herkeuring.
 
-Goed om te weten: folie plakken is in Spanje geen grote ombouw (*reforma de importancia*) meer. Er is dus geen extra keuring voor nodig. Het hoeft ook niet op de technische kaart van de auto. Dat bevestigt AECA-ITV.
+Folie plakken is in Spanje geen grote ombouw (*reforma de importancia*) meer. Er is dus geen extra keuring voor nodig. Het hoeft ook niet op de technische kaart van de auto. Dat bevestigt AECA-ITV.
 
 Meer over de keuring zelf leest u in ons artikel over [de ITV-keuring bij import](/blog/itv-keuring-auto-import-spanje).
 
@@ -144,6 +144,6 @@ Wij regelen [de export in Nederland en de inschrijving in Spanje](/diensten). Wi
 
 Na de invoer moet uw auto op vaste momenten terug naar de keuring. Ook dan wordt naar de ruiten gekeken. Lees meer over [de periodieke ITV-keuring in Spanje](/blog/periodieke-itv-keuring-spanje).
 
-Wilt u weten wat dit voor uw auto betekent? [Vraag een vrijblijvende offerte aan](/#offerte).
+Wilt u weten wat dit voor uw auto betekent? [Vraag een vrijblijvende offerte aan](/#offerte). Meer over onze aanpak bij [auto invoeren in Spanje](/) staat op de homepage.
 
 *Dit artikel is algemene informatie. Regels en de werkwijze van ITV-stations kunnen per regio verschillen en kunnen wijzigen. Vraag bij twijfel het station in uw regio naar de actuele eisen.*

@@ -31,9 +31,9 @@ return [
                 'U levert de gevraagde documenten aan',
                 'U levert COC (Ficha Técnica kost € 103 extra zonder COC)',
                 'Wij verwerken de aanvraag richting DGT',
-                'Groene platen leveren — u haalt ze op',
+                'Groene platen leveren, u haalt ze op',
                 'U regelt zelf de ITV-afspraak en gaat zelf',
-                'Officieel kenteken en platen leveren — u haalt ze op',
+                'Officieel kenteken en platen leveren, u haalt ze op',
             ],
         ],
 
@@ -56,7 +56,7 @@ return [
             'slug' => 'compleet_plus',
             'name' => 'Compleet Plus',
             'price_eur' => 1495,
-            'tagline' => 'Volledig zorgenpakket — wij regelen alles van A tot Z',
+            'tagline' => 'Wij regelen alles van A tot Z, ook het transport',
             'recommended' => false,
             'features' => [
                 'Alles uit Compleet',
